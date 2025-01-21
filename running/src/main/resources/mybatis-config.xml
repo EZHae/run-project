@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!-- 영속성 프레임워크(Persistence Framework) MyBatis의 환경 설정 파일 -->
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/> 
+        <!-- 밑줄이 있는 DB의 컬럼을 카멜표기법으로 변환해줌 -->
+    </settings>
+    
+    <typeAliases>
+        <typeAlias type="com.itwill.running.domain.User" alias="User"/>
+    </typeAliases>
+</configuration>
