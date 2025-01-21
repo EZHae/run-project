@@ -11,4 +11,5 @@ public interface GpostDao {
 	Integer updatePost(Gpost gPost);	// 포스트 글 수정
 	Integer deletePost(Integer id);		// 포스트 글 삭제
 	List<Gpost> searchPost(String title);	// 포스트 검색
+	// 테스트2
 }
