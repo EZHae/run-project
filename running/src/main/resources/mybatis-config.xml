@@ -7,9 +7,12 @@
     <settings>
         <setting name="mapUnderscoreToCamelCase" value="true"/> 
         <!-- 밑줄이 있는 DB의 컬럼을 카멜표기법으로 변환해줌 -->
+        <setting name="jdbcTypeForNull" value="NULL" />
     </settings>
     
     <typeAliases>
+        <typeAlias type="com.itwill.running.domain.Gpost" alias="Gpost"/>
         <typeAlias type="com.itwill.running.domain.User" alias="User"/>
+        <typeAlias type="com.itwill.running.domain.Comment" alias="Comment"/>
     </typeAliases>
 </configuration>

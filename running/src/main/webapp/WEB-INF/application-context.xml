@@ -15,9 +15,12 @@
     <!-- HikariConfig bean 생성을 위한 설정 -->
     <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
         <property name="driverClassName" value="oracle.jdbc.OracleDriver" />
-        <property name="jdbcUrl" value="jdbc:oracle:thin:@1.1.1.33:1521:xe" />
-        <property name="username" value="run" />
-        <property name="password" value="run" />
+<!--         <property name="jdbcUrl" value="jdbc:oracle:thin:@1.1.1.33:1521:xe" /> -->
+<!--         <property name="username" value="run" /> -->
+<!--         <property name="password" value="run" /> -->
+        <property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:1521:xe" />
+        <property name="username" value="run2" />
+        <property name="password" value="run2" />
     </bean>
     
     <!-- HikariDataSource bean 생성을 위한 설정 -->
