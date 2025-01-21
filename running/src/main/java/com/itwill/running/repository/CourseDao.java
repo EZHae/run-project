@@ -11,4 +11,10 @@ public interface CourseDao {
 	List<Course> selectCourseByAll();
 	
 	List<Course> selectCourseByCategory(Integer category);
+	
+	List<Course> selectCourse(Integer category, String orderCategory, String keyword);
+	
+	int updateCourse(Course course);
+	
+	int deleteCourse(Integer id);
 }

@@ -22,8 +22,16 @@ public class CourseDaoTest {
 	
 //	@Test
 	public void testInsertCourse() {
-		Course course = Course.builder().title("집").userId("user1").nickname("nick123").courseName("모란역").content("붕어빵").category(1).viewCount(0).likeCount(0).build();
-		
+		Course course = Course.builder()
+				.title("집")
+				.userId("user1")
+				.nickname("nick123")
+				.courseName("모란역")
+				.content("붕어빵")
+				.category(1)
+				.viewCount(0)
+				.likeCount(0)
+				.build();
 		courseDao.insertCourse(course);
 	}
 	
@@ -34,10 +42,36 @@ public class CourseDaoTest {
 		log.debug("# of size({})", courses.size());
 	}
 	
-	@Test
+//	@Test
 	public void testSelectCourseByCategory() {
 		List<Course> courses = courseDao.selectCourseByCategory(0);
 		
 		log.debug("# of size({})", courses.size());
+	}
+	
+//	@Test
+	public void testSelectCourse() {
+		log.debug("testSelectCourse");
+		List<Course> courses = courseDao.selectCourse(0, "v", "강");
+		
+		for (Course course : courses) {
+			log.debug("{}",course);
+		}
+	}
+	
+//	@Test
+	public void testDeleteCourse() {
+		log.debug("testDeleteCourse");
+		Integer id = 1;
+		courseDao.deleteCourse(id);
+		log.debug("testDeleteCourse(id={})", id);
+	}
+	
+	@Test
+	public void testUpdateCourse() {
+		log.debug("testUpdateCourse");
+		Course course = Course.builder().id(17).title("제목 수정").courseName("코스 이름 수정").durationTime("소요시간 수정").content("내용 수정").category(1).build();
+		
+		courseDao.updateCourse(course);
 	}
 }

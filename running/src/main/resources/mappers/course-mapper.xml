@@ -5,36 +5,70 @@
   <mapper namespace="com.itwill.running.repository.CourseDao">
   	
   	<!-- Course 객체 생성 -->
+  	<!-- TODO 
+  		 duration_time이 기본 값으로 systimestamp를 사용 중임, 이걸 사용자가 지정할 수 있게 해야 함 -->
   	<insert id="insertCourse">
   		insert into course (title, user_id, nickname, course_name, duration_time, 
   							content, category, view_count, like_count, created_time, modified_time)
-  		values (#{title}, #{userId}, #{nickname}, #{courseName}, systimestamp,
+  		values (#{title}, #{userId}, #{nickname}, #{courseName}, #{duration_time},
   		 					#{content}, #{category}, #{viewCount}, #{likeCount}, systimestamp, systimestamp)
   	</insert>
   	
   	<!-- Course 객체 모두 검색 -->
   	<select id="selectCourseByAll" resultType="Course">
-  		select * from course order by id
+  		select * from course order by id desc
   	</select>
   	
   	<!-- 카테고리(추천,리뷰)로 Course 객체 검색 -->
-  	<select id ="selectCourseByCategory" resultType="Course">
+  	<select id ="selectCourse" resultType="Course">
   		select * from course
   		<where>
-  			<choose>
-  				<when test='category.equals(0)'>
-  					category = 0
-  				</when>
-  				<when test='category.equals(1)'>
-  					category = 1
-  				</when>
-  			</choose>
-  		</where>
-  		order by id
+		    <choose>
+				<when test='category == 0 and orderCategory == "l"'>
+					category = 0
+						<if test='keyword != null or keyword != ""'>
+  						<bind name="searchKeyword" value="'%' + keyword + '%'"></bind>
+  						and upper(course_name) like upper(#{searchKeyword}) 
+  						</if>
+					order by like_count desc
+				</when>
+				<when test='category == 0 and orderCategory == "v"'>
+					category = 0
+						<if test='keyword != null or keyword != ""'>
+  						<bind name="searchKeyword" value="'%' + keyword + '%'"></bind>
+  						and upper(course_name) like upper(#{searchKeyword}) 
+  						</if>
+					order by view_count desc
+				</when>
+				<when test='category == 1 and orderCategory == "l"'>
+					category = 1
+						<if test='keyword != null or keyword != ""'>
+  						<bind name="searchKeyword" value="'%' + keyword + '%'"></bind>
+  						and upper(course_name) like upper(#{searchKeyword}) 
+  						</if>
+					order by like_count desc
+				</when>
+				<when test='category == 1 and orderCategory == "v"'>
+					category = 1
+						<if test='keyword != null or keyword != ""'>
+  						<bind name="searchKeyword" value="'%' + keyword + '%'"></bind>
+  						and upper(course_name) like upper(#{searchKeyword}) 
+  						</if>
+					order by view_count desc
+				</when>
+			</choose>
+		</where>
   	</select>
   	
-  	<!-- 좋아요순으로 Course 객체 검색 -->
+  	<!-- Course 객체 수정 -->
+  	<update id="updateCourse">
+  		update Course set title = #{title}, course_name = #{courseName}, duration_time = #{durationTime},
+  									content = #{content}, category = #{category}, modified_time = systimestamp
+        	where id = #{id}
+  	</update>
   	
-  	
-  
+  	<!-- Course 객체 삭제 -->
+  	<delete id="deleteCourse">
+  		delete from Course where id = #{id}
+  	</delete>
   </mapper>

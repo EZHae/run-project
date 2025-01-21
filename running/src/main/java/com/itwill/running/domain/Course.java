@@ -19,7 +19,7 @@ public class Course {
 	private String userId;
 	private String nickname;
 	private String courseName;
-	private LocalDateTime durationTime;
+	private String durationTime;
 	private String content;
 	private Integer category;
 	private Integer viewCount;
