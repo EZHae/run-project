@@ -1,0 +1,14 @@
+package com.itwill.running.repository;
+
+import java.util.List;
+
+import com.itwill.running.domain.Course;
+
+public interface CourseDao {
+	
+	int insertCourse(Course course); 
+	
+	List<Course> selectCourseByAll();
+	
+	List<Course> selectCourseByCategory(Integer category);
+}

@@ -11,5 +11,6 @@
     
     <typeAliases>
         <typeAlias type="com.itwill.running.domain.User" alias="User"/>
+        <typeAlias type="com.itwill.running.domain.Course" alias="Course"/>
     </typeAliases>
 </configuration>

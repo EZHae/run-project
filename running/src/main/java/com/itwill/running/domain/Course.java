@@ -16,11 +16,12 @@ import lombok.extern.slf4j.Slf4j;
 public class Course {
 	private Integer id;
 	private String title;
-	private Integer userId;
+	private String userId;
 	private String nickname;
 	private String courseName;
 	private LocalDateTime durationTime;
 	private String content;
+	private Integer category;
 	private Integer viewCount;
 	private Integer likeCount;
 	private LocalDateTime createdTime;
