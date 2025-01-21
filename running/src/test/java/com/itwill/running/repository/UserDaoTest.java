@@ -27,7 +27,7 @@ public class UserDaoTest {
 		log.debug("{}", userDao);
 		log.debug("testSelectById");
 		User user = userDao.selectById(1);
-		//안녕~~/이수빈
+		//안녕~~/이수빈 수정2
 		
 		log.debug("user={}", user);
 	}
