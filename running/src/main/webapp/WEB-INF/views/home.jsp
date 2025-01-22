@@ -20,6 +20,8 @@
 	</head>
 	<body>
 		<h1>Running Home</h1>
+        <c:url var="gPostListPage" value="/gpost/list" /> 
+        <a href="${gPostListPage}">목록</a>
 		
 		<!-- Bootstrap JS 링크 -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 

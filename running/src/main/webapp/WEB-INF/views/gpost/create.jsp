@@ -1,0 +1,72 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		
+		<!-- Bootstrap을 사용하기 위한 meta name="viewport" 설정. -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+		<title>글쓰기 : Running</title>
+		
+		<!-- Bootstrap CSS 링크 -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" 
+              rel="stylesheet" 
+              integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
+              crossorigin="anonymous">
+	</head>
+	<body>
+		        <div class="container-fluid">
+            <main>
+                <div class="card mt-2">
+                    <div class="card-header">
+                        <h3>글 작성</h3>
+                    </div>
+                    <div class="card-body">
+                        <c:url value="/gpost/create" var="gPostCreatePage"/>
+                        <form method="post" action="${gPostCreatePage}">
+                            <div class="mt-2">
+                                <label class="form-label" for="title">제목</label>
+                                <input class="form-control" id="title" name="title" type="text" autofocus required/>
+                            </div>
+                            <div class="mt-2">
+                                <label class="form-label" for="content">내용</label>
+                                <textarea rows="5" class="form-control" id="content" name="content" required ></textarea>
+                            </div>
+                            
+                            <%-- 세션 수정 --%>
+                            <div class="mt-2 d-none">
+                                <label class="form-label" for="nickname">작성자</label>
+                                <input type="text" readonly class="form-control" id="nickname" name="nickname" 
+                                    value="<%= (String) session.getAttribute("signedInUserName") %>">
+                            </div>  
+                                
+                            <div class="mt-2">
+                                <label class="form-label" for="formFileMultiple" >파일 업로드</label>
+                                <input class="form-control" type="file" id="formFileMultiple" multiple>
+                            </div>
+                            <hr />
+                            <div class="mt-2 d-flex justify-content-center">
+                                <div>
+                                    <input type="submit" value="취소"
+                                        class="btn btn-outline-danger me-2" />
+                                </div>
+                                <div>
+                                    <input type="submit" value="저장"
+                                        class="btn btn-outline-success" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </main>
+		</div>
+		<!-- Bootstrap JS 링크 -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+                integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
+                crossorigin="anonymous">
+        </script>
+	</body>
+</html>

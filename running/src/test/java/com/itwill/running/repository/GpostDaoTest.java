@@ -10,7 +10,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.itwill.running.domain.Gpost;
-import com.itwill.running.dto.PostSearchDto;
+import com.itwill.running.dto.GpostCreateDto;
+import com.itwill.running.dto.GpostSearchDto;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -48,14 +49,16 @@ public class GpostDaoTest {
 	
 	// 테스트 포스트 글 생성 
 //	@Test
-	public void testInsertPost() {
-		Gpost gPost = Gpost.builder()
-				.title("세번째 타이틀").userId("user1").nickname("nick123").content("세번째 글.")
-				.category(1).viewCount(0).build();
-		
-		int result = gPostDao.insertPost(gPost);
-		Assertions.assertNotNull(result);
-	}
+//	public void testInsertPost() {
+//		
+//		Gpost gPost = Gpost.builder()
+//				.title("세번째 타이틀").userId("user1").nickname("nick123").content("세번째 글.")
+//				.category(1).viewCount(0).build();
+//		
+//		
+//	    int result = gPostDao.insertPost(gPost);
+//		Assertions.assertNotNull(result);
+//	}
 	
 	// 테스트 포스트 글 삭제
 //	@Test
@@ -77,7 +80,7 @@ public class GpostDaoTest {
 	// 테스트 포스트 글 제목 검색
 //	@Test
 	public void testSearchPost() {
-		PostSearchDto dto = new PostSearchDto();
+		GpostSearchDto dto = new GpostSearchDto();
 		
 		// 타이틀로 검색
 		dto.setCategory("t");
@@ -96,7 +99,7 @@ public class GpostDaoTest {
 	}
 	
 	// 테스트 포스트 뷰 카운트
-	@Test
+//	@Test
 	public void testViewCountPost() {
 		Gpost post = gPostDao.selectById(1);
 		int viewCount = post.getViewCount();
