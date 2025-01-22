@@ -43,13 +43,6 @@ public class CourseDaoTest {
 	}
 	
 //	@Test
-	public void testSelectCourseByCategory() {
-		List<Course> courses = courseDao.selectCourseByCategory(0);
-		
-		log.debug("# of size({})", courses.size());
-	}
-	
-//	@Test
 	public void testSelectCourse() {
 		log.debug("testSelectCourse");
 		List<Course> courses = courseDao.selectCourse(0, "v", "강");
