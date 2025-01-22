@@ -13,13 +13,14 @@ public class HomeController {
 	@GetMapping("/")
 	public String home(HttpSession session) {
 		log.debug("home()");
-		
+		String signedInUser = null; 
 		
 		if (session.getAttribute("signedInUser") == null) {
 			session.setAttribute("signedInUser", "user1");
+		} else {
+			signedInUser = session.getAttribute("signedInUser").toString();
 		}
 		
-		Object signedInUser = session.getAttribute("signedInUser");
 		log.debug("signedInUser={}", signedInUser);
 		
 		return "home";

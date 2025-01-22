@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.itwill.running.domain.Course;
 import com.itwill.running.service.CourseService;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -43,11 +44,24 @@ public class CourseController {
 	}
 	
 	@GetMapping({ "/details", "/update" })
-	public void details(Model model, @RequestParam Integer id) {
+	public void details(Model model, @RequestParam Integer id, HttpSession session) {
 		log.debug("CourseController::details()");
 		
 		Course course = courseService.read(id);
 		
+		Object signedInUser = session.getAttribute("signedInUser");
+		String userId = course.getUserId();
+		
+		if (signedInUser != null) {
+			signedInUser = signedInUser.toString();
+			
+			if (!signedInUser.equals(userId)) {
+				courseService.viewCount(id);	
+			}
+		}
+		
+		log.debug("signedInUser={}", signedInUser);
+
 		model.addAttribute("course", course);
 	}
 }

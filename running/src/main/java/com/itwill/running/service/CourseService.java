@@ -45,4 +45,10 @@ public class CourseService {
 		
 		return courses;
 	}
+	
+	public void viewCount(Integer id) {
+		log.debug("CourseService::viewCount");
+		
+		courseDao.updateViewCount(id);
+	}
 }
