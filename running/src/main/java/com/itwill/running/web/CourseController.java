@@ -67,7 +67,7 @@ public class CourseController {
 	}
 	
 	//추가 
-	@PostMapping("/details")
+	@GetMapping("/like")
 	public String likeCourse(@RequestParam Integer id, HttpSession session, Model model) {
 	    log.debug("CourseController::likeCourse()");
 

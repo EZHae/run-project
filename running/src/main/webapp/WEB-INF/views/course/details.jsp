@@ -40,7 +40,7 @@
 			 js로 처리하거나 restAPI로 하기 -->
 		<!-- 추가 -->
 		<c:if test="${!signedInUser.equals(userId) && !likeUserIds.contains(signedInUser)}">
-		    <form action="/course/details" method="post">
+		    <form action="/course/like" method="get">
 		        <input type="hidden" name="id" value="${course.id}" />
 		        <button type="submit">좋아요</button>
 		    </form>
