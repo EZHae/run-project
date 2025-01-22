@@ -65,7 +65,9 @@ public class GpostController {
 	public void details(@RequestParam Integer id, Model model) {
 		// JSP로 데이터를 넘기기 위해 Model을 사용
 		
+		// 뷰 카운트
 		gPostService.viewCountPost(id);
+		
 		Gpost gPost = gPostService.read(id);
 		
 		model.addAttribute("gPost",gPost);
