@@ -51,4 +51,26 @@ public class CourseService {
 		
 		courseDao.updateViewCount(id);
 	}
+	
+	//추가
+	public void likeCount(Integer id) {
+		log.debug("CourseService::likeCount");
+		
+		courseDao.updateLikeCount(id);
+	}
+	
+	public void createCourseLike(Integer courseId, String likeUserId) {
+		log.debug("CourseService::createCourseLike");
+		
+		courseDao.insertCourseLike(courseId, likeUserId);
+	}
+	
+	//추가
+	public List<String> readLikeUserId(Integer courseId){
+		log.debug("CourseService::readLikeUserId");
+		
+		List<String> likeUserIds = courseDao.selectLikeUserId(courseId);
+		log.debug("# of readLikeUserId() result = {}", likeUserIds.size());
+		return likeUserIds; 
+	}
 }

@@ -15,7 +15,7 @@ public class HomeController {
 		log.debug("home()");
 		
 		if (session.getAttribute("signedInUser") == null) {
-			session.setAttribute("signedInUser", "user1");
+			session.setAttribute("signedInUser", "admin3");
 			log.debug("signedInUser={}", session.getAttribute("signedInUser").toString()) ;
 		} else {
 			log.debug("signedInUser={}", session.getAttribute("signedInUser").toString());

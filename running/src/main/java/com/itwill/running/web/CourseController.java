@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -53,6 +54,7 @@ public class CourseController {
 		String userId = course.getUserId();
 		
 		if (signedInUser != null) {
+			
 			signedInUser = signedInUser.toString();
 			
 			if (!signedInUser.equals(userId)) {
@@ -65,5 +67,31 @@ public class CourseController {
 		model.addAttribute("course", course);
 	}
 	
-	
+	//추가 
+	@GetMapping("/like")
+	public String likeCourse(@RequestParam Integer id, HttpSession session, Model model) {
+	    log.debug("CourseController::likeCourse()");
+	    
+	    Integer courseId = id;
+
+	    String signedInUser = session.getAttribute("signedInUser").toString();
+	    log.debug("{}", signedInUser);
+	    Course course = courseService.read(id);
+	    log.debug("{}", course);
+	    List<String> likeUserIds = courseService.readLikeUserId(courseId);
+	    for (String likeUserId : likeUserIds) {
+	    	log.debug(likeUserId);
+	    }
+	    log.debug("{}", likeUserIds.contains(signedInUser));
+	    
+	    if (!signedInUser.equals(course.getUserId()) && !likeUserIds.contains(signedInUser)) {
+	    	courseService.likeCount(id);
+	    	courseService.createCourseLike(id, signedInUser);
+	    }
+	    
+	    String url = "/course/details?id=" + id;
+	    
+	    return "redirect:" + url;
+	}
+
 }

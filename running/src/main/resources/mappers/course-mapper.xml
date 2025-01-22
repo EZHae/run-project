@@ -79,8 +79,14 @@
   	
   	<!-- 해당 Course글에 좋아요 누른 유저들을 검색 -->
   	<select id = "selectLikeUserId" resultType="String">
-  		select like_user_id from course_like where course_id = #{course_id}
+  		select like_user_id from course_like where course_id = #{courseId}
   	</select>
+  	
+  	<!-- 코스에 좋아요를 누르면 테이블에 생성될 유저 -->
+  	<insert id="insertCourseLike">
+  		insert into course_like (course_id, like_user_id, created_time, modified_time)
+  			values (#{courseId}, #{likeUserId}, systimestamp, systimestamp)
+  	</insert>
   	
   	<!-- 해당 Course글에 좋아요 +1 업데이트 -->
   	<update id = "updateLikeCount">
