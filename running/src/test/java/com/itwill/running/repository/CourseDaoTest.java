@@ -9,6 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.itwill.running.domain.Course;
+import com.itwill.running.domain.User;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -67,11 +68,37 @@ public class CourseDaoTest {
 		log.debug("testDeleteCourse(id={})", id);
 	}
 	
-	@Test
+//	@Test
 	public void testUpdateCourse() {
 		log.debug("testUpdateCourse");
 		Course course = Course.builder().id(17).title("제목 수정").courseName("코스 이름 수정").durationTime("소요시간 수정").content("내용 수정").category(1).build();
 		
 		courseDao.updateCourse(course);
+	}
+		
+	@Test
+	public void testSelectLikeUserId() {
+		log.debug("testSelectLikeUserId");
+		
+		List<String> users = courseDao.selectLikeUserId(18);
+		
+		for(String user_id : users) {
+			log.debug("{}", user_id);
+		}
+	}
+	
+//	@Test
+	public void testUpdateLikeCount() {
+		log.debug("testUpdateLikeCount");
+		Integer id = 14;
+		courseDao.updateLikeCount(id); // 14번 게시글 좋아요수 36 -> 37
+
+	}
+	
+//	@Test
+	public void testUpdateViewCount() {
+		log.debug("testUpdateViewCount");
+		Integer id = 19;
+		courseDao.updateViewCount(id); //19번 게시글 조회수 33 -> 34
 	}
 }
