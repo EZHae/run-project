@@ -19,7 +19,7 @@ public interface CourseDao {
 	
 	int deleteCourse(Integer id);
 	
-	List<String> selectLikeUserId(Integer courseId); 
+	List<String> selectLikeUserId(Integer id); 
 	
 	int updateLikeCount(Integer id);
 	

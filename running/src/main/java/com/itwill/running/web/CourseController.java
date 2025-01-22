@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -64,4 +65,31 @@ public class CourseController {
 
 		model.addAttribute("course", course);
 	}
+	
+	//추가 
+	@PostMapping("/details")
+	public String likeCourse(@RequestParam Integer id, HttpSession session, Model model) {
+	    log.debug("CourseController::likeCourse()");
+
+	    String signedInUser = (String) session.getAttribute("signedInUser");
+
+	    if (signedInUser != null) {
+	        Course course = courseService.read(id);
+	        String userId = course.getUserId();
+
+	        List<String> likeUserIds = courseService.readLikeUserId(id);
+
+	        if (!signedInUser.equals(userId) && !likeUserIds.contains(signedInUser)) {
+	            courseService.likeCount(id);
+	            log.debug("User {} liked Course {}", signedInUser, id);
+	        } 
+	    } 
+
+	    // 현재 페이지로 다시 머무르게.
+	    Course course = courseService.read(id);
+	    model.addAttribute("course", course);
+	    
+	    return "/course/details";
+	}
+
 }

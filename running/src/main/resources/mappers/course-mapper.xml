@@ -79,7 +79,7 @@
   	
   	<!-- 해당 Course글에 좋아요 누른 유저들을 검색 -->
   	<select id = "selectLikeUserId" resultType="String">
-  		select like_user_id from course_like where course_id = #{course_id}
+  		select like_user_id from course_like where id = #{id}
   	</select>
   	
   	<!-- 해당 Course글에 좋아요 +1 업데이트 -->

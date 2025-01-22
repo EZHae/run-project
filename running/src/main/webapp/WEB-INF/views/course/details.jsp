@@ -38,6 +38,13 @@
 		
 		<!-- TODO
 			 js로 처리하거나 restAPI로 하기 -->
+		<!-- 추가 -->
+		<c:if test="${!signedInUser.equals(userId) && !likeUserIds.contains(signedInUser)}">
+		    <form action="/course/details" method="post">
+		        <input type="hidden" name="id" value="${course.id}" />
+		        <button type="submit">좋아요</button>
+		    </form>
+		</c:if> 
 		<c:if test="${signedInUser eq course.userId}">
 			<c:url var="courseUpdatePage" value="/course/update">
 				<c:param name="id" value="${course.id}" />
@@ -49,7 +56,6 @@
 			</c:url>
 			<a href="${courseDeletePage}">삭제</a>
 		</c:if>
-		 
 		
 		<!-- Bootstrap JS 링크 -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 

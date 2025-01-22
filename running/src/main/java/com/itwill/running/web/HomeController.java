@@ -17,7 +17,6 @@ public class HomeController {
 		
 		if (session.getAttribute("signedInUser") == null) {
 			session.setAttribute("signedInUser", "user1");
-		} else {
 			signedInUser = session.getAttribute("signedInUser").toString();
 		}
 		
