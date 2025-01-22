@@ -48,13 +48,10 @@
                                 <input class="form-control" type="file" id="formFileMultiple" multiple>
                             </div>
                             <hr />
+                            
                             <div class="mt-2 d-flex justify-content-center">
                                 <div>
-                                    <input type="submit" value="취소"
-                                        class="btn btn-outline-danger me-2" />
-                                </div>
-                                <div>
-                                    <input type="submit" value="저장"
+                                    <input type="submit" value="작성완료"
                                         class="btn btn-outline-success" />
                                 </div>
                             </div>
