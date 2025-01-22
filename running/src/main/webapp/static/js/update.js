@@ -2,4 +2,7 @@
  * update.jsp
  */
 
-document.add
+document.addEventListener('DOMContentLoaded', () => {
+	
+	
+});
