@@ -21,7 +21,6 @@
 	</head>
 	<body>
 		<h1>Running Home</h1>
-		<!-- 허유진 -->
 		
 		<c:url var="courseListPage" value="/course/list" />
         <a href="${courseListPage}">courseListPage</a>

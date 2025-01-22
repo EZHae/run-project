@@ -5,8 +5,6 @@
   <mapper namespace="com.itwill.running.repository.CourseDao">
   	
   	<!-- Course 객체 생성 -->
-  	<!-- TODO 
-  		 duration_time이 기본 값으로 systimestamp를 사용 중임, 이걸 사용자가 지정할 수 있게 해야 함 -->
   	<insert id="insertCourse">
   		insert into course (title, user_id, nickname, course_name, duration_time, 
   							content, category, view_count, like_count, created_time, modified_time)
