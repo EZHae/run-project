@@ -15,7 +15,7 @@ public class Gpost {
 	private Integer id;
 	private String title;
 	private String userId;
-	private String nickName;
+	private String nickname;
 	private String content;
 	private Integer category;
 	private Integer viewCount;

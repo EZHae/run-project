@@ -10,6 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.itwill.running.domain.Gpost;
+import com.itwill.running.dto.PostSearchDto;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -49,7 +50,7 @@ public class GpostDaoTest {
 //	@Test
 	public void testInsertPost() {
 		Gpost gPost = Gpost.builder()
-				.title("세번째 타이틀").userId("user1").nickName("nick123").content("세번째 글.")
+				.title("세번째 타이틀").userId("user1").nickname("nick123").content("세번째 글.")
 				.category(1).viewCount(0).build();
 		
 		int result = gPostDao.insertPost(gPost);
@@ -76,11 +77,35 @@ public class GpostDaoTest {
 	// 테스트 포스트 글 제목 검색
 //	@Test
 	public void testSearchPost() {
+		PostSearchDto dto = new PostSearchDto();
 		
-		String keyWord = "테스트";
+		// 타이틀로 검색
+		dto.setCategory("t");
+		dto.setKeyword("test");
 		
-		List<Gpost> list = gPostDao.searchPost(keyWord);
-		Assertions.assertNotNull(list);
+		List<Gpost> list1 = gPostDao.searchPost(dto);
+		Assertions.assertNotNull(list1);
+		log.debug("title = {}", list1.stream().map(Gpost::getTitle).toList());
 		
+		// 닉네임으로 검색
+		dto.setCategory("n");
+		dto.setKeyword("nick");
+	 	List<Gpost> list2 = gPostDao.searchPost(dto);
+		Assertions.assertNotNull(list2);
+		log.debug("nickname = {}", list2.stream().map(Gpost::getNickname).toList()); 
+	}
+	
+	// 테스트 포스트 뷰 카운트
+	@Test
+	public void testViewCountPost() {
+		Gpost post = gPostDao.selectById(1);
+		int viewCount = post.getViewCount();
+		log.debug("view Count= {}",viewCount);
+		
+		int result = gPostDao.updateViewCountPost(1);
+		Assertions.assertEquals(1, result);
+		
+		Gpost updateCount = gPostDao.selectById(1);
+		log.debug("view Count= {}",updateCount);
 	}
 }
