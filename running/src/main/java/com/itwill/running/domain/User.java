@@ -25,4 +25,5 @@ public class User {
 	private Integer imgId;
 	private LocalDateTime userCreatedTime;
 	private LocalDateTime userAccessTime;
+
 }

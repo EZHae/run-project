@@ -76,5 +76,20 @@
   	<delete id="deleteCourse">
   		delete from Course where id = #{id}
   	</delete>
+  	
+  	<!-- 해당 Course글에 좋아요 누른 유저들을 검색 -->
+  	<select id = "selectLikeUserId" resultType="String">
+  		select like_user_id from course_like where course_id = #{course_id}
+  	</select>
+  	
+  	<!-- 해당 Course글에 좋아요 +1 업데이트 -->
+  	<update id = "updateLikeCount">
+  		update course set like_count = like_count + 1 where id = #{id}
+  	</update>
+  	
+  	<!-- 해당 Course글을 볼 때 조회수 +1 업데이트 -->
+  	<update id = "updateViewCount">
+  		update course set view_count = view_count + 1 where id = #{id}
+  	</update>
 
   </mapper>
