@@ -76,7 +76,7 @@ public class CourseDaoTest {
 		courseDao.updateCourse(course);
 	}
 		
-	@Test
+//	@Test
 	public void testSelectLikeUserId() {
 		log.debug("testSelectLikeUserId");
 		

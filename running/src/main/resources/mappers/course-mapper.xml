@@ -73,13 +73,6 @@
   	</delete>
   	
   	<!-- 해당 Course글에 좋아요 누른 유저들을 검색 -->
-  	<select id = "selectLikeUserId" resultType="User">
-  		select u.* 
-  		from users u
-  		join course_like cl on u.user_id = cl.like_user_id
-  		where cl.course_id = #{course_id}
-  	</select>
-  	
   	<select id = "selectLikeUserId" resultType="String">
   		select like_user_id from course_like where course_id = #{course_id}
   	</select>
