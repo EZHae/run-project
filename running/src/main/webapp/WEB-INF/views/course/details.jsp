@@ -40,7 +40,12 @@
 			 js로 처리하거나 restAPI로 하기 -->
 		<!-- 추가 -->
 		<c:if test="${!signedInUser.equals(userId) && !likeUserIds.contains(signedInUser)}">
+<<<<<<< HEAD
 		    <form action="/course/like" method="get">
+=======
+			<c:url var="courseLikePage" value="/course/like" />
+		    <form action="${courseLikePage}" method="get">
+>>>>>>> 6bc17500d6247505a5bce3d961792bc0c8e1fefe
 		        <input type="hidden" name="id" value="${course.id}" />
 		        <button type="submit">좋아요</button>
 		    </form>

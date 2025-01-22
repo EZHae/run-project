@@ -54,6 +54,7 @@ public class CourseController {
 		String userId = course.getUserId();
 		
 		if (signedInUser != null) {
+			
 			signedInUser = signedInUser.toString();
 			
 			if (!signedInUser.equals(userId)) {
@@ -70,26 +71,27 @@ public class CourseController {
 	@GetMapping("/like")
 	public String likeCourse(@RequestParam Integer id, HttpSession session, Model model) {
 	    log.debug("CourseController::likeCourse()");
-
-	    String signedInUser = (String) session.getAttribute("signedInUser");
-
-	    if (signedInUser != null) {
-	        Course course = courseService.read(id);
-	        String userId = course.getUserId();
-
-	        List<String> likeUserIds = courseService.readLikeUserId(id);
-
-	        if (!signedInUser.equals(userId) && !likeUserIds.contains(signedInUser)) {
-	            courseService.likeCount(id);
-	            log.debug("User {} liked Course {}", signedInUser, id);
-	        } 
-	    } 
-
-	    // 현재 페이지로 다시 머무르게.
-	    Course course = courseService.read(id);
-	    model.addAttribute("course", course);
 	    
-	    return "/course/details";
+	    Integer courseId = id;
+
+	    String signedInUser = session.getAttribute("signedInUser").toString();
+	    log.debug("{}", signedInUser);
+	    Course course = courseService.read(id);
+	    log.debug("{}", course);
+	    List<String> likeUserIds = courseService.readLikeUserId(courseId);
+	    for (String likeUserId : likeUserIds) {
+	    	log.debug(likeUserId);
+	    }
+	    log.debug("{}", likeUserIds.contains(signedInUser));
+	    
+	    if (!signedInUser.equals(course.getUserId()) && !likeUserIds.contains(signedInUser)) {
+	    	courseService.likeCount(id);
+	    	courseService.createCourseLike(id, signedInUser);
+	    }
+	    
+	    String url = "/course/details?id=" + id;
+	    
+	    return "redirect:" + url;
 	}
 
 }
