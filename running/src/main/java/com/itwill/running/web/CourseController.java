@@ -64,4 +64,6 @@ public class CourseController {
 
 		model.addAttribute("course", course);
 	}
+	
+	
 }

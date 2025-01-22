@@ -27,6 +27,7 @@
 		<input id="courseName" name="courseName" type="text" value="${course.courseName}"> <br>
 		<input id="durationTime" name="durationTime" type="text" value="${course.durationTime}"> <br>
 		<input id="content" name="content" type="text" value="${course.content}"> <br>
+		<input id="category" value="${course.category}">
 		<input id="categoryRec" name="category" type="radio" value="0">
 		<label for="categoryRec">코스 추천</label>
 		<input id="categoryRev" name="category" type="radio" value="1">
