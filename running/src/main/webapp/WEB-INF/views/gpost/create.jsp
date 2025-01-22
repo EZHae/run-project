@@ -40,7 +40,7 @@
                             <div class="mt-2 d-none">
                                 <label class="form-label" for="nickname">작성자</label>
                                 <input type="text" readonly class="form-control" id="nickname" name="nickname" 
-                                    value="<%= (String) session.getAttribute("signedInUserName") %>">
+                                    value="<%= session.getAttribute("signedInUserName") %>">
                             </div>  
                                 
                             <div class="mt-2">

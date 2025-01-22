@@ -14,9 +14,12 @@ public class HomeController {
 	public String home(HttpSession session) {
 		log.debug("home::doGet");
 		
-		if (session.getAttribute("signedInUserName") == null) {
-	         session.setAttribute("signedInUserName", "admin");
-	         log.debug("signedInUser={}",session.getAttribute("signedInUserName").toString()) ;
+		if (session.getAttribute("signedInUserName") == null || session.getAttribute("signedInUserId") == null) {
+			session.setAttribute("signedInUserId", "user2");
+	        session.setAttribute("signedInUserName", "nick345");
+	         
+	         log.debug("signedInUserName={}",session.getAttribute("signedInUserName").toString()) ;
+	         log.debug("signedInUserId={}",session.getAttribute("signedInUserId").toString()) ;
 	      } else {
 	         log.debug("signedInUser={}", session.getAttribute("signedInUserName").toString());
 	      }

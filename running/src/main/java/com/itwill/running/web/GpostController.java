@@ -43,15 +43,15 @@ public class GpostController {
 	@PostMapping("/create")
 	public String create(GpostCreateDto dto, HttpSession session) {
 		// 기본 세션 설정 - 후에 수정할것!!
+	    // 세션에서 닉네임 가져오기
+		String userId = (String) session.getAttribute("signedInUserId");
 	    String nickname = (String) session.getAttribute("signedInUserName");
-	    dto.setNickname(nickname); // 세션 값을 DTO에 강제로 설정
-	    // 세션 값 강제로 설정
-	    if (dto.getNickname() == null) {
-	        dto.setNickname((String) session.getAttribute("signedInUserName"));
-	    }
-	    // -----------------------------------
 	    
-	    log.debug("nickname={}",nickname);
+	    // DTO에 닉네임 설정
+	    dto.setUserId(userId);
+	    dto.setNickname(nickname);
+	    log.debug("nickname={}", nickname);
+	    
 	    
 		int result = gPostService.create(dto);
 		log.debug("result = {}, create = {}",result,dto);
@@ -61,18 +61,30 @@ public class GpostController {
 	
 	
 	// 상세보기 및 수정 페이지를 처리하는 메서드
-	@GetMapping({"/details","/modify"})
-	public void details(@RequestParam Integer id, Model model) {
-		// JSP로 데이터를 넘기기 위해 Model을 사용
+		@GetMapping({"/details","/modify"})
+		public void details(@RequestParam Integer id, Model model, HttpSession session) {
+			// JSP로 데이터를 넘기기 위해 Model을 사용
+			
+			// 세션에서 유저 아이디 가져옴
+			String userId = (String) session.getAttribute("signedInUserId");
+			
+			Gpost userPost = gPostService.read(id);
+			String postUserId = userPost.getUserId();
+			
+			// 세션에 조회기록이 있는지 확인하기
+			String viewkey = "viewGpost" + id + userId;
+			Object hasView = session.getAttribute(viewkey);
+			
+		    if (hasView == null || ! userId.equals(postUserId)) {
+		        gPostService.viewCountPost(id); // 조회수 증가
+		        session.setAttribute(viewkey, true); // 조회 기록 저장
+		    }
+			
+			Gpost gPost = gPostService.read(id);
+			
+			model.addAttribute("gPost",gPost);
+		}
 		
-		// 뷰 카운트
-		gPostService.viewCountPost(id);
-		
-		Gpost gPost = gPostService.read(id);
-		
-		model.addAttribute("gPost",gPost);
-	}
-	
 	@PostMapping("/update")
 	public String update(GpostUpdateDto dto) {
 		

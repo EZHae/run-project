@@ -19,6 +19,8 @@
 	</head>
 	<body>
         <div class="container-fluid">
+            <c:url value="/" var="homePage" />
+            <a href=${homePage }>리스트</a>
             <main>
                 <div class="card mt-3">
                     <div class="card-body">

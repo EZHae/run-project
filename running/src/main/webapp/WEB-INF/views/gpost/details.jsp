@@ -19,6 +19,8 @@
 	</head>
 	<body>
         <div class="container-fluid">
+            <c:url value="/gpost/list" var="homePage" />
+            <a href=${homePage }>리스트</a>
             <main>
                 <div class="card mt-2">
                     <div class="card-header">
