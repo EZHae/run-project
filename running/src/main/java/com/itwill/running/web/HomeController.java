@@ -15,8 +15,8 @@ public class HomeController {
 		log.debug("home::doGet");
 		
 		if (session.getAttribute("signedInUserName") == null || session.getAttribute("signedInUserId") == null) {
-			session.setAttribute("signedInUserId", "user2");
-	        session.setAttribute("signedInUserName", "nick345");
+			session.setAttribute("signedInUserId", "user1");
+	        session.setAttribute("signedInUserName", "nick123");
 	         
 	         log.debug("signedInUserName={}",session.getAttribute("signedInUserName").toString()) ;
 	         log.debug("signedInUserId={}",session.getAttribute("signedInUserId").toString()) ;
