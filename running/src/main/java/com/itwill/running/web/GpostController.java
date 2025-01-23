@@ -62,7 +62,7 @@ public class GpostController {
 	
 	// 상세보기 및 수정 페이지를 처리하는 메서드
 		@GetMapping({"/details","/modify"})
-		public void details(@RequestParam Integer id, Model model, HttpSession session) {
+		public void details(@RequestParam("id") Integer id, Model model, HttpSession session) {
 			// JSP로 데이터를 넘기기 위해 Model을 사용
 			
 			// 세션에서 유저 아이디 가져옴
@@ -75,10 +75,12 @@ public class GpostController {
 			String viewkey = "viewGpost" + id + userId;
 			Object hasView = session.getAttribute(viewkey);
 			
-		    if (hasView == null || ! userId.equals(postUserId)) {
-		        gPostService.viewCountPost(id); // 조회수 증가
-		        session.setAttribute(viewkey, true); // 조회 기록 저장
-		    }
+			if(userId!=null) {
+				if (hasView == null || ! userId.equals(postUserId)) {
+			        gPostService.viewCountPost(id); // 조회수 증가
+			        session.setAttribute(viewkey, true); // 조회 기록 저장
+			    }
+			}
 			
 			Gpost gPost = gPostService.read(id);
 			
