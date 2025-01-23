@@ -15,9 +15,9 @@ public class UserService {
 	
 	private final UserDao userDao;
 	
-	public User selectById(Integer id) {
-		log.debug("selectById(id={})", id);
-		User user = userDao.selectById(id);
+	public User selectByUserId(String userId) {
+		log.debug("selectByUserId(UserId={})", userId);
+		User user = userDao.selectByUserId(userId);
 		
 		return user;
 	}
