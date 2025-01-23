@@ -17,7 +17,7 @@ public class CourseService {
 
 	private final CourseDao courseDao;
 	
-	// DB에 저장된 Course들을 모두 불러옴.
+	// DB에 저장된 Course들을 모두 불러옴. // All 검색
 	public List<Course> read() {
 		log.debug("CourseService::read()");
 		
@@ -27,7 +27,7 @@ public class CourseService {
 		return courses;
 	}
 	
-	// 코스의 id로 1개의 Course를 호출
+	// 코스의 id로 1개의 Course를 호출 // 상세보기
 	public Course read(Integer id) {
 		log.debug("CourseService::read()");
 		
@@ -36,7 +36,7 @@ public class CourseService {
 		return course;
 	}
 	
-	// 검색 조건을 활용한 Course들을 호출
+	// 검색 조건을 활용한 Course들을 호출 //콤보박스(추천 or 리뷰, 조회수순 or 좋아요순)와 키워드(공백도 가능)로 검색
 	public List<Course> read(Integer category, String order, String keyword) {
 		log.debug("CourseService::read()");
 		
@@ -46,18 +46,20 @@ public class CourseService {
 		return courses;
 	}
 	
+	//조회수 업데이트
 	public void viewCount(Integer id) {
 		log.debug("CourseService::viewCount");
 		
 		courseDao.updateViewCount(id);
 	}
 	
-	//추가
-	public void likeCount(Integer id) {
+	// 좋아요 업데이트
+	public void likeCount(Integer id) { 
 		log.debug("CourseService::likeCount");
 		
 		courseDao.updateLikeCount(id);
 	}
+	
 	
 	public void createCourseLike(Integer courseId, String likeUserId) {
 		log.debug("CourseService::createCourseLike");
@@ -65,7 +67,7 @@ public class CourseService {
 		courseDao.insertCourseLike(courseId, likeUserId);
 	}
 	
-	//추가
+	//좋아요 누른 유저 검색
 	public List<String> readLikeUserId(Integer courseId){
 		log.debug("CourseService::readLikeUserId");
 		
