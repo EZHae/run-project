@@ -44,7 +44,6 @@
 			<input id ="nickname" type="text" name="nickname" value="${ nickname }" readonly/><br>
 			<button type="submit">작성완료</button>
 		</form>
-		
 	
 		
 		<!-- Bootstrap JS 링크 -->
