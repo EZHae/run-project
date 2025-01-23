@@ -8,8 +8,8 @@
   	<insert id="insertCourse">
   		insert into course (title, user_id, nickname, course_name, duration_time, 
   							content, category, view_count, like_count, created_time, modified_time)
-  		values (#{title}, #{userId}, #{nickname}, #{courseName}, #{duration_time},
-  		 					#{content}, #{category}, #{viewCount}, #{likeCount}, systimestamp, systimestamp)
+  		values (#{title}, #{userId}, #{nickname}, #{courseName}, #{durationTime},
+  		 					#{content}, #{category}, 0, 0, systimestamp, systimestamp)
   	</insert>
   	
   	<!-- Course 객체 모두 검색 -->

@@ -43,6 +43,13 @@
 				<div>
 					<input class="btn btn-secondary" type="submit" value="검색">
 				</div>
+				<!-- 새글 작성 버튼 추가 -->
+				<div>
+					<c:url var="courseCreatePage" value="/course/create">
+						<c:param name="id" value="${course.id}" />
+					</c:url>
+					<a href="${courseCreatePage}">새글작성</a>
+				</div>
 			</div>
 		</form>
 

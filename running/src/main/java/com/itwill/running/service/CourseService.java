@@ -75,4 +75,17 @@ public class CourseService {
 		log.debug("# of readLikeUserId() result = {}", likeUserIds.size());
 		return likeUserIds; 
 	}
+	
+	//추가
+	//새 코스글 작성
+	public int createCourse(Course course) {
+		log.debug("CourseService::insertCourse");
+		
+		int result = courseDao.insertCourse(course);
+		log.debug("insert result = {}", result);
+		
+		return result;
+	}
+	
+
 }

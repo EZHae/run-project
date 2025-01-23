@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwill.running.domain.Course;
+import com.itwill.running.domain.User;
+import com.itwill.running.repository.UserDao;
 import com.itwill.running.service.CourseService;
 
 import jakarta.servlet.http.HttpSession;
@@ -67,7 +69,6 @@ public class CourseController {
 		model.addAttribute("course", course);
 	}
 	
-	//추가 
 	@GetMapping("/like")
 	public String likeCourse(@RequestParam Integer id, HttpSession session, Model model) {
 	    log.debug("CourseController::likeCourse()");
@@ -93,5 +94,23 @@ public class CourseController {
 	    
 	    return "redirect:" + url;
 	}
+	
+	//추가
+	@GetMapping("/create")
+	public void create(HttpSession session, Model model) {
+	    log.debug("GET create()");
+
+	}
+
+	//추가
+	@PostMapping("/create")
+	public String createCourse(Course course, HttpSession session) {
+	    log.debug("POST createCourse(course = {})", course);
+
+	    int result = courseService.createCourse(course);
+
+	    return "redirect:/course/list";
+	}
+
 
 }
