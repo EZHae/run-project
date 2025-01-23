@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.itwill.running.domain.GComment;
 
-public interface CommentDao {
+public interface GCommentDao {
 	List<GComment> selectByPostIdOrderByLevels(Integer postId);
 	List<GComment> selectByUserId(String userId);
 	Integer insertComment(GComment comment);

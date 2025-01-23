@@ -13,6 +13,8 @@
     
     <typeAliases>
         <typeAlias type="com.itwill.running.domain.User" alias="User"/>
-        <typeAlias type="com.itwill.running.domain.Comment" alias="Comment"/>
+        <typeAlias type="com.itwill.running.domain.GComment" alias="GComment"/>
+        <typeAlias type="com.itwill.running.domain.GPost" alias="GPost"/>
     </typeAliases>
+    
 </configuration>

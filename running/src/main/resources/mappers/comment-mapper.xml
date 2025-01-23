@@ -2,14 +2,14 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.itwill.running.repository.CommentDao">
+<mapper namespace="com.itwill.running.repository.GCommentDao">
 
-	<select id="selectByPostIdOrderByLevels" resultType="Comment">
+	<select id="selectByPostIdOrderByLevels" resultType="GComment">
 		select * from g_comments where post_id=#{postId} 
 			start with parent_id is null connect by prior id=parent_id order siblings by created_time
 	</select>
 	
-	<select id="selectByUserId" resultType="Comment">
+	<select id="selectByUserId" resultType="GComment">
 		select * from g_comments where user_id=#{user_id} order by id desc
 	</select>
 	

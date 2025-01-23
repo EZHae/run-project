@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.itwill.running.repository.GpostDao">
+  
+    <!-- 포스트 목록 보기에서 사용할 메서드 이름과 SQL 문장 -->
+    <select id="selectOrderByIdDesc" resultType="Gpost">
+        select * from G_POSTS order by id desc
+    </select>
+    
+    <!-- 포스트 상세보기에 사용할 아이디 -->
+    <select id="selectById" resultType="Gpost">
+        select * from G_POSTS where id = #{id}
+    </select>
+    
+    <!-- 포스트 새 글작성에 사용할 메서드 이름과 SQL 문장 -->
+    <insert id="insertPost">
+        insert into G_POSTS (title, user_id, nickname, content, category, view_count, created_time, modified_time)
+        values (#{title}, #{userId}, #{nickname}, #{content}, #{category}, #{viewCount}, systimestamp, systimestamp)
+    </insert>
+    
+    <!-- 포스트 업데이트에서 사용할 메서드 이름과 SQL 문장 -->
+    <update id="updatePost">
+        update G_POSTS 
+        set title = #{title}, content = #{content}, modified_time = systimestamp 
+        where id = #{id}
+    </update>
+    
+    <!-- 포스트 삭제하기에서 사용할 메서드 이름과 SQL 문장 -->
+    <delete id="deletePost">
+        delete from G_POSTS where id = #{id}
+    </delete>
+    
+    <!-- 포스트 검색(카테고리, 키워드)에서 사용할 메서드 이름과 SQL 문장 -->
+     <select id="searchPost" resultType="Gpost">
+        <bind name="searchKeyword" value="'%' + keyword + '%'"/>
+        select * from G_POSTS
+        <where>
+            <choose>
+                <when test='category.equals("t")'>
+                    upper(title) like upper(#{searchKeyword})
+                </when>
+                <when test='category.equals("n")'>
+                    upper(nickname) like upper(#{searchKeyword})
+                </when>
+                <when test='category.equals("tn")'>
+                    upper(title) like upper(#{searchKeyword})
+                    or
+                    upper(nickname) like upper(#{searchKeyword})
+                </when>
+                <when test='category.equals("c")'>
+                    upper(content) like upper(#{searchKeyword})
+                </when>
+            </choose>
+        </where>
+        order by id desc
+    </select>
+    
+    <!-- 포스트를 선택했을 때 조회수에 사용할 메서드 이름과 SQL 문장 -->
+    <update id="updateViewCountPost">
+        update G_POSTS
+        set view_count = view_count + 1
+        where id = #{id}
+    </update>
+  </mapper>

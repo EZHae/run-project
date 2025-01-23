@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/gposts")
-public class G_PostController {
+public class GPostController {
 	private final GpostService gPostService;
 
 	@GetMapping("/details")
