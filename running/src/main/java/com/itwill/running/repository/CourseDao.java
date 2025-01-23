@@ -3,7 +3,6 @@ package com.itwill.running.repository;
 import java.util.List;
 
 import com.itwill.running.domain.Course;
-import com.itwill.running.domain.User;
 import com.itwill.running.dto.CourseSearchDto;
 
 public interface CourseDao {

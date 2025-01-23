@@ -43,7 +43,7 @@
 			<c:url var="courseUpdatePage" value="/course/update">
 				<c:param name="id" value="${course.id}" />
 			</c:url>
-			<a href="${courseUpdatePage}">수정</a>
+			<a class="btn btn-success" href="${courseUpdatePage}">수정</a>
 			
 			<button class="btn btn-danger" id="btnDelete">삭제</button>
 		</c:if>

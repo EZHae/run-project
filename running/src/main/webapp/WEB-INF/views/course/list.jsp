@@ -45,22 +45,29 @@
 				</div>
 			</div>
 		</form>
-
+		<!-- 새글 작성 버튼 추가 -->
+		<div>
+			<c:url var="courseCreatePage" value="/course/create" />
+			<a class="btn btn-outline-primary" href="${courseCreatePage}">새글작성</a>
+		</div>
+		
 		<c:forEach var="course" items="${courses}">
-			<c:url var="courseDetailsPage" value="/course/details">
-				<c:param name="id" value="${course.id}" />
-			</c:url>
-			<a href="${courseDetailsPage}">
-				<span>COURSE.title(코스 제목) = <span>${course.title}</span></span> <br>
-			</a>
-			<span>COURSE.nickname(코스 작성자 닉네임) = <span>${course.nickname}</span></span> <br>
-			<span>COURSE.course_name(코스이름) = <span>${course.courseName}</span></span> <br>
-			<span>COURSE.duration_time(소요 시간) = <span>${course.durationTime}</span></span> <br>
-			<span>COURSE.category(코스 분류 0: 추천, 1: 리뷰) = <span>${course.category}</span></span> <br>
-			<span>COURSE.view_count(조회수) = <span>${course.viewCount}</span></span> <br>
-			<span>COURSE.like_count(좋아요 수) = <span>${course.likeCount}</span></span> <br>
-			<span>COURSE.created_time(작성 시간) = <span>${course.createdTime}</span></span> <br>
-			<hr>
+			<div>
+				<c:url var="courseDetailsPage" value="/course/details">
+					<c:param name="id" value="${course.id}" />
+				</c:url>
+				<a href="${courseDetailsPage}">
+					<span>COURSE.title(코스 제목) = <span>${course.title}</span></span> <br>
+				</a>
+				<span>COURSE.nickname(코스 작성자 닉네임) = <span>${course.nickname}</span></span> <br>
+				<span>COURSE.course_name(코스이름) = <span>${course.courseName}</span></span> <br>
+				<span>COURSE.duration_time(소요 시간) = <span>${course.durationTime}</span></span> <br>
+				<span>COURSE.category(코스 분류 0: 추천, 1: 리뷰) = <span>${course.category}</span></span> <br>
+				<span>COURSE.view_count(조회수) = <span>${course.viewCount}</span></span> <br>
+				<span>COURSE.like_count(좋아요 수) = <span>${course.likeCount}</span></span> <br>
+				<span>COURSE.created_time(작성 시간) = <span>${course.createdTime}</span></span> <br>
+				<hr>
+			</div>
 		</c:forEach>
 		
 		<!-- Bootstrap JS 링크 -->

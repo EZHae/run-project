@@ -29,7 +29,12 @@ document.addEventListener('DOMContentLoaded', () => {
 			alert('자신의 글에는 좋아요를 할 수 없습니다.');
 			return;
 		}
-
+		
+		if (`${signedInUser}` === null || `${signedInUser}` === '') {
+			alert('로그인을 해야 좋아요가 가능합니다.');
+			return;
+		}
+		
 		if (`${likeUserIds}`.includes(`${signedInUser}`)) {
 			alert('한 글에 좋아요를 두 번 할 수 없습니다.');
 			return;

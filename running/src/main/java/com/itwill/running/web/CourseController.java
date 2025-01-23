@@ -14,7 +14,6 @@ import com.itwill.running.dto.CourseSearchDto;
 import com.itwill.running.dto.CourseUpdateDto;
 import com.itwill.running.service.CourseService;
 
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -107,5 +106,27 @@ public class CourseController {
 	    
 	    return "redirect:" + url;
 	}
+	
+	//추가
+	@GetMapping("/create")
+	public void create(HttpSession session, Model model) {
+	    log.debug("GET create()");
+
+	}
+
+	//추가
+	@PostMapping("/create")
+	public String createCourse(Course course, HttpSession session) {
+	    log.debug("POST createCourse(course = {})", course);
+
+	    courseService.createCourse(course);
+	    
+	    int result = course.getId();
+	    log.debug("insertId={}", result);
+	    
+	    String url = "/course/details?id=" + result;
+	    return "redirect:" + url;
+	}
+
 
 }
