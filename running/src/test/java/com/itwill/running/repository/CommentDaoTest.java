@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @ContextConfiguration("file:src/main/webapp/WEB-INF/application-context.xml")
 public class CommentDaoTest {
 	@Autowired
-	private CommentDao commentDao;
+	private GCommentDao commentDao;
 
 //	@Test
 //	public void readByPostIdOrderByLevelTest() {

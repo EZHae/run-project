@@ -8,7 +8,7 @@ import com.itwill.running.domain.GComment;
 import com.itwill.running.dto.GCommentCreateDto;
 import com.itwill.running.dto.GCommentItemDto;
 import com.itwill.running.dto.GCommentUpdateDto;
-import com.itwill.running.repository.CommentDao;
+import com.itwill.running.repository.GCommentDao;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 public class CommentService {
-	private final CommentDao commentDao;
+	private final GCommentDao commentDao;
 	
 	public List<GCommentItemDto> readAllByPostId(Integer postId) {
 		List<GComment> comments=commentDao.selectByPostIdOrderByLevels(postId);

@@ -10,7 +10,8 @@ document.addEventListener("DOMContentLoaded", () => {
 	
 	
 	//포스트1 댓글읽기
-	axios.get('../api/comment/all/1').then((response) => {
+    const url=`../api/comment/all/${postId}`;
+	axios.get(url).then((response) => {
 		makeCommentSection(response.data);
 	}).catch((error) => {
 		console.log(error)

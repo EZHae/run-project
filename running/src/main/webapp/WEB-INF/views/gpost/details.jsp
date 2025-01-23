@@ -77,19 +77,22 @@
 		
         
         <%-- TODO: 댓글 --%>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+            <!-- comment section js-->
+            <section class="gradient-custom" id="commentSection">
+            </section>
+            
+            <script>
+               //세션에 저장된 로그인 사용자 아이디를 자바스크립트 변수에 저장.
+               //->comment.js 파일의 코드들에서 그 변수를 사용할 수 있도록 하기 위해서
+               const signedInUser='${signedInUserId}';//문자열 포맷으로 변수를 저장.
+               const postId='${gPost.id}';
+            </script>
+            
+            <!-- Axios Http Js-->
+            <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+            
+            <c:url value="/js/comment.js" var="commentJs" />
+            <script src="${commentJs}"></script>
         
         
         </div>

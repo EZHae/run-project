@@ -10,13 +10,13 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class HomeController {
 	
-	@GetMapping("")
+	@GetMapping("/")
 	public String home(HttpSession session) {
 		log.debug("home::doGet");
 		
 		if (session.getAttribute("signedInUserName") == null || session.getAttribute("signedInUserId") == null) {
-			session.setAttribute("signedInUserId", "user1");
-	        session.setAttribute("signedInUserName", "nick123");
+			session.setAttribute("signedInUserId", "admin1");
+	        session.setAttribute("signedInUserName", "어드민1");
 	         
 	         log.debug("signedInUserName={}",session.getAttribute("signedInUserName").toString()) ;
 	         log.debug("signedInUserId={}",session.getAttribute("signedInUserId").toString()) ;
