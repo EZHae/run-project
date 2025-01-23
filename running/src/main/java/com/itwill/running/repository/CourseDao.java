@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.itwill.running.domain.Course;
 import com.itwill.running.domain.User;
+import com.itwill.running.dto.CourseSearchDto;
 
 public interface CourseDao {
 	
@@ -13,17 +14,17 @@ public interface CourseDao {
 	
 	Course selectCourseById(Integer id);
 	
-	List<Course> selectCourse(Integer category, String order, String keyword);
+	List<Course> selectCourse(CourseSearchDto dto);
 	
 	int updateCourse(Course course);
 	
-	int deleteCourse(Integer id);
+	int deleteCourseById(Integer id);
 	
 	int insertCourseLike(Integer courseId, String likeUserId);
 	
-	List<String> selectLikeUserId(Integer courseId); 
+	List<String> selectLikeUserIdByCourseId(Integer courseId); 
 	
-	int updateLikeCount(Integer id);
+	int updateLikeCountById(Integer id);
 	
-	int updateViewCount(Integer id);
+	int updateViewCountById(Integer id);
 }

@@ -8,7 +8,7 @@
   	<insert id="insertCourse">
   		insert into course (title, user_id, nickname, course_name, duration_time, 
   							content, category, view_count, like_count, created_time, modified_time)
-  		values (#{title}, #{userId}, #{nickname}, #{courseName}, #{duration_time},
+  		values (#{title}, #{userId}, #{nickname}, #{courseName}, #{durationTime},
   		 					#{content}, #{category}, #{viewCount}, #{likeCount}, systimestamp, systimestamp)
   	</insert>
   	
@@ -68,17 +68,17 @@
   	<!-- Course 객체 수정 -->
   	<update id="updateCourse">
   		update Course set title = #{title}, course_name = #{courseName}, duration_time = #{durationTime},
-  									content = #{content}, category = #{category}, modified_time = systimestamp
+  						content = #{content}, category = #{category}, modified_time = systimestamp
         	where id = #{id}
   	</update>
   	
   	<!-- Course 객체 삭제 -->
-  	<delete id="deleteCourse">
+  	<delete id="deleteCourseById">
   		delete from Course where id = #{id}
   	</delete>
   	
   	<!-- 해당 Course글에 좋아요 누른 유저들을 검색 -->
-  	<select id = "selectLikeUserId" resultType="String">
+  	<select id = "selectLikeUserIdByCourseId" resultType="String">
   		select like_user_id from course_like where course_id = #{courseId}
   	</select>
   	
@@ -89,12 +89,12 @@
   	</insert>
   	
   	<!-- 해당 Course글에 좋아요 +1 업데이트 -->
-  	<update id = "updateLikeCount">
+  	<update id = "updateLikeCountById">
   		update course set like_count = like_count + 1 where id = #{id}
   	</update>
   	
   	<!-- 해당 Course글을 볼 때 조회수 +1 업데이트 -->
-  	<update id = "updateViewCount">
+  	<update id = "updateViewCountById">
   		update course set view_count = view_count + 1 where id = #{id}
   	</update>
 
