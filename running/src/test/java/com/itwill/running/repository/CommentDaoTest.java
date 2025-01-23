@@ -8,7 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import com.itwill.running.domain.Comment;
+import com.itwill.running.domain.GComment;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,7 +36,7 @@ public class CommentDaoTest {
 
 	@Test
 	public void insertCommentTest() {
-		Comment comment = Comment.builder().postId(6).ctext("다오테스트??").userId("user1").nickname("nick123").commentType(0)
+		GComment comment = GComment.builder().postId(6).ctext("다오테스트??").userId("user1").nickname("nick123").commentType(0)
 				.secret(0).parentId(4).build();
 		int result = commentDao.insertComment(comment);
 		Assertions.assertEquals(1, result);

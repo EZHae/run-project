@@ -2,7 +2,7 @@ package com.itwill.running.dto;
 
 import java.time.LocalDateTime;
 
-import com.itwill.running.domain.Comment;
+import com.itwill.running.domain.GComment;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class CommentItemDto {
+public class GCommentItemDto {
 	private Integer id;
 	private Integer postId;
 	private String ctext;
@@ -25,9 +25,9 @@ public class CommentItemDto {
 	private Integer secret;
 	private Integer parentId;
 	
-	public static CommentItemDto fromEntity(Comment comment) {
+	public static GCommentItemDto fromEntity(GComment comment) {
 		if(comment!=null) {
-			return CommentItemDto.builder().id(comment.getId()).ctext(comment.getCtext()).postId(comment.getPostId())
+			return GCommentItemDto.builder().id(comment.getId()).ctext(comment.getCtext()).postId(comment.getPostId())
 					.userId(comment.getUserId()).nickname(comment.getNickname()).createdTime(comment.getCreatedTime())
 					.modifiedTime(comment.getModifiedTime()).commentType(comment.getCommentType()).secret(comment.getSecret())
 					.parentId(comment.getParentId()).build();

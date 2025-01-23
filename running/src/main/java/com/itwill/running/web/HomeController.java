@@ -13,7 +13,7 @@ public class HomeController {
 	@GetMapping("/")
 	public String home(HttpSession session) {
 		log.debug("home::doGet");
-		session.setAttribute("signedInUser", "user1");
+		//session.setAttribute("signedInUser", "user1");
 		return "home";
 	}
 }

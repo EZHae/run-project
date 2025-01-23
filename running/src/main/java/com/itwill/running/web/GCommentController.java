@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.itwill.running.dto.CommentCreateDto;
-import com.itwill.running.dto.CommentItemDto;
-import com.itwill.running.dto.CommentUpdateDto;
+import com.itwill.running.dto.GCommentCreateDto;
+import com.itwill.running.dto.GCommentItemDto;
+import com.itwill.running.dto.GCommentUpdateDto;
 import com.itwill.running.service.CommentService;
 
 import lombok.RequiredArgsConstructor;
@@ -24,25 +24,25 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/api/comment")
-public class G_CommentController {
+public class GCommentController {
 	private final CommentService commentService;
 	
 	@GetMapping("/all/{postId}")
-	public ResponseEntity<List<CommentItemDto>> getAllCommentsByPostId(@PathVariable("postId") Integer postId){
+	public ResponseEntity<List<GCommentItemDto>> getAllCommentsByPostId(@PathVariable("postId") Integer postId){
 		log.debug("getAllCommentsByPostId(postId={})",postId);
-		List<CommentItemDto> list=commentService.readAllByPostId(postId);
+		List<GCommentItemDto> list=commentService.readAllByPostId(postId);
 		return ResponseEntity.ok(list);
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Integer> updateComment(@PathVariable("id") Integer id, @RequestBody CommentUpdateDto dto){
+	public ResponseEntity<Integer> updateComment(@PathVariable("id") Integer id, @RequestBody GCommentUpdateDto dto){
 		log.debug("updateComment(id={},dto={})",id,dto);
 		Integer result=commentService.updateComment(dto);
 		return ResponseEntity.ok(result);
 	}
 	
 	@PostMapping
-	public ResponseEntity<Integer> createComment(@RequestBody CommentCreateDto dto){
+	public ResponseEntity<Integer> createComment(@RequestBody GCommentCreateDto dto){
 		log.debug("createComment(dto={})",dto);
 		Integer result=commentService.createComment(dto);
 		return ResponseEntity.ok(result);

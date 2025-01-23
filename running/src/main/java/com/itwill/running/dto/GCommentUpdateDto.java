@@ -2,7 +2,7 @@ package com.itwill.running.dto;
 
 import java.time.LocalDateTime;
 
-import com.itwill.running.domain.Comment;
+import com.itwill.running.domain.GComment;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,13 +12,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class CommentUpdateDto {
+public class GCommentUpdateDto {
 	private Integer id;
 	private String ctext;
 	private Integer secret;
 	
-	public Comment toEntity() {
-		return Comment.builder().ctext(ctext).secret(secret).id(id).build();
+	public GComment toEntity() {
+		return GComment.builder().ctext(ctext).secret(secret).id(id).build();
 	}
 	
 }

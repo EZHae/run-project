@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.itwill.running.domain.Comment;
-import com.itwill.running.dto.CommentCreateDto;
-import com.itwill.running.dto.CommentItemDto;
-import com.itwill.running.dto.CommentUpdateDto;
+import com.itwill.running.domain.GComment;
+import com.itwill.running.dto.GCommentCreateDto;
+import com.itwill.running.dto.GCommentItemDto;
+import com.itwill.running.dto.GCommentUpdateDto;
 import com.itwill.running.repository.CommentDao;
 
 import lombok.RequiredArgsConstructor;
@@ -19,17 +19,17 @@ import lombok.extern.slf4j.Slf4j;
 public class CommentService {
 	private final CommentDao commentDao;
 	
-	public List<CommentItemDto> readAllByPostId(Integer postId) {
-		List<Comment> comments=commentDao.selectByPostIdOrderByLevels(postId);
-		return comments.stream().map(CommentItemDto::fromEntity).toList();
+	public List<GCommentItemDto> readAllByPostId(Integer postId) {
+		List<GComment> comments=commentDao.selectByPostIdOrderByLevels(postId);
+		return comments.stream().map(GCommentItemDto::fromEntity).toList();
 	}
 	
-	public Integer updateComment(CommentUpdateDto commentUpdateDto) {
+	public Integer updateComment(GCommentUpdateDto commentUpdateDto) {
 		Integer result=commentDao.updateComment(commentUpdateDto.toEntity());
 		return result;
 	}
 	
-	public Integer createComment(CommentCreateDto commentCreateDto) {
+	public Integer createComment(GCommentCreateDto commentCreateDto) {
 		Integer result=commentDao.insertComment(commentCreateDto.toEntity());
 		return result;
 	}

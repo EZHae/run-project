@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Comment {
+public class GComment {
 	private Integer id;
 	private Integer postId;
 	private String ctext;
