@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class HomeController {
 	
-	@GetMapping("/")
+	@GetMapping("")
 	public String home(HttpSession session) {
 		log.debug("home::doGet");
 		
