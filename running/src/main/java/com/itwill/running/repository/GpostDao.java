@@ -3,7 +3,6 @@ package com.itwill.running.repository;
 import java.util.List;
 
 import com.itwill.running.domain.Gpost;
-import com.itwill.running.dto.GpostCreateDto;
 import com.itwill.running.dto.GpostSearchDto;
 
 public interface GpostDao {

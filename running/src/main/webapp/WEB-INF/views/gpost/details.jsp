@@ -25,6 +25,11 @@
                 <div class="card mt-2">
                     <div class="card-header">
                         <h3>${gPost.title }</h3>
+                        <hr />
+                        <h5>이미지 첨부</h5>
+                        <c:forEach var="image" items="${images}">
+                            <img alt="${images.originName }" src="${images.imagePath}">
+                        </c:forEach>
                     </div>
                     <div class="card-body">
                         <form>

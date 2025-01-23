@@ -6,7 +6,8 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
-    
+
+
     <!-- Spring Web MVC 설정들을 애너테이션 기반으로 설정할 수 있도록 -->
     <mvc:annotation-driven>
         <mvc:message-converters>
@@ -32,6 +33,8 @@
         <property name="prefix" value="/WEB-INF/views/" />
         <property name="suffix" value=".jsp" />
     </bean>
+    <!--빈 이름은 무조건  multipartResolver -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver"></bean>
     
     <!-- 컨트롤러 클래스들을 작성하는 패키지 이름 설정. 
          - base-package와 그 하위 패키지 아래에 있는 컴포넌트 애너테이션(@Component, @Controller, ...)이

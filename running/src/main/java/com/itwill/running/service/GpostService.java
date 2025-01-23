@@ -62,11 +62,10 @@ public class GpostService {
 	}
 	
 	
-	// TODO 포스트 조회수 서비스
+	// 포스트 조회수 서비스	
 	public void viewCountPost(Integer id) {
 		gPostDao.updateViewCountPost(id);
 		
 	}	
-	
 
 }

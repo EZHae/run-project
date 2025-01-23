@@ -49,9 +49,16 @@
         </init-param>
         <!-- 서블릿이 로딩될 우선순위 -->
         <load-on-startup>1</load-on-startup>
+        
+        <multipart-config>
+            <max-file-size>31457280</max-file-size>   <!-- 30mb-->
+            <max-request-size>1004857600</max-request-size>  <!-- 100mb -->
+        </multipart-config> 
     </servlet>
+    
     <servlet-mapping>
         <servlet-name>dispatcherServlet</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+    
 </web-app>

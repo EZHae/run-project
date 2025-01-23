@@ -1,17 +1,21 @@
 package com.itwill.running.web;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.itwill.running.domain.Gpost;
 import com.itwill.running.dto.GpostCreateDto;
 import com.itwill.running.dto.GpostUpdateDto;
+import com.itwill.running.service.GimagesService;
 import com.itwill.running.service.GpostService;
 
 import jakarta.servlet.http.HttpSession;
@@ -25,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 public class GpostController {
 	
 	private final GpostService gPostService;
+	private final GimagesService gImagesService; // 이미지 관련 서비스
 	
 	// 포스트 목록 출력하는 메서드
 	@GetMapping("/list")
@@ -41,7 +46,9 @@ public class GpostController {
 	
 	// 포스트 작성 후 이동 
 	@PostMapping("/create")
-	public String create(GpostCreateDto dto, HttpSession session) {
+	public String create(GpostCreateDto dto, HttpSession session,
+						 @RequestParam("uploadFile") MultipartFile[] files, Model model) throws Exception {
+		
 		// 기본 세션 설정 - 후에 수정할것!!
 	    // 세션에서 닉네임 가져오기
 		String userId = (String) session.getAttribute("signedInUserId");
@@ -52,9 +59,18 @@ public class GpostController {
 	    dto.setNickname(nickname);
 	    log.debug("nickname={}", nickname);
 	    
+	    // 포스트 저장
+	    Integer postId = gPostService.create(dto);
 	    
-		int result = gPostService.create(dto);
-		log.debug("result = {}, create = {}",result,dto);
+	    // 이미지 업로드 및 저장
+	    if(files != null && files.length > 0) {
+	    	for(MultipartFile file : files) {
+	    		gImagesService.uploadFiles(file.getOriginalFilename(), file.getBytes(), postId);
+	    	}
+	    }
+	    
+	    
+		log.debug("result = {}, create = {}",postId,dto);
 		
 		return "redirect:/gpost/list";
 	}

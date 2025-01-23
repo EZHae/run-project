@@ -197,8 +197,23 @@
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis-spring</artifactId>
             <version>${mybatis-spring-version}</version>
+        </dependency>         
+        
+        <!-- 파일 업로드 프레임 워크 -->
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.4</version>
+        </dependency> 
+        
+        <!-- 파일 저장을 위한 디펜던시 -->
+        <dependency>
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+        <version>2.11.0</version>
         </dependency>
-    </dependencies>
+  </dependencies>
+    
     
     <build>
         <plugins>
