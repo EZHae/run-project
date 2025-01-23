@@ -1,14 +1,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.itwill</groupId>
-	<artifactId>running</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
-	<name>Run Project</name>
-	
-	    <!-- POM에서 사용할 속성(변수) 정의-->
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.itwill</groupId>
+    <artifactId>running</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>war</packaging>
+    <name>Run Project</name>
+    
+        <!-- POM에서 사용할 속성(변수) 정의-->
     <properties>
         <servlet-api-version>6.0.0</servlet-api-version>
         <jsp-api-version>4.0.0</jsp-api-version>
@@ -28,7 +28,7 @@
         
         <!-- 프로젝트 인코딩 설정 -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    	<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
     
     <!-- 의존성(라이브러리) 설정 -->
