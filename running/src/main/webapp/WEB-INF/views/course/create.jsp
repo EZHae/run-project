@@ -31,16 +31,11 @@
 			<label for="categoryRev">코스 리뷰</label>
 			
 			<br>
-			<label>제목</label> 
-			<input id="title" name="title" type="text" value="${course.title}" required> <br>
-			<label>코스명</label>
-			<input id="courseName" name="courseName" type="text" value="${course.courseName}" required> <br>
-			<label>소요시간</label>
-			<input id="durationTime" name="durationTime" type="text" value="${course.durationTime}" required> <br>
-			<label>내용</label>
-			<input id="content" name="content" type="text" value="${course.content}" required> <br>
+			<input id="title" name="title" type="text" value="${course.title}" placeholder="제목" required> <br>
+			<input id="courseName" name="courseName" type="text" value="${course.courseName}" placeholder="코스명" required> <br>
+			<input id="durationTime" name="durationTime" type="text" value="${course.durationTime}" placeholder="소요시간" required> <br>
+			<input id="content" name="content" type="text" value="${course.content}" placeholder="내용" required> <br>
 			<input class="d-none" id ="userId" type="text" name="userId" value="${ signedInUser }" readonly/>
-			<label>닉네임</label>
 			<input id ="nickname" type="text" name="nickname" value="${ nickname }" readonly/><br>
 			<button type="submit">작성완료</button>
 		</form>

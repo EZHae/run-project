@@ -23,9 +23,9 @@
 		<a href="${homePage}">홈으로</a>
 		
 		<h1>Running CourseDetails</h1>
-		<span>COURSE.id(코스 아이디) = <span>${course.id}</span></span> <br>
+		<span>COURSE.id(코스 아이디) = <span id="id">${course.id}</span></span> <br>
 		<span>COURSE.title(코스 제목) = <span>${course.title}</span></span> <br>	
-		<span>COURSE.user_id(코스 작성자 아이디) = <span>${course.userId}</span></span> <br>
+		<span>COURSE.user_id(코스 작성자 아이디) = <span id="userId">${course.userId}</span></span> <br>
 		<span>COURSE.nickname(코스 작성자 닉네임) = <span>${course.nickname}</span></span> <br>
 		<span>COURSE.course_name(코스이름) = <span>${course.courseName}</span></span> <br>
 		<span>COURSE.duration_time(소요 시간) = <span>${course.durationTime}</span></span> <br>
@@ -35,27 +35,17 @@
 		<span>COURSE.like_count(좋아요 수) = <span>${course.likeCount}</span></span> <br>
 		<span>COURSE.created_time(작성 시간) = <span>${course.createdTime}</span></span> <br>
 		<span>COURSE.modified_time(최종 수정 시간) = <span>${course.modifiedTime}</span></span> <br>
+				
+		<!-- 좋아요 버튼을 js로 처리 -->
+		<button class="btn btn-primary" id="btnLike">좋아요</button> <br>
 		
-		<!-- TODO
-			 js로 처리하거나 restAPI로 하기 -->
-		<!-- 추가 -->
-		<c:if test="${!signedInUser.equals(userId) && !likeUserIds.contains(signedInUser)}">
-			<c:url var="courseLikePage" value="/course/like" />
-		    <form action="${courseLikePage}" method="get">
-		        <input type="hidden" name="id" value="${course.id}" />
-		        <button type="submit">좋아요</button>
-		    </form>
-		</c:if> 
 		<c:if test="${signedInUser eq course.userId}">
 			<c:url var="courseUpdatePage" value="/course/update">
 				<c:param name="id" value="${course.id}" />
 			</c:url>
-			<a href="${courseUpdatePage}">수정</a>
+			<a class="btn btn-success" href="${courseUpdatePage}">수정</a>
 			
-			<c:url var="courseDeletePage" value="/course/delete">
-				<c:param name="id" value="${course.id}" />
-			</c:url>
-			<a href="${courseDeletePage}">삭제</a>
+			<button class="btn btn-danger" id="btnDelete">삭제</button>
 		</c:if>
 		
 		<!-- Bootstrap JS 링크 -->
@@ -63,5 +53,12 @@
                 integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
                 crossorigin="anonymous">
         </script>
+        
+        <script>
+        const signedInUser = '${signedInUser}';
+        const likeUserIds = '${likeUserIds}'.split(',');
+        </script>
+        <c:url var="detailsJS" value="/js/course-details.js" />
+        <script src="${detailsJS}"></script>
 	</body>
 </html>

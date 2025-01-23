@@ -10,10 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwill.running.domain.Course;
-import com.itwill.running.domain.User;
-import com.itwill.running.repository.UserDao;
+import com.itwill.running.dto.CourseSearchDto;
+import com.itwill.running.dto.CourseUpdateDto;
 import com.itwill.running.service.CourseService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 public class CourseController {
 
 	private final CourseService courseService;
-	
+	 
 	@GetMapping("/list")
 	public void list(Model model) {
 		log.debug("CourseController::list()");
@@ -36,10 +37,10 @@ public class CourseController {
 	}
 	
 	@GetMapping("/search")
-	public String search(Model model, @RequestParam Integer category, @RequestParam String order, @RequestParam String keyword) {
+	public String search(Model model, CourseSearchDto dto) {
 		log.debug("CourseController::search()");
 		
-		List<Course> courses = courseService.read(category, order, keyword);
+		List<Course> courses = courseService.read(dto);
 		
 		model.addAttribute("courses", courses);
 		
@@ -47,7 +48,7 @@ public class CourseController {
 	}
 	
 	@GetMapping({ "/details", "/update" })
-	public void details(Model model, @RequestParam Integer id, HttpSession session) {
+	public void details(@RequestParam Integer id, Model model, HttpSession session, HttpServletRequest request) {
 		log.debug("CourseController::details()");
 		
 		Course course = courseService.read(id);
@@ -59,37 +60,48 @@ public class CourseController {
 			
 			signedInUser = signedInUser.toString();
 			
-			if (!signedInUser.equals(userId)) {
+			/* "/update"에서 이 위의 코드가 필요해서 mapping에 "/update"가 있지만, 
+			 * "/update"에서 접근 했을 때에 조회수가 증가 하는 것을 방지 하기 위하기 위하여 
+			 * [request.getRequestURI().equals("/details")]("/details"에서만 접근했을 때) 조건 추가 */
+			if (request.getRequestURI().equals("/details") && !signedInUser.equals(userId)) {
 				courseService.viewCount(id);	
 			}
 		}
-		
 		log.debug("signedInUser={}", signedInUser);
+		
+		List<String> likeUserIds = courseService.readLikeUserId(id);
 
+		model.addAttribute("likeUserIds", likeUserIds);
 		model.addAttribute("course", course);
+	}
+	
+	@PostMapping("/update")
+	public String update(CourseUpdateDto dto) {
+		log.debug("CourseController::update()");
+		
+		courseService.update(dto);
+		
+		String url = "/course/details?id=" + dto.getId();
+	    return "redirect:" + url;
+	}
+	
+	@GetMapping("/delete")
+	public String delete(@RequestParam Integer id) {
+		log.debug("CourseController::delete()");
+		
+		courseService.delete(id);
+		
+	    return "redirect:/course/list";
 	}
 	
 	@GetMapping("/like")
 	public String likeCourse(@RequestParam Integer id, HttpSession session, Model model) {
 	    log.debug("CourseController::likeCourse()");
 	    
-	    Integer courseId = id;
-
 	    String signedInUser = session.getAttribute("signedInUser").toString();
-	    log.debug("{}", signedInUser);
-	    Course course = courseService.read(id);
-	    log.debug("{}", course);
-	    List<String> likeUserIds = courseService.readLikeUserId(courseId);
-	    for (String likeUserId : likeUserIds) {
-	    	log.debug(likeUserId);
-	    }
-	    log.debug("{}", likeUserIds.contains(signedInUser));
-	    
-	    if (!signedInUser.equals(course.getUserId()) && !likeUserIds.contains(signedInUser)) {
-	    	courseService.likeCount(id);
-	    	courseService.createCourseLike(id, signedInUser);
-	    }
-	    
+
+	    courseService.likeCount(id);
+    	courseService.createCourseLike(id, signedInUser);
 	    String url = "/course/details?id=" + id;
 	    
 	    return "redirect:" + url;
@@ -107,9 +119,13 @@ public class CourseController {
 	public String createCourse(Course course, HttpSession session) {
 	    log.debug("POST createCourse(course = {})", course);
 
-	    int result = courseService.createCourse(course);
-
-	    return "redirect:/course/list";
+	    courseService.createCourse(course);
+	    
+	    int result = course.getId();
+	    log.debug("insertId={}", result);
+	    
+	    String url = "/course/details?id=" + result;
+	    return "redirect:" + url;
 	}
 
 
