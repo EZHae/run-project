@@ -46,7 +46,7 @@ public class CourseService {
 		return courses;
 	}
 	
-	//조회수 업데이트
+	// 조회수 업데이트
 	public void viewCount(Integer id) {
 		log.debug("CourseService::viewCount");
 		
@@ -67,7 +67,7 @@ public class CourseService {
 		courseDao.insertCourseLike(courseId, likeUserId);
 	}
 	
-	//좋아요 누른 유저 검색
+	// 좋아요 누른 유저 검색
 	public List<String> readLikeUserId(Integer courseId){
 		log.debug("CourseService::readLikeUserId");
 		
@@ -77,7 +77,7 @@ public class CourseService {
 	}
 	
 	//추가
-	//새 코스글 작성
+	// 코스 새글 작성
 	public int createCourse(Course course) {
 		log.debug("CourseService::insertCourse");
 		
