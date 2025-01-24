@@ -38,6 +38,8 @@
         <property name="configLocation" value="classpath:mybatis-config.xml" />
     </bean> 
     
+
+    
     <!-- MyBatis-Spring 프레임워크에서 SQL을 수행하고 결과 처리하는 컴포넌트들을 찾을 기본 패키지 설정
          MyBatis 프레임 워크는 base-package 아래의 인터페이스(들)을 검색해서 구현 객체를 생성. -->
     <mybatis:scan base-package="com.itwill.running.repository"/>

@@ -16,17 +16,20 @@
     </select>
     
     <!-- 포스트 새 글작성에 사용할 메서드 이름과 SQL 문장 -->
-    <insert id="insertPost">
+    <insert id="insertPost" parameterType="Gpost" useGeneratedKeys="true" keyColumn="ID" keyProperty="id">
         insert into G_POSTS (title, user_id, nickname, content, category, view_count, created_time, modified_time)
         values (#{title}, #{userId}, #{nickname}, #{content}, #{category}, #{viewCount}, systimestamp, systimestamp)
     </insert>
     
+
 
     <!-- 포스트 이미지 첨부에 사용할 메서드 이름과 SQL 문장 -->
     <insert id="insertPostImages">
         insert into G_IMAGES (post_id, origin_name, uniq_name, image_path)
         values (#{postId}, #{originName}, #{uniqName}, #{imagePath})
     </insert>
+
+
     
     <!-- 포스트 업데이트에서 사용할 메서드 이름과 SQL 문장 -->
     <update id="updatePost">
@@ -40,27 +43,35 @@
         delete from G_POSTS where id = #{id}
     </delete>
     
-    <!-- 포스트 검색(카테고리, 키워드)에서 사용할 메서드 이름과 SQL 문장 -->
-     <select id="searchPost" resultType="Gpost">
-        <bind name="searchKeyword" value="'%' + keyword + '%'"/>
+    
+    <!-- 포스트 검색(카테고리: 자유, 질문, 키워드)에서 사용할 메서드 이름과 SQL 문장   --> 
+    <!-- TODO
+                자유, 질문 이후에 추가로 게시판 선택 시 추가--> 
+    <select id="selectByCategorySearch" resultType="Gpost">
         select * from G_POSTS
-        <where>
-            <choose>
-                <when test='category.equals("t")'>
-                    upper(title) like upper(#{searchKeyword})
-                </when>
-                <when test='category.equals("n")'>
-                    upper(nickname) like upper(#{searchKeyword})
-                </when>
-                <when test='category.equals("tn")'>
-                    upper(title) like upper(#{searchKeyword})
-                    or
-                    upper(nickname) like upper(#{searchKeyword})
-                </when>
-                <when test='category.equals("c")'>
-                    upper(content) like upper(#{searchKeyword})
-                </when>
-            </choose>
+        <where> 
+            category = #{category}
+            <if test="search != null and keyword != null and keyword != ''">
+                <choose>
+                    <when test='search.equals("t")'>       
+                        <bind name="searchKeyword" value="'%' + keyword + '%'"/>
+                         and upper(title) like upper(#{searchKeyword})
+                    </when>
+                    <when test='search.equals("n")'>
+                        <bind name="searchKeyword" value="'%' + keyword + '%'"/>
+                        and upper(nickname) like upper(#{searchKeyword})
+                    </when>
+                    <when test='search.equals("c")'>
+                        <bind name="searchKeyword" value="'%' + keyword + '%'"/>
+                        and upper(content) like upper(#{searchKeyword})
+                    </when>
+                    <when test='search.equals("tc")'>
+                        <bind name="searchKeyword" value="'%' + keyword + '%'"/>
+                        and (upper(title) like upper(#{searchKeyword})
+                        or upper(content) like upper(#{searchKeyword}))
+                    </when>
+                </choose>
+                </if>
         </where>
         order by id desc
     </select>
@@ -71,4 +82,5 @@
         set view_count = view_count + 1
         where id = #{id}
     </update>
+    
   </mapper>

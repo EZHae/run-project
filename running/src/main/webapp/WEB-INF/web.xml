@@ -50,8 +50,10 @@
         <!-- 서블릿이 로딩될 우선순위 -->
         <load-on-startup>1</load-on-startup>
     </servlet>
+    
     <servlet-mapping>
         <servlet-name>dispatcherServlet</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+    
 </web-app>

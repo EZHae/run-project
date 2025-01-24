@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.itwill.running.domain.Gpost;
+import com.itwill.running.dto.GpostCategoryDto;
 import com.itwill.running.dto.GpostCreateDto;
 import com.itwill.running.dto.GpostUpdateDto;
 import com.itwill.running.repository.GpostDao;
@@ -26,6 +27,17 @@ public class GpostService {
 		log.debug("Gpost = {}",list);
 		return list;
 	}
+	
+	// 포스트 카테고리별 서비스
+	public List<Gpost> readByCategorySearch(GpostCategoryDto dto) {
+		log.debug("GpostService::read()");
+		
+		List<Gpost> list = gPostDao.selectByCategorySearch(dto);
+		log.debug("Gpost = {}",list);
+		return list;
+	}
+	
+	
 	// 포스트 생성 서비스
 	public Integer create(GpostCreateDto dto) {
 		
@@ -39,7 +51,7 @@ public class GpostService {
 		
 		Gpost post = gPostDao.selectById(id);
 		return post;
-	}
+	}	
 	
 
 	
@@ -61,12 +73,10 @@ public class GpostService {
 				
 	}
 	
-	
-	// TODO 포스트 조회수 서비스
+	// 포스트 조회수 서비스	
 	public void viewCountPost(Integer id) {
 		gPostDao.updateViewCountPost(id);
 		
 	}	
-	
 
 }
