@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
         const result = confirm('정말 삭제할까요?');
         if(result) {
             
-            const deleteUrl = `delete?id=${inputId.value}`;
+            const deleteUrl = `delete?id=${inputId.value}&category=${category}`;
             console.log("Generated delete URL:", deleteUrl);
             
             location.href = deleteUrl;
