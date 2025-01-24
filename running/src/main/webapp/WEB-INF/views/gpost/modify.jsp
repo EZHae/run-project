@@ -57,6 +57,9 @@
                                 <label class="form-label" for="formFileMultiple" >파일 업로드</label>
                                 <input class="form-control" type="file" id="formFileMultiple" multiple>
                             </div>
+                            <div>
+<%--                             <input class="form-control" type="hidden" id="category" name="category" value="${param.category}"> --%>
+                            </div>
                         </form>
                     </div>
 <%--                     <c:if test="${signedInUser eq post.author}"> --%>

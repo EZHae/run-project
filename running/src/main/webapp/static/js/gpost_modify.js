@@ -19,12 +19,16 @@ document.addEventListener('DOMContentLoaded', ()=>{
     const btnUpdate = document.querySelector('button#btnUpdate');
     // 포스트 삭제 버튼 위치
     const btnDelete = document.querySelector('button#btnDelete');
-    
+    const category = document.querySelector('input#category').value; // category 값 가져오기
     // 삭제버튼 이벤트 리스너
     btnDelete.addEventListener('click', ()=>{
         const result = confirm('정말 삭제할까요?');
         if(result) {
-            location.href = `delete?id=${inputId.value}`;
+            
+            const deleteUrl = `delete?id=${inputId.value}`;
+            console.log("Generated delete URL:", deleteUrl);
+            
+            location.href = deleteUrl;
         }
     })
     

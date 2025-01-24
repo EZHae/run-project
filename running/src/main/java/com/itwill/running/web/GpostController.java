@@ -127,12 +127,13 @@ public class GpostController {
 	
 	
 	@GetMapping("/delete")
-	public String delete(@RequestParam Integer id) {
+	public String delete(@RequestParam Integer id, @RequestParam String category) {
 		
+		log.debug("category = {}", category);
 		gPostService.deletePost(id);
 		log.debug("delete = {}", id);
 		
-		return "redirect:/gpost/list";
+		return "redirect:/gpost/category?category=" + category;
 	}
 
 }

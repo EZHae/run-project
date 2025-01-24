@@ -66,6 +66,7 @@
                         <div class="d-flex justify-content-center">
                             <c:url var="gPostModifyPage" value="/gpost/modify">
                                 <c:param name="id" value="${gPost.id}"/>
+<%--                                 <c:param name="category" value="${gPost.category}" /> --%>
                             </c:url>
                             <a class="btn btn-outline-success"
                                 href="${gPostModifyPage}">수정하기</a>
