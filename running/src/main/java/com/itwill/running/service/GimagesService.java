@@ -17,24 +17,25 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 public class GimagesService {
-   
-   private final GimagesDao gImageDao;
-   private final ServletContext servletContext; // ServletContext 주입
-   
-   // 파일 업로드
-   public Gimages uploadFiles(String originFileName, byte[] fileData, Integer postId) throws Exception {
-      
+	private final GimagesDao gImageDao;
+	private final ServletContext servletContext; // ServletContext 주입
+	
+	// 파일 업로드
+	public Gimages uploadFiles(String originFileName, byte[] fileData, Integer postId) throws Exception {
+		
+
         // 상대 경로 설정 (프로젝트 내부의 /static/files/uploads 경로)
 //        String uploadPath = servletContext.getRealPath("/static/files/uploads") ;
         String uploadPath = servletContext.getContextPath() + "/src/main/webapp/static/files/uploads" ;
         log.debug(uploadPath);
-      
+
         // 업로드 경로가 없으면 디렉토리 생성
         File uploadDir = new File(uploadPath);
         if (!uploadDir.exists()) {
             uploadDir.mkdirs(); // 디렉토리 생성
         }
         
+
       // 랜덤 id값 생성
       UUID uuid = UUID.randomUUID();
       
@@ -78,5 +79,6 @@ public class GimagesService {
          log.debug("파일이 없음");
       }   
    }
+
 
 }

@@ -58,7 +58,7 @@
                                 <input class="form-control" type="file" id="formFileMultiple" multiple>
                             </div>
                             <div>
-<%--                             <input class="form-control" type="hidden" id="category" name="category" value="${param.category}"> --%>
+                                <input class="form-control" type="hidden" id="category" name="category" value="${param.category}">
                             </div>
                         </form>
                     </div>

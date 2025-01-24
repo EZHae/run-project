@@ -129,7 +129,7 @@ public class GpostController {
 	
 	
 	@GetMapping("/delete")
-	public String delete(@RequestParam Integer id, @RequestParam String category) {
+	public String delete(@RequestParam Integer id, @RequestParam Integer category) {
 		
 		log.debug("category = {}", category);
 		gPostService.deletePost(id);

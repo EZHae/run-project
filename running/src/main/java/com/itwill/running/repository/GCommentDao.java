@@ -15,4 +15,5 @@ public interface GCommentDao {
 	Integer isCommentDeletable(Integer id);
 	Integer updateToUnknown(GComment comment);
 	Integer deleteUnknownComments();
+
 }
