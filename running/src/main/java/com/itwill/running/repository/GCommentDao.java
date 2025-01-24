@@ -13,5 +13,6 @@ public interface GCommentDao {
 	Integer deleteById(Integer id);
 	GComment selectById(Integer id);
 	Integer isCommentDeletable(Integer id);
-	Integer updateToDelete(GComment comment);
+	Integer updateToUnknown(GComment comment);
+	Integer deleteUnknownComments();
 }

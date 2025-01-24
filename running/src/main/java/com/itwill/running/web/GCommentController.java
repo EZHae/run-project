@@ -58,10 +58,10 @@ public class GCommentController {
 		return ResponseEntity.ok(result);
 	}
 	
-	@PutMapping("/deleteinvalidcomment/{id}")
-	public ResponseEntity<Integer> toDeleted(@PathVariable("id") Integer id, @RequestBody GCommentToDeletedDto dto){
+	@PutMapping("/updatetounknown/{id}")
+	public ResponseEntity<Integer> toUnknown(@PathVariable("id") Integer id, @RequestBody GCommentToDeletedDto dto){
 		log.debug("toDeleted(id={},dto={})",id,dto);
-		Integer result=commentService.toDeleted(dto);
+		Integer result=commentService.toUnknown(dto);
 		return ResponseEntity.ok(result);
 	}
 	
@@ -76,6 +76,13 @@ public class GCommentController {
 	public ResponseEntity<Integer> deleteComment(@PathVariable("id") Integer id){
 		log.debug("deleteComment(id={})",id);
 		Integer result=commentService.deleteComment(id);
+		return ResponseEntity.ok(result);
+	}
+	
+	@DeleteMapping("/deleteunknown")
+	public ResponseEntity<Integer> deleteUnknownComments(){
+		log.debug("deleteUnknownComments");
+		Integer result=commentService.deleteUnknownComments();
 		return ResponseEntity.ok(result);
 	}
 	

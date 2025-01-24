@@ -34,8 +34,8 @@ public class GCommentService {
 		return commentDao.isCommentDeletable(id);
 	}
 	
-	public Integer toDeleted(GCommentToDeletedDto dto) {
-		return commentDao.updateToDelete(dto.toEntity());
+	public Integer toUnknown(GCommentToDeletedDto dto) {
+		return commentDao.updateToUnknown(dto.toEntity());
 	}
 	
 	public Integer updateComment(GCommentUpdateDto commentUpdateDto) {
@@ -51,5 +51,9 @@ public class GCommentService {
 	public Integer deleteComment(Integer id) {
 		Integer result=commentDao.deleteById(id);
 		return result;
+	}
+	
+	public Integer deleteUnknownComments() {
+		return commentDao.deleteUnknownComments();
 	}
 }
