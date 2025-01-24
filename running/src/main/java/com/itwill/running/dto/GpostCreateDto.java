@@ -11,7 +11,7 @@ public class GpostCreateDto {
 	private String userId;
 	private String nickname;
 	private String content;
-	private Integer category = 1; // 기본값 설정
+	private Integer category;
 	private Integer viewCount = 0; // 기본값 설정
 
 	public Gpost toEntity() {

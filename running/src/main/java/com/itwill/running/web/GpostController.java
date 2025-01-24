@@ -1,18 +1,18 @@
 package com.itwill.running.web;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwill.running.domain.Gpost;
+import com.itwill.running.dto.GpostCategoryDto;
 import com.itwill.running.dto.GpostCreateDto;
 import com.itwill.running.dto.GpostUpdateDto;
 import com.itwill.running.service.GimagesService;
@@ -35,9 +35,25 @@ public class GpostController {
 	@GetMapping("/list")
 	public void list(Model model) {
 		
-		List<Gpost> list = gPostService.read();
+		// 기본값을 자유게시판 목록으로 선택
+		GpostCategoryDto dto = new GpostCategoryDto();
+		dto.setCategory(0);
+		
+		List<Gpost> list = gPostService.readByCategorySearch(dto);
 		
 		model.addAttribute("gPosts",list);
+	}
+	
+	@GetMapping("/category")
+	public String list(GpostCategoryDto dto, Model model) {
+
+	    // 디버깅 로그
+	    log.debug("GpostCategoryDto: {}", dto);
+	    List<Gpost> list = gPostService.readByCategorySearch(dto);
+	    
+	    model.addAttribute("gPosts", list);
+
+	    return "/gpost/list";
 	}
 	
 	// 포스트 작성을 출력하는 메서드
@@ -47,7 +63,7 @@ public class GpostController {
 	// 포스트 작성 후 이동 
 	@PostMapping("/create")
 	public String create(GpostCreateDto dto, HttpSession session,
-						 @RequestParam("uploadFile") MultipartFile[] files, Model model) throws Exception {
+						 Model model) throws Exception {
 		
 		// 기본 세션 설정 - 후에 수정할것!!
 	    // 세션에서 닉네임 가져오기
@@ -62,18 +78,18 @@ public class GpostController {
 	    // 포스트 저장
 	    Integer postId = gPostService.create(dto);
 	    
-	    // 이미지 업로드 및 저장
-	    if(files != null && files.length > 0) {
-	    	for(MultipartFile file : files) {
-	    		gImagesService.uploadFiles(file.getOriginalFilename(), file.getBytes(), postId);
-	    	}
-	    }
-	    
-	    
+//	    // 이미지 업로드 및 저장
+//	    if(files != null && files.length > 0) {
+//	    	for(MultipartFile file : files) {
+//	    		gImagesService.uploadFiles(file.getOriginalFilename(), file.getBytes(), postId);
+//	    	}
+//	    }
 		log.debug("result = {}, create = {}",postId,dto);
 		
 		return "redirect:/gpost/list";
 	}
+	
+	
 	
 	
 	// 상세보기 및 수정 페이지를 처리하는 메서드

@@ -26,7 +26,13 @@
                     </div>
                     <div class="card-body">
                         <c:url value="/gpost/create" var="gPostCreatePage"/>
-                        <form method="post" action="${gPostCreatePage}" enctype="multipart/form-data">
+                        <form method="post" action="${gPostCreatePage}" > 
+                            <div>
+                                <select name="category" class="form-select">
+                                    <option value="0">자유</option>
+                                    <option value="1">질문</option>
+                                </select>
+                            </div>
                             <div class="mt-2">
                                 <label class="form-label" for="title">제목</label>
                                 <input class="form-control" id="title" name="title" type="text" autofocus required/>
@@ -48,7 +54,6 @@
                                 <input class="form-control" type="file" id="uploadFile" name="uploadFile" multiple>
                             </div>
                             <hr />
-                            
                             <div class="mt-2 d-flex justify-content-center">
                                 <div>
                                     <input type="submit" value="작성완료"
@@ -66,7 +71,5 @@
                 crossorigin="anonymous">
         </script>
         
-        <c:url var="gPostCreateJS" value="/js/gpost_create.js" />
-        <script src="${gPostCreateJS}"></script>
 	</body>
 </html>

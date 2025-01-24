@@ -31,13 +31,13 @@ public class GpostServiceTest {
 	
 	// 상세보기 서비스 테스트
 //	@Test
-	public void testReadById() {
-		
-		Gpost post = gPostService.read(1);
-		Assertions.assertNotNull(post);
-		log.debug("post by id = {}", post);
-	}
-	
+//	public void testReadById() {
+//		
+//		Gpost post = gPostService.read(1);
+//		Assertions.assertNotNull(post);
+//		log.debug("post by id = {}", post);
+//	}
+//	
 	// 삭제하기 서비스 테스트
 	@Test
 	public void testDelete() {

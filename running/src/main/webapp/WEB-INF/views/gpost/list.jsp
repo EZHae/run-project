@@ -22,6 +22,26 @@
             <c:url value="/" var="homePage" />
             <a href=${homePage }>리스트</a>
             <main>
+                <c:url value="/gpost/category" var="gPostGategoryPage" />
+                <form action="${gPostGategoryPage}" method="get" id="searchForm">
+                        <input type="hidden" name="category" id="categoryInput" value="${param.category != null ? param.category : 0}">
+                        <button type="button" onclick="setCategory(0)" name="">자유</button>
+                        <button type="button" onclick="setCategory(1)">질문</button>
+                    <div>
+                        <select id="searchType" class="form-select" name="search">
+                            <option value="t">제목</option>
+                            <option value="c">내용</option>
+                            <option value="tc">제목+내용</option>
+                            <option value="n">작성자</option>
+                        </select>
+                        <div>
+                            <input type="text" name="keyword" placeholder="검색, 공백 가능">
+                        </div>
+                        <div>
+                            <button id="searchButton" class="btn btn-secondary">검색</button>
+                        </div>
+                    </div>
+                </form>
                 <div class="card mt-3">
                     <div class="card-body">
                         <table class="table table-striped table-hover">
@@ -49,6 +69,11 @@
                                         <td>${p.viewCount}</td>
                                     </tr>
                                 </c:forEach>
+                                    <c:if test="${empty gPosts}">
+                                        <tr>
+                                            <td colspan="5">검색 결과가 없습니다.</td>
+                                        </tr>
+                                    </c:if>
                             </tbody>
                         </table>
                     </div>
@@ -59,12 +84,16 @@
                 </div>
             </main>
         </div>
-		
+	
 		
 		<!-- Bootstrap JS 링크 -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
                 integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
                 crossorigin="anonymous">
         </script>
+        <!-- Axios Http JS -->
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <c:url var="gPostListJS" value="/js/gpost_list.js" />
+        <script src="${gPostListJS}"></script>
 	</body>
 </html>

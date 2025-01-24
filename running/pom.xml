@@ -29,6 +29,9 @@
         <!-- 프로젝트 인코딩 설정 -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        
+        <!-- 파일 업로드 설정-->
+        <commons-fileupload-version>1.5</commons-fileupload-version>
     </properties>
     
     <!-- 의존성(라이브러리) 설정 -->
@@ -199,11 +202,11 @@
             <version>${mybatis-spring-version}</version>
         </dependency>         
         
-        <!-- 파일 업로드 프레임 워크 -->
+        <!-- ▼ 파일 업로드 ▼ -->
         <dependency>
             <groupId>commons-fileupload</groupId>
             <artifactId>commons-fileupload</artifactId>
-            <version>1.4</version>
+            <version>${commons-fileupload-version}</version>
         </dependency> 
         
         <!-- 파일 저장을 위한 디펜던시 -->
