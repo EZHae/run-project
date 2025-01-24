@@ -26,7 +26,7 @@
                     </div>
                     <div class="card-body">
                         <c:url value="/gpost/create" var="gPostCreatePage"/>
-                        <form method="post" action="${gPostCreatePage}" > 
+                        <form method="post" action="${gPostCreatePage}" enctype="multipart/form-data"> 
                             <div>
                                 <select name="category" class="form-select">
                                     <option value="0">자유</option>
@@ -39,7 +39,8 @@
                             </div>
                             <div class="mt-2">
                                 <label class="form-label" for="content">내용</label>
-                                <textarea rows="5" class="form-control" id="content" name="content" required ></textarea>
+                                <textarea rows="5" class="form-control" id="content" name="content" required >
+                                </textarea>
                             </div>
                             
                             <%-- 세션 수정 --%>
@@ -51,7 +52,11 @@
                                 
                             <div class="mt-2">
                                 <label class="form-label" for="uploadFile" >파일 업로드</label>
-                                <input class="form-control" type="file" id="uploadFile" name="uploadFile" multiple>
+                                <input class="form-control" type="file" id="uploadFile" onchange="previewImage(event);" name="uploadFile" multiple>
+                            </div>
+                            <div class="mt-2">
+                            	<img id="preview" src="" alt="image Preview" style="display: none; width: 200px;
+                                	height:200px; margin-top:10px;"/>
                             </div>
                             <hr />
                             <div class="mt-2 d-flex justify-content-center">
@@ -69,6 +74,18 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
                 integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
                 crossorigin="anonymous">
+        </script>
+        
+        <script>
+        	function previewImage(event){
+        		var reader=new FileReader();
+        		reader.onload=function(){
+        			var output = document.getElementById('preview');
+        			output.src=reader.result;
+        			output.style.display='block';
+        		};
+        		reader.readAsDataURL(event.target.files[0]);
+        	}
         </script>
         
 	</body>

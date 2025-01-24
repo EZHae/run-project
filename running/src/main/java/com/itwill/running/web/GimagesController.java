@@ -27,21 +27,12 @@ import lombok.extern.slf4j.Slf4j;
 public class GimagesController {
 	private final GimagesService gImageService;
 	
-//	// 이미지 업로드!!!
-//	@PostMapping("/gpost/create")
-//	public Gimages uploadImages(@RequestParam("uploadFile") MultipartFile file, @RequestParam("postId") Integer postId) throws Exception {
-//        
-//		return gImageService.uploadFiles(file.getOriginalFilename(), file.getBytes(), postId);
-//	}
-//	
-//	@GetMapping("/gpost/create")
-//	public String uploadFile() {
-//		return "uploadFile";
-//	}
-//	
-//	@PostMapping("/gpost/create")
-//	public String uploadFile(MultipartFile uploadFile) {
-//		
-//		return "uploadFile";
-//	}
+	// 이미지 업로드!!!
+	@PostMapping("/gpost/create")
+	public Gimages uploadImages(@RequestParam("uploadFile") MultipartFile file, @RequestParam("postId") Integer postId) throws Exception {
+        
+		return gImageService.uploadFiles(file.getOriginalFilename(), file.getBytes(), postId);
+	}
+	
+
 }

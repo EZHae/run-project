@@ -2,6 +2,8 @@ package com.itwill.running.web;
 
 import java.util.List;
 
+import javax.swing.plaf.multi.MultiFileChooserUI;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.itwill.running.domain.Gpost;
 import com.itwill.running.dto.GpostCategoryDto;
@@ -62,7 +65,7 @@ public class GpostController {
 	
 	// 포스트 작성 후 이동 
 	@PostMapping("/create")
-	public String create(GpostCreateDto dto, HttpSession session,
+	public String create(@RequestParam("uploadFile") MultipartFile[] files, GpostCreateDto dto, HttpSession session,
 						 Model model) throws Exception {
 		
 		// 기본 세션 설정 - 후에 수정할것!!
@@ -78,12 +81,14 @@ public class GpostController {
 	    // 포스트 저장
 	    Integer postId = gPostService.create(dto);
 	    
-//	    // 이미지 업로드 및 저장
-//	    if(files != null && files.length > 0) {
-//	    	for(MultipartFile file : files) {
-//	    		gImagesService.uploadFiles(file.getOriginalFilename(), file.getBytes(), postId);
-//	    	}
-//	    }
+	    
+	    
+	    // 이미지 업로드 및 저장	    
+	    if(files != null && files.length > 0) {
+	    	for(MultipartFile file : files) {
+	    		gImagesService.uploadFiles(file.getOriginalFilename(), file.getBytes(), postId);
+	    	}
+	    }
 		log.debug("result = {}, create = {}",postId,dto);
 		
 		return "redirect:/gpost/list";

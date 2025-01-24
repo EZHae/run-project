@@ -115,8 +115,11 @@ document.addEventListener("DOMContentLoaded", () => {
 				nickname = comment.nickname; //작성자가보임
 				ctext = comment.ctext; //내용이보임
 			}
-
-			//TODO: img src 경로 바꾸기
+			
+			//TODO: img src 경로, parentId에 연결된 닉네임가져오기
+			axios.get().then().catch();
+			
+			
 			html +=
 				`<img class="rounded-circle shadow-1-strong me-3"
 					src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(10).webp" alt="avatar" width="65"
