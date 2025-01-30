@@ -93,6 +93,7 @@
         </script>
         <!-- Axios Http JS -->
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        
         <c:url var="gPostListJS" value="/js/gpost_list.js" />
         <script src="${gPostListJS}"></script>
 	</body>

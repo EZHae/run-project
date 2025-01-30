@@ -1,8 +1,3 @@
-/**
- *  gpost/modify.jsp 파일에 포함
- *  포스트 업데이트, 삭제 기능
- */
-
 document.addEventListener('DOMContentLoaded', ()=>{
     
     // 폼 위치
@@ -20,6 +15,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
     // 포스트 삭제 버튼 위치
     const btnDelete = document.querySelector('button#btnDelete');
     const category = document.querySelector('input#category').value; // category 값 가져오기
+    console.log("Category element:", category); 
+    
     // 삭제버튼 이벤트 리스너
     btnDelete.addEventListener('click', ()=>{
         const result = confirm('정말 삭제할까요?');

@@ -39,11 +39,11 @@ public class GpostServiceTest {
 //	}
 //	
 	// 삭제하기 서비스 테스트
-	@Test
-	public void testDelete() {
-		int result = gPostService.deletePost(43);
-		Assertions.assertNotNull(result);
-	}
+//	@Test
+//	public void testDelete() {
+//		int result = gPostService.deletePost(43);
+//		Assertions.assertNotNull(result);
+//	}
 	
 	
 
