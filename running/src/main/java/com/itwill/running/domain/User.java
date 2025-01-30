@@ -23,7 +23,7 @@ public class User {
 	private String email;
 	private Integer authCheck;
 	private Integer imgId;
-	private LocalDateTime createdTime;
-	private LocalDateTime modifiedTime;
+	private LocalDateTime userCreatedTime;
+	private LocalDateTime userAccessTime;
 
 }
