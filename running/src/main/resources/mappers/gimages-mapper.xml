@@ -11,4 +11,9 @@
         values (#{postId}, #{originName}, #{uniqName}, #{imagePath})
     </insert>
   
+    <update id="updateImagesPostId">
+        update G_IMAGES
+        set post_id = #{post_id}
+        where post_id is null
+    </update>
   </mapper>

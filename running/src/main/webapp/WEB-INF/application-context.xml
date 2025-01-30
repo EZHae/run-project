@@ -7,6 +7,7 @@
         http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
         http://mybatis.org/schema/mybatis-spring https://mybatis.org/schema/mybatis-spring.xsd">
 
+
     <!-- bean definitions here: bean(Model)
          스프링 프레임워크에서 생성하고 관리할 자바 객체들을 선언 
          model 뿐만 아니라 dao에서 새용하는 Connection,  -->
@@ -15,13 +16,13 @@
     <!-- HikariConfig bean 생성을 위한 설정 -->
     <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
         <property name="driverClassName" value="oracle.jdbc.OracleDriver" />
-        <property name="jdbcUrl" value="jdbc:oracle:thin:@192.168.14.1:1521:xe" />
-        <property name="username" value="run" />
-        <property name="password" value="run" />
+<!--         <property name="jdbcUrl" value="jdbc:oracle:thin:@192.168.14.1:1521:xe" /> -->
+<!--         <property name="username" value="run" /> -->
+<!--         <property name="password" value="run" /> -->
         
-<!--         <property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:1521:xe" /> -->
-<!--         <property name="username" value="run2" /> -->
-<!--         <property name="password" value="run2" /> -->
+        <property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:1521:xe" />
+        <property name="username" value="run2" />
+        <property name="password" value="run2" />
     </bean>
     
     <!-- HikariDataSource bean 생성을 위한 설정 -->
@@ -49,4 +50,7 @@
            사용된 클래스 객체들을 찾아서 객체를 (싱글턴으로) 생성하고 관리하기 위한 설정
            생성된 컴포넌트 bean들을 필요한 곳(예: 컨트롤러)에 주입할 수 있도록 하기 위해서. -->
     <context:component-scan base-package="com.itwill.running.service" />
+    
+    <!-- MULTIPART RESOLVERS -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver" />
 </beans>

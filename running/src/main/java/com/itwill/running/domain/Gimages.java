@@ -15,6 +15,4 @@ public class Gimages {
 	private String originName;
 	private String uniqName;
 	private String imagePath;
-	//테스트 수정11
-
 }

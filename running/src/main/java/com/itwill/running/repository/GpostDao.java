@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.itwill.running.domain.Gpost;
 import com.itwill.running.dto.GpostCategoryDto;
-import com.itwill.running.dto.GpostSearchDto;
 
 public interface GpostDao {
 	List<Gpost> selectOrderByIdDesc();	// 포스트 목록

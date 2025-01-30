@@ -11,6 +11,7 @@ public interface GimagesDao {
 	Integer insertImages(Gimages gImages);
 	// 테스트 
 	
+	void updateImagesPostId(Integer postId);
 	// 이미지를 삭제
 //	Integer deleteImagesById(Integer id);
 	

@@ -16,7 +16,13 @@
               rel="stylesheet" 
               integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
               crossorigin="anonymous">
+            
+<!--             <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> -->
+<!--             <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.css" rel="stylesheet"> -->
+<!--             <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.js"></script> -->
 	</head>
+    
+    
 	<body>
 		        <div class="container-fluid">
             <main>
@@ -26,12 +32,15 @@
                     </div>
                     <div class="card-body">
                         <c:url value="/gpost/create" var="gPostCreatePage"/>
-                        <form method="post" action="${gPostCreatePage}" > 
+                        <form method="post" action="${gPostCreatePage}" enctype="multipart/form-data"> 
                             <div>
                                 <select name="category" class="form-select">
-                                    <option value="0">자유</option>
-                                    <option value="1">질문</option>
+                                    <option value="0">자유게시판</option>
+                                    <option value="1">질문게시판</option>
                                 </select>
+                            </div>
+                                <input type="hidden" id="postId" value="${gPost.id}">
+                            <div>
                             </div>
                             <div class="mt-2">
                                 <label class="form-label" for="title">제목</label>
@@ -41,22 +50,20 @@
                                 <label class="form-label" for="content">내용</label>
                                 <textarea rows="5" class="form-control" id="content" name="content" required ></textarea>
                             </div>
-                            
                             <%-- 세션 수정 --%>
                             <div class="mt-2 d-none">
                                 <label class="form-label" for="nickname">작성자</label>
                                 <input type="text" readonly class="form-control" id="nickname" name="nickname" 
                                     value="<%= session.getAttribute("signedInUserName") %>">
                             </div>  
-                                
-                            <div class="mt-2">
-                                <label class="form-label" for="uploadFile" >파일 업로드</label>
-                                <input class="form-control" type="file" id="uploadFile" name="uploadFile" multiple>
-                            </div>
                             <hr />
+                            <div class="mt-2">
+                                <label class="form-label" for="file" >파일 업로드</label>
+                                <input class="form-control" type="file" id="file" accept="image/*" onchange="previewImage(event)">
+                            </div>
                             <div class="mt-2 d-flex justify-content-center">
                                 <div>
-                                    <input type="submit" value="작성완료"
+                                    <input id="submitPost" type="submit" value="작성완료"
                                         class="btn btn-outline-success" />
                                 </div>
                             </div>
@@ -65,11 +72,22 @@
                 </div>
             </main>
 		</div>
+        
+       
 		<!-- Bootstrap JS 링크 -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
                 integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
                 crossorigin="anonymous">
         </script>
         
+        <!-- Axios Http Js-->
+<!--         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> -->
+        
+<%--         <c:url value="/js/gpost_create.js" var="gPostCreateJS" />        --%>
+<%--         <script src="${gPostCreateJS}"></script>  --%>
+        
+<!--          include summernote-ko-KR -->
+<%--         <c:url value="/js/summernote-ko-KR.js" var="langKoKRJS" />  --%>
+<%--         <script src="${langKoKRJS}"></script> --%>
 	</body>
 </html>
