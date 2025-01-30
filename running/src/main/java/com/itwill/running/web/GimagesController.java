@@ -22,10 +22,10 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/gpost")
-public class GimagesController {
+public class GimagesController {  // -------------------------- 이미지 업로드 테스트용 ------------------------
 
 	private final GimagesService gImageService;
-	private static final String FILE_PATH = "C:/upload_data/uploads/";
+	private static final String FILE_PATH = "C:\\upload_data\\uploads\\";
 	
 	@Autowired
 	private ServletContext servletContext; // 서버가 구동되고 있는 위치
@@ -64,6 +64,7 @@ public class GimagesController {
 			// 파일 업로드
 			file.transferTo(path); // 저장할 경로 파일명
 			
+//			model.addAttribute("img", "/uploads/" + uniqueFileName);
 		}
 		return "gpost/uploadForm";
 	}	
