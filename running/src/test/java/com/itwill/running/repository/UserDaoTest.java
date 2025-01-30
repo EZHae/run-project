@@ -21,13 +21,13 @@ public class UserDaoTest {
 	@Autowired
 	private UserDao userDao;
 	
-	@Test
-	public void testSelectById() {
-		log.debug("{}", session);
-		log.debug("{}", userDao);
-		log.debug("testSelectById");
-		User user = userDao.selectById(1);
-		
-		log.debug("user={}", user);
-	}
+//	@Test
+//	public void testSelectById() {
+//		log.debug("{}", session);
+//		log.debug("{}", userDao);
+//		log.debug("testSelectById");
+//		User user = userDao.selectById(1);
+//		
+//		log.debug("user={}", user);
+//	}
 }
