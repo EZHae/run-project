@@ -36,7 +36,6 @@ public class HomeController {
 			log.debug("signedInUser={}", session.getAttribute("signedInUser").toString());
 			
 		}
-		
 		return "home";
 	}
 }

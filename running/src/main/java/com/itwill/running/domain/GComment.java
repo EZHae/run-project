@@ -7,23 +7,19 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class User {
+@Data
+public class GComment {
+	private Integer id;
+	private Integer postId;
+	private String ctext;
 	private String userId;
-	private String password;
 	private String nickname;
-	private String username;
-	private Integer gender;
-	private Integer age;
-	private String phonenumber;
-	private String residence;
-	private String email;
-	private Integer authCheck;
-	private Integer imgId;
 	private LocalDateTime createdTime;
 	private LocalDateTime modifiedTime;
-
+	private Integer commentType;
+	private Integer secret;
+	private Integer parentId;
 }
