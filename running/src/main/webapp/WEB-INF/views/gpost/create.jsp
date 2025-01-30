@@ -16,12 +16,24 @@
               rel="stylesheet" 
               integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
               crossorigin="anonymous">
-            
+              
+        <!-- SummerNote 링크 -->    
 <!--             <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> -->
 <!--             <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.css" rel="stylesheet"> -->
 <!--             <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.js"></script> -->
 	</head>
-    
+        <!-- 이미지 미리보기 JavaScript -->
+        <script>
+            function previewImage(event) {
+                var reader = new FileReader();
+                reader.onload = function() {
+                    var output = document.getElementById('preview');
+                    output.src = reader.result;
+                    output.style.display = 'block';
+                };
+                reader.readAsDataURL(event.target.files[0]);
+            }
+        </script>
     
 	<body>
 		        <div class="container-fluid">
@@ -59,7 +71,8 @@
                             <hr />
                             <div class="mt-2">
                                 <label class="form-label" for="file" >파일 업로드</label>
-                                <input class="form-control" type="file" id="file" accept="image/*" onchange="previewImage(event)">
+                                <input class="form-control" type="file" id="file" name="file" accept="image/*" onchange="previewImage(event)">
+                                <img id="preview" src="#" alt="미리보기" style="display: none; max-width: 100%; height: auto; margin-top: 10px;">
                             </div>
                             <div class="mt-2 d-flex justify-content-center">
                                 <div>

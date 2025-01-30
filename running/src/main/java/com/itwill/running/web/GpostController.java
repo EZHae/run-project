@@ -31,6 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 public class GpostController {
 	
 	private final GpostService gPostService;
+	private final GimagesService gimagesService;
 	
 	// 포스트 목록 출력하는 메서드
 	@GetMapping("/list")
@@ -69,7 +70,7 @@ public class GpostController {
 	// 포스트 작성 후 이동 
 	@PostMapping("/create")
 	public String create(GpostCreateDto dto, HttpSession session,
-						 Model model, MultipartFile file) throws Exception {
+						 Model model, @RequestParam(value = "file", required = false) MultipartFile file) throws Exception {
 		
 		// 기본 세션 설정 - 후에 수정할것!!
 	    // 세션에서 닉네임 가져오기
@@ -84,8 +85,12 @@ public class GpostController {
 	    // 포스트 저장
 	    Integer postId = gPostService.create(dto);
 	    
-	    // 글 작성 후 이미지와 연결
+	    log.debug("포스트 생성 완료: postId={}", postId);
 	    
+	    // 글 작성 후 이미지와 연결
+	    if (!file.isEmpty()) {
+	    	gimagesService.saveImage(file, postId);  // postId 추가
+	    }
 	    
 		log.debug("result = {}, create = {}",postId,dto);
 		

@@ -22,7 +22,7 @@ public class GimagesService {
 	private static final String UPLOAD_DIR = "C:/upload_data/temp/";
     
 	// 이미지 데이터 삽입
-    public String saveImage(MultipartFile file) throws Exception {
+    public String saveImage(MultipartFile file, Integer postId) throws Exception {
     	
     	// 디렉토리 생성
         File dir = new File(UPLOAD_DIR);
@@ -43,9 +43,9 @@ public class GimagesService {
         // 파일 저장
         file.transferTo(new File(filePath));
 
-        // DB에 이미지 정보 저장
+        // DB에 이미지 정보 저장 
         Gimages image = Gimages.builder()
-                .postId(null)
+                .postId(postId)
                 .originName(originalName)
                 .uniqName(uniqueName)
                 .imagePath(filePath)
@@ -54,8 +54,8 @@ public class GimagesService {
 
         log.debug("이미지 저장 완료: {}", image);
         
-     // 클라이언트에 반환할 URL
-        return "/uploads/summernote/" + uniqueName;
+        // 클라이언트에 반환할 URL
+        return "/uploads/" + uniqueName;
     }
     
  // 업로드된 이미지의 post_id 업데이트
