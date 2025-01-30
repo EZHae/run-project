@@ -54,8 +54,8 @@
                                    value="${gPost.formattedModifiedTime}" readonly/>
                             </div>
                             <div class="mt-2">
-                                <label class="form-label" for="formFileMultiple" >파일 업로드</label>
-                                <input class="form-control" type="file" id="formFileMultiple" multiple>
+                                <label class="form-label" for="file" >파일 업로드</label>
+                                <input class="form-control" type="file" id="file"  multiple>
                             </div>
                             <div>
                                 <input class="form-control" type="hidden" id="category" name="category" value="${param.category}">

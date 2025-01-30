@@ -56,8 +56,15 @@
                                    value="${gPost.formattedModifiedTime}" readonly/>
                             </div>
                             <div class="mt-2">
-                                <label class="form-label" for="formFileMultiple" >파일 업로드</label>
-                                <input class="form-control" type="file" id="formFileMultiple" multiple disabled>
+<%--                                 <c:if test="${empty gImages }"> --%>
+<!--                                     <p> 등록된 이미지가 없습니다.</p> -->
+<%--                                 </c:if> --%>
+<%--                                 <c:forEach var="images" items="${gImages}"> --%>
+<%--                                     <img alt="${images.originName}" src="${images.imagePath}"> --%>
+<%--                                 </c:forEach> --%>
+                                <c:forEach var="images" items="${gImages}">
+                                    <img alt="${images.originName}" src="/running/gpost/uploads/${images.uniqName}">
+                                </c:forEach>
                             </div>
                         </form>
                     </div>

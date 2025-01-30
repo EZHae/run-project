@@ -13,7 +13,11 @@
   
     <update id="updateImagesPostId">
         update G_IMAGES
-        set post_id = #{post_id}
+        set post_id = #{postId}
         where post_id is null
     </update>
+    
+    <select id="selectImagesByPostId" parameterType="integer" resultType="Gimages">
+        select * from G_IMAGES where post_id = #{postId}
+    </select>
   </mapper>

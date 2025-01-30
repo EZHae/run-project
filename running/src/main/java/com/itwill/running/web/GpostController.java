@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.itwill.running.domain.Gimages;
 import com.itwill.running.domain.Gpost;
 import com.itwill.running.dto.GpostCategoryDto;
 import com.itwill.running.dto.GpostCreateDto;
@@ -108,8 +109,8 @@ public class GpostController {
 			// 세션에서 유저 아이디 가져옴
 			String userId = (String) session.getAttribute("signedInUserId");
 			
-			Gpost userPost = gPostService.read(id);
-			String postUserId = userPost.getUserId();
+			Gpost gPost = gPostService.read(id);
+			String postUserId = gPost.getUserId();
 			
 			// 세션에 조회기록이 있는지 확인하기
 			String viewkey = "viewGpost" + id + userId;
@@ -117,12 +118,14 @@ public class GpostController {
 			
 		    if (hasView == null || ! userId.equals(postUserId)) {
 		        gPostService.viewCountPost(id); // 조회수 증가
-		        session.setAttribute(viewkey, true); // 조회 기록 저장
+		        session.setAttribute(viewkey, true); // 조회 기록 세션에 저장
 		    }
 			
-			Gpost gPost = gPostService.read(id);
-			
-			model.addAttribute("gPost",gPost);
+		    // 이미지 이름을 가져옴
+		    List<Gimages> gImages = gimagesService.getImgesByPostId(id);
+		    
+		    model.addAttribute("gPost",gPost);
+		    model.addAttribute("gImages", gImages);
 		}
 		
 	@PostMapping("/update")

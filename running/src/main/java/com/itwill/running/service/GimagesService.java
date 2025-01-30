@@ -1,6 +1,7 @@
 package com.itwill.running.service;
 
 import java.io.File;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -64,4 +65,10 @@ public class GimagesService {
         log.debug("이미지 post_id 업데이트 완료: {}", postId);
     }
 	
+    // 상세보기에서 이미지 가져오기
+    public List<Gimages> getImgesByPostId(Integer postId){
+    	List<Gimages> gImages = gImageDao.selectImagesByPostId(postId);
+    	
+    	return gImages;
+    }
 }
