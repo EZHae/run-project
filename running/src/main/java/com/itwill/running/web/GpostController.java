@@ -71,7 +71,7 @@ public class GpostController {
 	// 포스트 작성 후 이동 
 	@PostMapping("/create")
 	public String create(GpostCreateDto dto, HttpSession session,
-						 Model model, @RequestParam(value = "file", required = false) MultipartFile file) throws Exception {
+						 Model model, @RequestParam(value = "file", required = false) MultipartFile[] files) throws Exception {
 		
 		// 기본 세션 설정 - 후에 수정할것!!
 	    // 세션에서 닉네임 가져오기
@@ -89,9 +89,10 @@ public class GpostController {
 	    log.debug("포스트 생성 완료: postId={}", postId);
 	    
 	    // 글 작성 후 이미지와 연결
-	    if (!file.isEmpty()) {
-	    	gimagesService.saveImage(file, postId);  // postId 추가
-	    }
+		if (files != null && files.length > 0) {
+			List<String> imagesUrls = gimagesService.saveImages(files, postId); // postId 추가
+			log.debug("업로드 완료, urls : {}", imagesUrls);
+		}
 	    
 		log.debug("result = {}, create = {}",postId,dto);
 		

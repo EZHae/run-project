@@ -38,11 +38,12 @@ public class GimagesController {
         if (!resource.exists() || !resource.isReadable()) {
             throw new RuntimeException("이미지를 불러올 수 없습니다: " + filename);
         }
-
         // 응답 생성
         return ResponseEntity.ok()
         		.header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + filename + "\"")
                 .body(resource); // 해당 응답을 바디에 담아서 브라우저에 보냄
-        
     }
+    
+    // 
+    
 }

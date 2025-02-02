@@ -1,6 +1,7 @@
 package com.itwill.running.service;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -59,6 +60,21 @@ public class GimagesService {
         return "/uploads/" + uniqueName;
     }
     
+    // 다중 이미지 저장 
+    public List<String> saveImages(MultipartFile[] files, Integer postId) throws Exception{
+    	List<String> imageUrls = new ArrayList<>();
+    	
+    	if(files != null) {
+    		for(MultipartFile file : files) {
+    			if(!file.isEmpty()) {
+    				String url = saveImage(file, postId);
+    				imageUrls.add(url);
+    			}
+    		}
+    	}
+    	return imageUrls;
+    }
+    
  // 업로드된 이미지의 post_id 업데이트
     public void updatePostIdForImages(Integer postId) {
         gImageDao.updateImagesPostId(postId);
@@ -70,5 +86,11 @@ public class GimagesService {
     	List<Gimages> gImages = gImageDao.selectImagesByPostId(postId);
     	
     	return gImages;
+    }
+    
+    public int deleteImages(Integer id) {
+    	int result = 0;
+    	
+    	return result; 
     }
 }

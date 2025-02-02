@@ -16,6 +16,19 @@
               rel="stylesheet" 
               integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
               crossorigin="anonymous">
+              
+        <!-- 이미지 미리보기 JavaScript -->
+        <script>
+            function previewImage(event) {
+                var reader = new FileReader();
+                reader.onload = function() {
+                    var output = document.getElementById('preview');
+                    output.src = reader.result;
+                    output.style.display = 'block';
+                };
+                reader.readAsDataURL(event.target.files[0]);
+            }
+        </script>
 	</head>
 	<body>
         <div class="container-fluid">
@@ -27,51 +40,91 @@
                     <div class="card-body">
                         <form id="modifyForm">
                             <div class="d-none">
-                                <label class="form-label" for="id">글 번호</label>
-                                <input class="form-control" id="id" name="id" value="${gPost.id}" 
-                                     type="text"/>
+                                <label class="form-label" for="id">글
+                                    번호</label> <input class="form-control" id="id"
+                                    name="id" value="${gPost.id}"
+                                    type="text" />
                             </div>
                             <div class="mt-2">
                                 <label class="form-label" for="title">제목</label>
-                                <input class="form-control" id="title" name="title" value="${gPost.title}" type="text" required/>
+                                <input class="form-control" id="title"
+                                    name="title" value="${gPost.title}"
+                                    type="text" required />
                             </div>
-                            <div class="mt-2 d-none" >
+                            <div class="mt-2 d-none">
                                 <label class="form-label" for="nickname">작성자</label>
-                                <input type="text" readonly class="form-control" id="nickname" name="nickname" value="${gPost.nickname}"  disabled>
-                            </div>  
+                                <input type="text" readonly
+                                    class="form-control" id="nickname"
+                                    name="nickname"
+                                    value="${gPost.nickname}" disabled>
+                            </div>
                             <div class="mt-2">
                                 <label class="form-label" for="content">내용</label>
-                                <textarea rows="5" class="form-control" id="content" name="content" >${gPost.content}</textarea>
+                                <textarea rows="5" class="form-control"
+                                    id="content" name="content">${gPost.content}</textarea>
                             </div>
                             <div class="mt-2 d-none">
                                 <label class="form-label" for="createdTime">작성시간</label>
-                                <input class="form-control" type="text" id="createdTime" name="createdTime" 
-                                   value="${gPost.formattedCreatedTime}" readonly/>
+                                <input class="form-control" type="text"
+                                    id="createdTime" name="createdTime"
+                                    value="${gPost.formattedCreatedTime}"
+                                    readonly />
                             </div>
                             <div class="mt-2 d-none">
                                 <label class="form-label" for="modifiedTime">최종수정시간</label>
-                                <input class="form-control" type="text" id="modifiedTime" name="modifiedTime" 
-                                   value="${gPost.formattedModifiedTime}" readonly/>
+                                <input class="form-control" type="text"
+                                    id="modifiedTime" name="modifiedTime"
+                                    value="${gPost.formattedModifiedTime}"
+                                    readonly />
                             </div>
                             <div class="mt-2">
-                                <label class="form-label" for="file" >파일 업로드</label>
-                                <input class="form-control" type="file" id="file"  multiple>
+                                <label class="form-label">첨부파일</label><br />
+                                <ul class="list-group list-group-flush">
+                                    <c:forEach var="images" items="${gImages}">
+                                        <li class="list-group-item">
+                                            <img alt="${images.originName}"                                            
+                                                    class="rounded"
+                                                    src="/running/gpost/uploads/${images.uniqName}"
+                                                    style="width: 50px; height: 50px;">
+                                            <span>${images.originName }</span>
+                                            <input type="button" name="btnDelete" 
+                                                class="rmbtn btn btn-outline-danger btn-sm" value="삭제">
+                                        </li>
+                                    </c:forEach>
+                                </ul>
+                            </div>
+                            <!-- 삭제할 이미지 ID 목록을 저장할 input -->
+                            <input type="hidden" id="deletedImages" name="deletedImages" value=""/>
+                            
+                            <div class="mt-2">
+                                <label class="form-label" for="file">파일
+                                    업로드</label> <input class="form-control"
+                                    type="file" id="file" name="file"
+                                    accept="image/*"
+                                    onchange="previewImage(event)" multiple>
+                                <img id="preview" src="#" alt="미리보기"
+                                    style="display: none; max-width: 100%; height: auto; margin-top: 10px;">
                             </div>
                             <div>
                                 <input class="form-control" type="hidden" id="category" name="category" value="${param.category}">
                             </div>
                         </form>
                     </div>
-<%--                     <c:if test="${signedInUser eq post.author}"> --%>
-                        <div class="card-footer d-flex justify-content-center">
-                            <button id="btnUpdate" class="me-2 btn btn-outline-success">업데이트</button>
-                            <button id="btnDelete" class="btn btn-outline-danger">삭제</button>
-                        </div>
-<%--                     </c:if> --%>
+                    
+                    <%-- TODO: 글 작성자일 때 업데이트와 삭제 버튼이 있어야함. --%>
+                    <%--                     <c:if test="${signedInUser eq post.author}"> --%>
+                    <div class="card-footer d-flex justify-content-center">
+                        <button id="btnUpdate"
+                            class="me-2 btn btn-outline-success">업데이트</button>
+                        <button id="btnDelete"
+                            class="btn btn-outline-danger">삭제</button>
+                    </div>
+                    <%--                     </c:if> --%>
+                    
                 </div>
             </main>
         </div>
-		<!-- Bootstrap JS 링크 -->
+        <!-- Bootstrap JS 링크 -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
                 integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
                 crossorigin="anonymous">

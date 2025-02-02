@@ -21,19 +21,8 @@
 <!--             <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> -->
 <!--             <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.css" rel="stylesheet"> -->
 <!--             <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.js"></script> -->
-	</head>
         <!-- 이미지 미리보기 JavaScript -->
-        <script>
-            function previewImage(event) {
-                var reader = new FileReader();
-                reader.onload = function() {
-                    var output = document.getElementById('preview');
-                    output.src = reader.result;
-                    output.style.display = 'block';
-                };
-                reader.readAsDataURL(event.target.files[0]);
-            }
-        </script>
+	</head>
     
 	<body>
 		        <div class="container-fluid">
@@ -71,9 +60,12 @@
                             <hr />
                             <div class="mt-2">
                                 <label class="form-label" for="file" >파일 업로드</label>
-                                <input class="form-control" type="file" id="file" name="file" accept="image/*" onchange="previewImage(event)">
-                                <img id="preview" src="#" alt="미리보기" style="display: none; max-width: 100%; height: auto; margin-top: 10px;">
+                                <input class="form-control" type="file" id="file" name="file" accept="image/*" multiple>
                             </div>
+                            
+                            <!-- 미리보기 테스트 -->
+                            <ul id="fileList" class="list-group list-group-flush mt-2"></ul>
+                            
                             <div class="mt-2 d-flex justify-content-center">
                                 <div>
                                     <input id="submitPost" type="submit" value="작성완료"
@@ -94,10 +86,10 @@
         </script>
         
         <!-- Axios Http Js-->
-<!--         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> -->
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         
-<%--         <c:url value="/js/gpost_create.js" var="gPostCreateJS" />        --%>
-<%--         <script src="${gPostCreateJS}"></script>  --%>
+        <c:url value="/js/gpost_create.js" var="gPostCreateJS" />       
+        <script src="${gPostCreateJS}"></script> 
         
 <!--          include summernote-ko-KR -->
 <%--         <c:url value="/js/summernote-ko-KR.js" var="langKoKRJS" />  --%>

@@ -56,15 +56,16 @@
                                    value="${gPost.formattedModifiedTime}" readonly/>
                             </div>
                             <div class="mt-2">
-<%--                                 <c:if test="${empty gImages }"> --%>
-<!--                                     <p> 등록된 이미지가 없습니다.</p> -->
-<%--                                 </c:if> --%>
-<%--                                 <c:forEach var="images" items="${gImages}"> --%>
-<%--                                     <img alt="${images.originName}" src="${images.imagePath}"> --%>
-<%--                                 </c:forEach> --%>
+                                <label class="form-label">첨부파일</label><br/>
+                                <ul class="list-group list-group-flush">
                                 <c:forEach var="images" items="${gImages}">
-                                    <img alt="${images.originName}" src="/running/gpost/uploads/${images.uniqName}">
+                                    <li class="list-group-item">
+                                        <img alt="${images.originName}"  class="rounded"  
+                                            src="/running/gpost/uploads/${images.uniqName}" style="width:50px; height:50px;">
+                                        <span>${images.originName }</span>
+                                    </li>
                                 </c:forEach>
+                                </ul>
                             </div>
                         </form>
                     </div>
