@@ -17,15 +17,9 @@
               integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
               crossorigin="anonymous">
               
-        <!-- SummerNote 링크 -->    
-<!--             <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> -->
-<!--             <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.css" rel="stylesheet"> -->
-<!--             <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.js"></script> -->
-        <!-- 이미지 미리보기 JavaScript -->
 	</head>
-    
 	<body>
-		        <div class="container-fluid">
+        <div class="container-fluid">
             <main>
                 <div class="card mt-2">
                     <div class="card-header">
@@ -90,9 +84,5 @@
         
         <c:url value="/js/gpost_create.js" var="gPostCreateJS" />       
         <script src="${gPostCreateJS}"></script> 
-        
-<!--          include summernote-ko-KR -->
-<%--         <c:url value="/js/summernote-ko-KR.js" var="langKoKRJS" />  --%>
-<%--         <script src="${langKoKRJS}"></script> --%>
 	</body>
 </html>

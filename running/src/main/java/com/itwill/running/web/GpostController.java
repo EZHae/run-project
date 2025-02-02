@@ -1,5 +1,7 @@
 package com.itwill.running.web;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,8 @@ import com.itwill.running.dto.GpostUpdateDto;
 import com.itwill.running.service.GimagesService;
 import com.itwill.running.service.GpostService;
 import java.util.UUID;
+import java.util.stream.Collectors;
+
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -96,7 +100,15 @@ public class GpostController {
 	    
 		log.debug("result = {}, create = {}",postId,dto);
 		
-		return "redirect:/gpost/list";
+		// 세션에 저장된 현재 카테고리 값 가져오기
+		Integer currentCategory = (Integer) session.getAttribute("currentCategory");
+		// 만약 세션에 없으면, DTO나 기본값을 사용할 수 없음.
+		if(currentCategory == null) {
+			currentCategory = dto.getCategory(); // dto에 카테고리가 포함되어 있으면
+		}
+		
+		// 해당 카테고리로 리다이렉트
+		return "redirect:/gpost/category?category=" + currentCategory;
 	}
 	
 	
@@ -130,10 +142,35 @@ public class GpostController {
 		}
 		
 	@PostMapping("/update")
-	public String update(GpostUpdateDto dto) {
+	public String update(GpostUpdateDto dto, String deletedImages, 
+			@RequestParam(value = "file", required = false) MultipartFile[] newFiles) throws Exception {
 		
+		// 게시글 업데이트
 		gPostService.updatePost(dto);
 		log.debug("update = {}", dto);
+		
+		// 삭제할 이미지 ID 처리 (쉼표로 구분된 문자열)
+		if(deletedImages != null && !deletedImages.trim().isEmpty()) {
+			
+			List<Integer> imageIds = Arrays.stream(deletedImages.split(","))
+					.filter(s -> !s.trim().isEmpty())
+					.map(String::trim)
+					.map(Integer::valueOf)
+					.collect(Collectors.toList());
+			
+			gimagesService.deleteImages(imageIds);
+			log.debug("삭제할 이미지 ID 목록: {}", imageIds);
+		}
+		
+		if(newFiles != null && newFiles.length > 0) {
+			for(MultipartFile file : newFiles) {
+				if(!file.isEmpty()) {
+					gimagesService.saveImage(file, dto.getId());
+					log.debug("업데이트 된 파일 : {}",file);
+				}
+			}
+		}
+		
 		return "redirect:/gpost/details?id=" + dto.getId();
 	}
 	

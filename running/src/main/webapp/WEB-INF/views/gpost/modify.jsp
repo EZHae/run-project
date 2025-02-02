@@ -17,18 +17,6 @@
               integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
               crossorigin="anonymous">
               
-        <!-- 이미지 미리보기 JavaScript -->
-        <script>
-            function previewImage(event) {
-                var reader = new FileReader();
-                reader.onload = function() {
-                    var output = document.getElementById('preview');
-                    output.src = reader.result;
-                    output.style.display = 'block';
-                };
-                reader.readAsDataURL(event.target.files[0]);
-            }
-        </script>
 	</head>
 	<body>
         <div class="container-fluid">
@@ -38,7 +26,7 @@
                         <h3>${gPost.title}</h3>
                     </div>
                     <div class="card-body">
-                        <form id="modifyForm">
+                        <form id="modifyForm" enctype="multipart/form-data">
                             <div class="d-none">
                                 <label class="form-label" for="id">글
                                     번호</label> <input class="form-control" id="id"
@@ -81,7 +69,7 @@
                                 <label class="form-label">첨부파일</label><br />
                                 <ul class="list-group list-group-flush">
                                     <c:forEach var="images" items="${gImages}">
-                                        <li class="list-group-item">
+                                        <li class="list-group-item" data-image-id="${images.id}">
                                             <img alt="${images.originName}"                                            
                                                     class="rounded"
                                                     src="/running/gpost/uploads/${images.uniqName}"
@@ -94,19 +82,19 @@
                                 </ul>
                             </div>
                             <!-- 삭제할 이미지 ID 목록을 저장할 input -->
-                            <input type="hidden" id="deletedImages" name="deletedImages" value=""/>
+                            <input type="hidden" id="deletedImages" name="deletedImages" value="" />
                             
+                            <!-- 새 이미지 업로드 -->
                             <div class="mt-2">
-                                <label class="form-label" for="file">파일
-                                    업로드</label> <input class="form-control"
-                                    type="file" id="file" name="file"
-                                    accept="image/*"
-                                    onchange="previewImage(event)" multiple>
-                                <img id="preview" src="#" alt="미리보기"
-                                    style="display: none; max-width: 100%; height: auto; margin-top: 10px;">
+                                <label class="form-label" for="file" >파일 업로드</label>
+                                <input class="form-control" type="file" id="file" name="file" accept="image/*" multiple>
                             </div>
+                            <!-- 새 이미지 미리보기 -->
+                            <ul id="newImageList" class="list-group list-group-flush mt-2"></ul>
+                            
+                            <!-- 카테고리 -->
                             <div>
-                                <input class="form-control" type="hidden" id="category" name="category" value="${param.category}">
+                                <input type="hidden" id="category" name="category" value="${param.category}">
                             </div>
                         </form>
                     </div>

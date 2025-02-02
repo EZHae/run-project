@@ -75,12 +75,6 @@ public class GimagesService {
     	return imageUrls;
     }
     
- // 업로드된 이미지의 post_id 업데이트
-    public void updatePostIdForImages(Integer postId) {
-        gImageDao.updateImagesPostId(postId);
-        log.debug("이미지 post_id 업데이트 완료: {}", postId);
-    }
-	
     // 상세보기에서 이미지 가져오기
     public List<Gimages> getImgesByPostId(Integer postId){
     	List<Gimages> gImages = gImageDao.selectImagesByPostId(postId);
@@ -88,9 +82,12 @@ public class GimagesService {
     	return gImages;
     }
     
-    public int deleteImages(Integer id) {
-    	int result = 0;
-    	
-    	return result; 
-    }
+	// 다중 이미지 삭제 처리 메서드
+	public void deleteImages(List<Integer> imageIds) {
+		// DB에서 이미지 삭제
+		gImageDao.deleteImagesById(imageIds);
+		log.debug("이미지 삭제 완료, imageId = {}", imageIds);
+
+		// 필요하다면 파일 시스템에서 실제 파일도 삭제 ?
+	}
 }

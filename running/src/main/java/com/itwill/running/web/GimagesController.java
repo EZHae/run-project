@@ -27,8 +27,8 @@ public class GimagesController {
 	private static final String UPLOAD_DIR  = "C:/upload_data/temp/";
 	
 	private final GimagesService gImageService;
-
-    // 업로드된 이미지 제공 (웹에서 접근 가능하도록)
+	
+    // 업로드된 이미지 제공 (웹에서 접근 가능하도록) - 해당 경로로 웹이 접근하려면 필수적
     @GetMapping("/uploads/{filename}")
     public ResponseEntity<Resource> getImage(@PathVariable String filename) throws IOException {
         Path imagePath = Paths.get(UPLOAD_DIR + filename);
@@ -43,7 +43,4 @@ public class GimagesController {
         		.header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + filename + "\"")
                 .body(resource); // 해당 응답을 바디에 담아서 브라우저에 보냄
     }
-    
-    // 
-    
 }

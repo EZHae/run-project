@@ -21,7 +21,11 @@
         select * from G_IMAGES where post_id = #{postId}
     </select>
     
-    <delete id="deleteImages">
-        delete from G_IMAGES where post_id = #{postId}
+    <delete id="deleteImagesById" parameterType="java.util.List">
+        delete from G_IMAGES 
+        where id in 
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
     </delete>
   </mapper>
