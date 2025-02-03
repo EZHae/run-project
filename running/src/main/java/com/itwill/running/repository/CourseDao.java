@@ -27,9 +27,7 @@ public interface CourseDao {
 	
 	int updateViewCountById(Integer id);
 	
-	//추가 //limit : 한 번에 가져올 데이터의 수, offset : 데이터를 가져올 시작 위치
-	List<Course> readPageWithOffset(int offset, int limit);
+	List<Course> readPageWithOffset(int offset, int limit); //limit : 한 번에 가져올 데이터의 수, offset : 데이터를 가져올 시작 위치
 	
-	//추가
 	int countPosts();
 }
