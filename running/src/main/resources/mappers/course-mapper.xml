@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.itwill.running.repository.CourseDao">
+  	
+  	<!-- Course 객체 생성 -->
+  	<insert id="insertCourse" parameterType="Course" useGeneratedKeys="true" keyColumn="ID" keyProperty="id">
+  		insert into course (title, user_id, nickname, course_name, duration_time, 
+  							content, category, view_count, like_count, created_time, modified_time)
+  		values (#{title}, #{userId}, #{nickname}, #{courseName}, #{durationTime},
+  		 					#{content}, #{category}, 0, 0, systimestamp, systimestamp)
+  	</insert>
+  	
+  	<!-- Course 객체 모두 검색 -->
+  	<select id="selectCourseByAll" resultType="Course">
+  		select * from course order by id desc
+  	</select>
+  	
+  	<!-- Course 객체를 id로 검색 -->
+  	<select id ="selectCourseById" resultType="Course">
+  		select * from course where id = #{id}
+  	</select>
+  	
+  	<!-- 카테고리(추천,리뷰)로 Course 객체 검색 -->
+  	<!-- TODO ?
+  		 나중에 검색을 course_name만 할게 아니라 통합검색으로 한다면 or절 추가하여 검색하게 하기 -->
+  	<select id ="selectCourse" resultType="Course">
+  		select * from course
+  		<where>
+		    <choose>
+				<when test='category == 0 and order == "l"'>
+					category = 0
+						<if test='keyword != null or keyword != ""'>
+  						<bind name="searchKeyword" value="'%' + keyword + '%'"></bind>
+  						and upper(course_name) like upper(#{searchKeyword}) 
+  						</if>
+					order by like_count desc
+				</when>
+				<when test='category == 0 and order == "v"'>
+					category = 0
+						<if test='keyword != null or keyword != ""'>
+  						<bind name="searchKeyword" value="'%' + keyword + '%'"></bind>
+  						and upper(course_name) like upper(#{searchKeyword}) 
+  						</if>
+					order by view_count desc
+				</when>
+				<when test='category == 1 and order == "l"'>
+					category = 1
+						<if test='keyword != null or keyword != ""'>
+  						<bind name="searchKeyword" value="'%' + keyword + '%'"></bind>
+  						and upper(course_name) like upper(#{searchKeyword}) 
+  						</if>
+					order by like_count desc
+				</when>
+				<when test='category == 1 and order == "v"'>
+					category = 1
+						<if test='keyword != null or keyword != ""'>
+  						<bind name="searchKeyword" value="'%' + keyword + '%'"></bind>
+  						and upper(course_name) like upper(#{searchKeyword}) 
+  						</if>
+					order by view_count desc
+				</when>
+			</choose>
+		</where>
+  	</select>
+  	
+  	<!-- Course 객체 수정 -->
+  	<update id="updateCourse">
+  		update Course set title = #{title}, course_name = #{courseName}, duration_time = #{durationTime},
+  						content = #{content}, category = #{category}, modified_time = systimestamp
+        	where id = #{id}
+  	</update>
+  	
+  	<!-- Course 객체 삭제 -->
+  	<delete id="deleteCourseById">
+  		delete from Course where id = #{id}
+  	</delete>
+  	
+  	<!-- 해당 Course글에 좋아요 누른 유저들을 검색 -->
+  	<select id = "selectLikeUserIdByCourseId" resultType="String">
+  		select like_user_id from course_like where course_id = #{courseId}
+  	</select>
+  	
+  	<!-- 코스에 좋아요를 누르면 테이블에 생성될 유저 -->
+  	<insert id="insertCourseLike">
+  		insert into course_like (course_id, like_user_id, created_time, modified_time)
+  			values (#{courseId}, #{likeUserId}, systimestamp, systimestamp)
+  	</insert>
+  	
+  	<!-- 해당 Course글에 좋아요 +1 업데이트 -->
+  	<update id = "updateLikeCountById">
+  		update course set like_count = like_count + 1 where id = #{id}
+  	</update>
+  	
+  	<!-- 해당 Course글을 볼 때 조회수 +1 업데이트 -->
+  	<update id = "updateViewCountById">
+  		update course set view_count = view_count + 1 where id = #{id}
+  	</update>
+
+  </mapper>

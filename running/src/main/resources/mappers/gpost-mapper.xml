@@ -15,22 +15,13 @@
         select * from G_POSTS where id = #{id}
     </select>
     
+    
     <!-- 포스트 새 글작성에 사용할 메서드 이름과 SQL 문장 -->
-    <insert id="insertPost" parameterType="Gpost" useGeneratedKeys="true" keyColumn="ID" keyProperty="id">
+    <insert id="insertPost" parameterType="Gpost" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         insert into G_POSTS (title, user_id, nickname, content, category, view_count, created_time, modified_time)
         values (#{title}, #{userId}, #{nickname}, #{content}, #{category}, #{viewCount}, systimestamp, systimestamp)
     </insert>
-    
 
-
-    <!-- 포스트 이미지 첨부에 사용할 메서드 이름과 SQL 문장 -->
-    <insert id="insertPostImages">
-        insert into G_IMAGES (post_id, origin_name, uniq_name, image_path)
-        values (#{postId}, #{originName}, #{uniqName}, #{imagePath})
-    </insert>
-
-
-    
     <!-- 포스트 업데이트에서 사용할 메서드 이름과 SQL 문장 -->
     <update id="updatePost">
         update G_POSTS 

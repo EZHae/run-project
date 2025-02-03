@@ -16,15 +16,17 @@
 		order siblings by gc.created_time
 	</select>
 
-	<select id="selectByUserId" resultType="GComment">
-		select * from g_comments
-		where user_id=#{user_id} order by id desc
-	</select>
 
-	<select id="selectById" resultType="GComment">
-		select * from g_comments
-		where id=#{id}
-	</select>
+    <select id="selectByUserId" resultType="GComment">
+        select * from g_comments
+        where user_id=#{user_id} order by id desc
+    </select>
+
+    <select id="selectById" resultType="GComment">
+        select * from g_comments
+        where id=#{id}
+    </select>
+
 
 	<select id="isCommentDeletable" resultType="Integer">
 		select case
@@ -41,12 +43,13 @@
 		from dual
 	</select>
 
-	<insert id="insertComment">
-		insert into g_comments (post_id, user_id, nickname,
-		ctext, created_time, modified_time, comment_type, secret, parent_id)
-		values(#{postId}, #{userId}, #{nickname}, #{ctext}, systimestamp,
-		systimestamp, #{commentType}, #{secret}, #{parentId})
-	</insert>
+    <insert id="insertComment">
+        insert into g_comments (post_id, user_id, nickname,
+        ctext, created_time, modified_time, comment_type, secret, parent_id)
+        values(#{postId}, #{userId}, #{nickname}, #{ctext}, systimestamp,
+        systimestamp, #{commentType}, #{secret}, #{parentId})
+    </insert>
+
 
 	<update id="updateComment">
 		update g_comments set ctext=#{ctext},
@@ -71,9 +74,10 @@
 		)
 	</delete>
 
-	<delete id="deleteById">
-		delete from g_comments where id=#{id}
-	</delete>
+
+    <delete id="deleteById">
+        delete from g_comments where id=#{id}
+    </delete>
 
 
 </mapper>

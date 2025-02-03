@@ -1,38 +1,42 @@
 package com.itwill.running.web;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-
-import com.itwill.running.domain.Gimages;
-import com.itwill.running.service.GimagesService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@RestController
 @Slf4j
-@RequestMapping("/api/images")
+@Controller
 @RequiredArgsConstructor
-public class GimagesController {
-	private final GimagesService gImageService;
-	
-	// 이미지 업로드!!!
-	@PostMapping("/gpost/create")
-	public Gimages uploadImages(@RequestParam("uploadFile") MultipartFile file, @RequestParam("postId") Integer postId) throws Exception {
-        
-		return gImageService.uploadFiles(file.getOriginalFilename(), file.getBytes(), postId);
-	}
-	
+@RequestMapping("/gpost")
+public class GimagesController { 
 
+	private static final String UPLOAD_DIR  = "C:/upload_data/temp/";
+	
+    // 업로드된 이미지 제공 (웹에서 접근 가능하도록) - 해당 경로로 웹이 접근하려면 필수적
+    @GetMapping("/uploads/{filename}")
+    public ResponseEntity<Resource> getImage(@PathVariable String filename) throws IOException {
+        Path imagePath = Paths.get(UPLOAD_DIR + filename);
+        Resource resource = new UrlResource(imagePath.toUri());
+
+        // 파일이 존재하고 읽을 수 있는지?
+        if (!resource.exists() || !resource.isReadable()) {
+            throw new RuntimeException("이미지를 불러올 수 없습니다: " + filename);
+        }
+        // 응답 생성
+        return ResponseEntity.ok()
+        		.header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + filename + "\"")
+                .body(resource); // 해당 응답을 바디에 담아서 브라우저에 보냄
+    }
 }

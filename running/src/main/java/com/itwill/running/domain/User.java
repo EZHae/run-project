@@ -16,13 +16,14 @@ public class User {
 	private String password;
 	private String nickname;
 	private String username;
-	private Integer Gender;
+	private Integer gender;
 	private Integer age;
 	private String phonenumber;
 	private String residence;
 	private String email;
 	private Integer authCheck;
 	private Integer imgId;
-	private LocalDateTime createdTime;
-	private LocalDateTime modifiedTime;
+	private LocalDateTime userCreatedTime;
+	private LocalDateTime userAccessTime;
+
 }

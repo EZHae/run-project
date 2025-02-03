@@ -11,10 +11,13 @@
     </settings>
     
     <typeAliases>
+        <typeAlias type="com.itwill.running.domain.User" alias="User"/>
+        <typeAlias type="com.itwill.running.domain.Course" alias="Course"/>
+
         <typeAlias type="com.itwill.running.domain.Gpost" alias="Gpost"/>
         <typeAlias type="com.itwill.running.domain.GComment" alias="GComment"/>
         <typeAlias type="com.itwill.running.domain.Gimages" alias="Gimages"/>
-        <typeAlias type="com.itwill.running.domain.User" alias="User" />
+
     </typeAliases>
     
 </configuration>
