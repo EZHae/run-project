@@ -21,19 +21,19 @@ public class HomeController {
 	public String home(HttpSession session) {
 		log.debug("home()");
 		
-		if (session.getAttribute("signedInUser") == null) {
-			session.setAttribute("signedInUser", "admin1");
+		if (session.getAttribute("signedInUserId") == null) {
+			session.setAttribute("signedInUserId", "admin2");
 			
 			// 로그인할때 signedInUser와 동일한 userId를 검색하고 그 User 객체의 nickname도 세션에 저장
-			String userId = session.getAttribute("signedInUser").toString();
+			String userId = session.getAttribute("signedInUserId").toString();
 			User user = userDao.selectByUserId(userId);
 			String nickname = user.getNickname();
-			session.setAttribute("nickname", nickname);
+			session.setAttribute("signedInUserNickname", nickname);
 			
-			log.debug("signedInUser={}", session.getAttribute("signedInUser").toString());
-			log.debug("nickname={}", nickname);
+			log.debug("signedInUserId={}", session.getAttribute("signedInUserId").toString());
+			log.debug("signedInUserNickname={}", nickname);
 		} else {
-			log.debug("signedInUser={}", session.getAttribute("signedInUser").toString());
+			log.debug("signedInUser={}", session.getAttribute("signedInUserId").toString());
 			
 		}
 		return "home";

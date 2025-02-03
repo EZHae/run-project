@@ -35,8 +35,8 @@
 			<input id="courseName" name="courseName" type="text" value="${course.courseName}" placeholder="코스명" required> <br>
 			<input id="durationTime" name="durationTime" type="text" value="${course.durationTime}" placeholder="소요시간" required> <br>
 			<input id="content" name="content" type="text" value="${course.content}" placeholder="내용" required> <br>
-			<input class="d-none" id ="userId" type="text" name="userId" value="${ signedInUser }" readonly/>
-			<input id ="nickname" type="text" name="nickname" value="${ nickname }" readonly/><br>
+			<input class="d-none" id ="userId" type="text" name="userId" value="${ signedInUserId }" readonly/>
+			<input id ="nickname" type="text" name="nickname" value="${ signedInUserNickname }" readonly/><br>
 			<button type="submit">작성완료</button>
 		</form>
 		

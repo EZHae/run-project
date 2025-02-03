@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.itwill.running.service.GimagesService;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,8 +23,6 @@ import lombok.extern.slf4j.Slf4j;
 public class GimagesController { 
 
 	private static final String UPLOAD_DIR  = "C:/upload_data/temp/";
-	
-	private final GimagesService gImageService;
 	
     // 업로드된 이미지 제공 (웹에서 접근 가능하도록) - 해당 경로로 웹이 접근하려면 필수적
     @GetMapping("/uploads/{filename}")

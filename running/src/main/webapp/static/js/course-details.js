@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const btnDelete = document.querySelector('button#btnDelete');
 	const id = document.querySelector('span#id').innerHTML;
 	console.log(id);
-	console.log(`${signedInUser}`);
+	console.log(`${signedInUserId}`);
 	console.log(`${likeUserIds}`);
 	
 	if (btnDelete !== null) {
@@ -25,17 +25,17 @@ document.addEventListener('DOMContentLoaded', () => {
 	btnLike.addEventListener('click', () => {
 
 		const userId = document.querySelector('span#userId').innerHTML;
-		if (`${signedInUser}` === userId) {
+		if (`${signedInUserId}` === userId) {
 			alert('자신의 글에는 좋아요를 할 수 없습니다.');
 			return;
 		}
 		
-		if (`${signedInUser}` === null || `${signedInUser}` === '') {
+		if (`${signedInUserId}` === null || `${signedInUserId}` === '') {
 			alert('로그인을 해야 좋아요가 가능합니다.');
 			return;
 		}
 		
-		if (`${likeUserIds}`.includes(`${signedInUser}`)) {
+		if (`${likeUserIds}`.includes(`${signedInUserId}`)) {
 			alert('한 글에 좋아요를 두 번 할 수 없습니다.');
 			return;
 		}

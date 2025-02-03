@@ -81,10 +81,8 @@
                 crossorigin="anonymous">
         </script>
         
-
         <!-- Axios Http Js-->
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-        
 
         <c:url value="/js/gpost_create.js" var="gPostCreateJS" />       
         <script src="${gPostCreateJS}"></script> 

@@ -53,21 +53,18 @@ public class CourseController {
 		
 		Course course = courseService.read(id);
 		
-		Object signedInUser = session.getAttribute("signedInUser");
+		Object signedInUserId = session.getAttribute("signedInUserId");
 		String userId = course.getUserId();
 		
-		if (signedInUser != null) {
+		if (signedInUserId != null) {
 			
-			signedInUser = signedInUser.toString();
+			signedInUserId = signedInUserId.toString();
 			
-			/* "/update"에서 이 위의 코드가 필요해서 mapping에 "/update"가 있지만, 
-			 * "/update"에서 접근 했을 때에 조회수가 증가 하는 것을 방지 하기 위하기 위하여 
-			 * [request.getRequestURI().equals("/details")]("/details"에서만 접근했을 때) 조건 추가 */
-			if (request.getRequestURI().equals("/details") && !signedInUser.equals(userId)) {
+			if (!signedInUserId.equals(userId)) {
 				courseService.viewCount(id);	
 			}
 		}
-		log.debug("signedInUser={}", signedInUser);
+		log.debug("signedInUserId={}", signedInUserId);
 		
 		List<String> likeUserIds = courseService.readLikeUserId(id);
 
@@ -98,10 +95,10 @@ public class CourseController {
 	public String likeCourse(@RequestParam Integer id, HttpSession session, Model model) {
 	    log.debug("CourseController::likeCourse()");
 	    
-	    String signedInUser = session.getAttribute("signedInUser").toString();
+	    String signedInUserId = session.getAttribute("signedInUserId").toString();
 
 	    courseService.likeCount(id);
-    	courseService.createCourseLike(id, signedInUser);
+    	courseService.createCourseLike(id, signedInUserId);
 	    String url = "/course/details?id=" + id;
 	    
 	    return "redirect:" + url;

@@ -1,20 +1,15 @@
 package com.itwill.running.web;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import javax.swing.plaf.multi.MultiFileChooserUI;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.itwill.running.domain.Gimages;
@@ -24,8 +19,6 @@ import com.itwill.running.dto.GpostCreateDto;
 import com.itwill.running.dto.GpostUpdateDto;
 import com.itwill.running.service.GimagesService;
 import com.itwill.running.service.GpostService;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;

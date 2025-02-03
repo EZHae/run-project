@@ -35,11 +35,12 @@
 		<span>COURSE.like_count(좋아요 수) = <span>${course.likeCount}</span></span> <br>
 		<span>COURSE.created_time(작성 시간) = <span>${course.createdTime}</span></span> <br>
 		<span>COURSE.modified_time(최종 수정 시간) = <span>${course.modifiedTime}</span></span> <br>
+		
 				
 		<!-- 좋아요 버튼을 js로 처리 -->
 		<button class="btn btn-primary" id="btnLike">좋아요</button> <br>
 		
-		<c:if test="${signedInUser eq course.userId}">
+		<c:if test="${signedInUserId eq course.userId}">
 			<c:url var="courseUpdatePage" value="/course/update">
 				<c:param name="id" value="${course.id}" />
 			</c:url>
@@ -55,7 +56,7 @@
         </script>
         
         <script>
-        const signedInUser = '${signedInUser}';
+        const signedInUserId = '${signedInUserId}';
         const likeUserIds = '${likeUserIds}'.split(',');
         </script>
         <c:url var="detailsJS" value="/js/course-details.js" />
