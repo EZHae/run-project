@@ -4,12 +4,17 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.itwill.running.repository.GCommentDao">
 
-    <select id="selectByPostIdOrderByLevels" resultType="GComment">
-        select *
-        from g_comments where post_id=#{postId}
-        start with parent_id is null connect by prior id=parent_id order siblings
-        by created_time
-    </select>
+	<select id="selectByPostIdOrderByLevels" resultType="GComment">
+		select gc.*, 
+        pu.nickname as parent_nickname  
+		from g_comments gc
+		left join g_comments parent_gc on gc.parent_id = parent_gc.id 
+		left join users pu ON parent_gc.user_id = pu.user_id 
+		where gc.post_id = #{postId}
+		start with gc.parent_id IS NULL
+		connect by prior gc.id = gc.parent_id
+		order siblings by gc.created_time
+	</select>
 
     <select id="selectByUserId" resultType="GComment">
         select * from g_comments
@@ -21,20 +26,20 @@
         where id=#{id}
     </select>
 
-    <select id="isCommentDeletable" resultType="Integer">
-        select case 
-           when exists (
-               select 1
-               from g_comments
-               where parent_id = #{id}            ) and 
-           (select parent_id 
-            from g_comments 
-            where id = #{id}) is null            
-           then 0
-           else 1
-       end as is_valid
-from dual
-    </select>
+	<select id="isCommentDeletable" resultType="Integer">
+		select case
+		when exists (
+		select 1
+		from g_comments
+		where parent_id = #{id} ) and
+		(select parent_id
+		from g_comments
+		where id = #{id}) is null
+		then 0
+		else 1
+		end as is_valid
+		from dual
+	</select>
 
     <insert id="insertComment">
         insert into g_comments (post_id, user_id, nickname,
@@ -43,27 +48,28 @@ from dual
         systimestamp, #{commentType}, #{secret}, #{parentId})
     </insert>
 
-    <update id="updateComment">
-        update g_comments set ctext=#{ctext},
-        secret=#{secret}, modified_time=systimestamp where id=#{id}
-    </update>
-    
-    <update id="updateToUnknown">
-        update g_comments set ctext=#{ctext}, user_id=#{userId}, nickname=#{nickname} where id=#{id}
-    </update>
+	<update id="updateComment">
+		update g_comments set ctext=#{ctext},
+		secret=#{secret}, modified_time=systimestamp where id=#{id}
+	</update>
 
-    <delete id="deleteByPostId">
-        delete from g_comments where post_id=#{postId}
-    </delete>
-    
-    <delete id="deleteUnknownComments">
-        delete from g_comments where user_id = 'unknown'
-        and not exists (
-                select 1
-                from g_comments sub
-                where sub.parent_id = g_comments.id
-                )
-    </delete>
+	<update id="updateToUnknown">
+		update g_comments set ctext=#{ctext},
+		user_id=#{userId}, nickname=#{nickname} where id=#{id}
+	</update>
+
+	<delete id="deleteByPostId">
+		delete from g_comments where post_id=#{postId}
+	</delete>
+
+	<delete id="deleteUnknownComments">
+		delete from g_comments where user_id = 'unknown'
+		and not exists (
+		select 1
+		from g_comments sub
+		where sub.parent_id = g_comments.id
+		)
+	</delete>
 
     <delete id="deleteById">
         delete from g_comments where id=#{id}

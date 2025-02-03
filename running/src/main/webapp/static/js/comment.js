@@ -33,36 +33,56 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    //일반댓글달기
-    function registerComment() {
-        const ctext = document.querySelector("textarea#ctext").value;
-        if (ctext == '') {
-            alert("댓글 내용을 반드시 입력하세요");
-            return;
-        }
-        const secret = document.querySelector("input#secret");
-        let secretType;
-        if (secret.checked) {
-            secretType = 1;
-        }
-        else {
-            secretType = 0;
-        }
-        const data = { postId: postId, ctext: ctext, userId: signedInUserId, nickname: signedInUserNickname, commentType: 0, secret: secretType };
-        axios.post('../api/comment', data).then((response) => {
-            if (response.data === 1) {
-                alert('댓글 1개 등록 성공');
-                document.querySelector('textarea#ctext').value = '';
-                //업데이트된 내용을 보여준다.
-                getALLComments();
-            }
+	//일반댓글달기
+	function registerComment() {
+		const ctext = document.querySelector("textarea#ctext").value;
+		if (ctext == '') {
+			alert("댓글 내용을 반드시 입력하세요");
+			return;
+		}
+		const secret = document.querySelector("input#secret");
+		let secretType;
+		if (secret.checked) {
+			secretType = 1;
+		}
+		else {
+			secretType = 0;
+		}
+		const data = { postId: postId, ctext: ctext, userId: signedInUserId, nickname: signedInUserName, commentType: 0, secret: secretType };
+		axios.post('../api/comment', data).then((response) => {
+			if (response.data === 1) {
+				alert('댓글 1개 등록 성공');
+				document.querySelector('textarea#ctext').value = '';
+				secret.checked=false;
+				//업데이트된 내용을 보여준다.
+				getALLComments();
+			}
 
         }).catch((error) => {
             console.log(error);
         });
     }
 
-
+	
+	//현재시간을 초/분/시로 계산
+	function timeAgo(dateString) {
+	    const date = new Date(dateString);
+	    const now = new Date();
+	    const diffInSeconds = Math.floor((now - date) / 1000);
+	    
+	    if (diffInSeconds < 60) return `${diffInSeconds}초 전`;
+	    
+	    const diffInMinutes = Math.floor(diffInSeconds / 60);
+	    if (diffInMinutes < 60) return `${diffInMinutes}분 전`;
+	    
+	    const diffInHours = Math.floor(diffInMinutes / 60);
+	    if (diffInHours < 24) return `${diffInHours}시간 전`;
+	    
+	    const diffInDays = Math.floor(diffInHours / 24);
+	    if (diffInDays < 30) return `${diffInDays}일 전`;
+	    
+	    return dateString.toISOString().split('T')[0]; // 30일 이상이면 YYYY-MM-DD 형식으로 표시
+	}
 
 
 
@@ -92,11 +112,10 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
 
-            let secretType = ''; //비밀댓글여부 
-            let dnone = ''; //reply버튼이 보이는지 여부
-            let nickname = '';
-            let ctext = '';
-            let imgsrc = '';
+			let secretType = ''; //비밀댓글여부 
+			let dnone = ''; //reply버튼이 보이는지 여부
+			let nickname = '';
+			let ctext = '';
 
             if (comment.secret == 1) {
                 //비밀댓글일때
@@ -111,34 +130,41 @@ document.addEventListener("DOMContentLoaded", () => {
                     dnone = 'd-none'; //reply버튼을 볼 수 없음
                     ctext = '비밀댓글을 볼 권한이 없습니다';
                 }
-
-
-            } else {
-                //비밀댓글이 아닌 일반 댓글일 때
-                secretType = '';
-                dnone = ''; //reply버튼이 보임
-                nickname = comment.nickname; //작성자가보임
-                ctext = comment.ctext; //내용이보임
-            }
-            
-            //TODO: img src 경로, parentId에 연결된 닉네임가져오기
-            axios.get().then().catch();
-            
-            
-            html +=
-                `<img class="rounded-circle shadow-1-strong me-3"
-                    src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(10).webp" alt="avatar" width="65"
-                    height="65" />
-                    <div class="flex-grow-1 flex-shrink-1">
-                    <div>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <p class="mb-1">
-                            ${nickname} <span class="small">- 1 hour ago</span>
-                            <span class="small text-danger">${secretType}</span>
-                                </p>`;
-            if (comment.userId!=='unknown'&&!signedInUserId=='') {
-                html += `<button class="btnReply ${dnone} btn btn-sm" data-id="${comment.id}">답글</button>`;
-            }
+			} else {
+				//비밀댓글이 아닌 일반 댓글일 때
+				secretType = '';
+				dnone = ''; //reply버튼이 보임
+				nickname = comment.nickname; //작성자가보임
+				ctext = comment.ctext; //내용이보임
+			}
+			
+			
+			const date = new Date(
+				//ajax로 받은 createdTime을 localDateTime으로 변환
+			    comment.createdTime[0],      // 연도
+			    comment.createdTime[1] - 1,  // 월 (0부터 시작하므로 1을 빼줘야 올바른 월)
+			    comment.createdTime[2],      // 일
+			    comment.createdTime[3],      // 시
+			    comment.createdTime[4],      // 분
+			    comment.createdTime[5],      // 초
+			    comment.createdTime[6] / 1000000 // 밀리초
+			);
+			const time=timeAgo(date); //원하는 시간포맷으로 변환
+			
+			html +=
+				`<img class="rounded-circle shadow-1-strong me-3"
+					src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(10).webp" alt="avatar" width="65"
+					height="65" />
+					<div class="flex-grow-1 flex-shrink-1">
+					<div>
+						<div class="d-flex justify-content-between align-items-center">
+							<p class="mb-1">
+							${nickname} <span class="small">${time}</span>
+							<span class="small text-danger">${secretType}</span>
+								</p>`;
+			if (comment.userId!=='unknown'&&!signedInUserId=='') {
+				html += `<button class="btnReply ${dnone} btn btn-sm" data-id="${comment.id}">답글</button>`;
+			}
 
             if (signedInUserId == comment.userId) {
                 html += `<button class="btnUpdateComment btn btn-outline-success btn-sm" data-id="${comment.id}">수정</button>
@@ -147,10 +173,9 @@ document.addEventListener("DOMContentLoaded", () => {
             
             html += `</div>`;
 
-            if (!comment.parentId == "") {
-                //TODO: parentNickName을 넣을 것.
-                html += `<span class="sm text-muted h6"><em>@${comment.parentId}</em></span>`;
-            }
+			if (!comment.parentId == "") {
+				html += `<span class="sm text-muted h6"><em>@${comment.parentNickname}</em></span>`;
+			}
 
             html += ` <span class="small mb-0" data-id="${comment.id}">${ctext}</span>
                         </div>
@@ -178,61 +203,69 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
 
-    //댓글수정 버튼 클릭 후
-    function openUpdateComment(event) {
-        const commentId = event.target.getAttribute('data-id'); //수정할댓글의 아이디
-        let ctext='';
-        axios.get(`../api/comment/${commentId}`).then((response)=>{
-            ctext = response.data.ctext.toString();
-            console.log(ctext);
-            
-            const updateSpan = document.querySelector(`span[data-id="${commentId}"]`);
-            let html=`<textarea class="form-control mb-2" id="update-input-${commentId}" rows="2">${ctext}</textarea>
-                      <!-- 댓글 작성 완료 버튼 -->
-                    <button class="btn btn-primary" id="updateCommentButton" data-id="${commentId}">수정</button>
-                    <button class="btn" id="updateCancelButton" data-id="${commentId}">취소</button>
-                    <input class="form-check-input" type="checkbox" id="update-secret-input-${commentId}">
-                    <label class="form-check-label" for="privateCommentCheckbox">
-                    비밀 댓글
-                    </label>`;
-            updateSpan.innerHTML=html;
-            const updateCancelButton = document.querySelector("button#updateCancelButton");
-            updateCancelButton.addEventListener('click', getALLComments);
-            const updateCommentButton = document.querySelector("button#updateCommentButton");
-            updateCommentButton.addEventListener('click', updateComment);
-            
-        }).catch((error)=>{console.log(error);});
-        
-    }
-    
-    //댓글수정
-    function updateComment(event){
-        const commentId = event.target.getAttribute('data-id'); //수정할 댓글의 아이디
-        const ctext = document.querySelector(`textarea[id="update-input-${commentId}"]`);
-        if (ctext.value == '') {
-            alert("수정할 내용을 반드시 입력하세요");
-            return;
-        }
-        const secret = document.getElementById(`update-secret-input-${commentId}`);
-        let secretType;
-        if (secret.checked) {
-            secretType = 1;
-        }
-        else {
-            secretType = 0;
-        }
-        const data = {id:commentId, ctext: ctext.value, secret: secretType};
-        axios.put(`../api/comment/${commentId}`,data).then((response)=>{
-            alert("수정완료");
-            getALLComments();
-        }).catch((error)=>{console.log(error);})
-        
-    }
-    
-    //답글달기 버튼 클릭 후
-    function openReplyCommentForm(event) {
-        const parentId = event.target.getAttribute('data-id'); //답글달 댓글의 아이디
-        const replySection = document.querySelector(`div.replySectoin[id="${parentId}"]`);
+	//댓글수정 버튼 클릭 후
+	function openUpdateComment(event) {
+		const commentId = event.target.getAttribute('data-id'); //수정할댓글의 아이디
+		let ctext='';
+		let secret='';
+		axios.get(`../api/comment/${commentId}`).then((response)=>{
+			ctext = response.data.ctext.toString();
+			secret=response.data.secret.toString();
+			console.log(ctext);
+			
+			const updateSpan = document.querySelector(`span[data-id="${commentId}"]`);
+			let html=`<textarea class="form-control mb-2" id="update-input-${commentId}" rows="2">${ctext}</textarea>
+					  <!-- 댓글 작성 완료 버튼 -->
+					<button class="btn btn-primary" id="updateCommentButton" data-id="${commentId}">수정</button>
+					<button class="btn" id="updateCancelButton" data-id="${commentId}">취소</button>
+					<input class="form-check-input" type="checkbox" id="update-secret-input-${commentId}">
+					<label class="form-check-label" for="privateCommentCheckbox">
+					비밀 댓글
+					</label>`;
+			updateSpan.innerHTML=html;
+			
+			if(secret==1){
+				//기존댓글이 비밀댓글인경우
+				document.getElementById(`update-secret-input-${commentId}`).checked = true;
+			}
+			
+			const updateCancelButton = document.querySelector("button#updateCancelButton");
+			updateCancelButton.addEventListener('click', getALLComments);
+			const updateCommentButton = document.querySelector("button#updateCommentButton");
+			updateCommentButton.addEventListener('click', updateComment);
+			
+		}).catch((error)=>{console.log(error);});
+		
+	}
+	
+	//댓글수정
+	function updateComment(event){
+		const commentId = event.target.getAttribute('data-id'); //수정할 댓글의 아이디
+		const ctext = document.querySelector(`textarea[id="update-input-${commentId}"]`);
+		if (ctext.value == '') {
+			alert("수정할 내용을 반드시 입력하세요");
+			return;
+		}
+		const secret = document.getElementById(`update-secret-input-${commentId}`);
+		let secretType;
+		if (secret.checked) {
+			secretType = 1;
+		}
+		else {
+			secretType = 0;
+		}
+		const data = {id:commentId, ctext: ctext.value, secret: secretType};
+		axios.put(`../api/comment/${commentId}`,data).then((response)=>{
+			alert("수정완료");
+			getALLComments();
+		}).catch((error)=>{console.log(error);})
+		
+	}
+	
+	//답글달기 버튼 클릭 후
+	function openReplyCommentForm(event) {
+		const parentId = event.target.getAttribute('data-id'); //답글달 댓글의 아이디
+		const replySection = document.querySelector(`div.replySectoin[id="${parentId}"]`);
 
         let html = `<div class="reply-container ms-5 mt-3">
             <div class="d-flex flex-start">
