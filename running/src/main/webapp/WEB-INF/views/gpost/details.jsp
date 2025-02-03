@@ -68,6 +68,9 @@
                                                 <img alt="${images.originName}"  class="rounded"  
                                                     src="/running/gpost/uploads/${images.uniqName}" style="width:50px; height:50px;">
                                                 <span>${images.originName }</span>
+                                                
+                                                <!-- 로그인 상태일 때 -->
+                                                <a class="downloadLink" href="${pageContext.request.contextPath}/gpost/download/${images.uniqName}">다운로드</a>
                                             </li>
                                         </c:forEach>
                                         </ul>
@@ -76,7 +79,9 @@
                             </div>
                         </form>
                     </div>
-<%--                     <c:if test=""> --%>
+                    
+                    <!-- 로그인 아이디가 작성자 아이디와 같을 때 수정하기 버튼이 활성화 -->
+                    <c:if test="${signedInUserName eq gPost.userId}">
                     <div class="card-footer">
                         <div class="d-flex justify-content-center">
                             <c:url var="gPostModifyPage" value="/gpost/modify">
@@ -86,7 +91,7 @@
                                 href="${gPostModifyPage}">수정하기</a>
                         </div>
                     </div>
-<%--                     </c:if> --%>
+                    </c:if>
                 </div>
             </main>
 		
@@ -94,7 +99,7 @@
         <!-- comment 작성 -->
       <c:if test="${not empty signedInUserId}">
          <!-- 로그인한 사람만 댓글작성 가능 -->
-      ` <div class="container my-1 py-1">
+         <div class="container my-1 py-1">
             <div class="row d-flex justify-content-center">
                <div class="col-md-12 col-lg-10 col-xl-8">
                   <div class="card">
@@ -138,7 +143,8 @@
       <c:url value="/js/comment.js" var="commentJs" />
       <script src="${commentJs}"></script>
         
-        
+        <c:url value="/js/gpost_details.js" var="gPostDetailsJS" />
+        <script src="${gPostDetailsJS}"></script>
         </div>
 		<!-- Bootstrap JS 링크 -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 

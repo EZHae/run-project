@@ -89,4 +89,9 @@ public class GimagesService {
 
 		// 필요하다면 파일 시스템에서 실제 파일도 삭제 ?
 	}
+	
+	// 파일 다운로드 메서드
+	public Gimages getImageByUniqName(String uniqName) {
+		return gImageDao.selectImageByUniqName(uniqName);
+	}
 }

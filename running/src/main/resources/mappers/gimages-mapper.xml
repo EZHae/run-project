@@ -28,4 +28,8 @@
             #{id}
         </foreach>
     </delete>
+    
+    <select id="selectImageByUniqName" resultType="Gimages" parameterType="string">
+        select * from G_IMAGES where uniq_name = #{uniqName}
+    </select>
   </mapper>
