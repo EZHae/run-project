@@ -100,7 +100,7 @@
                   <div class="card">
                      <div class="card-body">
                         <!-- 댓글 작성 폼 -->
-                        <h5>${signedInUserName}</h5>
+                        <h5>${signedInUserNickname}</h5>
                         <div class="mb-3">
                            <textarea class="form-control" id="ctext" rows="3"
                               placeholder="댓글을 입력하세요..."></textarea>
@@ -127,7 +127,7 @@
          //세션에 저장된 로그인 사용자 아이디를 자바스크립트 변수에 저장.
          //->comment.js 파일의 코드들에서 그 변수를 사용할 수 있도록 하기 위해서
          const signedInUserId = '${signedInUserId}';//문자열 포맷으로 변수를 저장.
-         const signedInUserName = '${signedInUserName}';
+         const signedInUserNickname = '${signedInUserNickname}';
          const postId = '${gPost.id}';
          const postUserId = '${gPost.userId}';
       </script>

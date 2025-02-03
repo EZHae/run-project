@@ -69,14 +69,13 @@ public class GpostController {
 	
 	// 포스트 작성 후 이동 
 	@PostMapping("/create")
-
 	public String create(GpostCreateDto dto, HttpSession session,
 						 Model model, @RequestParam(value = "file", required = false) MultipartFile[] files) throws Exception {
 		
 		// 기본 세션 설정 - 후에 수정할것!!
 	    // 세션에서 닉네임 가져오기
 		String userId = (String) session.getAttribute("signedInUserId");
-	    String nickname = (String) session.getAttribute("signedInUserName");
+	    String nickname = (String) session.getAttribute("signedInUserNickname");
 	    
 	    // DTO에 닉네임 설정
 	    dto.setUserId(userId);

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwill.running.domain.Course;
+import com.itwill.running.dto.CourseCreateDto;
 import com.itwill.running.dto.CourseSearchDto;
 import com.itwill.running.dto.CourseUpdateDto;
 import com.itwill.running.service.CourseService;
@@ -113,12 +114,11 @@ public class CourseController {
 
 	//추가
 	@PostMapping("/create")
-	public String createCourse(Course course, HttpSession session) {
-	    log.debug("POST createCourse(course = {})", course);
+	public String createCourse(CourseCreateDto dto, HttpSession session) {
+	    log.debug("POST createCourse(course = {})", dto);
 
-	    courseService.createCourse(course);
+	    int result = courseService.createCourse(dto);
 	    
-	    int result = course.getId();
 	    log.debug("insertId={}", result);
 	    
 	    String url = "/course/details?id=" + result;

@@ -54,7 +54,6 @@ public class GpostService {
 		Gpost post = gPostDao.selectById(id);
 		return post;
 	}	
-	
 
 	
 	// 포스트 삭제하기 서비스

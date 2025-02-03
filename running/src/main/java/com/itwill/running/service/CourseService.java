@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.itwill.running.domain.Course;
+import com.itwill.running.dto.CourseCreateDto;
 import com.itwill.running.dto.CourseSearchDto;
 import com.itwill.running.dto.CourseUpdateDto;
 import com.itwill.running.repository.CourseDao;
@@ -109,10 +110,14 @@ public class CourseService {
 	}
 	
 	// 사용자가 Course를 생성하는 서비스
-	public int createCourse(Course course) {
+	public int createCourse(CourseCreateDto dto) {
 		log.debug("CourseService::insertCourse");
 		
-		int result = courseDao.insertCourse(course);
+		Course course = dto.toEntity();
+		
+		courseDao.insertCourse(course);
+		
+		int result = course.getId();
 		log.debug("insert result = {}, course = {}", result, course);
 		
 		return result;
