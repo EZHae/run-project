@@ -91,23 +91,52 @@
             </main>
 		
         
-        <%-- TODO: 댓글 --%>
-            <!-- comment section js-->
-            <section class="gradient-custom" id="commentSection">
-            </section>
-            
-            <script>
-               //세션에 저장된 로그인 사용자 아이디를 자바스크립트 변수에 저장.
-               //->comment.js 파일의 코드들에서 그 변수를 사용할 수 있도록 하기 위해서
-               const signedInUser='${signedInUserId}';//문자열 포맷으로 변수를 저장.
-               const postId='${gPost.id}';
-            </script>
-            
-            <!-- Axios Http Js-->
-            <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-            
-            <c:url value="/js/comment.js" var="commentJs" />
-            <script src="${commentJs}"></script>
+        <!-- comment 작성 -->
+      <c:if test="${not empty signedInUserId}">
+         <!-- 로그인한 사람만 댓글작성 가능 -->
+      ` <div class="container my-1 py-1">
+            <div class="row d-flex justify-content-center">
+               <div class="col-md-12 col-lg-10 col-xl-8">
+                  <div class="card">
+                     <div class="card-body">
+                        <!-- 댓글 작성 폼 -->
+                        <h5>${signedInUserName}</h5>
+                        <div class="mb-3">
+                           <textarea class="form-control" id="ctext" rows="3"
+                              placeholder="댓글을 입력하세요..."></textarea>
+                        </div>
+                        <div class="form-check mb-1">
+                           <input class="form-check-input" type="checkbox" id="secret"
+                              name="secret" /> <label class="form-check-label" for="secret">비밀댓글</label>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-sm"
+                           id="btnRegisterComment">댓글 작성</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </c:if>
+
+
+      <!-- comment section js-->
+      <section class="gradient-custom" id="commentSection"></section>
+
+      <script>
+         //세션에 저장된 로그인 사용자 아이디를 자바스크립트 변수에 저장.
+         //->comment.js 파일의 코드들에서 그 변수를 사용할 수 있도록 하기 위해서
+         const signedInUserId = '${signedInUserId}';//문자열 포맷으로 변수를 저장.
+         const signedInUserName = '${signedInUserName}';
+         const postId = '${gPost.id}';
+         const postUserId = '${gPost.userId}';
+      </script>
+
+      <!-- Axios Http Js-->
+      <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+      <c:url value="/js/comment.js" var="commentJs" />
+      <script src="${commentJs}"></script>
         
         
         </div>
