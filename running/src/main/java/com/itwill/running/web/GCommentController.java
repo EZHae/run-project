@@ -32,6 +32,7 @@ public class GCommentController {
 	public ResponseEntity<List<GCommentItemDto>> getAllCommentsByPostId(@PathVariable("postId") Integer postId){
 		log.debug("getAllCommentsByPostId(postId={})",postId);
 		List<GCommentItemDto> list=commentService.readAllByPostId(postId);
+		log.debug("commentList={}",list);
 		return ResponseEntity.ok(list);
 	}
 	
