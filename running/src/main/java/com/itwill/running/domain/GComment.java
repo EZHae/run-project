@@ -22,4 +22,5 @@ public class GComment {
 	private Integer commentType;
 	private Integer secret;
 	private Integer parentId;
+	private String parentNickname;
 }
