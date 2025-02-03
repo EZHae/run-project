@@ -81,7 +81,7 @@
                     </div>
                     
                     <!-- 로그인 아이디가 작성자 아이디와 같을 때 수정하기 버튼이 활성화 -->
-                    <c:if test="${signedInUserName eq gPost.userId}">
+                    <c:if test="${signedInUserNickname eq gPost.userId}">
                     <div class="card-footer">
                         <div class="d-flex justify-content-center">
                             <c:url var="gPostModifyPage" value="/gpost/modify">
@@ -97,23 +97,15 @@
 		
         
         <!-- comment 작성 -->
-      <c:if test="${not empty signedInUserId}">
+      <c:if test="${not empty signedInUserNickname}">
          <!-- 로그인한 사람만 댓글작성 가능 -->
-<<<<<<< HEAD
-         <div class="container my-1 py-1">
-=======
-      ` <div class="container my-1 py-1">
->>>>>>> 5a55b9a0ac3339542ef5bee8a83e846f0597b28d
+        <div class="container my-1 py-1">
             <div class="row d-flex justify-content-center">
                <div class="col-md-12 col-lg-10 col-xl-8">
                   <div class="card">
                      <div class="card-body">
                         <!-- 댓글 작성 폼 -->
-<<<<<<< HEAD
                         <h5>${signedInUserNickname}</h5>
-=======
-                        <h5>${signedInUserName}</h5>
->>>>>>> 5a55b9a0ac3339542ef5bee8a83e846f0597b28d
                         <div class="mb-3">
                            <textarea class="form-control" id="ctext" rows="3"
                               placeholder="댓글을 입력하세요..."></textarea>
@@ -140,11 +132,7 @@
          //세션에 저장된 로그인 사용자 아이디를 자바스크립트 변수에 저장.
          //->comment.js 파일의 코드들에서 그 변수를 사용할 수 있도록 하기 위해서
          const signedInUserId = '${signedInUserId}';//문자열 포맷으로 변수를 저장.
-<<<<<<< HEAD
          const signedInUserNickname = '${signedInUserNickname}';
-=======
-         const signedInUserName = '${signedInUserName}';
->>>>>>> 5a55b9a0ac3339542ef5bee8a83e846f0597b28d
          const postId = '${gPost.id}';
          const postUserId = '${gPost.userId}';
       </script>
@@ -154,10 +142,6 @@
 
       <c:url value="/js/comment.js" var="commentJs" />
       <script src="${commentJs}"></script>
-<<<<<<< HEAD
-=======
-        
->>>>>>> 5a55b9a0ac3339542ef5bee8a83e846f0597b28d
         
         <c:url value="/js/gpost_details.js" var="gPostDetailsJS" />
         <script src="${gPostDetailsJS}"></script>
