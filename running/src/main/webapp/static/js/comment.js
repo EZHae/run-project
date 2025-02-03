@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		else {
 			secretType = 0;
 		}
-		const data = { postId: postId, ctext: ctext, userId: signedInUserId, nickname: signedInUserName, commentType: 0, secret: secretType };
+		const data = { postId: postId, ctext: ctext, userId: signedInUserId, nickname: signedInUserNickname, commentType: 0, secret: secretType };
 		axios.post('../api/comment', data).then((response) => {
 			if (response.data === 1) {
 				alert('댓글 1개 등록 성공');
@@ -238,7 +238,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		            <div>
 		                <div class="d-flex justify-content-between align-items-center">
 		                    <p class="mb-1">
-		                        ${signedInUserName}
+		                        ${signedInUserNickname}
 		                    </p>
 		                </div>
 		                <!-- 댓글 입력 영역 -->
@@ -294,7 +294,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			secretType = 0;
 		}
 		const data = {
-			postId: postId, ctext: replyText, userId: signedInUserId, nickname: signedInUserName, commentType: 1,
+			postId: postId, ctext: replyText, userId: signedInUserId, nickname: signedInUserNickname, commentType: 1,
 			parentId: parentId, secret: secretType
 		};
 		axios.post('../api/comment', data).then((response) => {

@@ -26,4 +26,8 @@ public interface CourseDao {
 	int updateLikeCountById(Integer id);
 	
 	int updateViewCountById(Integer id);
+	
+	List<Course> readPageWithOffset(int offset, int limit); //limit : 한 번에 가져올 데이터의 수, offset : 데이터를 가져올 시작 위치
+	
+	int countPosts();
 }

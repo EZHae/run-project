@@ -70,6 +70,74 @@
 			</div>
 		</c:forEach>
 		
+		<!-- 페이징 처리 -->
+		<div>
+		    <nav aria-label="Page navigation">
+		       <ul class="pagination">
+				    <!-- 맨 처음 페이지 버튼 -->
+				    <li class="page-item">
+				        <c:url var="firstPage" value="/course/list">
+				            <c:param name="offset" value="0"/>
+				            <c:param name="limit" value="${limit}"/>
+				        </c:url>
+				        <a class="page-link" href="${firstPage}" aria-label="First">
+				            <span aria-hidden="true">&laquo;&laquo; First</span>
+				        </a>
+				    </li>
+				    <!-- 이전 페이지 버튼 -->
+				    <c:if test="${offset > 0}">
+				        <li class="page-item">
+				            <c:url var="prevPage" value="/course/list">
+				                <c:param name="offset" value="${offset - limit}"/>
+				                <c:param name="limit" value="${limit}"/>
+				            </c:url>
+				            <a class="page-link" href="${prevPage}" aria-label="Previous">
+				                <span aria-hidden="true">&laquo; Previous</span>
+				            </a>
+				        </li>
+				    </c:if>
+				    <!-- 페이지 번호 버튼 -->
+				    <c:if test="${totalPages != 0 }">
+				    	<c:forEach begin="0" end="${totalPages-1}" var="page">
+				        <li class="page-item ${page * limit == offset ? 'active' : ''}">
+				            <c:url var="pageUrl" value="/course/list">
+				                <c:param name="offset" value="${page * limit}"/>
+				                <c:param name="limit" value="${limit}"/>
+				            </c:url>
+				            <a class="page-link" href="${pageUrl}">
+				                ${page + 1}
+				            </a>
+				        </li>
+				    </c:forEach>
+				    </c:if>
+				   
+				    
+				    <!-- 다음 페이지 버튼 -->
+				    <c:if test="${offset + limit < totalPosts}">
+				        <li class="page-item">
+				            <c:url var="nextPage" value="/course/list">
+				                <c:param name="offset" value="${offset + limit}"/>
+				                <c:param name="limit" value="${limit}"/>
+				            </c:url>
+				            <a class="page-link" href="${nextPage}" aria-label="Next">
+				                <span aria-hidden="true">Next &raquo;</span>
+				            </a>
+				        </li>
+				    </c:if>
+				    <!-- 맨 마지막 페이지 버튼 -->
+				    <li class="page-item">
+				        <c:url var="lastPage" value="/course/list">
+				            <c:param name="offset" value="${(totalPages - 1) * limit}"/>
+				            <c:param name="limit" value="${limit}"/>
+				        </c:url>
+				        <a class="page-link" href="${lastPage}" aria-label="Last">
+				            <span aria-hidden="true">Last &raquo;&raquo;</span>
+				        </a>
+				    </li>
+				</ul>			       
+		    </nav>
+		</div>
+		
 		<!-- Bootstrap JS 링크 -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
                 integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 

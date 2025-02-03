@@ -97,5 +97,15 @@
   	<update id = "updateViewCountById">
   		update course set view_count = view_count + 1 where id = #{id}
   	</update>
+  	
+  	<!-- offset (페이징처리) // limit : 한 번에 가져올 데이터의 수, offset : 데이터를 가져올 시작 위치-->
+  	<select id="readPageWithOffset" parameterType="map" resultType="Course">
+		select * from (select a.*, ROWNUM rnum from (select * from course order by id desc) a where ROWNUM &lt;= #{offset} + #{limit}) where rnum &gt; #{offset}
+	</select>
+	
+	<!-- 총 게시글 갯수 (페이징처리) -->
+	<select id="countPosts" resultType="int">
+		select count(*) from course
+	</select>
 
   </mapper>
