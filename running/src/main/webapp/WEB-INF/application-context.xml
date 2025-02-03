@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:context="http://www.springframework.org/schema/context" 
-    xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
         http://mybatis.org/schema/mybatis-spring https://mybatis.org/schema/mybatis-spring.xsd">
+
 
     <!-- bean definitions here: bean(Model)
          스프링 프레임워크에서 생성하고 관리할 자바 객체들을 선언 
@@ -15,7 +16,7 @@
     <!-- HikariConfig bean 생성을 위한 설정 -->
     <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
         <property name="driverClassName" value="oracle.jdbc.OracleDriver" />
-        <property name="jdbcUrl" value="jdbc:oracle:thin:@1.1.1.33:1521:xe" />
+        <property name="jdbcUrl" value="jdbc:oracle:thin:@192.168.14.1:1521:xe" />
         <property name="username" value="run" />
         <property name="password" value="run" />
     </bean>
@@ -25,6 +26,10 @@
         <constructor-arg ref="hikariConfig" />
     </bean>
     
+    <!-- MULTIPART RESOLVERS -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver" />
+	
+	
     <!-- SqlSessionFactoryBean bean 생성을 위한 설정 
          영속성 프레임워크인 MyBatis에서 데이터 소스(커넥션 풀)을 이용해서 SQL 문장을 실행하고, 
          그 결과를 처리해서 리턴할 수 있는 객체.-->
