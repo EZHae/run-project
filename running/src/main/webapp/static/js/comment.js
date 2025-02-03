@@ -52,6 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			if (response.data === 1) {
 				alert('댓글 1개 등록 성공');
 				document.querySelector('textarea#ctext').value = '';
+				secret.checked=false;
 				//업데이트된 내용을 보여준다.
 				getALLComments();
 			}
@@ -61,7 +62,26 @@ document.addEventListener("DOMContentLoaded", () => {
 		});
 	}
 
-
+	
+	//현재시간을 초/분/시로 계산
+	function timeAgo(dateString) {
+	    const date = new Date(dateString);
+	    const now = new Date();
+	    const diffInSeconds = Math.floor((now - date) / 1000);
+	    
+	    if (diffInSeconds < 60) return `${diffInSeconds}초 전`;
+	    
+	    const diffInMinutes = Math.floor(diffInSeconds / 60);
+	    if (diffInMinutes < 60) return `${diffInMinutes}분 전`;
+	    
+	    const diffInHours = Math.floor(diffInMinutes / 60);
+	    if (diffInHours < 24) return `${diffInHours}시간 전`;
+	    
+	    const diffInDays = Math.floor(diffInHours / 24);
+	    if (diffInDays < 30) return `${diffInDays}일 전`;
+	    
+	    return dateString.toISOString().split('T')[0]; // 30일 이상이면 YYYY-MM-DD 형식으로 표시
+	}
 
 
 
@@ -91,7 +111,6 @@ document.addEventListener("DOMContentLoaded", () => {
 			let dnone = ''; //reply버튼이 보이는지 여부
 			let nickname = '';
 			let ctext = '';
-			let imgsrc = '';
 
 			if (comment.secret == 1) {
 				//비밀댓글일때
@@ -116,9 +135,18 @@ document.addEventListener("DOMContentLoaded", () => {
 				ctext = comment.ctext; //내용이보임
 			}
 			
-			//TODO: img src 경로, parentId에 연결된 닉네임가져오기
-			axios.get().then().catch();
 			
+			const date = new Date(
+				//ajax로 받은 createdTime을 localDateTime으로 변환
+			    comment.createdTime[0],      // 연도
+			    comment.createdTime[1] - 1,  // 월 (0부터 시작하므로 1을 빼줘야 올바른 월)
+			    comment.createdTime[2],      // 일
+			    comment.createdTime[3],      // 시
+			    comment.createdTime[4],      // 분
+			    comment.createdTime[5],      // 초
+			    comment.createdTime[6] / 1000000 // 밀리초
+			);
+			const time=timeAgo(date); //원하는 시간포맷으로 변환
 			
 			html +=
 				`<img class="rounded-circle shadow-1-strong me-3"
@@ -128,7 +156,7 @@ document.addEventListener("DOMContentLoaded", () => {
 					<div>
 						<div class="d-flex justify-content-between align-items-center">
 							<p class="mb-1">
-							${nickname} <span class="small">- 1 hour ago</span>
+							${nickname} <span class="small">${time}</span>
 							<span class="small text-danger">${secretType}</span>
 								</p>`;
 			if (comment.userId!=='unknown'&&!signedInUserId=='') {
@@ -143,8 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			html += `</div>`;
 
 			if (!comment.parentId == "") {
-				//TODO: parentNickName을 넣을 것.
-				html += `<span class="sm text-muted h6"><em>@${comment.parentId}</em></span>`;
+				html += `<span class="sm text-muted h6"><em>@${comment.parentNickname}</em></span>`;
 			}
 
 			html += ` <span class="small mb-0" data-id="${comment.id}">${ctext}</span>
@@ -177,8 +204,10 @@ document.addEventListener("DOMContentLoaded", () => {
 	function openUpdateComment(event) {
 		const commentId = event.target.getAttribute('data-id'); //수정할댓글의 아이디
 		let ctext='';
+		let secret='';
 		axios.get(`../api/comment/${commentId}`).then((response)=>{
 			ctext = response.data.ctext.toString();
+			secret=response.data.secret.toString();
 			console.log(ctext);
 			
 			const updateSpan = document.querySelector(`span[data-id="${commentId}"]`);
@@ -191,6 +220,12 @@ document.addEventListener("DOMContentLoaded", () => {
 					비밀 댓글
 					</label>`;
 			updateSpan.innerHTML=html;
+			
+			if(secret==1){
+				//기존댓글이 비밀댓글인경우
+				document.getElementById(`update-secret-input-${commentId}`).checked = true;
+			}
+			
 			const updateCancelButton = document.querySelector("button#updateCancelButton");
 			updateCancelButton.addEventListener('click', getALLComments);
 			const updateCommentButton = document.querySelector("button#updateCommentButton");

@@ -24,13 +24,14 @@ public class GCommentItemDto {
 	private Integer commentType;
 	private Integer secret;
 	private Integer parentId;
+	private String parentNickname;
 	
 	public static GCommentItemDto fromEntity(GComment comment) {
 		if(comment!=null) {
 			return GCommentItemDto.builder().id(comment.getId()).ctext(comment.getCtext()).postId(comment.getPostId())
 					.userId(comment.getUserId()).nickname(comment.getNickname()).createdTime(comment.getCreatedTime())
 					.modifiedTime(comment.getModifiedTime()).commentType(comment.getCommentType()).secret(comment.getSecret())
-					.parentId(comment.getParentId()).build();
+					.parentId(comment.getParentId()).parentNickname(comment.getParentNickname()).build();
 		}else {
 			return null;
 		}

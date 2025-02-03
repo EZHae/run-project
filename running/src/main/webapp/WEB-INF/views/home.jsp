@@ -19,6 +19,9 @@
                 crossorigin="anonymous">
 	</head>
 	<body>
+		<div class="container-fluid">
+            <c:set var="pageTitle" value="홈페이지" />
+        </div>
 		<h1>Running Home</h1>
         <c:url var="gPostListPage" value="/gpost/list" /> 
         <a href="${gPostListPage}">목록</a>
