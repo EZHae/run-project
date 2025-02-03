@@ -13,7 +13,19 @@
   
     <update id="updateImagesPostId">
         update G_IMAGES
-        set post_id = #{post_id}
+        set post_id = #{postId}
         where post_id is null
     </update>
+    
+    <select id="selectImagesByPostId" parameterType="integer" resultType="Gimages">
+        select * from G_IMAGES where post_id = #{postId}
+    </select>
+    
+    <delete id="deleteImagesById" parameterType="java.util.List">
+        delete from G_IMAGES 
+        where id in 
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
   </mapper>

@@ -17,26 +17,9 @@
               integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
               crossorigin="anonymous">
               
-        <!-- SummerNote 링크 -->    
-<!--             <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> -->
-<!--             <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.css" rel="stylesheet"> -->
-<!--             <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.js"></script> -->
 	</head>
-        <!-- 이미지 미리보기 JavaScript -->
-        <script>
-            function previewImage(event) {
-                var reader = new FileReader();
-                reader.onload = function() {
-                    var output = document.getElementById('preview');
-                    output.src = reader.result;
-                    output.style.display = 'block';
-                };
-                reader.readAsDataURL(event.target.files[0]);
-            }
-        </script>
-    
 	<body>
-		        <div class="container-fluid">
+        <div class="container-fluid">
             <main>
                 <div class="card mt-2">
                     <div class="card-header">
@@ -69,24 +52,16 @@
                                 <input type="text" readonly class="form-control" id="nickname" name="nickname" 
                                     value="<%= session.getAttribute("signedInUserName") %>">
                             </div>  
-<<<<<<< HEAD
-                                
-                            <div class="mt-2">
-                                <label class="form-label" for="uploadFile" >파일 업로드</label>
-                                <input class="form-control" type="file" id="uploadFile" onchange="previewImage(event);" name="uploadFile" multiple>
-                            </div>
-                            <div class="mt-2">
-                            	<img id="preview" src="" alt="image Preview" style="display: none; width: 200px;
-                                	height:200px; margin-top:10px;"/>
-                            </div>
-=======
->>>>>>> 20a057f85b87239e64a12cbfcb73cb4fd735904f
+
                             <hr />
                             <div class="mt-2">
                                 <label class="form-label" for="file" >파일 업로드</label>
-                                <input class="form-control" type="file" id="file" name="file" accept="image/*" onchange="previewImage(event)">
-                                <img id="preview" src="#" alt="미리보기" style="display: none; max-width: 100%; height: auto; margin-top: 10px;">
+                                <input class="form-control" type="file" id="file" name="file" accept="image/*" multiple>
                             </div>
+                            
+                            <!-- 미리보기 테스트 -->
+                            <ul id="fileList" class="list-group list-group-flush mt-2"></ul>
+                            
                             <div class="mt-2 d-flex justify-content-center">
                                 <div>
                                     <input id="submitPost" type="submit" value="작성완료"
@@ -106,29 +81,13 @@
                 crossorigin="anonymous">
         </script>
         
-<<<<<<< HEAD
-        <script>
-        	function previewImage(event){
-        		var reader=new FileReader();
-        		reader.onload=function(){
-        			var output = document.getElementById('preview');
-        			output.src=reader.result;
-        			output.style.display='block';
-        		};
-        		reader.readAsDataURL(event.target.files[0]);
-        	}
-        </script>
-        
-=======
+
         <!-- Axios Http Js-->
-<!--         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> -->
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         
-<%--         <c:url value="/js/gpost_create.js" var="gPostCreateJS" />        --%>
-<%--         <script src="${gPostCreateJS}"></script>  --%>
-        
-<!--          include summernote-ko-KR -->
-<%--         <c:url value="/js/summernote-ko-KR.js" var="langKoKRJS" />  --%>
-<%--         <script src="${langKoKRJS}"></script> --%>
->>>>>>> 20a057f85b87239e64a12cbfcb73cb4fd735904f
+
+        <c:url value="/js/gpost_create.js" var="gPostCreateJS" />       
+        <script src="${gPostCreateJS}"></script> 
+
 	</body>
 </html>

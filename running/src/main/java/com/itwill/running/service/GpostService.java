@@ -3,6 +3,7 @@ package com.itwill.running.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.itwill.running.domain.Gpost;
 import com.itwill.running.dto.GpostCategoryDto;
@@ -16,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @RequiredArgsConstructor // final 필드 초기화 생성자
+@Transactional
 public class GpostService {
 	
 	private final GpostDao gPostDao;
@@ -40,10 +42,10 @@ public class GpostService {
 	
 	// 포스트 생성 서비스
 	public Integer create(GpostCreateDto dto) {
+		Gpost post = dto.toEntity(); 
+		gPostDao.insertPost(post);
 		
-		Integer result = gPostDao.insertPost(dto.toEntity());
-		
-		return result;
+		return post.getId();
 	}
 	
 	// 포스트 상세보기 서비스

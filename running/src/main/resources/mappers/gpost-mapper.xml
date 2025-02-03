@@ -17,7 +17,7 @@
     
     
     <!-- 포스트 새 글작성에 사용할 메서드 이름과 SQL 문장 -->
-    <insert id="insertPost" parameterType="com.itwill.running.domain.Gimages" useGeneratedKeys="true" keyColumn="ID" keyProperty="id">
+    <insert id="insertPost" parameterType="Gpost" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         insert into G_POSTS (title, user_id, nickname, content, category, view_count, created_time, modified_time)
         values (#{title}, #{userId}, #{nickname}, #{content}, #{category}, #{viewCount}, systimestamp, systimestamp)
     </insert>
