@@ -125,6 +125,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
                     deletedList.push(imageId);
                 }
                 hiddenInput.value = deletedList.join(",");
+                // 수정
             }
         });
     });

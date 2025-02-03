@@ -57,15 +57,22 @@
                             </div>
                             <div class="mt-2">
                                 <label class="form-label">첨부파일</label><br/>
-                                <ul class="list-group list-group-flush">
-                                <c:forEach var="images" items="${gImages}">
-                                    <li class="list-group-item">
-                                        <img alt="${images.originName}"  class="rounded"  
-                                            src="/running/gpost/uploads/${images.uniqName}" style="width:50px; height:50px;">
-                                        <span>${images.originName }</span>
-                                    </li>
-                                </c:forEach>
-                                </ul>
+                                <c:choose>
+                                    <c:when test="${empty gImages}">
+                                        <p>파일이 없습니다.</p>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <ul class="list-group list-group-flush">
+                                        <c:forEach var="images" items="${gImages}">
+                                            <li class="list-group-item">
+                                                <img alt="${images.originName}"  class="rounded"  
+                                                    src="/running/gpost/uploads/${images.uniqName}" style="width:50px; height:50px;">
+                                                <span>${images.originName }</span>
+                                            </li>
+                                        </c:forEach>
+                                        </ul>
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
                         </form>
                     </div>

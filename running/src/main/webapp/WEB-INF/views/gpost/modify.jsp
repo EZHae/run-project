@@ -67,19 +67,26 @@
                             </div>
                             <div class="mt-2">
                                 <label class="form-label">첨부파일</label><br />
-                                <ul class="list-group list-group-flush">
-                                    <c:forEach var="images" items="${gImages}">
-                                        <li class="list-group-item" data-image-id="${images.id}">
-                                            <img alt="${images.originName}"                                            
-                                                    class="rounded"
-                                                    src="/running/gpost/uploads/${images.uniqName}"
-                                                    style="width: 50px; height: 50px;">
-                                            <span>${images.originName }</span>
-                                            <input type="button" name="btnDelete" 
-                                                class="rmbtn btn btn-outline-danger btn-sm" value="삭제">
-                                        </li>
-                                    </c:forEach>
-                                </ul>
+                                <c:choose>
+                                    <c:when test="${empty gImages}">
+                                        <p>파일이 없습니다.</p>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <ul class="list-group list-group-flush">
+                                            <c:forEach var="images" items="${gImages}">
+                                                <li class="list-group-item" data-image-id="${images.id}">
+                                                    <img alt="${images.originName}"                                            
+                                                            class="rounded"
+                                                            src="/running/gpost/uploads/${images.uniqName}"
+                                                            style="width: 50px; height: 50px;">
+                                                    <span>${images.originName }</span>
+                                                    <input type="button" name="btnDelete" 
+                                                        class="rmbtn btn btn-outline-danger btn-sm" value="삭제">
+                                                </li>
+                                            </c:forEach>
+                                        </ul>
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
                             <!-- 삭제할 이미지 ID 목록을 저장할 input -->
                             <input type="hidden" id="deletedImages" name="deletedImages" value="" />

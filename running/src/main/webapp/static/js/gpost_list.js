@@ -11,4 +11,4 @@ function setCategory(category) {
     // 폼 자동 제출
     document.getElementById('searchForm').submit();
 }
-     
+     // 수정
