@@ -39,7 +39,6 @@
 			<input id ="nickname" type="text" name="nickname" value="${ signedInUserNickname }" readonly/><br>
 			<button type="submit">작성완료</button>
 		</form>
-		
 	
 		
 		<!-- Bootstrap JS 링크 -->

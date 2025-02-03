@@ -107,5 +107,4 @@
 	<select id="countPosts" resultType="int">
 		select count(*) from course
 	</select>
-
   </mapper>

@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 
 <!DOCTYPE html>
 <html>
@@ -97,6 +99,7 @@
 				        </li>
 				    </c:if>
 				    <!-- 페이지 번호 버튼 -->
+
 				    <c:if test="${totalPages != 0 }">
 				    	<c:forEach begin="0" end="${totalPages-1}" var="page">
 				        <li class="page-item ${page * limit == offset ? 'active' : ''}">
@@ -111,7 +114,6 @@
 				    </c:forEach>
 				    </c:if>
 				   
-				    
 				    <!-- 다음 페이지 버튼 -->
 				    <c:if test="${offset + limit < totalPosts}">
 				        <li class="page-item">

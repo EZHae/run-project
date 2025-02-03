@@ -47,7 +47,7 @@ public class CourseController {
 		model.addAttribute("courses", courses);
 
 		// 총 게시글 수 가져오기
-		int totalPosts = courses.size();
+		int totalPosts = courseService.countPosts();
 
 		int totalPages = (int) Math.ceil((double) totalPosts / limit);
 		model.addAttribute("totalPosts", totalPosts);
@@ -69,7 +69,11 @@ public class CourseController {
 		model.addAttribute("totalPosts", totalPosts);
 		model.addAttribute("totalPages", totalPages);
 		model.addAttribute("courses", courses);
-
+		model.addAttribute("offset", offset);
+		model.addAttribute("limit", limit);
+		model.addAttribute("category",dto.getCategory());
+		model.addAttribute("keyword",dto.getKeyword());
+		model.addAttribute("order",dto.getOrder());
 		return "/course/list";
 	}
 
@@ -130,14 +134,12 @@ public class CourseController {
 		return "redirect:" + url;
 	}
 
-	// 추가
 	@GetMapping("/create")
 	public void create(HttpSession session, Model model) {
 		log.debug("GET create()");
 
 	}
 
-	// 추가
 	@PostMapping("/create")
 	public String createCourse(CourseCreateDto dto, HttpSession session) {
 		log.debug("POST createCourse(course = {})", dto);
