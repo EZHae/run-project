@@ -118,4 +118,26 @@ public class CourseService {
 		return result;
 	}
 	
+	//추가 
+	// 페이징 처리 메서드
+	public List<Course> readPageWithOffset(int offset, int limit) {
+        log.debug("CourseService::readPageWithOffset()");
+        
+        List<Course> courses = courseDao.readPageWithOffset(offset, limit);
+        log.debug("# of readPageWithOffset() result = {}", courses.size());
+        
+        return courses;
+    }
+	
+	//추가
+    // 총 게시글 수를 가져오는 메서드
+    public int countPosts() {
+        log.debug("CourseService::countPosts()");
+        
+        int count = courseDao.countPosts();
+        log.debug("countPosts() result = {}", count);
+        
+        return count;
+    }
+	
 }
