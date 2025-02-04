@@ -17,6 +17,8 @@
         <typeAlias type="com.itwill.running.domain.Gpost" alias="Gpost"/>
         <typeAlias type="com.itwill.running.domain.GComment" alias="GComment"/>
         <typeAlias type="com.itwill.running.domain.Gimages" alias="Gimages"/>
+        
+        <typeAlias type="com.itwill.running.domain.TCalendar" alias="TCalendar"/>
 
     </typeAliases>
     

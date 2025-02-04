@@ -33,6 +33,7 @@
         
         <c:url var="fileTestPage" value="/gpost/uploadForm" />
         <a href="${fileTestPage}"> 파일</a>
+    
         
 
 		<!-- Bootstrap JS 링크 -->

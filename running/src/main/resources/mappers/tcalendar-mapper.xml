@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.itwill.running.repository.TCalendarDao">
+  	<!-- 일정 게시판 목록 보기 -->
+  	<select id="selectTCalendarOrderByIdDesc" resultType="TCalendar">
+  		select * from T_Calendars where team_id = #{teamId} order by id desc
+  	</select>
+  	
+  	<!-- 일정 글 상세보기 -->
+  	<select id="selectTCalendartById" resultType="TCalendar">
+  		select * from T_Calendars where id = #{id} and team_id = #{teamId}
+  	</select>
+  	
+  	<!-- 일정 새글 작성 -->
+  	<insert id="insertTCalendar">
+  		insert into T_Calendars (team_id, title, user_id, nickname, date_time, content, current_num, max_num, created_time, modified_time) 
+  		values (#{teamId}, #{title}, #{userId}, #{nickname}, #{dateTime}, #{content}, #{currentNum}, #{maxNum}, systimestamp, systimestamp)
+  	</insert>
+  	
+  	<!-- 일정 글 업데이트(최대인원수만 올릴 수 있음) -->
+  	
+  	<!-- 일정 글 삭제 -->
+  	
+  	<!-- 콤보박스와 키워드로 검색? -->
+  </mapper>
