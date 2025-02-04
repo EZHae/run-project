@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.itwill.running.repository.TPostDao">
+	<select id="selectTPostByAll" resultType="TPost">
+		select * from t_posts order by id desc
+	</select>
+	
+	<select id="selectTPostById" resultType="TPost">
+		select * from t_posts where id = #{id}
+	</select>
+	
+	<insert id="insertTPost" parameterType="TPost" useGeneratedKeys="true" keyColumn="ID" keyProperty="id">
+		insert into t_posts (team_id, user_id, title, nickname, content, created_time, modified_time)
+			values (#{teamId}, #{userId}, #{title}, #{nickname}, #{content}, systimestamp, systimestamp)
+	</insert>
+	
+	<delete id="deleteTPostById">
+		delete from t_posts where id = #{id}
+	</delete>
+</mapper>

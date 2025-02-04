@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.itwill.running.repository.TeamDao">
+	<select id="selectTeamByAll" resultType="Team">
+		select * from teams order by team_id desc
+	</select>
+	
+	<select id="selectTeamByTeamId" resultType="Team">
+		select * from teams where team_id = #{teamId}
+	</select>
+</mapper>
