@@ -32,10 +32,10 @@ public class CourseController {
 //	public void list(Model model) {
 //		log.debug("CourseController::list()");
 //		
-//		List<Course> courses = courseService.readPageWithOffset(offset, limit);
+//		List<Course> courses = courseService.read();
+//		
 //		model.addAttribute("courses", courses);
 //	}
-	// 수정
 	@GetMapping("/list") // 페이징처리에 관해서 정확한 url 맵핑을 하기위해 void가 아닌 String으로
 	public String list(@RequestParam(defaultValue = "0") int offset, // offset : 데이터를 가져올 시작 위치
 			@RequestParam(defaultValue = "10") int limit, // limit : 한 번에 가져올 데이터의 수
@@ -52,7 +52,6 @@ public class CourseController {
 		int totalPages = (int) Math.ceil((double) totalPosts / limit);
 		model.addAttribute("totalPosts", totalPosts);
 		model.addAttribute("totalPages", totalPages);
-
 		model.addAttribute("offset", offset);
 		model.addAttribute("limit", limit);
 
@@ -60,20 +59,32 @@ public class CourseController {
 	}
 
 	@GetMapping("/search")
-	public String search(@RequestParam(defaultValue = "10") int limit,@RequestParam(defaultValue = "0") int offset, Model model, CourseSearchDto dto) {
+	public String search(@RequestParam(defaultValue = "10") int limit,
+						 @RequestParam(defaultValue = "0") int offset, 
+						 Model model,
+						 HttpServletRequest request,
+						 CourseSearchDto dto) {
 		log.debug("CourseController::search()");
 
 		List<Course> courses = courseService.read(dto);
+		
 		int totalPosts = courses.size();
 		int totalPages = (int) Math.ceil((double) totalPosts / limit);
-		model.addAttribute("totalPosts", totalPosts);
-		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("totalPosts", totalPosts); //게시글 전체 수
+		model.addAttribute("totalPages", totalPages); // 페이지 수 
 		model.addAttribute("courses", courses);
-		model.addAttribute("offset", offset);
-		model.addAttribute("limit", limit);
-		model.addAttribute("category",dto.getCategory());
-		model.addAttribute("keyword",dto.getKeyword());
-		model.addAttribute("order",dto.getOrder());
+		model.addAttribute("offset", offset); //데이터를 가져올 시작 위치
+		model.addAttribute("limit", limit); //한번에 가져올 데이터 갯수
+		
+		model.addAttribute("category",dto.getCategory()); // 추천순 or 리뷰순
+		model.addAttribute("keyword",dto.getKeyword()); //keyword 입력
+		model.addAttribute("order",dto.getOrder()); //조회수순 or 좋아요순
+		
+		//////
+		String search = request.getRequestURI();
+		model.addAttribute("type", search);
+		log.debug("type={}", search);
+		
 		return "/course/list";
 	}
 
