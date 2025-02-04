@@ -51,8 +51,8 @@ public class GpostController {
 
 	    log.debug("GpostCategoryDto: {}", dto);
 	    
-	    //현재 카테고리 값을 저장
-	    session.setAttribute("currentCategory", dto.getCategory());
+//	    //현재 카테고리 값을 저장
+//	    session.setAttribute("currentCategory", dto.getCategory());
 	    
 	    //카테고리 게시글 목록을 조회
 	    List<Gpost> list = gPostService.readByCategorySearch(dto);

@@ -43,8 +43,7 @@
                             </div>
                             <div class="mt-2">
                                 <label class="form-label" for="content">내용</label>
-                                <textarea rows="5" class="form-control" id="content" name="content" required >
-                                </textarea>
+                                <textarea rows="5" class="form-control" id="content" name="content" required ></textarea>
                             </div>
                             <%-- 세션 수정 --%>
                             <div class="mt-2 d-none">

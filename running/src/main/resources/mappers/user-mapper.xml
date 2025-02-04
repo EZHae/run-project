@@ -8,4 +8,24 @@
   		select * from users where user_id = #{userId}
   	</select>
   
+  
+    <insert id="insertUser" parameterType="User" useGeneratedKeys="true">
+        insert into users (user_id, password, nickname, username, gender, age, 
+                           phonenumber, residence, email, auth_check, img_id, user_created_time, user_access_time)
+                           
+        values (#{userId}, #{password}, #{nickname}, #{username}, #{gender}, #{age},
+                #{phonenumber}, #{residence}, #{email}, #{authCheck}, #{imgId}, systimestamp, systimestamp)
+    
+    </insert>
+    
+    <select id="selectByUserIdAndPassword" resultType="User">
+        select * from users 
+        where user_id = #{userId} and password = #{password}
+    </select>
+    
+    <update id="updateByImgId">
+        update users
+        set img_id = #{imgId}
+        where user_id = #{userId}
+    </update>
   </mapper>

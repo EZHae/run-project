@@ -18,8 +18,8 @@
                 rel="stylesheet" 
                 integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
                 crossorigin="anonymous">
-	</head>
 	<body>
+        <%@ include file="./fragments/header.jspf"%>
 		<div class="container-fluid">
             <c:set var="pageTitle" value="홈페이지" />
         </div>
