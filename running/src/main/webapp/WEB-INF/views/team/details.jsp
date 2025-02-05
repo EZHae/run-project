@@ -16,7 +16,7 @@
 	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
 	crossorigin="anonymous">
 </head>
-<body>
+<body class="container mt-5">
 
 	<main class="m-2 p-2">
 		<div class="mt-2">
@@ -24,31 +24,31 @@
 			<img src="${teamItemDto.imagepath}" />
 		</div>
 
-		<div class="mt-2">
+		<div class="mb-3">
 			<h2>팀이름</h2>
 			${teamItemDto.teamName}
 		</div>
-		<div class="mt-2">
+		<div class="mb-3">
 			<h2>제목</h2>
 			${teamItemDto.title}
 		</div>
 
-		<div class="mt-2">
+		<div class="mb-3">
 			<h2>팀장</h2>
 			${teamItemDto.nickname}
 		</div>
 
-		<div class="mt-2">
+		<div class="mb-3">
 			<h2>내용</h2>
 			${teamItemDto.content}
 		</div>
 		
-		<div class="mt-2">
+		<div class="mb-3">
 			<h2>공원</h2>
 			${teamItemDto.parkId}
 		</div>
 
-		<div class="mt-2">
+		<div class="mb-3">
 			<h2>성별대</h2>
 			<c:if test="${teamItemDto.genderLimit==0}">
 				자유
@@ -62,7 +62,7 @@
 
 		</div>
 
-		<div class="mt-2">
+		<div class="mb-3">
 			<h2>연령대</h2>
 			${teamItemDto.ageLimit}살 이상
 		</div>
@@ -238,7 +238,7 @@
 	<!-- Axios Http Js-->
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-	<c:url value="/js/team.js" var="teamJs" />
+	<c:url value="/js/team-details.js" var="teamJs" />
 	<script src="${teamJs}"></script>
 
 	<!-- Bootstrap Javascript  -->

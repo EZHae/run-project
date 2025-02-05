@@ -20,13 +20,26 @@
 	<c:url var="courseRecruitPage" value="/team/list" />
 	<a href="${courseRecruitPage}">팀 목록</a>
 
-	<h2 class="mb-4">팀 생성</h2>
+	<h2 class="mb-4">팀 생성(로그인한 유저만 들어오게)</h2>
 	<form action="/team/create" method="post">
 		<!-- 팀 이름 -->
 		<div class="mb-3">
 			<label for="teamName" class="form-label">팀 이름</label> <input
 				type="text" id="teamName" name="teamName" class="form-control"
 				required>
+		</div>
+
+		<!-- 배너 업로드(이미지만 1개 업로드 가능) -->
+		<div class="mb-3">
+			<label for="imageUpload" class="form-label">팀 대표 이미지 업로드</label> <input
+				type="file" class="form-control" id="imageUpload" name="imageFile"
+				accept="image/*" required>
+		</div>
+
+		<!-- 배너 미리보기 -->
+		<div class="mb-3">
+			<img id="imagePreview" src="#" alt="미리보기"
+				style="max-width: 200px; display: none;">
 		</div>
 
 		<!-- 제목 -->
@@ -39,25 +52,48 @@
 		<div class="mb-3">
 			<label for="content" class="form-label">내용</label>
 			<textarea id="content" name="content" class="form-control" rows="4"
-				required></textarea>
+				required placeholder="공백포함 최대 300자"></textarea>
 		</div>
 
 		<!-- 구 선택 -->
 		<div class="mb-3">
 			<label for="districtSelect" class="form-label">구 선택</label> <select
 				id="districtSelect" class="form-select" required>
-				<option value="">구를 선택하세요</option>
-				<option value="seoul">서울</option>
-				<option value="busan">부산</option>
-				<option value="incheon">인천</option>
+				<option value="" selected disabled>구 선택</option>
+				<option value="강남구">강남구</option>
+				<option value="강동구">강동구</option>
+				<option value="강북구">강북구</option>
+				<option value="강서구">강서구</option>
+				<option value="관악구">관악구</option>
+				<option value="광진구">광진구</option>
+				<option value="구로구">구로구</option>
+				<option value="금천구">금천구</option>
+				<option value="노원구">노원구</option>
+				<option value="도봉구">도봉구</option>
+				<option value="동대문구">동대문구</option>
+				<option value="동작구">동작구</option>
+				<option value="마포구">마포구</option>
+				<option value="서대문구">서대문구</option>
+				<option value="서초구">서초구</option>
+				<option value="성동구">성동구</option>
+				<option value="성북구">성북구</option>
+				<option value="송파구">송파구</option>
+				<option value="양천구">양천구</option>
+				<option value="영등포구">영등포구</option>
+				<option value="용산구">용산구</option>
+				<option value="은평구">은평구</option>
+				<option value="종로구">종로구</option>
+				<option value="중구">중구</option>
+				<option value="중랑구">중랑구</option>
+
 			</select>
 		</div>
 
 		<!-- 공원 선택 -->
 		<div class="mb-3">
 			<label for="parkId" class="form-label">공원 선택</label> <select
-				id="parkId" name="parkId" class="form-select" required>
-				<option value="">먼저 구를 선택하세요</option>
+				id="selectPark" name="parkId" class="form-select" required>
+				<option value="" selected disabled>먼저 구를 선택하세요</option>
 			</select>
 		</div>
 		<!-- 최대 인원 -->
@@ -93,5 +129,38 @@
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
 		crossorigin="anonymous"></script>
+
+	<script>
+		// 이미지 미리보기 기능
+		document.getElementById("imageUpload").addEventListener("change",
+				function(event) {
+					const file = event.target.files[0]; //사용자가 선택한 첫번째 사진
+					const preview = document.getElementById("imagePreview");
+
+					if (file) {
+						const reader = new FileReader(); //파일을 읽어서 Base64 인코딩된 Data URL로 변환하는 객체인 FileReader생성
+						reader.onload = function(e) {
+							preview.src = e.target.result; //이미지태그의 src에 파일의 Base64 Data URL할당
+							preview.style.display = "block"; //화면에 보여준다
+						};
+						reader.readAsDataURL(file); //파일읽기가 끝나면 onload함수 실행됨
+					} else {
+						preview.style.display = "none"; //화면에 아무것도 보여주지 않는다
+					}
+				});
+	</script>
+	
+	<script>
+		//세션에 저장된 로그인 사용자 아이디를 자바스크립트 변수에 저장.
+		const signedInUserId = '${signedInUserId}';//문자열 포맷으로 변수를 저장.
+		const signedInUserNickname = '${signedInUserNickname}';
+	</script>
+
+	<!-- Axios Http Js-->
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+	<c:url value="/js/team-create.js" var="teamCreateJs" />
+	<script src="${teamCreateJs}"></script>
+
 </body>
 </html>

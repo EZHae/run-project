@@ -20,6 +20,7 @@ import com.itwill.running.dto.TMemberItemDto;
 import com.itwill.running.dto.TeamItemDto;
 import com.itwill.running.dto.UserItemDto;
 import com.itwill.running.service.CourseService;
+import com.itwill.running.service.ParkService;
 import com.itwill.running.service.TApplicationService;
 import com.itwill.running.service.TMemberService;
 import com.itwill.running.service.TeamService;
@@ -33,11 +34,12 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/team")
-public class TeamsController {
+public class TeamController {
 	private final TeamService teamService;
 	private final TMemberService tmemService;
 	private final TApplicationService tappService;
 	private final UserService userService;
+	private final ParkService parkService;
 	
 	@GetMapping("/list")
 	public void getAllTeams(Model model){
@@ -65,8 +67,8 @@ public class TeamsController {
 		
 	}
 	
-	@GetMapping("/create")
-	public void createTeam() {
+	@GetMapping("/create")      
+	public void createTeam(Model model) {
 		
 	}
 	

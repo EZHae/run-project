@@ -20,6 +20,7 @@
         <typeAlias type="com.itwill.running.domain.Team" alias="Team"/>
         <typeAlias type="com.itwill.running.domain.TMember" alias="TMember"/>
 		<typeAlias type="com.itwill.running.domain.TApplication" alias="TApplication"/>
+		<typeAlias type="com.itwill.running.domain.Park" alias="Park"/>
     </typeAliases>
     
 </configuration>
