@@ -25,5 +25,9 @@ public class TApplicationItemDto {
 				.nickname(tapplication.getNickname()).introMsg(tapplication.getIntroMsg())
 				.createdTime(tapplication.getCreatedTime()).build();
 	}
+	
+	public TApplication toEntity(){
+		return TApplication.builder().teamId(teamId).userId(userId).introMsg(introMsg).build();
+	}
 
 }

@@ -7,4 +7,12 @@
 	<select id="selectAllApplicationsByTeamId" resultType="TApplication">
   		select ta.*,u.nickname as nickname from t_applications ta left join users u on ta.user_id=u.user_id where team_id=#{teamId}
   	</select>
+  	
+  	<insert id="insertApplication">
+  		insert into t_applications(team_id, user_id, intro_msg, created_time) values(#{teamId},#{userId},#{introMsg},systimestamp)
+  	</insert>
+  	
+  	<delete id="deleteApplication">
+  		delete from t_applications where user_id=#{userId} and team_id=#{teamId}
+  	</delete>
 </mapper>

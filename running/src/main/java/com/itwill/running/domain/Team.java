@@ -26,6 +26,5 @@ public class Team {
 	private Integer genderLimit;
 	private LocalDateTime createdTime;
 	private LocalDateTime modifiedTime;
-	
-	
+		
 }

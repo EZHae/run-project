@@ -42,6 +42,11 @@
 			<h2>내용</h2>
 			${teamItemDto.content}
 		</div>
+		
+		<div class="mt-2">
+			<h2>공원</h2>
+			${teamItemDto.parkId}
+		</div>
 
 		<div class="mt-2">
 			<h2>성별대</h2>
@@ -63,7 +68,7 @@
 		</div>
 
 		<div class="mt-2">
-			<c:url var="teamPage" value="/teampage/${teamItemDto.teamId}/" />
+			<c:url var="teamPage" value="/teampage/${teamItemDto.teamId}" />
 			<a href="${teamPage}">팀페이지 접속</a>
 		</div>
 
@@ -76,39 +81,57 @@
 	<!-- 신청/수락/취소과 관련된 구간 -->
 	<section id="teamApplication" class="m-2 p-2 border border-dark">
 		<h5>회원신청/신청취소하기</h5>
+
 		<c:choose>
 			<c:when test="${not empty signedInUserId}">
+				<c:set var="canApply" value="true" />
+
 				<c:forEach items="${tmembers}" var="tmem">
-					<c:choose>
-						<c:when
-							test="${tmem.userId!=signedInUserId && signedInUserId!=teamItemDto.userId &&
-					user.age>=teamItemDto.ageLimit && (user.gender==teamItemDto.genderLimit || teamItemDto.genderLimit==0)}">
-							<!-- 회장,회원이 아니고 연령대와 성별대가 적합할 때 -->
-							<button data-bs-toggle="modal" data-bs-target="#exampleModal"
-								id="applyButton" class="btn btn-success">가입신청</button>
-						</c:when>
-						<c:otherwise>
-							<p class="text-danger">가입신청대상이 아닙니다</p>
-						</c:otherwise>
-					</c:choose>
+					<c:if test="${tmem.userId == signedInUserId}">
+						<c:set var="canApply" value="false" />
+					</c:if>
 				</c:forEach>
+
+				<c:forEach items="${tappList}" var="tapp">
+					<c:if test="${tapp.userId==signedInUserId}">
+						<!-- 신청한이력이있는경우 -->
+						<c:set var="alreadyApplied" value="true" />
+					</c:if>
+				</c:forEach>
+
+
+
+
+				<c:choose>
+					<c:when test="${signedInUserId==teamItemDto.userId}" />
+
+					<c:when
+						test="${!alreadyApplied && canApply 
+            && user.age >= teamItemDto.ageLimit
+            && (user.gender == teamItemDto.genderLimit || teamItemDto.genderLimit == 0)}">
+						<button data-bs-toggle="modal" data-bs-target="#applicationModal"
+							class="btn btn-success">가입신청</button>
+					</c:when>
+
+					<c:when test="${alreadyApplied}">
+						<button id="applyCancelButton" class="btn btn-danger">가입신청취소</button>
+					</c:when>
+
+					<c:otherwise>
+						<p class="text-danger">가입 신청 대상이 아닙니다</p>
+					</c:otherwise>
+				</c:choose>
 			</c:when>
 
 			<c:otherwise>
-				<p class="text-danger">로그인 후 이용가능합니다</p>
+				<p class="text-danger">로그인 후 이용 가능합니다</p>
 			</c:otherwise>
+
 		</c:choose>
 
 
-		<c:forEach items="${tappList}" var="tapp">
-			<c:if test="${tapp.userId==signedInUserId}">
-				<!-- 신청한이력이있는경우 -->
-				<button id="applyCancelButton" class="btn btn-danger">가입신청취소</button>
-			</c:if>
-		</c:forEach>
-
 		<!-- 회원신청모달 -->
-		<div class="modal fade" id="exampleModal" tabindex="-1"
+		<div class="modal fade" id="applicationModal" tabindex="-1"
 			aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -133,7 +156,7 @@
 						</form>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-primary">신청</button>
+						<button type="button" id="applyButton" class="btn btn-primary">신청</button>
 					</div>
 				</div>
 			</div>
@@ -150,12 +173,12 @@
 		<!-- 회장만 버튼 클릭 가능 -->
 		<c:if test="${signedInUserId==teamItemDto.userId}">
 			<button type="button" class="p-2 btn sm btn-primary"
-				data-bs-toggle="modal" data-bs-target="#staticBackdrop">회원관리,팀장만보임</button>
+				data-bs-toggle="modal" data-bs-target="#memberManageModal">회원관리,팀장만보임</button>
 		</c:if>
 	</section>
 
 	<!-- 회원관리 모달창 -->
-	<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
+	<div class="modal fade" id="memberManageModal" data-bs-backdrop="static"
 		data-bs-keyboard="false" tabindex="-1"
 		aria-labelledby="staticBackdropLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-scrollable">
@@ -167,10 +190,12 @@
 				</div>
 				<div class="modal-body">
 					<c:forEach items="${tmembers}" var="tmember">
-						<div class="mt-2">${tmember.nickname}
-							<button id="forceToResignButton" data-id="${tmember.userId}"
-								class="btn btn-danger">탈퇴</button>
-						</div>
+						<c:if test="${tmember.leaderCheck==0}">
+							<div class="mt-2">${tmember.nickname}
+								<button id="forceToResignButton" data-name="${tmember.nickname}" data-id="${tmember.userId}"
+									class="btn btn-danger">탈퇴</button>
+							</div>
+						</c:if>
 					</c:forEach>
 				</div>
 				<div class="modal-footer">
@@ -190,10 +215,11 @@
 		<section id="applicationControl" class="m-2 p-2 border border-dark">
 			<h5>현재 신청 회원 목록-팀장만보임</h5>
 
-			<c:forEach items="${appList}" var="app">
+			<c:forEach items="${tappList}" var="app">
 				<div class="mt-2">
-					<span>${app.nickname}</span> <span>${app.introMsg}</span>
-					<button id="applyConfirmButton" class="btn btn-success">수락</button>
+					<span>닉네임-${app.nickname}</span> <span>소개-${app.introMsg}</span>
+					<button id="applyConfirmButton" data-id="${app.userId}" data-name="${app.nickname}"
+						class="btn btn-success">수락</button>
 				</div>
 			</c:forEach>
 
@@ -203,11 +229,10 @@
 
 	<script>
 		//세션에 저장된 로그인 사용자 아이디를 자바스크립트 변수에 저장.
-		//->comment.js 파일의 코드들에서 그 변수를 사용할 수 있도록 하기 위해서
 		const signedInUserId = '${signedInUserId}';//문자열 포맷으로 변수를 저장.
 		const signedInUserNickname = '${signedInUserNickname}';
 		const teamId = '${teamItemDto.teamId}';
-		const leaderUserId = '${teamItemDto.userId}';
+		const teamName = '${teamItemDto.teamName}';
 	</script>
 
 	<!-- Axios Http Js-->

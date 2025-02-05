@@ -5,12 +5,16 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwill.running.domain.Team;
 import com.itwill.running.domain.User;
+import com.itwill.running.dto.GCommentCreateDto;
 import com.itwill.running.dto.TApplicationItemDto;
 import com.itwill.running.dto.TMemberItemDto;
 import com.itwill.running.dto.TeamItemDto;
@@ -60,5 +64,12 @@ public class TeamsController {
 		}
 		
 	}
+	
+	@GetMapping("/create")
+	public void createTeam() {
+		
+	}
+	
+	
 	
 }

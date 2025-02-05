@@ -26,6 +26,11 @@
 		<a href="${teamDetailPage}">${team.teamName}</a>
 	</c:forEach>
 
+	<div>
+		<c:url var="teamCreatePage" value="/team/create" />
+		<a href="${teamCreatePage}">새 팀 생성</a>
+	</div>
+
 
 	<!-- Bootstrap Javascript  -->
 	<script

@@ -22,5 +22,13 @@ public class TApplicationService {
 		List<TApplication> tapplist=tappDao.selectAllApplicationsByTeamId(teamId);
 		return tapplist.stream().map(TApplicationItemDto::fromEntity).toList();
 	}
+	
+	public Integer createApplication(TApplicationItemDto dto) {
+		return tappDao.insertApplication(dto.toEntity());
+	}
+	
+	public Integer deleteApplication(String userId, Integer teamId) {
+		return tappDao.deleteApplication(userId, teamId);
+	}
 
 }
