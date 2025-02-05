@@ -14,10 +14,11 @@
   	</select>
   	
   	<!-- 일정 새글 작성 -->
-  	<insert id="insertTCalendar">
-  		insert into T_Calendars (id, team_id, title, user_id, nickname, date_time, content, current_num, max_num, created_time, modified_time) 
-  		values (#{id}, #{teamId}, #{title}, #{userId}, #{nickname}, #{dateTime}, #{content}, #{currentNum}, #{maxNum}, systimestamp, systimestamp)
-  	</insert>
+  	<insert id="insertTCalendar" parameterType="TCalendar" useGeneratedKeys="true" keyProperty="id">
+    insert into T_Calendars (team_id, title, user_id, nickname, date_time, content, current_num, max_num, created_time, modified_time) 
+    values (#{teamId}, #{title}, #{userId}, #{nickname}, #{dateTime}, #{content}, #{currentNum}, #{maxNum}, SYSTIMESTAMP, SYSTIMESTAMP)
+	</insert>
+
   	
   	<!-- 일정 글 업데이트(최대인원수만 올릴 수 있음) -->
   	
