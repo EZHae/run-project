@@ -34,7 +34,7 @@
         <c:url var="fileTestPage" value="/gpost/uploadForm" />
         <a href="${fileTestPage}"> 파일</a>
         
-        <c:url var="tCalendarListPage" value="/teampage/1/tcalendar/list" /> <%-- /teampage/${testId}/tcalendar/list으로 하니까 testId부분때문에 오류나서 /teampage/1/tcalendar/list로 바꿔놓음 --%>
+        <c:url var="tCalendarListPage" value="/teampage/3/tcalendar/list" /> <%-- /teampage/${testId}/tcalendar/list으로 하니까 아직 testId부분때문에 오류나서 임시로 /teampage/1/tcalendar/list로 바꿔놓음 --%>
         <a href="${tCalendarListPage}">아이디 1인 팀일정페이지</a>
     
         
