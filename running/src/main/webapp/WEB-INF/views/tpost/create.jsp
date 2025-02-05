@@ -25,8 +25,14 @@
 		<c:url var="teamPage" value="/teampage/${teamId}" />
 		<a href="${teamPage}">내 팀으로</a>
 		
-		<h1>TPost 작성</h1>
-		<c:url value="" var="postCreatePage"/>
+		<c:url var="postListPage" value="/teampage/${teamId}/post/list" />
+		<a href="${postListPage}">팀 게시판</a>
+		
+		<c:url var="imageListPage" value="/teampage/${teamId}/image/list" />
+		<a href="${imageListPage}">팀 앨범</a>
+		
+		<h1>팀 게시판 글 작성</h1>
+		<c:url var="postCreatePage" value="" />
 		<form action="${postCreatePage}" method="post" enctype="multipart/form-data">
 			<input id="teamId" name="teamId" value="${teamId}" readonly>
 			<input id="userId" name="userId" value="${signedInUserId}" readonly> <br>
@@ -53,7 +59,7 @@
         <!-- Axios Http Js-->
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-        <c:url value="/js/tpost-create.js" var="tPostCreateJS" />       
-        <script src="${tPostCreateJS}"></script> 
+        <c:url var="createJS" value="/js/tpost-create.js" />       
+        <script src="${createJS}"></script> 
 	</body>
 </html>

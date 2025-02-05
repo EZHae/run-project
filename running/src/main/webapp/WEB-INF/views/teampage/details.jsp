@@ -24,8 +24,12 @@
 		<input type="text" id="userId" name="userId" value="${team.userId}" readonly> <br>
 		<input type="text" id="title" name="title" value="${team.title}" readonly> <br>
 		<input type="text" id="content" name="content" value="${team.content}" readonly> <br>
+		
 		<c:url var="postListPage" value="/teampage/${team.teamId}/post/list" />
-		<a href="${postListPage}">TPost Page</a>
+		<a href="${postListPage}">팀 게시판</a>
+		
+		<c:url var="imageListPage" value="/teampage/${team.teamId}/image/list" />
+		<a href="${imageListPage}">팀 앨범</a>
 		
 		<!-- Bootstrap JS 링크 -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 

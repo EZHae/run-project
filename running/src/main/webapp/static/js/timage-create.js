@@ -1,9 +1,9 @@
 /**
- * tpost/create.jsp
+ * timage/create.jsp
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-	console.log('tpost-create.js');
+	console.log('timage-create.js');
 	
     const fileInput = document.getElementById("file");
     console.log("fileInput:", fileInput); // 이 값이 null이 아니어야 함

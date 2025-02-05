@@ -25,32 +25,43 @@
 		<c:url var="teamPage" value="/teampage/${teamId}" />
 		<a href="${teamPage}">내 팀으로</a>
 		
-		<h1>TPost 수정</h1>
-		<c:url value="" var="postUpdatePage"/>
-		<form action="${postUpdatePage}" method="post" enctype="multipart/form-data">
+		<c:url var="postListPage" value="/teampage/${teamId}/post/list" />
+		<a href="${postListPage}">팀 게시판</a>
+		
+		<c:url var="imageListPage" value="/teampage/${teamId}/image/list" />
+		<a href="${imageListPage}">팀 앨범</a>
+		
+		<h1>팀 게시판 글 수정</h1>
+		<form id="update" enctype="multipart/form-data">
 			<input id="teamId" name="teamId" value="${teamId}" readonly>
+			<input id="id" name="id" value="${post.id}" readonly>
 			<input id="userId" name="userId" value="${signedInUserId}" readonly> <br>
 			<input id="title" name="title" type="text" value="${post.title}" placeholder="제목" autofocus required> <br>
-			<input id="content" name="content" type="text" value="${post.content}" placeholder="내용" required> <br>
+			<textarea id="content" name=content rows="10" placeholder="내용" required>${post.content}</textarea> <br>
 			<input id ="nickname" name="nickname" type="text" value="${signedInUserNickname}" readonly/><br>
 			
 			<span>첨부파일</span> <br>
-			<c:choose>
-				<c:when test="${empty images}">
-					<span>파일이 없습니다.</span>
-				</c:when>
-				<c:otherwise>
-					<c:forEach var="image" items="${images}">
-						<div>
-							<c:url var="imageViewPath" value="/image/view/${image.uniqName}"/>
-							<img src="${imageViewPath}" style="width:50px; height:50px;">
-							<span>${image.originName}</span>
-							<input type="button" name="btnDelete"
-									class="rmbtn btn btn-outline-danger btn-sm" value="삭제">
-						</div>
-					</c:forEach>
-				</c:otherwise>
-			</c:choose>
+			<div>
+				<c:choose>
+					<c:when test="${empty images}">
+						<span>파일이 없습니다.</span>
+					</c:when>
+					<c:otherwise>
+						<c:forEach var="image" items="${images}">
+							<li class="list-group-item" data-image-id="${image.id}">
+								<c:url var="imageViewPath" value="/teampage/${teamId}/image/view/${image.uniqName}"/>
+								<img src="${imageViewPath}" style="width:50px; height:50px;">
+								<span>${image.originName}</span>
+								<input type="button" name="btnDelete" class="rmbtn btn btn-outline-danger btn-sm" value="삭제">
+							</li>
+						</c:forEach>
+					</c:otherwise>
+				</c:choose>
+			</div>
+			
+			<!-- 기존 있던 이미지를 삭제하기 위해 필요한 id 보관 input 
+			첨부 파일 삭제 시, 해당 이미지에 해당 하는 id가 이 value에 추가됨 -->
+			<input type="hidden" id="deletedImages" name="deletedImages" value="" />
 
 			<div>
 				<label for="file">이미지 업로드</label>
@@ -59,7 +70,7 @@
 			
 			<ul id="newImageList" class="list-group list-group-flush mt-2"></ul>
 
-			<button type="submit">수정 완료</button>
+			<button id="btnUpdate">수정 완료</button>
 		</form>
 		
 		<!-- Bootstrap JS 링크 -->
@@ -67,5 +78,10 @@
                 integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
                 crossorigin="anonymous">
         </script>
+        
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        
+        <c:url var="updateJS" value="/js/tpost-update.js" />
+        <script src="${updateJS}"></script>
 	</body>
 </html>

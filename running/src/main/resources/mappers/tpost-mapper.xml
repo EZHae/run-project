@@ -5,11 +5,43 @@
   
 <mapper namespace="com.itwill.running.repository.TPostDao">
 	<select id="selectTPostByAll" resultType="TPost">
-		select * from t_posts order by id desc
+		select * from t_posts 
+			order by id desc
+	</select>
+	
+	<select id="selectTPostByTeamId" resultType="TPost">
+		select * from t_posts
+			where team_id = #{teamId}
+			order by id desc
 	</select>
 	
 	<select id="selectTPostById" resultType="TPost">
-		select * from t_posts where id = #{id}
+		select * from t_posts 
+			where id = #{id}
+	</select>
+	
+	<select id="selectTPostByKeyword" resultType="TPost">
+		<bind name="searchKeyword" value="'%' + keyword + '%'"></bind>
+		select * from t_posts
+			<where>
+				<choose>
+					<when test='type == "t"'>
+						upper(title) like upper(#{searchKeyword})
+					</when>
+					<when test='type == "c"'>
+						upper(content) like upper(#{searchKeyword})
+					</when>
+					<when test='type == "tc"'>
+						upper(title) like upper(#{searchKeyword}) 
+	                    or
+	                    upper(content) like upper(#{searchKeyword})
+					</when>
+					<when test='type == "n"'>
+						upper(nickname) like upper(#{searchKeyword})
+					</when>
+				</choose>
+			</where>
+		order by id desc
 	</select>
 	
 	<insert id="insertTPost" parameterType="TPost" useGeneratedKeys="true" keyColumn="ID" keyProperty="id">
@@ -17,7 +49,18 @@
 			values (#{teamId}, #{userId}, #{title}, #{nickname}, #{content}, systimestamp, systimestamp)
 	</insert>
 	
+	<update id="updateTPostByid">
+		update t_posts set title = #{title}, content = #{content}, modified_time = systimestamp
+			where id = #{id}
+	</update>
+	
 	<delete id="deleteTPostById">
-		delete from t_posts where id = #{id}
+		delete from t_posts 
+			where id = #{id}
 	</delete>
+	
+	<update id="updateViewCountById">
+		update t_posts set view_count = view_count +1
+			where id = #{id}
+	</update>
 </mapper>

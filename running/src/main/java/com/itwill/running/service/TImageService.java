@@ -29,15 +29,58 @@ public class TImageService {
 	public List<TImage> loadImage(Integer postId) {
 		log.debug("TImageService::loadImages");
 		
-		List<TImage> images = imageDao.selectTImagesByPostId(postId);
+		List<TImage> images = imageDao.selectTImageByPostId(postId);
 		log.debug("# of loadImages() result = {}", images.size());
 		
 		return images;
 	}
 	
-	public void delete(Integer postId) {
+	public List<TImage> readByAll() {
+		log.debug("TImageService::readByAll");
+		
+		List<TImage> images = imageDao.selectTimageByAll();
+		log.debug("# of readByAll() result = {}", images.size());
+		
+		return images;
+	}
+	
+	public List<TImage> readByTeamId(Integer teamId) {
+		log.debug("TImageService::readByTeamId");
+		
+		List<TImage> images = imageDao.selectTImageByTeamId(teamId);
+		log.debug("# of readByTeamId() result = {}", images.size());
+		
+		return images;
+	}
+	
+	public List<TImage> readByTeamIdAndNotNull(Integer teamId) {
+		log.debug("TImageService::readByTeamIdAndNotNull");
+		
+		List<TImage> images = imageDao.selectTimageByTeamIdAndNotNull(teamId);
+		log.debug("# of readByTeamIdAndNotNull() result = {}", images.size());
+		
+		return images;
+	}
+	
+	public List<TImage> readByTeamIdAndNull(Integer teamId) {
+		log.debug("TImageService::readByTeamIdAndNull");
+		
+		List<TImage> images = imageDao.selectTImageByTeamIdAndNull(teamId);
+		log.debug("# of readByTeamIdAndNull() result = {}", images.size());
+		
+		return images;
+	}
+	
+	public void deleteByPostId(Integer postId) {
 		log.debug("TImageService::delete(postId={})", postId);
 		
 		imageDao.deleteTImageByPostId(postId);
+	}
+	
+	public void deleteById(Integer id) {
+		log.debug("TImageService::delete(id={})", id);
+		
+		imageDao.deleteTImageById(id);
+		
 	}
 }

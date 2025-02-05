@@ -19,7 +19,7 @@
                 crossorigin="anonymous">
 	</head>
 	<body>
-	 	<c:url var="homePage" value="/" />
+		<c:url var="homePage" value="/" />
 		<a href="${homePage}">홈으로</a>
 		
 		<c:url var="teamPage" value="/teampage/${teamId}" />
@@ -31,48 +31,34 @@
 		<c:url var="imageListPage" value="/teampage/${teamId}/image/list" />
 		<a href="${imageListPage}">팀 앨범</a>
 		
-		<h1>팀 게시판</h1>
+		<h1>팀 앨범 사진 등록</h1>
 		
-		<c:url var="postSearchPage" value="/teampage/${teamId}/post/search" />
-		<form action="${postSearchPage}" method="get">
+		<c:url var="imageCreatePage" value="" />
+		<form action="${imageCreatePage}" method="post" enctype="multipart/form-data">
+			<input id="teamId" name="teamId" value="${teamId}" readonly>
+			<input id="userId" name="userId" value="${signedInUserId}" readonly>
+			<input id ="nickname" name="nickname" type="text" value="${signedInUserNickname}" readonly/><br>
+
 			<div>
-				<div>
-					<select id="type" name="type">
-						<option value="t">제목</option>
-						<option value="c">내용</option>
-						<option value="tc">제목+내용</option>
-						<option value="n">작성자</option>
-					</select>
-				</div>
-				<div>
-					<input type="text" name="keyword" placeholder="검색어, 공백 불가" required>
-				</div>
-				<div>
-					<input class="btn btn-secondary" type="submit" value="검색">
-				</div>
+				<label for="file">이미지 업로드</label>
+				<input type="file" id="file" name="file" accept="image/*" multiple>
 			</div>
+			
+			<ul id="fileList" class="list-group list-group-flush mt-2"></ul>
+
+			<button type="submit">작성 완료</button>
 		</form>
-		
-		<c:url var="postListPage" value="/teampage/${teamId}/post/list" />
-		<a href="${postListPage}" class="btn btn-primary">전체 보기</a>
-		
-		<div>
-			<c:url var="postCreatePage" value="/teampage/${teamId}/post/create" />
-			<a class="btn btn-outline-primary" href="${postCreatePage}">새글작성</a>
-		</div>
-		
-		<hr>
-		
-		<c:forEach var="post" items="${posts}" >
-			<c:url var="postDetailsPage" value="/teampage/${post.teamId}/post/${post.id}/details" />
-			<a href="${postDetailsPage}">${post.title}</a>
-			<hr>
-		</c:forEach>
 		
 		<!-- Bootstrap JS 링크 -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
                 integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
                 crossorigin="anonymous">
         </script>
+        
+        <!-- Axios Http Js-->
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+        <c:url var="createJS" value="/js/timage-create.js" />       
+        <script src="${createJS}"></script> 
 	</body>
 </html>
