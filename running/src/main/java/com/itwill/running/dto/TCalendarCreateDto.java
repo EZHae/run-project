@@ -8,6 +8,8 @@ import lombok.Data;
 
 @Data
 public class TCalendarCreateDto {
+	private Integer id;
+	private Integer teamId;
 	private String title;
 	private String userId; 
 	private String nickname; 
@@ -17,7 +19,7 @@ public class TCalendarCreateDto {
 	private Integer maxNum;
 	
 	public TCalendar toEntity() {
-		return TCalendar.builder().title(title).userId(userId).nickname(nickname).dateTime(dateTime).
+		return TCalendar.builder().id(id).teamId(teamId).title(title).userId(userId).nickname(nickname).dateTime(dateTime).
 				content(content).currentNum(currentNum).maxNum(maxNum).build();
 	}
 }

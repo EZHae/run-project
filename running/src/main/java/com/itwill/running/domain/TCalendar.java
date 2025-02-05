@@ -23,4 +23,9 @@ public class TCalendar {
 	private Integer maxNum; //max_num
 	private LocalDateTime createdTime; //created_time
 	private LocalDateTime modifiedTime; //modified_time
+	
+	public String getRecruitmentStatus() {
+        LocalDateTime now = LocalDateTime.now();
+        return now.isBefore(this.dateTime) ? "모집 중" : "모집 완료";
+    }
 }
