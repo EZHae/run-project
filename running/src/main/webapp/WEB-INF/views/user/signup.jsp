@@ -25,16 +25,31 @@
             <div>
                 <form method="post">
                     <div>
-                        <input type="text" name="userId" placeholder="사용자 아이디" />
+                        <input type="text" id="userId" name="userId" placeholder="사용자 아이디" required autofocus/>
                     </div>
-                    <div>
-                        <input type="password" name="password" placeholder="비밀번호" />
+                    <!-- 사용자 아이디 중복체크 -->
+                    <div id="checkUserIdResult">
+                    
                     </div>
+                    
                     <div>
-                        <input type="text" name="nickname" placeholder="닉네임" />
+                        <input type="password" id="password" name="password" placeholder="비밀번호" />
                     </div>
+                    <%-- password 중복체크 결과를 출력할 영역 --%>
+                    <div id="checkPasswordResult">
+                    
+                    </div>
+                    
                     <div>
-                        <input type="text" name="username" placeholder="사용자 이름" />
+                        <input type="text" id="nickname" name="nickname" placeholder="닉네임" />
+                    </div>
+                    <!-- 사용자 닉네임 중복체크 -->
+                    <div id="checkNicknameResult">
+                    
+                    </div>
+                    
+                    <div>
+                        <input type="text" id="username" name="username" placeholder="사용자 이름" />
                     </div>
                     <div>
                         <select name="gender" id="gender">
@@ -43,17 +58,45 @@
                         </select>
                     </div>
                     <div>
-                        <input type="text" name="age" placeholder="나이" />
+                        <input type="text" id="age" name="age" placeholder="나이" />
+                    </div>
+                    <!-- 나이 중복체크 -->
+                    <div id="checkAgeResult">
+                    
+                    </div>
+                    
+                    
+                    <div>
+                        <input type="text" id="phonenumber" name="phonenumber" placeholder="휴대전화번호" />
+                    </div>
+                    <!-- 사용자 닉네임 중복체크 -->
+                    <div id="checkPhoneNumberResult">
+                    
                     </div>
                     <div>
-                        <input type="text" name="phonenumber" placeholder="휴대전화번호" />
+                        <%
+                            String[] seoulDistricts = {
+                                "강남구", "강동구", "강북구", "강서구", "관악구", "광진구",
+                                "구로구", "금천구", "노원구", "도봉구", "동대문구", "동작구",
+                                "마포구", "서대문구", "서초구", "성동구", "성북구", "송파구",
+                                "양천구", "영등포구", "용산구", "은평구", "종로구", "중구", "중랑구"
+                            };
+                        %>
+                        <select name="residence" id="residence" >
+                        <option value="">구 선택</option>
+                            <% for (String district : seoulDistricts) { %>
+                                <option value="<%= district %>"><%= district %></option>
+                            <% } %>
+                        </select>
                     </div>
                     <div>
-                        <input type="text" name="residence" placeholder="주소구" />
+                        <input type="text" id="email" name="email" placeholder="이메일" required/>
                     </div>
-                    <div>
-                        <input type="text" name="email" placeholder="이메일" />
+                     <%-- email 중복체크 결과를 출력할 영역 --%>
+                    <div id="checkEmailResult">
+                    
                     </div>
+                    
                     <div>
                         <input type="hidden" name="authCheck" placeholder="승인" value="1" />
                     </div>
@@ -61,7 +104,7 @@
                     <!-- 이미지 라디오 버튼 -->
                     <div>
                         <label>
-                            <input type="radio" name="imgId" value="1" >
+                            <input type="radio" name="imgId" value="1" checked>
                             <img src="../images/profile01.jpeg" alt="기본 이미지 1" style="width:100px; height:auto; border: 2px solid black; border-radius: 50%;">
                         </label>
                         <label>
@@ -82,7 +125,7 @@
                         </label>
                     </div>
                     <div class="mt-2">
-                        <button id="btnSignUp">작성 완료</button>
+                        <button class="btn disabled" id="btnSignUp">작성 완료</button>
                     </div>
                 </form>
             </div>
@@ -93,5 +136,12 @@
                 integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
                 crossorigin="anonymous">
         </script>
+        
+        <!-- Axios JS -->
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        
+        <!-- members.js -->
+        <c:url var="usersJS" value="/js/users.js"/>
+        <script src="${usersJS}"></script>
 	</body>
 </html>

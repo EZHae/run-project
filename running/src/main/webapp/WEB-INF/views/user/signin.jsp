@@ -24,6 +24,9 @@
         <div>
             <div>
                 <form method="post">
+                    <c:if test="${not empty param.result and param.result eq 'f' }">
+                        <div class="text-danger">아이디와 비밀번호를 확인하세요.</div>
+                    </c:if>
                     <div>
                         <input type="text" name="userId" placeholder="사용자 아이디" />
                     </div>

@@ -20,7 +20,7 @@
             <div class="offcanvas-body">
                 <c:if test="${not empty signedInUserId}">
                 <div>
-                    <img src="<c:url value='/image/view/1' />" alt="프로필 이미지" style="width:70px; height:70px; border-radius:50%;"/>
+                    <img src="<c:url value='/image/view/user/${signedInUserId}' />" alt="프로필 이미지" style="width:70px; height:70px; border-radius:50%;"/>
                     <span>반갑습니다. ${signedInUserId} 님 </span>
                 </div>
                 </c:if>
@@ -44,14 +44,14 @@
                     </li>
                     <li class="nav-item">
                         <c:url value="/user/signup" var="userSignUpPage" />
-                        <a class="nav-link nowrap" href="${userSignUpPage}">Sign Up</a>
+                        <a class="nav-link nowrap" href="${userSignUpPage}">회원가입</a>
                     </li>
                     </c:if>
                     <c:if test="${not empty signedInUserId}">
                     <li class="nav-item">
                         <c:url value="/user/signout" var="userSignOutPage" />
                         <a class="nav-link nowrap" href="${userSignOutPage}">
-                            <span>${signedInUserId}</span> Sign Out
+                            <span>${signedInUserId}</span> 로그아웃
                         </a>
                     </li>
                     </c:if>

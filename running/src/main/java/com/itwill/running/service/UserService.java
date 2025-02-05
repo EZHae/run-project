@@ -20,6 +20,47 @@ public class UserService {
 	private final UImagesService uimagesService;
 	
 	
+	// 유저 아이디 중복체크
+	public boolean checkUserId(String userId) {
+		log.debug("checkUserId(userId={}",userId);
+		User user = userDao.selectByUserId(userId);
+		
+		if(user == null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	// 닉네임 중복체크
+	public boolean checkNickname(String nickname) {
+		log.debug("checkNickname(nickname={}",nickname);
+		
+		User user = userDao.selectByNickname(nickname);
+		if(user == null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	// 이메일 중복체크
+	public boolean checkEmail(String email) {
+		log.debug("checkEmail(email={})",email);
+		
+		User user = userDao.selectByEmail(email);
+		
+		return(user == null); // 값이 없으면 true고 없으면 false
+	}
+	// 휴대전화번호 중복체크
+	public boolean checkPhoneNumber(String phonenumber) {
+		User user = userDao.selectByPhoneNumber(phonenumber);
+		if(user == null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	// 유저 아이디 조회
 	public User selectByUserId(String userId) {
 		log.debug("selectByUserId(UserId={})", userId);
 		User user = userDao.selectByUserId(userId);

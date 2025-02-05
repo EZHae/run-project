@@ -4,11 +4,14 @@ import java.awt.Image;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwill.running.domain.UImages;
 import com.itwill.running.domain.User;
@@ -64,13 +67,6 @@ public class UserController {
 			String nickname = user.getNickname();
 			session.setAttribute("signedInUserNickname", nickname);
 			
-			// 유저의 프로필 이미지 가져오기
-	        UImages userImage = uimagesService.selectUserImageByUserId(user.getUserId());
-	        if (userImage != null) {
-	            // 브라우저에서 접근 가능한 URL 경로 저장
-	            session.setAttribute("signedInUserImgPath", "/image/view/" + userImage.getId());
-	        }
-	        
 			log.debug("signedInUserId={}", session.getAttribute("signedInUserId").toString());
 			log.debug("signedInUserNickname={}", nickname);
 			
@@ -95,5 +91,42 @@ public class UserController {
 		return "redirect:/user/signin";
 	}
 	
+	//  ---------------------------------- 중복체크 ---------------------------------------// 
 	
+	// 사용자 아이디 중복체크
+	@GetMapping("/checkuserid")
+	@ResponseBody
+	public ResponseEntity<String> checkUserId(@RequestParam String userId) {
+		log.debug("checkUsername(username={})", userId);
+		boolean result = userService.checkUserId(userId);
+		
+		return result ? ResponseEntity.ok("Y") : ResponseEntity.ok("N");
+	}
+	// 사용자 닉네임 중복체크
+	@GetMapping("/checknickname")
+	@ResponseBody
+	public ResponseEntity<String> checkNickname(@RequestParam String nickname) {
+		log.debug("checkNickname(nickname={})", nickname);
+		boolean result = userService.checkNickname(nickname);
+		
+		return result ? ResponseEntity.ok("Y") : ResponseEntity.ok("N");
+	}
+	// 이메일 중복체크
+	@GetMapping("/checkemail")
+	@ResponseBody
+	public ResponseEntity<String> checkEmail(@RequestParam String email){
+		log.debug("checkEmail(email={})",email);
+		boolean result = userService.checkEmail(email);
+		
+		return result ? ResponseEntity.ok("Y") : ResponseEntity.ok("N");
+	}
+	// 휴대전화번호 중복체크
+	@GetMapping("/checkphonenumber")
+	@ResponseBody
+	public ResponseEntity<String> checkPhoneNumber(@RequestParam String phonenumber){
+		log.debug("checkPhoneNumber(phonenumber={})",phonenumber);
+		boolean result = userService.checkPhoneNumber(phonenumber);
+		
+		return result ? ResponseEntity.ok("Y") : ResponseEntity.ok("N");
+	}
 }

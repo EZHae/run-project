@@ -61,14 +61,23 @@ public class UImagesService {
 	
 	// userId로 해당 사용자의 프로필 이미지 정보 조회
 	public UImages selectUserImageByUserId(String userId) {
-		return uimagesDao.selectUserImageByUserId(userId);
-	}
-	
-	// 이미지 ID로 이미지 정보 조회
-	public UImages selectUserImageById(Integer id) {
 		
-		UImages image = uimagesDao.selectUserImageById(id);
-		return image;
+		// users 테이블에서 img_id 가져오기
+		Integer imgId = uimagesDao.selectImgIdByUserId(userId);
+			
+		if (imgId == null) {
+			log.debug("img_id {}에 해당하는 이미지가 u_images 테이블에 없음", userId);
+	        return null; // 사용자가 프로필 이미지를 설정하지 않은 경우
+	    }
+		
+		//img_id를 이용해 u_images 테이블에서 이미지 정보 조회
+		
+		UImages userImage = uimagesDao.selectUserImageByImgId(imgId);
+		if (userImage == null) {
+			log.debug("img_id {}에 해당하는 이미지가 u_images 테이블에 없음", imgId);
+	        return null;
+	    }
+		 return userImage;
 	}
 	
 }
