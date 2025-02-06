@@ -34,6 +34,10 @@
                         <a class="nav-link nowrap" href="${gPostListPage}">게시판</a>
                     </li>
                     <li class="nav-item">
+                        <c:url value="/team/list" var="courseRecruitPage" />
+                        <a class="nav-link nowrap" href="${courseRecruitPage}">팀 목록</a>
+                    </li>
+                    <li class="nav-item">
                         <c:url value="/course/list" var="courseListPage" />
                         <a class="nav-link nowrap" href="${courseListPage}">코스리스트</a>
                     </li>

@@ -74,4 +74,21 @@
         where id = #{id}
     </update>
     
+    
+    <!-- 포스트 검색 카테고리, 키워드에서 사용할 메서드 이름과 SQL 문장 -->
+    <select id="readPageWithOffset"  parameterType="map" resultType="Gpost">
+        select * from G_POSTS
+        where (#{keyword} IS NULL OR title LIKE '%' || #{keyword} || '%')
+        AND category = #{category}
+        order by id DESC
+        offset #{offset} rows fetch next #{limit} rows only
+    </select>
+    
+    <select id="selectCountPostsBySearch" parameterType="map" resultType="int">
+        SELECT COUNT(*) 
+        FROM G_POSTS 
+        WHERE title LIKE '%' || #{keyword} || '%' 
+        AND category = #{category}
+    </select>
+    
   </mapper>

@@ -1,6 +1,8 @@
 package com.itwill.running.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -123,5 +125,31 @@ public class CourseService {
 		return result;
 	}
 	
-
+	
+	// 페이징 처리 메서드
+	public List<Course> readPageWithOffset(CourseSearchDto dto,int offset, int limit) {
+        log.debug("CourseService::readPageWithOffset()");
+        Map<String, Object> params = new HashMap<>();
+        params.put("keyword", dto.getKeyword() != null ? dto.getKeyword() : "");
+        params.put("offset", offset);
+        params.put("limit", limit);
+        params.put("category", dto.getCategory());
+        
+        return courseDao.readPageWithOffset(params);
+    }
+	
+	public int countPostsBySearch(CourseSearchDto dto) {
+		return courseDao.selectCountPostsBySearch(dto);
+	}
+	
+    // 총 게시글 수를 가져오는 메서드
+	public int countPosts() {
+        log.debug("CourseService::countPosts()");
+        
+        int count = courseDao.countPosts();
+        log.debug("countPosts() result = {}", count);
+        
+        return count;
+    }
+	
 }
