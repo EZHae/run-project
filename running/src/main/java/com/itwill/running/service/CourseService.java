@@ -138,6 +138,7 @@ public class CourseService {
         return courseDao.readPageWithOffset(params);
     }
 	
+	// 검색된 페이지 개수를 가져오는 메서드
 	public int countPostsBySearch(CourseSearchDto dto) {
 		return courseDao.selectCountPostsBySearch(dto);
 	}
