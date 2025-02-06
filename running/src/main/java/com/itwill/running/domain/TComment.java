@@ -22,4 +22,5 @@ public class TComment {
 	private LocalDateTime modifiedTime;
 	private Integer parentId;
 	private Integer commentType;
+	private Integer deleted;
 }

@@ -123,7 +123,7 @@
 		</script>
         <script>
 			const teamId = '${post.teamId}';
-			const id = '${post.id}';
+			const postId = '${post.id}';
 			const signedInUserId = '${signedInUserId}';
 	        const signedInUserNickname = '${signedInUserNickname}';
 	        const userId = '${post.userId}';

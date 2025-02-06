@@ -24,9 +24,7 @@ public class TCommentService {
 		
 		TComment comment = dto.toEntity();
 		
-		commentDao.insertTComment(comment);
-		
-		int result = comment.getId();
+		int result = commentDao.insertTComment(comment);
 		
 		return result;
 	}
@@ -34,8 +32,16 @@ public class TCommentService {
 	public List<TCommentItemDto> read(Integer postId) {
 		log.debug("TCommentService::read(postId={})", postId);
 		
-		List<TComment> comments = commentDao.selectTCommentByPostId(postId);
+		List<TComment> comments = commentDao.selectTCommentHierarchyByPostId(postId);
 		
 		return comments.stream().map(TCommentItemDto::fromEntity).toList();
+	}
+	
+	public int delete(Integer id) {
+		log.debug("TCommentService::delete(id={})", id);
+		
+		int result = commentDao.updateTCommentLikeDeleteById(id);
+		
+		return result;
 	}
 }

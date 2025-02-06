@@ -25,6 +25,7 @@ public class TCommentItemDto {
 	private LocalDateTime modifiedTime;
 	private Integer parentId;
 	private Integer commentType;
+	private Integer deleted;
 	
 	public static TCommentItemDto fromEntity(TComment comment) {
 		if (comment != null) {
@@ -39,6 +40,7 @@ public class TCommentItemDto {
 					.modifiedTime(comment.getModifiedTime())
 					.parentId(comment.getParentId())
 					.commentType(comment.getCommentType())
+					.deleted(comment.getDeleted())
 					.build();
 		} else {
 			return null;

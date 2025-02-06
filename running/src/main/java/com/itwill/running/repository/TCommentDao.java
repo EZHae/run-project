@@ -8,7 +8,9 @@ public interface TCommentDao {
 
 	int insertTComment(TComment comment);
 	
-	List<TComment> selectTCommentByPostId(Integer postId);
+	List<TComment> selectTCommentHierarchyByPostId(Integer postId);
+	
+	int updateTCommentLikeDeleteById(Integer id);
 	
 	int deleteTCommentById(Integer id);
 }

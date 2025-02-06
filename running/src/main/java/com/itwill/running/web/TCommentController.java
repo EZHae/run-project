@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,9 +26,9 @@ public class TCommentController {
 
 	private final TCommentService commentService;
 	
-	@PostMapping
-	public ResponseEntity<Integer> registerComment(@RequestBody TCommentCreateDto dto) {
-		log.debug("registerComment(dto={})", dto);
+	@PostMapping()
+	public ResponseEntity<Integer> createComment(@RequestBody TCommentCreateDto dto) {
+		log.debug("TCommentController::createComment(dto={})", dto);
 		
 		int result = commentService.create(dto);
 		
@@ -36,10 +37,20 @@ public class TCommentController {
 	
 	@GetMapping("/all/{postId}")
 	public ResponseEntity<List<TCommentItemDto>> getAllCommentsByPostId(@PathVariable Integer teamId, @PathVariable Integer postId) {
-		log.debug("getAllCommentsByPostId(postId={})", postId);
+		log.debug("TCommentController::getAllCommentsByPostId(postId={})", postId);
 		
 		List<TCommentItemDto> list = commentService.read(postId);
 		
 		return ResponseEntity.ok(list);
 	}
+	
+	@PutMapping("delete/{id}")
+	public ResponseEntity<Integer> deleteComment(@PathVariable Integer id) {
+		log.debug("TCommentController::deleteComment(id={}", id);
+		
+		int result = commentService.delete(id);
+		
+		return ResponseEntity.ok(result);
+	}
+	
 }
