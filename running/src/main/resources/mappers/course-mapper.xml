@@ -104,7 +104,7 @@
         where (#{keyword} IS NULL OR course_name LIKE '%' || #{keyword} || '%')
         AND category = #{category}
         order by id DESC
-        offset #{offset} rows fetch next #{limit} rows only
+        offset #{offset} rows fetch next #{limit} rows only 
     </select>
     
     <!-- 검색된 페이지 개수를 가져오는 SQL 문장 -->

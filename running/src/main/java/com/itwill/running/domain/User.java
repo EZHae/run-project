@@ -1,5 +1,6 @@
 package com.itwill.running.domain;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
@@ -11,7 +12,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User {
+public class User implements Serializable {
+	private static final long serialVersionUID = 1L; // 직렬화 버전 추가
+	
 	private String userId;
 	private String password;
 	private String nickname;

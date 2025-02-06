@@ -3,9 +3,11 @@ package com.itwill.running.web;
 import java.awt.Image;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.itwill.running.domain.Gimages;
 import com.itwill.running.domain.UImages;
 import com.itwill.running.domain.User;
 import com.itwill.running.dto.UserSignInDto;
@@ -90,6 +93,26 @@ public class UserController {
 		
 		return "redirect:/user/signin";
 	}
+	
+	// 유저 상세 정보 페이지
+	@GetMapping({"/details", "/modify"})
+	public void profile(String userId, Model model, HttpSession session) {
+		
+		// 현재 세션의 유저아이디 조회
+		String signedInUserId = (String) session.getAttribute("signedInUserId");
+		User user = userService.selectByUserId(signedInUserId);
+		log.debug("유저 아이디: {}",user);
+		
+		int selectedImgId = user.getImgId();
+		// 이미지 이름을 가져옴
+		uimagesService.selectUserImageByUserId(signedInUserId);
+		
+		model.addAttribute("user", user);
+		model.addAttribute("selectedImgId", selectedImgId);
+	}
+	
+	
+	
 	
 	//  ---------------------------------- 중복체크 ---------------------------------------// 
 	

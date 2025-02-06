@@ -12,14 +12,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.itwill.running.domain.Course;
 import com.itwill.running.domain.Gimages;
 import com.itwill.running.domain.Gpost;
+import com.itwill.running.domain.User;
+import com.itwill.running.dto.CourseSearchDto;
 import com.itwill.running.dto.GpostCategoryDto;
 import com.itwill.running.dto.GpostCreateDto;
 import com.itwill.running.dto.GpostUpdateDto;
 import com.itwill.running.service.GimagesService;
 import com.itwill.running.service.GpostService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,32 +39,70 @@ public class GpostController {
 	
 	// 포스트 목록 출력하는 메서드
 	@GetMapping("/list")
-	public void list(Model model) {
-		
-		// 기본값을 자유게시판 목록으로 선택
-		GpostCategoryDto dto = new GpostCategoryDto();
-		dto.setCategory(0);
-		
-		List<Gpost> list = gPostService.readByCategorySearch(dto);
-		
-		model.addAttribute("gPosts",list);
-	}
-	
-	@GetMapping("/category")
-	public String list(GpostCategoryDto dto, Model model, HttpSession session) {
+	public String list(@RequestParam(defaultValue = "0") int offset, // offset : 데이터를 가져올 시작 위치
+			@RequestParam(defaultValue = "10") int limit,
+			GpostCategoryDto dto,
+			Model model) {
 
 	    log.debug("GpostCategoryDto: {}", dto);
 	    
-//	    //현재 카테고리 값을 저장
-//	    session.setAttribute("currentCategory", dto.getCategory());
 	    
 	    //카테고리 게시글 목록을 조회
-	    List<Gpost> list = gPostService.readByCategorySearch(dto);
+	    List<Gpost> list = gPostService.readPageWithOffset(dto, offset, limit);
 	    
+	    // 전체 게시글 개수 조회 (페이징을 위한 totalCount)
+	    int totalPosts = gPostService.countPostsBySearch(dto);
+	    int totalPages = (int) Math.ceil((double) totalPosts / limit);
 	    
+	    model.addAttribute("totalPosts", totalPosts);
+	    model.addAttribute("totalPages", totalPages);
+	    model.addAttribute("offset", offset);
+	    model.addAttribute("limit", limit);
 	    model.addAttribute("gPosts", list);
-
+	    model.addAttribute("category", dto.getCategory()); // 추가
+	    model.addAttribute("keyword", dto.getKeyword());
+	    model.addAttribute("search", dto.getSearch());
+	    model.addAttribute("gpostCategoryDto", dto);
+	    
 	    return "/gpost/list";
+	}
+	
+	// 검색 컨트롤러 - 페이징 처리도 함께
+	@GetMapping("/search")
+	public String search(@RequestParam(defaultValue = "10") int limit,
+						 @RequestParam(defaultValue = "0") int offset, 
+						 Model model,
+						 HttpServletRequest request,
+						 GpostCategoryDto dto) {
+		log.debug("CourseController::search() | offset:{}, limit:{}, keyword::{}",offset,limit,dto.getKeyword());
+
+	    // 검색 값이 없는 경우 기본값 설정
+		if (dto.getSearch() == null) dto.setSearch("");  
+	    if (dto.getKeyword() == null) dto.setKeyword("");
+		
+		// 페이징 적용하여 검색된 결과 가져오기
+		List<Gpost> posts = gPostService.readPageWithOffset(dto, offset, limit);
+		
+		
+		// 검색된 전체 데이터 개수 가져오기
+		int totalPosts = gPostService.countPostsBySearch(dto);
+		int totalPages = (int) Math.ceil((double) totalPosts / limit);
+		log.debug("검색된 전체 게시글 수: {}, 총 페이지 수: {}", totalPosts, totalPages);
+		
+		
+		model.addAttribute("totalPosts", totalPosts); //게시글 전체 수
+		model.addAttribute("totalPages", totalPages); // 페이지 수 
+		model.addAttribute("posts", posts);
+		model.addAttribute("offset", offset); //데이터를 가져올 시작 위치	
+		model.addAttribute("limit", limit); //한번에 가져올 데이터 갯수
+		model.addAttribute("category",dto.getCategory()); // 추천순 or 리뷰순
+		model.addAttribute("keyword",dto.getKeyword()); //keyword 입력
+	    model.addAttribute("search", dto.getSearch());
+	    model.addAttribute("gpostCategoryDto", dto);
+		String search = request.getRequestURI();
+		model.addAttribute("type", search);
+		
+		return "/gpost/list";
 	}
 	
 	// 포스트 작성을 출력하는 메서드
@@ -72,16 +114,6 @@ public class GpostController {
 	public String create(GpostCreateDto dto, HttpSession session,
 						 Model model, @RequestParam(value = "file", required = false) MultipartFile[] files) throws Exception {
 		
-		// 기본 세션 설정 - 후에 수정할것!!
-	    // 세션에서 닉네임 가져오기
-		String userId = (String) session.getAttribute("signedInUserId");
-	    String nickname = (String) session.getAttribute("signedInUserNickname");
-	    
-	    // DTO에 닉네임 설정
-	    dto.setUserId(userId);
-	    dto.setNickname(nickname);
-	    log.debug("nickname={}", nickname);
-	    
 	    // 포스트 저장
 	    Integer postId = gPostService.create(dto);
 	    
@@ -103,38 +135,38 @@ public class GpostController {
 		}
 		
 		// 해당 카테고리로 리다이렉트
-		return "redirect:/gpost/category?category=" + currentCategory;
+		return "redirect:/gpost/list?category=" + currentCategory;
 	}
 	
 	
 	
 	
 	// 상세보기 및 수정 페이지를 처리하는 메서드
-		@GetMapping({"/details","/modify"})
-		public void details(@RequestParam("id") Integer id, Model model, HttpSession session) {
-			// JSP로 데이터를 넘기기 위해 Model을 사용
-			
-			// 세션에서 유저 아이디 가져옴
-			String userId = (String) session.getAttribute("signedInUserId");
-			
-			Gpost gPost = gPostService.read(id);
-			String postUserId = gPost.getUserId();
-			
-			// 세션에 조회기록이 있는지 확인하기
-			String viewkey = "viewGpost" + id + userId;
-			Object hasView = session.getAttribute(viewkey);
-			
-		    if (hasView == null || ! userId.equals(postUserId)) {
-		        gPostService.viewCountPost(id); // 조회수 증가
-		        session.setAttribute(viewkey, true); // 조회 기록 세션에 저장
-		    }
-			
-		    // 이미지 이름을 가져옴
-		    List<Gimages> gImages = gimagesService.getImgesByPostId(id);
-		    
-		    model.addAttribute("gPost",gPost);
-		    model.addAttribute("gImages", gImages);
-		}
+	@GetMapping({"/details","/modify"})
+	public void details(@RequestParam("id") Integer id, Model model, HttpSession session) {
+		// JSP로 데이터를 넘기기 위해 Model을 사용
+
+		// 게시글 정보 가져오기
+		Gpost gPost = gPostService.read(id);
+		
+		Object userId =  session.getAttribute("signedInUserId");
+		String postUserId = gPost.getUserId();
+		
+		// 세션에 조회기록이 있는지 확인하기
+		String viewkey = "viewGpost" + id + userId;
+		Object hasView = session.getAttribute(viewkey);
+		
+	    if (hasView == null || (userId != null && !userId.equals(postUserId))) {
+	        gPostService.viewCountPost(id); // 조회수 증가
+	        session.setAttribute(viewkey, true); // 조회 기록 세션에 저장
+	    }
+		
+	    // 이미지 이름을 가져옴
+	    List<Gimages> gImages = gimagesService.getImgesByPostId(id);
+	    
+	    model.addAttribute("gPost",gPost);
+	    model.addAttribute("gImages", gImages);
+	}
 		
 	@PostMapping("/update")
 	public String update(GpostUpdateDto dto, String deletedImages, 
@@ -173,15 +205,15 @@ public class GpostController {
 	@GetMapping("/delete")
 	public String delete(@RequestParam Integer id, HttpSession session) {
 		
+		// 현재 카테고리 값을 가져옴
+		Gpost deletedPost = gPostService.read(id); // 삭제할 포스트
+		Integer category = deletedPost.getCategory(); // 삭제할 포스트의 카테고리
+		
+		// 포스트 삭제
 		gPostService.deletePost(id);
 		log.debug("delete = {}", id);
 		
-		// 현재 세션의 카테고리 값을 가져옴
-		Integer category = (Integer) session.getAttribute("currentCategory");
-		
-		session.setAttribute("currentCategory", category);
-		
-		return "redirect:/gpost/category?category=" + category;
+		return "redirect:/gpost/list?category=" + category;
 	}
 
 }
