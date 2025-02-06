@@ -6,4 +6,11 @@
   	<select id="selectAllByTeamId" resultType="TMember">
   		select tm.*,u.nickname from t_members tm left join users u on tm.user_id=u.user_id where team_id=#{teamId}
   	</select>
+  	
+  	<select id="existsByTeamIdAndUserId" resultType="boolean" parameterType="map">
+	    select count(*) > 0
+	    FROM t_members
+	    WHERE team_id = #{teamId} AND user_id = #{userId}
+	</select>
+  	
   </mapper>

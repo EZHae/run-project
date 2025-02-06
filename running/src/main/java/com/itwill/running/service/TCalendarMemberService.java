@@ -28,14 +28,27 @@ public class TCalendarMemberService {
         }
 
         // DAO 메서드 호출
-        List<TCalendarMember> tCalendarMembers = tCalendarMemberDao.selectAllTCalendarMemberByCalendarId(teamId, calendarId);
+     // 반환 타입을 TCalendarMemberItemDto로 변경
+        List<TCalendarMemberItemDto> tCalendarMembers = tCalendarMemberDao.selectAllTCalendarMemberByCalendarId(teamId, calendarId);
 
         log.debug("조회된 멤버 수: {}", tCalendarMembers.size());
 
-        List<TCalendarMemberItemDto> tCalendarmemberDtos = tCalendarMembers.stream()
-                .map(TCalendarMemberItemDto::fromEntity)
-                .collect(Collectors.toList());
+        return tCalendarMembers;
+    }
+    
+    // 이미 신청한 상태인지 확인
+    public boolean isApplied(Integer calendarId, String takeUserId) {
+    	int count = tCalendarMemberDao.selectTCalendarMembersByCalendarId(calendarId, takeUserId);
+        return count > 0;
+    }
 
-        return tCalendarmemberDtos;
+    // 신청 처리
+    public void apply(Integer calendarId, String takeUserId) {
+        tCalendarMemberDao.insert(calendarId, takeUserId);
+    }
+
+    // 신청 취소
+    public void cancelApplication(Integer calendarId, String takeUserId) {
+        tCalendarMemberDao.delete(calendarId, takeUserId);
     }
 }

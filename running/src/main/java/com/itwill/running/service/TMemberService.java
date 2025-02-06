@@ -21,4 +21,9 @@ public class TMemberService {
 		List<TMember> tmembers=tmemberDao.selectAllByTeamId(teamId);
 		return tmembers.stream().map(TMemberItemDto::fromEntity).toList();
 	}
+	
+	//팀멤버 확인 메서드
+	public boolean isTeamMember(Integer teamId, String userId) {
+        return tmemberDao.existsByTeamIdAndUserId(teamId, userId);
+    }
 }

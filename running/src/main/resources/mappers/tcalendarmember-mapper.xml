@@ -3,11 +3,30 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.itwill.running.repository.TCalendarMemberDao">
+
     <!-- 일정 모집글 신청(자동가입)된 사람들 검색 -->
-    <select id="selectAllTCalendarMemberByCalendarId" resultType="TCalendarMember">
+    <select id="selectAllTCalendarMemberByCalendarId" resultType="TCalendarMemberItemDto">
         SELECT tcm.take_user_id, tcm.nickname, tcm.created_time
         FROM T_Calendars_Members tcm
         LEFT JOIN T_Members tm ON tcm.take_user_id = tm.user_id
         WHERE tcm.team_id = #{teamId} AND tcm.calendar_id = #{calendarId}
     </select>
+    
+    <!-- 이미 캘린더멤버인지 확인하기 위한 -->
+    <select id="selectTCalendarMembersByCalendarId" resultType="int">
+	    SELECT COUNT(*)
+	    FROM t_calendars_members
+	    WHERE calendar_id = #{calendarId} AND take_user_id = #{takeUserId}
+	</select>
+	
+	<insert id="insert" parameterType="map">
+	    INSERT INTO t_calendars_members (calendar_id, user_id)
+	    VALUES (#{calendarId}, #{userId})
+	</insert>
+	
+	<delete id="delete" parameterType="map">
+	    DELETE FROM t_calendars_members
+	    WHERE calendar_id = #{calendarId} AND user_id = #{userId}
+	</delete>
+    
 </mapper>

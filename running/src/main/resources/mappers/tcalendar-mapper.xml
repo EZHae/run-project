@@ -9,18 +9,28 @@
   	</select>
   	
   	<!-- 일정 글 상세보기 -->
-  	<select id="selectTCalendartById" resultType="TCalendar">
+  	<select id="selectTCalendarById" resultType="TCalendar">
   		select * from T_Calendars where id = #{id} and team_id = #{teamId}
   	</select>
   	
   	<!-- 일정 새글 작성 -->
-  	<insert id="insertTCalendar" parameterType="com.itwill.running.domain.TCalendar"
+  	<insert id="insertTCalendar" parameterType="TCalendar"
 	        useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-	    INSERT INTO T_Calendars (team_id, title, user_id, nickname, date_time, content,
+	    insert into T_Calendars (team_id, title, user_id, nickname, date_time, content,
 	                             current_num, max_num, created_time, modified_time)
 	    VALUES (#{teamId}, #{title}, #{userId}, #{nickname}, #{dateTime, jdbcType=TIMESTAMP},
 	            #{content}, #{currentNum}, #{maxNum}, SYSTIMESTAMP, SYSTIMESTAMP)
 	</insert>
+	
+	<!-- 현재 인원 수 증가 & 감소 -->
+	<update id="updateCurrentNum" parameterType="map">
+	    update t_calendars
+	    set current_num = current_num + #{delta}
+	    where id = #{calendarId} and team_id = #{teamId}
+	</update>
+	
+	
+	
 
   	
   	
