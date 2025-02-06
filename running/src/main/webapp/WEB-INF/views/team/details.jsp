@@ -21,7 +21,7 @@
 	<main class="m-2 p-2">
 		<div class="mt-2">
 			<h2>팀배너</h2>
-			<img src="${teamItemDto.imagepath}" />
+			<img src="${teamItemDto.imagePath}" width="500" height="300" />
 		</div>
 
 		<div class="mb-3">
@@ -42,10 +42,10 @@
 			<h2>내용</h2>
 			${teamItemDto.content}
 		</div>
-		
+
 		<div class="mb-3">
 			<h2>공원</h2>
-			${teamItemDto.parkId}
+			${park.parkName}
 		</div>
 
 		<div class="mb-3">
@@ -166,20 +166,15 @@
 
 	</section>
 
-	<!-- 현재까지 신청한 멤버와 신청가능한 인원수-->
+	<!-- 현재까지 팀 멤버수와 신청가능한 인원수-->
 	<section id="currentMembers" class="m-2 p-2 border border-dark">
 		<h5>현재까지 회원수</h5>
 		<h6>${tmembers.size()}/${teamItemDto.maxNum=10}</h6>
-		<!-- 회장만 버튼 클릭 가능 -->
-		<c:if test="${signedInUserId==teamItemDto.userId}">
-			<button type="button" class="p-2 btn sm btn-primary"
-				data-bs-toggle="modal" data-bs-target="#memberManageModal">회원관리,팀장만보임</button>
-		</c:if>
 	</section>
 
 	<!-- 회원관리 모달창 -->
-	<div class="modal fade" id="memberManageModal" data-bs-backdrop="static"
-		data-bs-keyboard="false" tabindex="-1"
+	<div class="modal fade" id="memberManageModal"
+		data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
 		aria-labelledby="staticBackdropLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-scrollable">
 			<div class="modal-content">
@@ -192,8 +187,8 @@
 					<c:forEach items="${tmembers}" var="tmember">
 						<c:if test="${tmember.leaderCheck==0}">
 							<div class="mt-2">${tmember.nickname}
-								<button id="forceToResignButton" data-name="${tmember.nickname}" data-id="${tmember.userId}"
-									class="btn btn-danger">탈퇴</button>
+								<button id="forceToResignButton" data-name="${tmember.nickname}"
+									data-id="${tmember.userId}" class="btn btn-danger">탈퇴</button>
 							</div>
 						</c:if>
 					</c:forEach>
@@ -210,20 +205,34 @@
 
 
 
-	<!-- 신청/수락/취소과 관련된 구간 -->
+	<!-- 팀장만 보이는 구간 -->
 	<c:if test="${signedInUserId==teamItemDto.userId}">
-		<section id="applicationControl" class="m-2 p-2 border border-dark">
-			<h5>현재 신청 회원 목록-팀장만보임</h5>
+		<section class="m-2 p-2 border border-dark">
+			팀장 구간
+			<section id="applicationControl" class="m-2 p-2 ">
+				<h5>현재 신청 회원 목록</h5>
 
-			<c:forEach items="${tappList}" var="app">
-				<div class="mt-2">
-					<span>닉네임-${app.nickname}</span> <span>소개-${app.introMsg}</span>
-					<button id="applyConfirmButton" data-id="${app.userId}" data-name="${app.nickname}"
-						class="btn btn-success">수락</button>
-				</div>
-			</c:forEach>
+				<c:forEach items="${tappList}" var="app">
+					<div class="mt-2">
+						<span>닉네임-${app.nickname}</span> <span>소개-${app.introMsg}</span>
+						<button id="applyConfirmButton" data-id="${app.userId}"
+							data-name="${app.nickname}" class="btn btn-success">수락</button>
+					</div>
+				</c:forEach>
 
+			</section>
+			<section id="memberControl" class="m-2 p-2">
+				<button type="button" class="p-2 btn sm btn-primary"
+					data-bs-toggle="modal" data-bs-target="#memberManageModal">회원관리</button>
+			</section>
+			<section id="teamControl" class="m-2 p-2">
+					<button id="btnTeamUpdate"
+						class="p-2 btn sm btn-primary">팀 수정</button>
+				<button id="btnTeamDelete" class="p-2 btn btn-danger sm btn-primary">팀
+					삭제</button>
+			</section>
 		</section>
+
 	</c:if>
 
 
@@ -233,6 +242,7 @@
 		const signedInUserNickname = '${signedInUserNickname}';
 		const teamId = '${teamItemDto.teamId}';
 		const teamName = '${teamItemDto.teamName}';
+		const tmemNum = '${tmembers.size()}';
 	</script>
 
 	<!-- Axios Http Js-->

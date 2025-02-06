@@ -30,4 +30,7 @@ public class ParkService {
 		return parkDao.selectDistinctParkLocs();
 	}
 	
+	public Park selectParkByParkId(Integer id) {
+		return parkDao.selectParkByParkId(id);
+	}
 }

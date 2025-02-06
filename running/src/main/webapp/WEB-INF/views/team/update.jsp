@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <!-- Bootstrap을 사용하기 위한 meta name="viewport" 설정 -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>새 팀 생성</title>
+<title>팀수정</title>
 
 <!-- Bootstrap CSS 링크. -->
 <link
@@ -16,115 +16,96 @@
 	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
 	crossorigin="anonymous">
 </head>
+
+
 <body class="container mt-5">
 	<c:url var="courseRecruitPage" value="/team/list" />
 	<a href="${courseRecruitPage}">팀 목록</a>
-	
-	<h2 class="mb-4">팀 생성(현재로그인)${signedInUserId}</h2>
-	<c:url value="/team/create" var="teamCreatePage" />
-	<form action="${teamCreatePage}" method="post" id="teamForm"
+
+	<h2 class="mb-4">팀 수정(현재로그인)${signedInUserId}</h2>
+	<c:url value="/team/update" var="teamUpdate" />
+	<form action="${teamUpdate}" method="post" id="teamForm"
 		enctype="multipart/form-data">
 		<!-- 팀 이름 -->
 		<div class="mb-3">
 			<label for="teamName" class="form-label">팀 이름</label> <input
-				type="text" id="teamName" name="teamName" class="form-control"
-				required>
+				type="text" id="teamName" name="teamName"
+				value="${teamItemDto.teamName}" class="form-control" required>
 		</div>
 
 		<!-- 배너 업로드(이미지만 1개 업로드 가능) -->
 		<div class="mb-3">
-			<label for="imageUpload" class="form-label">팀 대표 이미지 업로드</label> <input
+			<label for="imageUpload" class="form-label">팀 대표 이미지 변경</label> <input
 				type="file" class="form-control" id="imageUpload" name="file"
-				accept="image/*" required>
+				accept="image/*">
 		</div>
 
 		<!-- 배너 미리보기 -->
-		<div class="mb-3">
-			<img id="imagePreview" src="#" alt="미리보기"
-				style="max-width: 200px; display: none;">
+		<div class="mb-3" id="newImg">
+			<img id="imageNewPreview" src="#" alt="미리보기"
+				style="max-width: 200px; display: none;"> <label
+				for="imageOGPreview" class="form-label">기존 배너</label> <img
+				id="imageOGPreview" src="${teamItemDto.imagePath}" alt="미리보기"
+				style="max-width: 200px; display: block;">
 		</div>
 
 		<!-- 제목 -->
 		<div class="mb-3">
 			<label for="title" class="form-label">제목</label> <input type="text"
-				id="title" name="title" class="form-control" required>
+				id="title" name="title" class="form-control"
+				value="${teamItemDto.title}" required>
 		</div>
 
 		<!-- 내용 -->
 		<div class="mb-3">
 			<label for="content" class="form-label">내용</label>
 			<textarea id="content" name="content" class="form-control" rows="4"
-				required placeholder="공백포함 최대 300자"></textarea>
+				required placeholder="공백포함 최대 300자">${teamItemDto.content}</textarea>
 		</div>
 
 		<!-- 구 선택 -->
 		<div class="mb-3">
 			<label for="districtSelect" class="form-label">구 선택</label> <select
-				id="districtSelect" class="form-select" required>
-				<option value="" selected disabled>구 선택</option>
-				<option value="강남구">강남구</option>
-				<option value="강동구">강동구</option>
-				<option value="강북구">강북구</option>
-				<option value="강서구">강서구</option>
-				<option value="관악구">관악구</option>
-				<option value="광진구">광진구</option>
-				<option value="구로구">구로구</option>
-				<option value="금천구">금천구</option>
-				<option value="노원구">노원구</option>
-				<option value="도봉구">도봉구</option>
-				<option value="동대문구">동대문구</option>
-				<option value="동작구">동작구</option>
-				<option value="마포구">마포구</option>
-				<option value="서대문구">서대문구</option>
-				<option value="서초구">서초구</option>
-				<option value="성동구">성동구</option>
-				<option value="성북구">성북구</option>
-				<option value="송파구">송파구</option>
-				<option value="양천구">양천구</option>
-				<option value="영등포구">영등포구</option>
-				<option value="용산구">용산구</option>
-				<option value="은평구">은평구</option>
-				<option value="종로구">종로구</option>
-				<option value="중구">중구</option>
-				<option value="중랑구">중랑구</option>
-
+				id="districtSelect" class="form-select">
+				<option value="" selected disabled>${park.parkLoc}</option>
 			</select>
 		</div>
 
 		<!-- 공원 선택 -->
 		<div class="mb-3">
 			<label for="parkId" class="form-label">공원 선택</label> <select
-				id="selectPark" name="parkId" class="form-select" required>
-				<option value="" selected disabled>먼저 구를 선택하세요</option>
+				id="selectPark" class="form-select">
+				<option value="" selected disabled>${park.parkName}</option>
 			</select>
 		</div>
 		<!-- 최대 인원 -->
 		<div class="mb-3">
 			<label for="maxNum" class="form-label">본인을 포함한 최대 인원</label> <input
-				type="number" id="maxNum" name="maxNum" class="form-control" min="2"
-				max="30" required>
+				type="number" id="maxNum" name="maxNum" class="form-control"
+				min="${teamItemDto.currentNum}" max="30" required
+				value="${teamItemDto.maxNum}"
+				placeholder="현재 ${teamItemDto.currentNum+1}명 이상으로만 변경가능합니다">
 		</div>
 
-		<!-- 연령 제한 -->
+		<!-- 연령 제한 (현재 회원수 이상으로만 수정 가능) -->
 		<div class="mb-3">
 			<label for="ageLimit" class="form-label">연령 제한</label> <input
 				type="number" id="ageLimit" name="ageLimit" class="form-control"
-				min="0" placeholder="예: 20 (20세 이상)" required>
+				min="${teamItemDto.ageLimit}" value="${teamItemDto.ageLimit}"
+				required>
 		</div>
 
 		<!-- 성별 제한 -->
 		<div class="mb-3">
 			<label for="genderLimit" class="form-label">성별 제한</label> <select
 				id="genderLimit" name="genderLimit" class="form-select" required>
-				<option value="0">성별 무관</option>
-				<option value="1">남성만</option>
-				<option value="2">여성만</option>
 			</select>
 		</div>
 
 		<!-- 제출 버튼 -->
-		<button type="submit" class="btn btn-primary w-100">팀 생성</button>
+		<button type="submit" class="btn btn-primary w-100">수정</button>
 	</form>
+
 
 	<!-- Bootstrap Javascript  -->
 	<script
@@ -135,34 +116,35 @@
 	<script>
 		//세션에 저장된 로그인 사용자 아이디를 자바스크립트 변수에 저장.
 		const signedInUserId = '${signedInUserId}';//문자열 포맷으로 변수를 저장.
-		const signedInUserNickname = '${signedInUserNickname}';
-		const teams='${teams}';
+		const teamId = '${teamItemDto.teamId}';
+		const teamName = '${teamItemDto.teamName}';
+		const tmemNum = '${tmembers.size()}';
+		const tgenderLimit = '${teamItemDto.genderLimit}';
 
 		// 이미지 미리보기 기능
 		document.getElementById("imageUpload").addEventListener("change",
 				function(event) {
 					const file = event.target.files[0]; //사용자가 선택한 첫번째 사진
-					const preview = document.getElementById("imagePreview");
+					const preview = document.getElementById("imageNewPreview");
 
 					if (file) {
 						const reader = new FileReader(); //파일을 읽어서 Base64 인코딩된 Data URL로 변환하는 객체인 FileReader생성
 						reader.onload = function(e) {
 							preview.src = e.target.result; //이미지태그의 src에 파일의 Base64 Data URL할당
 							preview.style.display = "block"; //화면에 보여준다
+
 						};
 						reader.readAsDataURL(file); //파일읽기가 끝나면 onload함수 실행됨
 					} else {
 						preview.style.display = "none"; //화면에 아무것도 보여주지 않는다
 					}
 				});
-
 	</script>
 
 	<!-- Axios Http Js-->
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-	<c:url value="/js/team-create.js" var="teamCreateJs" />
-	<script src="${teamCreateJs}"></script>
-
+	<c:url value="/js/team-update.js" var="teamUpdateJs" />
+	<script src="${teamUpdateJs}"></script>
 </body>
 </html>

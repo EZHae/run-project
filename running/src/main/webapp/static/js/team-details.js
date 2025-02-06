@@ -21,7 +21,29 @@ document.addEventListener("DOMContentLoaded", () => {
 		btn.addEventListener('click', forceToResign);
 	}
 
+	const btnTeamDelete = document.querySelector("button#btnTeamDelete");
+	btnTeamDelete.addEventListener('click', deleteTeam);
+
+	const btnTeamUpdate = document.querySelector("button#btnTeamUpdate");
+	btnTeamUpdate.addEventListener('click', function(){window.location.href = `../team/update?teamid=${teamId}`;});
+
 	/* -------------------------------------콜백함수--------------------------------- */
+
+
+	function deleteTeam(event) {
+		const result = confirm(`정말 ${teamName}팀을 삭제하시겠습니까? 복구가 불가능합니다.`);
+		if (result) {
+			axios.delete(`../team/delete?teamid=${teamId}`).then((response) => {
+				if (response.data == 1) {
+					alert('삭제가 완료되었습니다');
+					window.location.href = `../team/list`;
+				}
+			}).catch((error) => {
+				console.log(error);
+			})
+		}
+	}
+
 	//팀 회원 강제탈퇴
 	function forceToResign(event) {
 		const userId = event.target.getAttribute('data-id'); //탈퇴할 회원의 아이디
@@ -30,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			if (response.data == 1) {
 				alert(`${nickname}님을 강제탈퇴하였습니다`);
 				window.location.href = `../team/details?teamid=${teamId}`;
-				
+
 			}
 		}).catch((error) => {
 			console.log(error);
@@ -94,5 +116,6 @@ document.addEventListener("DOMContentLoaded", () => {
 			console.log(error);
 		})
 	}
+
 
 })

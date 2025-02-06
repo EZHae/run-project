@@ -15,4 +15,8 @@
   	<select id="selectParksByParkLoc" resultType="Park">
   		select * from parks where park_loc=#{parkLoc}
   	</select>
+  	
+  	<select id="selectParkByParkId" resultType="Park">
+  		select * from parks where id=#{id}
+  	</select>
   </mapper>

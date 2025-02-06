@@ -1,6 +1,11 @@
 package com.itwill.running.web;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.net.http.HttpRequest;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -11,12 +16,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.itwill.running.domain.Park;
 import com.itwill.running.domain.Team;
 import com.itwill.running.domain.User;
 import com.itwill.running.dto.GCommentCreateDto;
 import com.itwill.running.dto.TApplicationItemDto;
+import com.itwill.running.dto.TMemberCreateDto;
 import com.itwill.running.dto.TMemberItemDto;
+import com.itwill.running.dto.TeamCreateDto;
 import com.itwill.running.dto.TeamItemDto;
 import com.itwill.running.dto.UserItemDto;
 import com.itwill.running.service.CourseService;
@@ -26,6 +35,7 @@ import com.itwill.running.service.TMemberService;
 import com.itwill.running.service.TeamService;
 import com.itwill.running.service.UserService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,38 +50,101 @@ public class TeamController {
 	private final TApplicationService tappService;
 	private final UserService userService;
 	private final ParkService parkService;
-	
+
+
 	@GetMapping("/list")
-	public void getAllTeams(Model model){
-		List<TeamItemDto> teams=teamService.readAllTeams();
-		log.debug("teams={}",teams);
+	public void getAllTeams(Model model) {
+		List<TeamItemDto> teams = teamService.readAllTeams();
+		log.debug("teams={}", teams);
 		model.addAttribute(teams);
 	}
-	
-	@GetMapping("/details")
-	public void recruitTeam(@RequestParam("teamid") Integer teamId, Model model, HttpSession session){
-		TeamItemDto team=teamService.readByTeamid(teamId);
-		model.addAttribute(team); 
-		
-		List<TMemberItemDto> tmems=tmemService.readAllByTeamId(teamId);
+
+	@GetMapping({"/details","/update"})
+	public void recruitTeam(@RequestParam("teamid") Integer teamId, Model model, HttpSession session) {
+		TeamItemDto team = teamService.readByTeamid(teamId);
+		model.addAttribute(team);
+
+		List<TMemberItemDto> tmems = tmemService.readAllByTeamId(teamId);
 		model.addAttribute("tmembers", tmems);
-		
-		List<TApplicationItemDto> tapplist=tappService.readAllApplications(teamId);
+
+		List<TApplicationItemDto> tapplist = tappService.readAllApplications(teamId);
 		model.addAttribute("tappList", tapplist);
 		
-		String userId=(String) session.getAttribute("signedInUserId");
-		if(userId!=null) {
-			UserItemDto currentUser=userService.selectByUserId(userId);
-			model.addAttribute("user",currentUser);
+		Park park=parkService.selectParkByParkId(team.getParkId());
+		model.addAttribute(park);
+
+		String userId = (String) session.getAttribute("signedInUserId");
+		if (userId != null) {
+			UserItemDto currentUser = userService.selectByUserId(userId);
+			model.addAttribute("user", currentUser);
 		}
-		
+
 	}
 	
-	@GetMapping("/create")      
-	public void createTeam(Model model) {
+	@GetMapping("/api/count")
+	public ResponseEntity<Integer> isTeamCreatable(@RequestParam("teamname") String teamName){
+		int result =teamService.selectCountByTeamName(teamName);
+		return ResponseEntity.ok(result);
+	}
+	
+
+	@GetMapping("/create")
+	public void createTeam(HttpSession session) {
+		String userId = (String) session.getAttribute("signedInUserId");
+	
+	}
+
+	@PostMapping("/create")
+	public String createNewTeam(HttpServletRequest request, TeamCreateDto dto, HttpSession session,
+			@RequestParam("file") MultipartFile file) throws IllegalStateException, IOException {
 		
+		String userId = (String) session.getAttribute("signedInUserId");
+		dto.setUserId(userId);
+
+		final String UPLOAD_DIR = "C:/uploadTeamImg/";
+
+		// 원본 파일 이름
+		String originalFilename = file.getOriginalFilename();
+		// UUID 적용한 파일 이름
+		String uuidFilename = UUID.randomUUID().toString() + "_" + originalFilename;
+		// 파일 저장 경로
+		File saveFile = new File(UPLOAD_DIR, uuidFilename);
+
+		// 디렉토리가 존재하지 않으면 생성
+		if (!saveFile.getParentFile().exists()) {
+			saveFile.getParentFile().mkdirs();
+		}
+
+		// 지정한 디렉토리에 파일 저장
+		file.transferTo(saveFile);
+
+		dto.setImagePath(request.getContextPath() + "/api/uploadTeamImg/" + URLEncoder.encode(uuidFilename, "UTF-8"));
+		dto.setUniqName(uuidFilename);
+		
+		//팀생성
+		teamService.createNewTeam(dto);
+
+		// 생성된 팀의 teamId 가져오기
+		Integer teamId=teamService.findTeamId(dto.getTeamName(), userId);
+
+		// t_members테이블에 회장추가하는 메서드로 업데이트
+		TMemberCreateDto leader = new TMemberCreateDto();
+		leader.setUserId(userId);
+		leader.setLeaderCheck(1);
+		leader.setTeamId(teamId);
+		log.debug("리더객체={}",leader);
+		tmemService.createNewTMember(leader);
+
+		return "redirect:/team/list";
+	}
+	
+	@DeleteMapping("/delete")
+	public ResponseEntity<Integer> deleteTeam(@RequestParam("teamid") Integer teamId) {
+		int result=teamService.deleteTeam(teamId);
+		return ResponseEntity.ok(result);
 	}
 	
 	
 	
+
 }

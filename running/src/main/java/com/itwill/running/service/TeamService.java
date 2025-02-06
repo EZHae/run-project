@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.itwill.running.domain.Team;
+import com.itwill.running.dto.TeamCreateDto;
 import com.itwill.running.dto.TeamItemDto;
 import com.itwill.running.repository.GCommentDao;
 import com.itwill.running.repository.TeamDao;
@@ -26,4 +27,21 @@ public class TeamService {
 		Team team=teamDao.selectByTeamId(teamId);
 		return TeamItemDto.fromEntity(team);
 	}
+	
+	public Integer createNewTeam(TeamCreateDto dto) {
+		return teamDao.insertNewTeam(dto.toEntity());
+	}
+	
+	public Integer findTeamId(String teamName, String userId) {
+		return teamDao.findTeamIdByTeamNameAndUserId(teamName, userId);
+	}
+	
+	public Integer selectCountByTeamName(String teamName){
+		return teamDao.selectCountByTeamName(teamName);
+	}
+	
+	public Integer deleteTeam(Integer teamId) {
+		return teamDao.deleteTeam(teamId);
+	}
+	
 }

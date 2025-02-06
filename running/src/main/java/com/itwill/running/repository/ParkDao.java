@@ -8,4 +8,5 @@ public interface ParkDao {
 	List<Park> selectAll();
 	List<String> selectDistinctParkLocs();
 	List<Park> selectParksByParkLoc(String parkLoc);
+	Park selectParkByParkId(Integer id);
 }
