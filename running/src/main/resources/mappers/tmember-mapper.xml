@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.itwill.running.repository.TMemberDao">
+  	<select id="selectAllByTeamId" resultType="TMember">
+  		select tm.*,u.nickname from t_members tm left join users u on tm.user_id=u.user_id where team_id=#{teamId}
+  	</select>
+  	
+  	<insert id="insertNewMember">
+  		insert into t_members (leader_check, team_id, user_id, created_time) values(#{leaderCheck}, #{teamId}, #{userId}, systimestamp)
+  	</insert>
+  	
+  	<delete id="deleteMember">
+  		delete from t_members where team_id=#{teamId} and user_id=#{userId}
+  	</delete>
+  </mapper>
