@@ -6,6 +6,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.itwill.running.domain.TCalendar;
 import com.itwill.running.dto.TCalendarCreateDto;
+import com.itwill.running.dto.TCalendarItemDto;
 import com.itwill.running.dto.TCalendarMemberItemDto;
 import com.itwill.running.dto.TMemberItemDto;
 import com.itwill.running.dto.UserItemDto;
@@ -43,15 +45,32 @@ public class TCalendarController {
     public String list(@PathVariable Integer teamId, Model model) {
         log.debug("list() - teamId: {}", teamId);
 
-        // 팀의 일정 목록 가져오기
+        // 팀의 일정 목록 가져오기.
         List<TCalendar> tCalendars = tCalendarService.read(teamId);
 
-        // 뷰에 전달할 데이터 추가
-        model.addAttribute("tCalendars", tCalendars);
+        // 날짜 포맷터 설정
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+        // 각 일정의 dateTime을 포맷팅하여 새로운 리스트 생성
+        List<TCalendarItemDto> tCalendarItems = tCalendars.stream().map(calendar -> {
+            TCalendarItemDto item = new TCalendarItemDto();
+            item.setId(calendar.getId());
+            item.setTitle(calendar.getTitle());
+            item.setNickname(calendar.getNickname());
+            item.setContent(calendar.getContent());
+            item.setCurrentNum(calendar.getCurrentNum());
+            item.setMaxNum(calendar.getMaxNum());
+            item.setFormattedDateTime(calendar.getDateTime().format(formatter));
+            return item;
+        }).collect(Collectors.toList());
+
+        // 뷰에 전달할 데이터를 추가
+        model.addAttribute("tCalendars", tCalendarItems);
         model.addAttribute("teamId", teamId);
 
         return "/tcalendar/list";
     }
+
 
     // 일정 상세 보기
     @GetMapping("/details")

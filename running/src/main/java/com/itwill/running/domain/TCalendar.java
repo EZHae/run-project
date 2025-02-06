@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class TCalendar {
-	private Integer id;
+	private Long id; // 시퀀스 값을 받을 필드
 	private Integer teamId; //fk, team_id
 	private String title;
 	private String userId; //fk, user_id

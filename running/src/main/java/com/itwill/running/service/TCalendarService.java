@@ -52,10 +52,10 @@ public class TCalendarService {
         tCalendarDao.insertTCalendar(tCalendar);
         
         // 이제 tCalendar 객체의 id 필드에 자동 생성된 id가 설정됩니다.
-        int generatedId = tCalendar.getId();
+        Long generatedId = tCalendar.getId();
         log.debug("Generated ID: {}", generatedId);
 
-        return generatedId;
+        return generatedId.intValue(); 
     }
 
 
