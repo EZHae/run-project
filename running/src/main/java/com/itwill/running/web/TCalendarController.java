@@ -43,7 +43,7 @@ public class TCalendarController {
 
 	// 일정 목록 보기
 	@GetMapping("/list")
-	public String list(@PathVariable Integer teamId, Model model) {
+	public String list(@PathVariable Integer teamId, Model model, HttpSession session) {
 		log.debug("list() - teamId: {}", teamId);
 
 		// 팀의 일정 목록 가져오기.
@@ -64,6 +64,15 @@ public class TCalendarController {
 			item.setFormattedDateTime(calendar.getDateTime().format(formatter));
 			return item;
 		}).collect(Collectors.toList());
+		
+		// 현재 로그인한 사용자 정보 가져오기
+	    String userId = (String) session.getAttribute("signedInUserId");
+	    
+	    // 팀장
+	    String teamLeaderId = tMemberService.getTeamLeaderId(teamId);
+	    boolean isTeamLeader = userId.equals(teamLeaderId);
+	    model.addAttribute("isTeamLeader", isTeamLeader);
+
 
 		// 뷰에 전달할 데이터를 추가
 		model.addAttribute("tCalendars", tCalendarItems);

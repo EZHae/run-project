@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 public class TMemberService {
+	
 	private final TMemberDao tmemberDao;
 	
 	public List<TMemberItemDto> readAllByTeamId(Integer teamId) {
@@ -26,4 +27,10 @@ public class TMemberService {
 	public boolean isTeamMember(Integer teamId, String userId) {
         return tmemberDao.existsByTeamIdAndUserId(teamId, userId);
     }
+	
+	//팀장
+	public String getTeamLeaderId(int teamId) {
+	    return tmemberDao.getTeamLeaderId(teamId);
+	}
+	
 }

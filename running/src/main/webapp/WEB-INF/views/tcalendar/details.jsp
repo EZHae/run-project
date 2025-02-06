@@ -31,7 +31,7 @@
 	
 	        <!-- 신청 인원수 -->
 	        <div class="mb-3">
-	            <p><strong>신청 인원수:</strong> ${tCalendar.currentNum} / ${tCalendar.maxNum}</p>
+	            <p><strong>신청 인원수:</strong> ${tCalendar.currentNum}명 / ${tCalendar.maxNum}명</p>
 	        </div>
 	
 	        <!-- 메시지 표시 -->
@@ -99,6 +99,12 @@
 	                   onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
 	            </c:if>
 	        </div>
+	        
+	        <!-- 목록으로 돌아가는 버튼 -->
+	        <div>
+			    <c:url var="listPageUrl" value="/teampage/${teamId}/tcalendar/list" />
+			    <a href="${listPageUrl}" class="btn btn-primary">목록으로 돌아가기</a>
+			</div>
 	    </div>
 	
 	    <!-- Bootstrap JS 링크 -->
