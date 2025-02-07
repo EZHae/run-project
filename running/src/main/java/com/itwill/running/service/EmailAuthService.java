@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
 public class EmailAuthService {
+	@Autowired
     private JavaMailSender mailSender;
     
     //토큰 이메일 전송 서비스

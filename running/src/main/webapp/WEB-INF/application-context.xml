@@ -69,12 +69,12 @@
 		<property name="password" value="runningproject157!@" /> <!-- 앱 비밀번호 -->
 
 		<property name="javaMailProperties">
-			<bean class="java.util.Properties">
-				<property name="mail.smtp.auth" value="true" />
-				<property name="mail.smtp.starttls.enable" value="true" />
-				<property name="mail.smtp.ssl.trust" value="smtp.gmail.com" />
-				<property name="mail.smtp.ssl.protocols" value="TLSv1.2" />
-			</bean>
+			<props>
+            <prop key="mail.smtp.auth">true</prop>
+            <prop key="mail.smtp.starttls.enable">true</prop>
+            <prop key="mail.smtp.ssl.trust">smtp.gmail.com</prop>
+            <prop key="mail.smtp.ssl.protocols">TLSv1.2</prop>
+        </props>
 		</property>
 	</bean>
 </beans>
