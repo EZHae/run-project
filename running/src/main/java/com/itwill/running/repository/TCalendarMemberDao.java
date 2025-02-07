@@ -9,16 +9,22 @@ import com.itwill.running.dto.TCalendarMemberItemDto;
 
 @Mapper
 public interface TCalendarMemberDao {
-	//일정 게시판의 모든 멤버 조회
+    // 일정 게시판의 모든 멤버 조회
     List<TCalendarMemberItemDto> selectAllTCalendarMemberByCalendarId(@Param("teamId") Integer teamId, @Param("calendarId") Integer calendarId);
-    
-    //일정 게시글에 이미 신청했는지 확인(팀캘린터멤버인지 검색)
-    int selectTCalendarMembersByCalendarId(@Param("calendarId") Integer calendarId, @Param("takeUserId") String takeUserId);
 
-    //insert
-    void insert(@Param("calendarId") Integer calendarId, @Param("userId") String userId);
+    // 신청한 멤버 조회
+    int selectAppliedCalendarMember(@Param("calendarId") int calendarId,
+                                    @Param("userId") String userId, @Param("teamId") Integer teamId);
 
-    //delete
-    void delete(@Param("calendarId") Integer calendarId, @Param("userId") String userId);
-    
+    // insert
+    int insertTCalendarMember(@Param("calendarId") Integer calendarId,
+                              @Param("teamId") Integer teamId,
+                              @Param("userId") String userId,
+                              @Param("nickname") String nickname);
+
+    // delete
+    int deleteTCalendarMember(@Param("calendarId") Integer calendarId,
+                              @Param("userId") String userId,
+                              @Param("teamId") Integer teamId);
 }
+

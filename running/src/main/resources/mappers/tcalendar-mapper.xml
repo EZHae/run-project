@@ -24,18 +24,24 @@
 	
 	<!-- 현재 인원 수 증가 & 감소 -->
 	<update id="updateCurrentNum" parameterType="map">
-	    update t_calendars
-	    set current_num = current_num + #{delta}
-	    where id = #{calendarId} and team_id = #{teamId}
+	    UPDATE t_calendars
+	    SET current_num = current_num + #{delta}
+	    WHERE id = #{calendarId} AND team_id = #{teamId}
+	    <if test="delta &lt; 0">
+	        AND current_num &gt; 0
+	    </if>
+	    <if test="delta &gt; 0">
+	        AND current_num &lt; max_num
+	    </if>
 	</update>
-	
-	
-	
 
-  	
-  	
-
-  	
+	<!-- 현재인원수와 최대 인원수를 조회하여 모집 종료 여부를 확인 -->
+	<select id="getCurrentAndMaxNum" parameterType="map" resultType="map">
+	    SELECT current_num, max_num
+	    FROM t_calendars
+	    WHERE id = #{calendarId} AND team_id = #{teamId}
+	</select>
+	
   	<!-- 일정 글 업데이트(최대인원수만 올릴 수 있음) -->
   	
   	<!-- 일정 글 삭제 -->

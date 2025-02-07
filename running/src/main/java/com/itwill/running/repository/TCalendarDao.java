@@ -1,6 +1,7 @@
 package com.itwill.running.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -19,4 +20,7 @@ public interface TCalendarDao {
 	// 현재인원수 증가
 	void updateCurrentNum(@Param("calendarId") Integer calendarId, @Param("teamId") Integer teamId, @Param("delta") Integer delta);
 	
+	// 현재 인원 수와 최대 인원 수 조회
+    Map<String, Integer> getCurrentAndMaxNum(@Param("calendarId") Integer calendarId,
+                                             @Param("teamId") Integer teamId);
 }

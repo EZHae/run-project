@@ -6,27 +6,35 @@
 
     <!-- 일정 모집글 신청(자동가입)된 사람들 검색 -->
     <select id="selectAllTCalendarMemberByCalendarId" resultType="TCalendarMemberItemDto">
-        SELECT tcm.take_user_id, tcm.nickname, tcm.created_time
+        SELECT tcm.user_id, tcm.nickname, tcm.created_time
         FROM T_Calendars_Members tcm
-        LEFT JOIN T_Members tm ON tcm.take_user_id = tm.user_id
+        LEFT JOIN T_Members tm ON tcm.user_id = tm.user_id
         WHERE tcm.team_id = #{teamId} AND tcm.calendar_id = #{calendarId}
     </select>
     
-    <!-- 이미 캘린더멤버인지 확인하기 위한 -->
-    <select id="selectTCalendarMembersByCalendarId" resultType="int">
+    <!-- 이미 캘린더멤버인지 확인(신청 여부 확인) -->
+    <select id="selectAppliedCalendarMember" resultType="int">
 	    SELECT COUNT(*)
 	    FROM t_calendars_members
-	    WHERE calendar_id = #{calendarId} AND take_user_id = #{takeUserId}
+	    WHERE calendar_id = #{calendarId} AND user_id = #{userId} and team_id = #{teamId}
 	</select>
 	
-	<insert id="insert" parameterType="map">
-	    INSERT INTO t_calendars_members (calendar_id, user_id)
-	    VALUES (#{calendarId}, #{userId})
+	<!-- 일정모임에 멤버 추가 -->
+	<insert id="insertTCalendarMember" >
+	    INSERT INTO t_calendars_members (calendar_id, user_id, team_id, nickname)
+	    VALUES (#{calendarId}, #{userId}, #{teamId}, #{nickname})
 	</insert>
 	
-	<delete id="delete" parameterType="map">
+	<!-- 일정모임의 멤버를 삭제 -->
+	<delete id="deleteTCalendarMember" parameterType="map">
 	    DELETE FROM t_calendars_members
-	    WHERE calendar_id = #{calendarId} AND user_id = #{userId}
+	    WHERE calendar_id = #{calendarId} AND user_id = #{userId} and team_id = #{teamId}
 	</delete>
+	
+	<!-- 일정모임에 신청한(자동승락) 멤버를 조회 -->
+	<select id ="selectAllTCalendarMemberByCalendarId" resultType="TCalendarMemberItemDto">
+	
+	</select>
+	
     
 </mapper>

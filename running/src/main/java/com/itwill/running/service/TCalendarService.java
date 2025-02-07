@@ -2,6 +2,7 @@ package com.itwill.running.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -72,11 +73,17 @@ public class TCalendarService {
 
     //신청
     @Transactional
-    public void apply(Integer calendarId, Integer teamId, String userId) throws Exception {
+    public void apply(Integer calendarId, Integer teamId, String userId, String nickname) throws Exception {
         // 일정 조회
         TCalendar tCalendar = tCalendarDao.selectTCalendarById(calendarId, teamId);
         if (tCalendar == null) {
             throw new Exception("일정을 찾을 수 없거나 권한이 없습니다.");
+        }
+
+        // 사용자가 이미 신청했는지 확인
+        int appliedCount = tCalendarMemberDao.selectAppliedCalendarMember(calendarId, userId, teamId);
+        if (appliedCount > 0) {
+            throw new Exception("이미 신청하셨습니다.");
         }
 
         int currentNum = tCalendar.getCurrentNum();
@@ -88,26 +95,46 @@ public class TCalendarService {
         }
 
         // 신청 처리
-        tCalendarMemberDao.insert(calendarId, userId);
+        tCalendarMemberDao.insertTCalendarMember(calendarId, teamId, userId, nickname);
 
         // 현재인원수 증가
-        tCalendarDao.updateCurrentNum(calendarId, teamId, teamId);
+        int delta = 1;
+        tCalendarDao.updateCurrentNum(calendarId, teamId, delta);
     }
     
     //신청 취소
     @Transactional
     public void cancelApplication(Integer calendarId, Integer teamId, String userId) throws Exception {
+    	log.debug("cancelApplication(calendarId={}, teamId={}, userId={})", calendarId, teamId, userId);
+
         // 일정 조회
         TCalendar tCalendar = tCalendarDao.selectTCalendarById(calendarId, teamId);
         if (tCalendar == null) {
             throw new Exception("일정을 찾을 수 없거나 권한이 없습니다.");
         }
 
+        // 신청 여부 확인
+        int appliedCount = tCalendarMemberDao.selectAppliedCalendarMember(calendarId, userId, teamId);
+        if (appliedCount == 0) {
+            throw new Exception("신청 내역이 없습니다.");
+        }
+
+        int deleteCount = tCalendarMemberDao.deleteTCalendarMember(calendarId, userId, teamId);
+        if (deleteCount == 0) {
+            throw new Exception("신청 취소에 실패하였습니다.");
+        }
+        
         // 신청 취소 처리
-        tCalendarMemberDao.delete(calendarId, userId);
+        tCalendarMemberDao.deleteTCalendarMember(calendarId, userId, teamId);
 
         // 현재인원수 감소
-        tCalendarDao.updateCurrentNum(calendarId, teamId, teamId);
+        int delta = -1;
+        tCalendarDao.updateCurrentNum(calendarId, teamId, delta);
+    }
+    
+    // 현재 인원 수와 최대 인원 수 조회
+    public Map<String, Integer> getCurrentAndMaxNum(Integer calendarId, Integer teamId) {
+        return tCalendarDao.getCurrentAndMaxNum(calendarId, teamId);
     }
 
 }

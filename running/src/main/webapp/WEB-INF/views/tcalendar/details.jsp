@@ -18,6 +18,14 @@
 	          crossorigin="anonymous">
 	</head>
 	<body>
+		<!-- applyUrl 변수 정의 -->
+	    <c:url var="applyUrl" value="/teampage/${teamId}/tcalendar/apply" />
+	
+	    <!-- 자바스크립트 변수로 전달 -->
+	    <script>
+	        const applyUrl = '${applyUrl}';
+	    </script>
+	    
 	    <div class="container mt-5">
 	        <!-- 제목 -->
 	        <h2 class="mb-4">${tCalendar.title}</h2>
@@ -30,10 +38,13 @@
 	        </div>
 	
 	        <!-- 신청 인원수 -->
-	        <div class="mb-3">
-	            <p><strong>신청 인원수:</strong> ${tCalendar.currentNum}명 / ${tCalendar.maxNum}명</p>
-	        </div>
-	
+			<div class="mb-3">
+			    <p><strong>신청 인원수:</strong>
+			        <span id="currentNum">${tCalendar.currentNum}</span>명 /
+			        <span id="maxNum">${tCalendar.maxNum}</span>명
+			    </p>
+			</div>
+	       
 	        <!-- 메시지 표시 -->
 	        <c:if test="${not empty message}">
 	            <div class="alert alert-info" role="alert">
@@ -43,74 +54,79 @@
 	
 	        <!-- 신청 상태에 따른 버튼 표시 -->
 	        <div class="mb-3">
-	
-	            <form action="<c:url value='/teampage/${teamId}/tcalendar/apply' />" method="post">
-	                <input type="hidden" name="calendarId" value="${tCalendar.id}" />
-	                
-	                <button type="submit" class="btn
-	                    <c:choose>
-	                        <c:when test="${isApplied}">
-	                            btn-danger
-	                        </c:when>
-	                        <c:otherwise>
-	                            btn-primary
-	                        </c:otherwise>
-	                    </c:choose>
-	                "
-	                <c:if test="${isFull || isExpired}">
-	                    disabled
-	                </c:if>
-	                >
-	                    <c:choose>
-	                        <c:when test="${isFull || isExpired}">
-	                            모집종료
-	                        </c:when>
-	                        <c:when test="${isApplied}">
-	                            신청취소
-	                        </c:when>
-	                        <c:otherwise>
-	                            신청
-	                        </c:otherwise>
-	                    </c:choose>
-	                </button>
-	            </form>
+			    <button id="applyButton" class="btn
+			        <c:choose>
+			            <c:when test="${isApplied}">
+			                btn-danger
+			            </c:when>
+			            <c:otherwise>
+			                btn-primary
+			            </c:otherwise>
+			        </c:choose>
+			    "
+			    <c:if test="${isFull || isExpired}">
+			        disabled
+			    </c:if>
+			    data-calendar-id="${tCalendar.id}"
+			    data-team-id="${teamId}"
+			    data-apply-url="${applyUrl}"
+			    >
+			        <c:choose>
+			            <c:when test="${isFull || isExpired}">
+			                모집종료
+			            </c:when>
+			            <c:when test="${isApplied}">
+			                신청취소
+			            </c:when>
+			            <c:otherwise>
+			                신청
+			            </c:otherwise>
+			        </c:choose>
+			    </button>
+			    
+			    <!-- 메시지 표시 영역 -->
+          	    <div id="messageArea"></div>
 	
 	            <!-- 신청한 멤버 보기 버튼 -->
+	            <div>
 	            <c:url var="viewMembersUrl" value="/teampage/${teamId}/tcalendar/members">
 	                <c:param name="calendarId" value="${tCalendar.id}" />
 	            </c:url>
 	            <a href="${viewMembersUrl}" class="btn btn-info">신청한 멤버 보기</a>
-	        </div>
+	        	</div>
+		
+		        <!-- 수정 및 삭제 버튼(팀장만 보이게) -->
+		        <div class="mb-3">
+		            <c:if test="${isTeamLeader}">
+		                <!-- 수정 버튼 -->
+		                <c:url var="editUrl" value="/teampage/${teamId}/tcalendar/edit">
+		                    <c:param name="calendarId" value="${tCalendar.id}" />
+		                </c:url>
+		                <a href="${editUrl}" class="btn btn-warning">수정</a>
+		                
+		                <!-- 삭제 버튼 -->
+		                <c:url var="deleteUrl" value="/teampage/${teamId}/tcalendar/delete">
+		                    <c:param name="calendarId" value="${tCalendar.id}" />
+		                </c:url>
+		                <a href="${deleteUrl}" class="btn btn-danger" 
+		                   onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
+		            </c:if>
+		        </div>
+		        
+		        <!-- 목록으로 돌아가는 버튼 -->
+		        <div>
+				    <c:url var="listPageUrl" value="/teampage/${teamId}/tcalendar/list" />
+				    <a href="${listPageUrl}" class="btn btn-primary">목록으로 돌아가기</a>
+				</div>
+		   </div>
 	
-	        <!-- 수정 및 삭제 버튼(팀장만 보이게) -->
-	        <div class="mb-3">
-	            <c:if test="${userId == tCalendar.userId}">
-	                <!-- 수정 버튼 -->
-	                <c:url var="editUrl" value="/teampage/${teamId}/tcalendar/edit">
-	                    <c:param name="calendarId" value="${tCalendar.id}" />
-	                </c:url>
-	                <a href="${editUrl}" class="btn btn-warning">수정</a>
-	                
-	                <!-- 삭제 버튼 -->
-	                <c:url var="deleteUrl" value="/teampage/${teamId}/tcalendar/delete">
-	                    <c:param name="calendarId" value="${tCalendar.id}" />
-	                </c:url>
-	                <a href="${deleteUrl}" class="btn btn-danger" 
-	                   onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
-	            </c:if>
-	        </div>
-	        
-	        <!-- 목록으로 돌아가는 버튼 -->
-	        <div>
-			    <c:url var="listPageUrl" value="/teampage/${teamId}/tcalendar/list" />
-			    <a href="${listPageUrl}" class="btn btn-primary">목록으로 돌아가기</a>
-			</div>
-	    </div>
-	
-	    <!-- Bootstrap JS 링크 -->
-	    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
-	            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-	            crossorigin="anonymous">
-	    </script>
-	</body>
+		    <!-- Bootstrap JS 링크 -->
+		    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+		            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+		            crossorigin="anonymous">
+		    </script>
+		    
+	        <c:url var="detailsJS" value="/js/tcalendar_details.js" />
+	        <script src="${detailsJS}"></script>
+		</body>
 </html>

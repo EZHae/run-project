@@ -112,8 +112,8 @@
 		                            </c:otherwise>
 							</c:choose>
 						</p>
-						<p class="card-text">인원: ${calendar.currentNum} /
-							${calendar.maxNum}</p>
+						<p class="card-text">인원: ${calendar.currentNum}명 /
+							${calendar.maxNum}명</p>
 						<c:url var="calendarDetailPage"
 							value="/teampage/${teamId}/tcalendar/details">
 							<c:param name="calendarId" value="${calendar.id}" />

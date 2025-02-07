@@ -23,10 +23,12 @@ public class TMemberService {
 		return tmembers.stream().map(TMemberItemDto::fromEntity).toList();
 	}
 	
-	//팀멤버 확인 메서드
+	// 사용자가 팀 멤버인지 확인하는 메서드
 	public boolean isTeamMember(Integer teamId, String userId) {
-        return tmemberDao.existsByTeamIdAndUserId(teamId, userId);
-    }
+	    int count = tmemberDao.selectTeamMember(teamId, userId);
+	    log.debug("팀 멤버 여부 확인 - teamId: {}, userId: {}, count: {}", teamId, userId, count);
+	    return count > 0;
+	}
 	
 	//팀장
 	public String getTeamLeaderId(int teamId) {

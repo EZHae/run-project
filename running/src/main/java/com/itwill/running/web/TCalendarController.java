@@ -4,8 +4,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
@@ -39,7 +41,6 @@ public class TCalendarController {
 	private final TCalendarService tCalendarService;
 	private final TCalendarMemberService tCalendarMemberService;
 	private final TMemberService tMemberService;
-	private final UserService userService; // UserService 주입
 
 	// 일정 목록 보기
 	@GetMapping("/list")
@@ -70,7 +71,7 @@ public class TCalendarController {
 	    
 	    // 팀장
 	    String teamLeaderId = tMemberService.getTeamLeaderId(teamId);
-	    boolean isTeamLeader = userId.equals(teamLeaderId);
+	    boolean isTeamLeader = userId != null && userId.equals(teamLeaderId);
 	    model.addAttribute("isTeamLeader", isTeamLeader);
 
 
@@ -108,8 +109,13 @@ public class TCalendarController {
 		String userId = (String) session.getAttribute("signedInUserId");
 		model.addAttribute("userId", userId);
 
+		 // 팀장 확인
+	    String teamLeaderId = tMemberService.getTeamLeaderId(teamId);
+	    boolean isTeamLeader = userId != null && userId.equals(teamLeaderId);
+	    model.addAttribute("isTeamLeader", isTeamLeader);
+	    
 		// 신청 여부 확인
-		boolean isApplied = tCalendarMemberService.isApplied(calendarId, userId);
+		boolean isApplied = tCalendarMemberService.isApplied(calendarId, userId, teamId);
 		model.addAttribute("isApplied", isApplied);
 
 		// 현재인원수가 최대인원수에 도달했는지 확인
@@ -176,41 +182,105 @@ public class TCalendarController {
 
 	}
 
-	// 신청 및 신청취소 처리
-	// 신청 및 신청취소 처리
+	//신청 및 신청 취소
 	@PostMapping("/apply")
-	public String apply(@PathVariable Integer teamId, @RequestParam Integer calendarId, HttpServletRequest request,
-			RedirectAttributes redirectAttributes) {
+	@ResponseBody
+	public Map<String, Object> apply(@PathVariable Integer teamId,
+	                                 @RequestParam Integer calendarId,
+	                                 HttpSession session) {
+	    String userId = (String) session.getAttribute("signedInUserId");
+	    String nickname = (String) session.getAttribute("signedInUserNickname");
+	    
+	    Map<String, Object> result = new HashMap<>();
 
-		HttpSession session = request.getSession();
-		String userId = (String) session.getAttribute("signedInUserId");
+	    log.debug("신청 처리 시작 - teamId: {}, calendarId: {}, userId: {}", teamId, calendarId, userId);
 
-		// 팀 멤버인지 확인
-		boolean isTeamMember = tMemberService.isTeamMember(teamId, userId);
-		if (!isTeamMember) {
-			// 팀에 가입되지 않은 경우
-			redirectAttributes.addFlashAttribute("message", "팀에 먼저 가입한 후에 신청해주세요.");
-			return "redirect:/teampage/" + teamId + "/tcalendar/details?calendarId=" + calendarId;
-		}
+	    // 팀 멤버인지 확인
+	    boolean isTeamMember = tMemberService.isTeamMember(teamId, userId);
+	    log.debug("isTeamMember 결과 - isTeamMember: {}", isTeamMember);
 
-		// 이미 신청한 상태인지 확인
-		boolean isApplied = tCalendarMemberService.isApplied(calendarId, userId);
+	    if (!isTeamMember) {
+	        result.put("status", "not_member");
+	        result.put("message", "팀에 먼저 가입한 후에 신청해주세요.");
+	        return result;
+	    }
 
-		try {
-			if (!isApplied) {
-				// 신청 처리
-				tCalendarService.apply(calendarId, teamId, userId);
-				redirectAttributes.addFlashAttribute("message", "신청이 완료되었습니다.");
-			} else {
-				// 신청 취소 처리
-				tCalendarService.cancelApplication(calendarId, teamId, userId);
-				redirectAttributes.addFlashAttribute("message", "신청이 취소되었습니다.");
-			}
-		} catch (Exception e) {
-			redirectAttributes.addFlashAttribute("message", e.getMessage());
-		}
+	    // 이미 신청한 상태인지 확인
+	    boolean isApplied = tCalendarMemberService.isApplied(calendarId, userId, teamId);
+	    log.debug("isApplied 결과 - isApplied: {}", isApplied);
 
-		return "redirect:/teampage/" + teamId + "/tcalendar/details?calendarId=" + calendarId;
+	    try {
+	        if (!isApplied) {
+	            // 모집이 완료되었는지 확인
+	            TCalendar tCalendar = tCalendarService.read(calendarId, teamId);
+	            log.debug("TCalendar 읽기 결과 - tCalendar: {}", tCalendar);
+
+	            if (tCalendar.getCurrentNum() >= tCalendar.getMaxNum()) {
+	                result.put("status", "full");
+	                result.put("message", "모집이 완료되었습니다.");
+	                return result;
+	            }
+	            // 신청 처리
+	            tCalendarService.apply(calendarId, teamId, userId, nickname);
+	            log.debug("신청 처리 완료");
+	            result.put("status", "applied");
+	            result.put("message", "신청이 완료되었습니다.");
+	        } else {
+	            // 신청 취소 처리
+	            tCalendarService.cancelApplication(calendarId, teamId, userId);
+	            log.debug("신청 취소 처리 완료");
+	            result.put("status", "cancelled");
+	            result.put("message", "신청이 취소되었습니다.");
+	        }
+	    } catch (Exception e) {
+	        log.error("신청 처리 중 오류 발생 - teamId: {}, calendarId: {}, userId: {}", teamId, calendarId, userId, e);
+	        result.put("status", "error");
+	        result.put("message", "처리 중 오류가 발생했습니다.");
+	    }
+
+	    return result;
 	}
+
+	
+	// 현재 인원 수와 최대 인원 수 조회
+    @GetMapping("/currentMaxNum")
+    public Map<String, Integer> getCurrentAndMaxNum(@PathVariable Integer teamId,
+                                                    @RequestParam Integer calendarId) {
+        Map<String, Integer> result = tCalendarService.getCurrentAndMaxNum(calendarId, teamId);
+        return result;
+    }
+    
+    // 일정 신청자 목록 보기
+    @GetMapping("/members")
+    public String viewMembers(@PathVariable Integer teamId,
+                              @RequestParam Integer calendarId,
+                              Model model,
+                              HttpSession session) {
+        log.debug("viewMembers() - teamId: {}, calendarId: {}", teamId, calendarId);
+
+        // 현재 로그인한 사용자 정보 가져오기
+        String userId = (String) session.getAttribute("signedInUserId");
+        String nickname = (String) session.getAttribute("signedInUserNickname");
+
+        // 팀 멤버인지 확인
+        boolean isTeamMember = tMemberService.isTeamMember(teamId, userId);
+//        if (!isTeamMember) {
+//            // 접근 권한이 없는 경우 처리
+//            return "redirect:/accessDenied";
+//        }
+
+        // 신청자 목록 가져오기
+        List<TCalendarMemberItemDto> tCalendarMembers = tCalendarMemberService.getTCalendarMembers(teamId, calendarId);
+        model.addAttribute("tCalendarMembers", tCalendarMembers);
+
+        // 모델에 필요한 데이터 추가
+        model.addAttribute("teamId", teamId);
+        model.addAttribute("calendarId", calendarId);
+        model.addAttribute("nickname", nickname);
+        model.addAttribute("userId", userId);
+
+        return "/tcalendar/members";
+    }
+
 
 }
