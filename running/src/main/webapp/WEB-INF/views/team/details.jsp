@@ -226,8 +226,8 @@
 					data-bs-toggle="modal" data-bs-target="#memberManageModal">회원관리</button>
 			</section>
 			<section id="teamControl" class="m-2 p-2">
-					<button id="btnTeamUpdate"
-						class="p-2 btn sm btn-primary">팀 수정</button>
+				<button id="btnTeamUpdate" class="p-2 btn sm btn-primary">팀
+					수정</button>
 				<button id="btnTeamDelete" class="p-2 btn btn-danger sm btn-primary">팀
 					삭제</button>
 			</section>
@@ -245,6 +245,7 @@
 		const tmemNum = '${tmembers.size()}';
 	</script>
 
+	
 	<!-- Axios Http Js-->
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 

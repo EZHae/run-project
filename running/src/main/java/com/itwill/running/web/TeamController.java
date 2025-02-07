@@ -57,6 +57,7 @@ public class TeamController {
 		List<TeamItemDto> teams = teamService.readAllTeams();
 		log.debug("teams={}", teams);
 		model.addAttribute(teams);
+		List<Park> parks=parkService.readAll();
 	}
 
 	@GetMapping({ "/details", "/update" })

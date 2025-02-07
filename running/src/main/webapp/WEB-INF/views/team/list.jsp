@@ -31,6 +31,53 @@
 		<a href="${teamCreatePage}">새 팀 생성</a>
 	</div>
 
+	<div id="map" style="width: 500px; height: 400px;"></div>
+
+
+	<script type="text/javascript"
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a968ac66f9f47a5a20d82c0fa106e0f0&libraries=services,clusterer,drawing"></script>
+	<script type="text/javascript">
+		// <맵 생성>
+		var container = document.getElementById('map');
+		var options = {
+			center : new kakao.maps.LatLng(37.5665, 126.9780), // 서울 중심부(시청 기준)
+			level : 9
+		};
+
+		var map = new kakao.maps.Map(container, options);
+		// </맵 생성>
+
+		//db에서 공원 위도,경도 불러오기
+		let positions = []; // 빈 배열 생성
+		//parkdata에 공원리스트담기
+		//for (const park of parkdata) {
+		//positions.push({
+		//title: `${park.parkName}`,
+		//lat: `${park.parkLat}`,  // 위도 값
+		//lng: `${park.parkLng}` // 경도 값
+		//});
+		//}
+		positions.push({
+			title : '상암공원',
+			lat : 37.5738,
+			lng : 126.8955
+		})
+
+		var markers = positions.map(function(position) { // 마커를 배열 단위로 묶음
+			return new kakao.maps.Marker({
+				position : new kakao.maps.LatLng(position.lat, position.lng)
+			});
+		});
+
+		var clusterer = new kakao.maps.MarkerClusterer({
+			map : map, // 마커들을 클러스터로 관리하고 표시할 지도 객체 
+			averageCenter : true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정 
+			minLevel : 5, // 클러스터 할 최소 지도 레벨 
+			markers : markers // 클러스터에 마커 추가
+		});
+	</script>
+
+
 
 	<!-- Bootstrap Javascript  -->
 	<script
