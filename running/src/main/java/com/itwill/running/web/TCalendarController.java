@@ -13,18 +13,15 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itwill.running.domain.TCalendar;
 import com.itwill.running.dto.TCalendarCreateDto;
 import com.itwill.running.dto.TCalendarItemDto;
 import com.itwill.running.dto.TCalendarMemberItemDto;
 import com.itwill.running.dto.TMemberItemDto;
-import com.itwill.running.dto.UserItemDto;
 import com.itwill.running.service.TCalendarMemberService;
 import com.itwill.running.service.TCalendarService;
 import com.itwill.running.service.TMemberService;
-import com.itwill.running.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -250,37 +247,25 @@ public class TCalendarController {
         return result;
     }
     
-    // 일정 신청자 목록 보기
     @GetMapping("/members")
-    public String viewMembers(@PathVariable Integer teamId,
-                              @RequestParam Integer calendarId,
-                              Model model,
-                              HttpSession session) {
+    @ResponseBody
+    public List<TCalendarMemberItemDto> viewMembers(@PathVariable Integer teamId,
+                                                    @RequestParam Integer calendarId,
+                                                    HttpSession session) {
         log.debug("viewMembers() - teamId: {}, calendarId: {}", teamId, calendarId);
 
         // 현재 로그인한 사용자 정보 가져오기
         String userId = (String) session.getAttribute("signedInUserId");
-        String nickname = (String) session.getAttribute("signedInUserNickname");
 
         // 팀 멤버인지 확인
         boolean isTeamMember = tMemberService.isTeamMember(teamId, userId);
 //        if (!isTeamMember) {
-//            // 접근 권한이 없는 경우 처리
-//            return "redirect:/accessDenied";
+//            log.warn("User {} is not a member of team {}", userId, teamId);
+//            return null;
 //        }
 
         // 신청자 목록 가져오기
-        List<TCalendarMemberItemDto> tCalendarMembers = tCalendarMemberService.getTCalendarMembers(teamId, calendarId);
-        model.addAttribute("tCalendarMembers", tCalendarMembers);
-
-        // 모델에 필요한 데이터 추가
-        model.addAttribute("teamId", teamId);
-        model.addAttribute("calendarId", calendarId);
-        model.addAttribute("nickname", nickname);
-        model.addAttribute("userId", userId);
-
-        return "/tcalendar/members";
+        return tCalendarMemberService.getTCalendarMembers(teamId, calendarId);
     }
-
 
 }

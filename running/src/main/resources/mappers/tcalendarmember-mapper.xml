@@ -5,7 +5,7 @@
 <mapper namespace="com.itwill.running.repository.TCalendarMemberDao">
 
     <!-- 일정 모집글 신청(자동가입)된 사람들 검색 -->
-    <select id="selectAllTCalendarMemberByCalendarId" resultType="TCalendarMemberItemDto">
+    <select id="selectAllTCalendarMemberByCalendarId" parameterType="map" resultType="TCalendarMemberItemDto">
         SELECT tcm.user_id, tcm.nickname, tcm.created_time
         FROM T_Calendars_Members tcm
         LEFT JOIN T_Members tm ON tcm.user_id = tm.user_id
@@ -30,11 +30,5 @@
 	    DELETE FROM t_calendars_members
 	    WHERE calendar_id = #{calendarId} AND user_id = #{userId} and team_id = #{teamId}
 	</delete>
-	
-	<!-- 일정모임에 신청한(자동승락) 멤버를 조회 -->
-	<select id ="selectAllTCalendarMemberByCalendarId" resultType="TCalendarMemberItemDto">
-	
-	</select>
-	
     
 </mapper>
