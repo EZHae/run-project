@@ -53,11 +53,13 @@ public class TeamController {
 	private final ParkService parkService;
 
 	@GetMapping("/list")
-	public void getAllTeams(Model model) {
-		List<TeamItemDto> teams = teamService.readAllTeams();
-		log.debug("teams={}", teams);
-		model.addAttribute(teams);
-		List<Park> parks=parkService.readAll();
+	public void getAllTeams(Model model, @RequestParam(value= "status", defaultValue = "open")String status) {
+		List<TeamItemDto> teams = "closed".equals(status) ? teamService.readClosedTeams() : teamService.readOpenTeams();
+		log.debug("모집 상태 목록={}",teams);
+		
+		model.addAttribute("teams",teams);
+		model.addAttribute("status", status);
+
 	}
 
 	@GetMapping({ "/details", "/update" })

@@ -5,8 +5,7 @@ import lombok.Data;
 @Data
 public class GpostCategoryDto {
 
-   private int category;
-   private String search;   
-   private String keyword;
-
+	private int category;
+	private String search;
+	private String keyword;
 }

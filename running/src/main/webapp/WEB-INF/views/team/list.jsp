@@ -18,17 +18,58 @@
 	crossorigin="anonymous">
 </head>
 <body>
-
 	<c:forEach items="${teamItemDtoList}" var="team">
 		<c:url var="teamDetailPage" value="/team/details">
 			<c:param name="teamid" value="${team.teamId}" />
 		</c:url>
 		<a href="${teamDetailPage}">${team.teamName}</a>
 	</c:forEach>
+	<c:url value="/" var="homePage" />
+	<a href=${homePage }>home</a> >>>>>>>
 
 	<div>
 		<c:url var="teamCreatePage" value="/team/create" />
 		<a href="${teamCreatePage}">새 팀 생성</a>
+	</div>
+
+	<div>
+		<c:url value="/team/list" var="teamListUrl">
+			<c:param name="status" value="open" />
+		</c:url>
+		<c:url value="/team/list" var="closedListUrl">
+			<c:param name="status" value="closed" />
+		</c:url>
+		<div>
+			<a href="${teamListUrl}">
+				<button style="${status eq 'open' }">모집중</button>
+			</a> <a href="${closedListUrl}">
+				<button style="${status eq 'closed'}">모집완료</button>
+			</a>
+		</div>
+		<table>
+			<thead>
+				<tr>
+					<th>번호</th>
+					<th>팀이름</th>
+					<th>작성자</th>
+					<th>인원수</th>
+					<th>작성일</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${teams}" var="team">
+					<tr>
+						<td>${team.teamId}</td>
+						<td><c:url var="teamDetailPage" value="/team/details">
+								<c:param name="teamid" value="${team.teamId}" />
+							</c:url> <a href="${teamDetailPage}">${team.teamName}</a></td>
+						<td>${team.userId}</td>
+						<td>${team.currentNum}/${team.maxNum}</td>
+						<td>${team.createdTime}</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
 	</div>
 
 	<div id="map" style="width: 500px; height: 400px;"></div>
@@ -73,7 +114,8 @@
 			map : map, // 마커들을 클러스터로 관리하고 표시할 지도 객체 
 			averageCenter : true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정 
 			minLevel : 5, // 클러스터 할 최소 지도 레벨 
-			markers : markers // 클러스터에 마커 추가
+			markers : markers
+		// 클러스터에 마커 추가
 		});
 	</script>
 

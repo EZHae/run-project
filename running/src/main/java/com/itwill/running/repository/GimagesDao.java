@@ -11,5 +11,6 @@ public interface GimagesDao {
 	Integer deleteImagesById(List<Integer> imageIds); // 이미지를 삭제
 	
 	Integer deleteImagesByPostId(Integer postId); // 모든 이미지를 삭제
+	Gimages selectImageByUniqName(String uniqName); // uniqName으로 이미지 조회
 
 }

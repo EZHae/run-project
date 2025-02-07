@@ -29,6 +29,7 @@ public class TeamService {
 		return TeamItemDto.fromEntity(team);
 	}
 	
+
 	public Integer createNewTeam(TeamCreateDto dto) {
 		return teamDao.insertNewTeam(dto.toEntity());
 	}
@@ -49,4 +50,15 @@ public class TeamService {
 		return teamDao.deleteTeam(teamId);
 	}
 	
+	
+	public List<TeamItemDto> readOpenTeams(){
+		List<Team> teams = teamDao.selectOpenTeams();
+		return teams.stream().map(TeamItemDto::fromEntity).toList();
+	}
+	
+	public List<TeamItemDto> readClosedTeams() {
+		List<Team> teams = teamDao.selectClosedTeams();
+		return teams.stream().map(TeamItemDto::fromEntity).toList();
+	}
+
 }

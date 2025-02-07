@@ -74,4 +74,64 @@
         where id = #{id}
     </update>
     
+    
+    <!-- 포스트 검색 카테고리, 키워드에서 사용할 메서드 이름과 SQL 문장 -->
+    <select id="readPageWithOffset"  parameterType="map" resultType="Gpost">
+        select * from G_POSTS
+        <where> 
+            category = #{category}
+            <if test="search != null and keyword != null and keyword != ''">
+                <choose>
+                    <when test='search.equals("t")'>       
+                        <bind name="searchKeyword" value="'%' + keyword + '%'"/>
+                         and upper(title) like upper(#{searchKeyword})
+                    </when>
+                    <when test='search.equals("n")'>
+                        <bind name="searchKeyword" value="'%' + keyword + '%'"/>
+                        and upper(nickname) like upper(#{searchKeyword})
+                    </when>
+                    <when test='search.equals("c")'>
+                        <bind name="searchKeyword" value="'%' + keyword + '%'"/>
+                        and upper(content) like upper(#{searchKeyword})
+                    </when>
+                    <when test='search.equals("tc")'>
+                        <bind name="searchKeyword" value="'%' + keyword + '%'"/>
+                        and (upper(title) like upper(#{searchKeyword})
+                        or upper(content) like upper(#{searchKeyword}))
+                    </when>
+                </choose>
+                </if>
+        </where>
+        order by id desc
+        offset #{offset} rows fetch next #{limit} rows only
+    </select>
+    
+    <select id="selectCountPostsBySearch" parameterType="map" resultType="int">
+        SELECT COUNT(*) 
+        from G_POSTS
+        <where> 
+        category = #{category}
+        <if test="search != null and keyword != null and keyword != ''">
+            <choose>
+                <when test='search.equals("t")'>       
+                    <bind name="searchKeyword" value="'%' + keyword + '%'"/>
+                     and upper(title) like upper(#{searchKeyword})
+                </when>
+                <when test='search.equals("n")'>
+                    <bind name="searchKeyword" value="'%' + keyword + '%'"/>
+                    and upper(nickname) like upper(#{searchKeyword})
+                </when>
+                <when test='search.equals("c")'>
+                    <bind name="searchKeyword" value="'%' + keyword + '%'"/>
+                    and upper(content) like upper(#{searchKeyword})
+                </when>
+                <when test='search.equals("tc")'>
+                    <bind name="searchKeyword" value="'%' + keyword + '%'"/>
+                    and (upper(title) like upper(#{searchKeyword})
+                    or upper(content) like upper(#{searchKeyword}))
+                </when>
+            </choose>
+            </if>
+        </where>
+    </select>
   </mapper>

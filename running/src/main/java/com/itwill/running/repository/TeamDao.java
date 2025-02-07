@@ -5,6 +5,7 @@ import java.util.List;
 import com.itwill.running.domain.Team;
 import com.itwill.running.dto.TeamItemDto;
 
+
 public interface TeamDao {
 	List<Team> selectAll();
 	List<Team> selectOpenTeams();
@@ -14,4 +15,5 @@ public interface TeamDao {
 	Integer selectCountByTeamName(String teamName);
 	Integer deleteTeam(Integer teamId);
 	Integer updateTeam(Team team);
+	List<Team> selectClosedTeams();
 }

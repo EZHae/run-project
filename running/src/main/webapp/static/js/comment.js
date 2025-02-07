@@ -296,9 +296,9 @@ document.addEventListener("DOMContentLoaded", () => {
 		    </div>
 		</div>`;
 		replySection.innerHTML = html;
-		const submitCommentButton = document.querySelector("button#submitCommentButton");
+		const submitCommentButton = document.querySelector(`button#submitCommentButton[parent-id="${parentId}"]`);
 		submitCommentButton.addEventListener('click', createReply);
-		const submitCancelButton=document.querySelector("button#submitCancelButton");
+		const submitCancelButton=document.querySelector(`button#submitCancelButton[parent-id="${parentId}"]`);
 		submitCancelButton.addEventListener('click',cancelReply);
 	}
 	
