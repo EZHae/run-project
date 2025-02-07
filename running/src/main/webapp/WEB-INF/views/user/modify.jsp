@@ -45,7 +45,28 @@
                           <div class="modal-body text-center" >
                             <img id="previewImage" src="<c:url value='/image/view/user/${signedInUserId}' />" alt="프로필 이미지 미리보기" style="width:70px; height:70px; border-radius:50%;"/>
                             
-                            <input type="file" id="imageUpload" accept="image/*" >
+                            <div>
+                                <label>
+                                    <input type="radio" name="imgId" value="1" ${userImagePath == '../images/profile01.jpeg' ? 'checked' : ''}>
+                                    <img src="../images/profile01.jpeg" alt="기본 이미지 1" style="width:100px; height:auto; border: 2px solid black; border-radius: 50%;">
+                                </label>
+                                <label>
+                                    <input type="radio" name="imgId" value="2" ${userImagePath == '../images/profile02.jpeg' ? 'checked' : ''}>
+                                    <img src="../images/profile02.jpeg" alt="기본 이미지 2" style="width:100px; height:auto; border: 2px solid black; border-radius: 50%;">
+                                </label>
+                                <label>
+                                    <input type="radio" name="imgId" value="3" ${userImagePath == '../images/profile03.jpeg' ? 'checked' : ''}>
+                                    <img src="../images/profile03.jpeg" alt="기본 이미지 3" style="width:100px; height:auto; border: 2px solid black; border-radius: 50%;">
+                                </label>
+                                <label>
+                                    <input type="radio" name="imgId" value="4" ${userImagePath == '../images/profile04.jpeg' ? 'checked' : ''}>
+                                    <img src="../images/profile04.jpeg" alt="기본 이미지 4" style="width:100px; height:auto; border: 2px solid black; border-radius: 50%;">
+                                </label>
+                                <label>
+                                    <input type="radio" name="imgId" value="5" ${userImagePath == '../images/profile05.jpeg' ? 'checked' : ''}>
+                                    <img src="../images/profile05.jpeg" alt="기본 이미지 5" style="width:100px; height:auto; border: 2px solid black; border-radius: 50%;">
+                                </label>
+                            </div>    
                           </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
@@ -54,18 +75,10 @@
                         </div>
                       </div>
                     </div>
-                    
-                    <div>
-                        <input class="d-none" type="text" id="userId" name="userId" placeholder="사용자 아이디"/>
-                    </div>
-                    <div>
-                        <input class="d-none" type="password" id="password" name="password" placeholder="비밀번호" />
-                    </div>
-                    <%-- password 중복체크 결과를 출력할 영역 --%>
-                    <div id="checkPasswordResult">
-                    
-                    </div>
-                    
+                        <input class="d-none" type="text" id="userId" name="userId" value="${user.userId}" />
+                        <input class="d-none" type="password" id="password" name="password" value="${user.password}" />
+                        <input class="d-none" type="text" id="imgId" name="imgId" value="${user.imgId}"/>
+                        <input class="d-none" type="text" id="age" name="age" value="${user.age}" />
                     <div>
                         <label> 닉네임 </label>
                         <input type="text" id="nickname" name="nickname" value="${user.nickname}"/>
@@ -73,9 +86,6 @@
                     <!-- 사용자 닉네임 중복체크 -->
                     <div id="checkNicknameResult">
                     
-                    </div>
-                    
-                    <div>
                         <label> 이름 </label>
                         <input type="text" id="username" name="username" value="${user.username}" />
                     </div>
@@ -86,14 +96,10 @@
                         </select>
                     </div>
                     <div>
-                        <input class="d-none" type="text" id="age" name="age" value="${user.age}" />
-                    </div>
-                    
-                    <div>
                         <label> 휴대전화번호 </label>
                         <input type="text" id="phonenumber" name="phonenumber" value="${user.phonenumber}" />
                     </div>
-                    <!-- 사용자 닉네임 중복체크 -->
+                    <!-- 사용자 전화번호 중복체크 -->
                     <div id="checkPhoneNumberResult">
                     
                     </div>
@@ -106,8 +112,8 @@
                                 "양천구", "영등포구", "용산구", "은평구", "종로구", "중구", "중랑구"
                             };
                         %>
-                        <select name="residence" id="residence" class="d-none">
-                        <option value="">구 선택</option>
+                        <select name="residence" id="residence">
+                        <option value="${user.residence}"></option>
                             <% for (String district : seoulDistricts) { %>
                                 <option value="<%= district %>"><%= district %></option>
                             <% } %>
@@ -134,9 +140,6 @@
                 <div>
                     <button >비밀번호 변경</button>
                     <button id="btnDelete" data-user-id="${sessionScope.signedInUserId}">계정 탈퇴</button>
-                </div>
-                <div>
-                    <a></a>
                 </div>
             </div>
         </div>

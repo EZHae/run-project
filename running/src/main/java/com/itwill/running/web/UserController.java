@@ -115,10 +115,12 @@ public class UserController {
 		
 		int selectedImgId = user.getImgId();
 		// 이미지 이름을 가져옴
-		uimagesService.selectUserImageByUserId(signedInUserId);
+		UImages userImage = uimagesService.selectUserImageByUserId(signedInUserId);
+		String userImagePath = userImage.getImagePath();
 		
 		model.addAttribute("user", user);
 		model.addAttribute("selectedImgId", selectedImgId);
+		model.addAttribute("userImagePath", userImagePath);
 	}
 	
 	// 유저 삭제 API

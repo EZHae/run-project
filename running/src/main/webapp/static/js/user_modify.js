@@ -45,6 +45,8 @@ document.addEventListener('DOMContentLoaded', ()=> {
     // 유저 업데이트 버튼 이벤트 리스너
     function updateUser(event) {
         console.log(event.target);
+        const userId = btnUpdate.getAttribute('data-user-id');
+        
         
         // 업데이트할 데이터
         const nickname = document.querySelector('input#nickname').value;
@@ -52,12 +54,15 @@ document.addEventListener('DOMContentLoaded', ()=> {
         const age = document.querySelector('input#age').value;
         const phonenumber =document.querySelector('input#phonenumber').value;
         const email = document.querySelector('input#email').value;
+        const password = document.querySelector('input#password').value;
+        const gender = document.querySelector('select#gender').value;
+        const residence = document.querySelector('select#residence').value;
+        const imgId = document.querySelector('input#imgId').value;
         
-        const data = {nickname, username, age, phonenumber, email, userId}
+        const data = {userId, nickname, username, age, phonenumber, email, password, gender, residence, imgId}
         console.log(data);
         
         
-        const userId = btnUpdate.getAttribute('data-user-id')
         const result = confirm('변경 하시겠습니까?')
         if (!result) {
             return;
@@ -69,7 +74,7 @@ document.addEventListener('DOMContentLoaded', ()=> {
         .put(uri,data)
         .then((response) => {
             console.log(response);
-//            window.location.href = "/running/user/details";
+            window.location.href = "/running/user/details";
         })
         .catch((error) => {
             alert("수정 실패: " + error.response.data);

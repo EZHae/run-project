@@ -5,7 +5,7 @@
   <mapper namespace="com.itwill.running.repository.UImagesDao">
 
     <!-- 사용자 프로필 이미지를 저장하는 SQL -->
-    <insert id="insertUserImage" parameterType="com.itwill.running.domain.UImages" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertUserImage" parameterType="UImages" useGeneratedKeys="true" keyProperty="id">
         <selectKey keyProperty="id" resultType="int" order="AFTER">
             SELECT id FROM u_images WHERE user_id = #{userId} AND image_name = #{imageName}
         </selectKey>

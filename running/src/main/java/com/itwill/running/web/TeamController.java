@@ -33,7 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/team")
-public class TeamsController {
+public class TeamController {
 	private final TeamService teamService;
 	private final TMemberService tmemService;
 	private final TApplicationService tappService;
