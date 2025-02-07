@@ -31,9 +31,6 @@ public class TCalendarMemberService {
         }
 
         List<TCalendarMemberItemDto> tCalendarMembers = tCalendarMemberDao.selectAllTCalendarMemberByCalendarId(teamId, calendarId);
-
-        //중복되는 데이터 제거
-        tCalendarMembers = tCalendarMembers.stream().distinct().collect(Collectors.toList());
         
         log.debug("조회된 멤버 수: {}", tCalendarMembers.size());
 
@@ -56,7 +53,6 @@ public class TCalendarMemberService {
 
     	tCalendarMemberDao.insertTCalendarMember(calendarId, teamId, userId, nickname);
     }
-
 
     // 신청 취소
     public void cancelApplication(Integer calendarId, String userId, Integer teamId) {

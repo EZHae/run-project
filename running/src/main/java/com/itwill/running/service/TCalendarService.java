@@ -42,6 +42,11 @@ public class TCalendarService {
         return tCalendar;
     }
     
+    // 최대 인원수 업데이트
+    public void updateMaxNum(Integer teamId, Integer calendarId, Integer maxNum) {
+        tCalendarDao.updateMaxNum(teamId, calendarId, maxNum);
+    }
+    
     // 새글 작성 서비스
     @Transactional
     public int create(TCalendarCreateDto dto) {
@@ -136,5 +141,10 @@ public class TCalendarService {
     public Map<String, Integer> getCurrentAndMaxNum(Integer calendarId, Integer teamId) {
         return tCalendarDao.getCurrentAndMaxNum(calendarId, teamId);
     }
-
+    
+    //해당 일정 글 삭제
+    public void delete(Integer teamId, Integer calendarId) {
+        tCalendarDao.delete(teamId, calendarId);
+    }
+    
 }

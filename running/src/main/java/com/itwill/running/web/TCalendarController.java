@@ -10,6 +10,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -268,4 +269,49 @@ public class TCalendarController {
         return tCalendarMemberService.getTCalendarMembers(teamId, calendarId);
     }
 
+//모달창 쓰려고     
+//    //업데이트
+//    @GetMapping("/update")
+//    public String updateForm(@PathVariable Integer teamId,
+//                             @RequestParam Integer calendarId,
+//                             Model model) {
+//        log.debug("updateForm() - teamId: {}, calendarId: {}", teamId, calendarId);
+//
+//        TCalendar tCalendar = tCalendarService.read(calendarId, teamId);
+//        model.addAttribute("tCalendar", tCalendar);
+//        model.addAttribute("teamId", teamId);
+//        
+//        return "/tcalendar/update";
+//    }
+
+    //최대인원수 업데이트
+    @PostMapping("/update")
+    @ResponseBody
+    public ResponseEntity<String> update(@PathVariable Integer teamId,
+                         @RequestParam Integer calendarId,
+                         @RequestParam Integer maxNum) {
+        log.debug("update() - teamId: {}, calendarId: {}, maxNum: {}", teamId, calendarId, maxNum);
+
+        tCalendarService.updateMaxNum(teamId, calendarId, maxNum);
+
+//        TCalendar tCalendar = tCalendarService.read(calendarId, teamId);
+//        model.addAttribute("tCalendar", tCalendar);
+//        model.addAttribute("teamId", teamId);
+//        model.addAttribute("currentNum", currentNum);
+//        model.addAttribute("maxNum", maxNum);
+        
+        return ResponseEntity.ok("success");
+    }
+
+    
+    //일정 글 삭제
+    @PostMapping("/delete")
+    public String delete(@PathVariable Integer teamId,
+                         @RequestParam Integer calendarId) {
+        log.debug("delete() - teamId: {}, calendarId: {}", teamId, calendarId);
+
+        tCalendarService.delete(teamId, calendarId);
+
+        return "redirect:/teampage/" + teamId + "/tcalendar/list";
+    }
 }

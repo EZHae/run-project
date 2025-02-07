@@ -87,20 +87,21 @@
                 <!-- 메시지 표시 영역 -->
                 <div id="messageArea"></div>
     
-                <!-- 신청한 멤버 보기 버튼 -->
-                <div>
-                    <c:url var="viewMembersUrl" value="/teampage/${teamId}/tcalendar/members">
-                        <c:param name="calendarId" value="${tCalendar.id}" />
-                    </c:url>
-                    <a href="${viewMembersUrl}" class="btn btn-info" id="viewMembersButton">신청한 멤버 보기</a>
-                </div>
-    
+                <!-- 신청한 멤버 보기 버튼 (현재 인원수가 0이 아닐 경우에만 보이도록 설정) -->
+				<c:if test="${tCalendar.currentNum != 0}">
+				    <div>
+				        <c:url var="viewMembersUrl" value="/teampage/${teamId}/tcalendar/members">
+				            <c:param name="calendarId" value="${tCalendar.id}" />
+				        </c:url>
+				        <a href="${viewMembersUrl}" class="btn btn-info" id="viewMembersButton" data-currentnum="${tCalendar.currentNum}">신청한 멤버 보기</a>
+				    </div>
+				</c:if>
                 <!---------------신청한 멤버 보기 버튼의 모달 창 구조 -------------------->
                 <div class="modal fade" id="membersModal" tabindex="-1" aria-labelledby="membersModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="membersModalLabel">신청한 멤버들</h5>
+                                <h5 class="modal-title" id="membersModalLabel">참여 멤버</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -115,31 +116,57 @@
                         </div>
                     </div>
                 </div>
-    
                 <!-- 수정 및 삭제 버튼(팀장만 보이게) -->
-                <div class="mb-3">
-                    <c:if test="${isTeamLeader}">
-                        <!-- 수정 버튼 -->
-                        <c:url var="editUrl" value="/teampage/${teamId}/tcalendar/edit">
-                            <c:param name="calendarId" value="${tCalendar.id}" />
-                        </c:url>
-                        <a href="${editUrl}" class="btn btn-warning">수정</a>
-                        
-                        <!-- 삭제 버튼 -->
-                        <c:url var="deleteUrl" value="/teampage/${teamId}/tcalendar/delete">
-                            <c:param name="calendarId" value="${tCalendar.id}" />
-                        </c:url>
-                        <a href="${deleteUrl}" class="btn btn-danger" 
-                           onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
-                    </c:if>
-                </div>
-                
-                <!-- 목록으로 돌아가는 버튼 -->
-                <div>
-                    <c:url var="listPageUrl" value="/teampage/${teamId}/tcalendar/list" />
-                    <a href="${listPageUrl}" class="btn btn-primary">목록으로 돌아가기</a>
-                </div>
-           </div>
+				<div class="mb-3">
+				    <c:if test="${isTeamLeader}">
+				        <!-- 수정 버튼 -->
+				        <div>
+				            <c:url var="updateMaxNumUrl" value="/teampage/${teamId}/tcalendar/update">
+				                <c:param name="calendarId" value="${tCalendar.id}" />
+				            </c:url>
+				            <a href="#" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#updateMaxNumModal" data-teamid="${teamId}" data-calendarid="${tCalendar.id}" data-currentnum="${tCalendar.currentNum}">수정</a>
+				        </div>
+				
+				        <!-- 수정 버튼의 모달창 추가 -->
+				        <div class="modal fade" id="updateMaxNumModal" tabindex="-1" aria-labelledby="updateMaxNumModalLabel" aria-hidden="true">
+				            <div class="modal-dialog">
+				                <div class="modal-content">
+				                    <div class="modal-header">
+				                        <h5 class="modal-title" id="updateMaxNumModalLabel">최대 인원수 수정</h5>
+				                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				                    </div>
+				                    <div class="modal-body">
+				                        <form id="updateMaxNumForm">
+				                            <div class="mb-3">
+				                                <label for="maxNum" class="form-label">최대 인원수</label>
+				                                <input type="number" class="form-control" id="maxNum" name="maxNum" min="${tCalendar.currentNum}" max="99" required>
+				                            </div>
+				                            <input type="hidden" id="teamId" name="teamId" value="${teamId}">
+				                            <input type="hidden" id="calendarId" name="calendarId" value="${tCalendar.id}">
+				                            <button type="submit" class="btn btn-primary">확인</button>
+				                        </form>
+				                    </div>
+				                </div>
+				            </div>
+				        </div>
+				        
+				        <!-- 삭제 버튼 -->
+				        <div>
+				            <c:url var="deleteUrl" value="/teampage/${teamId}/tcalendar/delete">
+				                <c:param name="calendarId" value="${tCalendar.id}" />
+				            </c:url>
+				            <form action="${deleteUrl}" method="post" style="display: inline;">
+				                <button type="submit" class="btn btn-danger" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</button>
+				            </form>
+				        </div>
+				    </c:if>
+       
+		        <!-- 목록으로 돌아가는 버튼 -->
+		        <div>
+		            <c:url var="listPageUrl" value="/teampage/${teamId}/tcalendar/list" />
+		            <a href="${listPageUrl}" class="btn btn-primary">목록으로 돌아가기</a>
+		        </div>
+		   </div>
     
             <!-- Bootstrap JS 링크 -->
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
@@ -155,6 +182,9 @@
             <c:url var="viewTCalendarMembersJS" value="/js/tcalendar_viewTCalendarMembers.js"/>
             <script src="${viewTCalendarMembersJS}"></script>
             
+            <!-- 최대 인원수 수정 모달창 JS -->
+	        <c:url var="updateMaxNumJS" value="/js/tcalendar_update_maxnum.js"/>
+	        <script src="${updateMaxNumJS}"></script>
             
         </body>
 </html>

@@ -13,6 +13,11 @@
   		select * from T_Calendars where id = #{id} and team_id = #{teamId}
   	</select>
   	
+  	<!-- 일정 글 업데이트(최대인원수만 올릴 수 있음) -->
+    <update id="updateMaxNum" parameterType="map">
+        UPDATE t_calendars SET max_num = #{maxNum} WHERE team_id = #{teamId} AND id = #{calendarId}
+    </update>
+  	
   	<!-- 일정 새글 작성 -->
   	<insert id="insertTCalendar" parameterType="TCalendar"
 	        useGeneratedKeys="true" keyProperty="id" keyColumn="id">
@@ -26,7 +31,7 @@
 	<update id="updateCurrentNum" parameterType="map">
 	    UPDATE t_calendars
 	    SET current_num = current_num + #{delta}
-	    WHERE id = #{calendarId} AND team_id = #{teamId}
+	    WHERE id = #{id} AND team_id = #{teamId}
 	    <if test="delta &lt; 0">
 	        AND current_num &gt; 0
 	    </if>
@@ -35,16 +40,17 @@
 	    </if>
 	</update>
 
-	<!-- 현재인원수와 최대 인원수를 조회하여 모집 종료 여부를 확인 -->
+	<!-- 현재인원수와 최대 인원수를 조회하여 모집 종료 여부를 확인하기 위해 -->
 	<select id="getCurrentAndMaxNum" parameterType="map" resultType="map">
 	    SELECT current_num, max_num
 	    FROM t_calendars
-	    WHERE id = #{calendarId} AND team_id = #{teamId}
+	    WHERE id = #{id} AND team_id = #{teamId}
 	</select>
-	
-  	<!-- 일정 글 업데이트(최대인원수만 올릴 수 있음) -->
-  	
+
   	<!-- 일정 글 삭제 -->
+  	<delete id="delete" parameterType="map">
+        DELETE FROM t_calendars WHERE id = #{calendarId} AND team_id = #{teamId}
+    </delete>
   	
-  	<!-- 콤보박스와 키워드로 검색? -->
+  	<!-- 콤보박스와 키워드로 검색? 할까말까 -->
   </mapper>
