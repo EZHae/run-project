@@ -14,7 +14,7 @@
   	</select>
   	
   	<!-- 일정 글 업데이트(최대인원수만 올릴 수 있음) -->
-    <update id="updateMaxNum" parameterType="map">
+    <update id="updateMaxNum">
         UPDATE t_calendars SET max_num = #{maxNum} WHERE team_id = #{teamId} AND id = #{calendarId}
     </update>
   	

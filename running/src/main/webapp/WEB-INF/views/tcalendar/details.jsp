@@ -126,6 +126,7 @@
 				        </div>
 				
 				        <!-- 수정 버튼의 모달창-->
+						<!-- 최대 인원수 수정 모달창 -->
 						<div class="modal fade" id="updateMaxNumModal" tabindex="-1" aria-labelledby="updateMaxNumModalLabel" aria-hidden="true">
 						    <div class="modal-dialog">
 						        <div class="modal-content">
@@ -141,13 +142,14 @@
 						                    </div>
 						                    <input type="hidden" id="teamId" name="teamId" value="${teamId}">
 						                    <input type="hidden" id="calendarId" name="calendarId" value="${tCalendar.id}">
-						                    <button type="submit" class="btn btn-primary">확인</button>
+						                    <button type="submit" class="btn btn-primary" id="submitUpdate">확인</button>
 						                </form>
 						            </div>
 						        </div>
 						    </div>
 						</div>
-				        		        
+						
+								        
 				        <!-- 삭제 버튼 -->
 				        <div>
 				            <c:url var="deleteUrl" value="/teampage/${teamId}/tcalendar/delete">
@@ -186,4 +188,3 @@
             
         </body>
 </html>
-

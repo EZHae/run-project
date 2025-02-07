@@ -15,7 +15,7 @@ public interface TCalendarDao {
 	TCalendar selectTCalendarById(@Param("id") Integer id, @Param("teamId") Integer teamId); 
 
 	//일정 글 업데이트(최대인원수만 올릴 수 있음)
-	void updateMaxNum(@Param("teamId") Integer teamId, @Param("id") Integer id, @Param("maxNum") Integer maxNum);
+	void updateMaxNum(@Param("teamId") Integer teamId, @Param("calendarId") Integer calendarId, @Param("maxNum") Integer maxNum);
 	
 	// 일정 새글 작성
 	int insertTCalendar(TCalendar tcalendar);
