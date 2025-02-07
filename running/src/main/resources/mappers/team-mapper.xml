@@ -38,6 +38,12 @@
 		#{title}, #{content}, #{parkId}, 1, #{maxNum}, #{ageLimit}, #{genderLimit},
 		systimestamp, systimestamp)
 	</insert>
+	
+	<update id="updateTeam">
+		update teams set team_name=#{teamName}, uniq_name=#{uniqName}, image_path=#{imagePath}, title=#{title},
+		content=#{content}, max_num=#{maxNum}, age_limit=#{ageLimit}, gender_limit=#{genderLimit}, modified_time=systimestamp
+		where team_id=#{teamId}
+	</update>
 
 	<delete id="deleteTeam">
 		delete from teams where team_id=#{teamId}

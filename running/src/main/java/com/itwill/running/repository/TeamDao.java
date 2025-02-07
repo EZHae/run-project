@@ -13,4 +13,5 @@ public interface TeamDao {
 	Integer findTeamIdByTeamNameAndUserId(String teamName, String userId);
 	Integer selectCountByTeamName(String teamName);
 	Integer deleteTeam(Integer teamId);
+	Integer updateTeam(Team team);
 }

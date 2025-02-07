@@ -169,7 +169,7 @@
 	<!-- 현재까지 팀 멤버수와 신청가능한 인원수-->
 	<section id="currentMembers" class="m-2 p-2 border border-dark">
 		<h5>현재까지 회원수</h5>
-		<h6>${tmembers.size()}/${teamItemDto.maxNum=10}</h6>
+		<h6>${tmembers.size()}/${teamItemDto.maxNum}</h6>
 	</section>
 
 	<!-- 회원관리 모달창 -->

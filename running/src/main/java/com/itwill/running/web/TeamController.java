@@ -27,6 +27,7 @@ import com.itwill.running.dto.TMemberCreateDto;
 import com.itwill.running.dto.TMemberItemDto;
 import com.itwill.running.dto.TeamCreateDto;
 import com.itwill.running.dto.TeamItemDto;
+import com.itwill.running.dto.TeamUpdateDto;
 import com.itwill.running.dto.UserItemDto;
 import com.itwill.running.service.CourseService;
 import com.itwill.running.service.ParkService;
@@ -51,7 +52,6 @@ public class TeamController {
 	private final UserService userService;
 	private final ParkService parkService;
 
-
 	@GetMapping("/list")
 	public void getAllTeams(Model model) {
 		List<TeamItemDto> teams = teamService.readAllTeams();
@@ -59,7 +59,7 @@ public class TeamController {
 		model.addAttribute(teams);
 	}
 
-	@GetMapping({"/details","/update"})
+	@GetMapping({ "/details", "/update" })
 	public void recruitTeam(@RequestParam("teamid") Integer teamId, Model model, HttpSession session) {
 		TeamItemDto team = teamService.readByTeamid(teamId);
 		model.addAttribute(team);
@@ -69,8 +69,8 @@ public class TeamController {
 
 		List<TApplicationItemDto> tapplist = tappService.readAllApplications(teamId);
 		model.addAttribute("tappList", tapplist);
-		
-		Park park=parkService.selectParkByParkId(team.getParkId());
+
+		Park park = parkService.selectParkByParkId(team.getParkId());
 		model.addAttribute(park);
 
 		String userId = (String) session.getAttribute("signedInUserId");
@@ -80,71 +80,82 @@ public class TeamController {
 		}
 
 	}
-	
+
+	@PostMapping("/update")
+	public String updateTeam(TeamUpdateDto dto, HttpServletRequest request, @RequestParam("file") MultipartFile file)
+			throws IllegalStateException, IOException {
+		String originalFilename = file.getOriginalFilename();
+		TeamItemDto ogTeam = teamService.readByTeamid(dto.getTeamId());
+		if (originalFilename != "") {
+			// 배너이미지를 수정할 때
+			String uuidFilename = FileController.getNewFileNameAndSaveFile(file);
+			dto.setImagePath(
+					request.getContextPath() + "/api/uploadTeamImg/" + URLEncoder.encode(uuidFilename, "UTF-8"));
+			dto.setUniqName(uuidFilename);
+
+			// 기존배너이미지 삭제
+			FileController.deleteFileFromDirectory("C:\\uploadTeamImg\\" + ogTeam.getUniqName());
+
+		} else {
+			// 기존배너를 유지할 때
+			log.debug("ogTeam={}", ogTeam);
+			dto.setImagePath(ogTeam.getImagePath());
+			dto.setUniqName(ogTeam.getUniqName());
+		}
+
+		teamService.updateTeam(dto);
+
+		return "redirect:/team/details?teamid=" + dto.getTeamId();
+	}
+
 	@GetMapping("/api/count")
-	public ResponseEntity<Integer> isTeamCreatable(@RequestParam("teamname") String teamName){
-		int result =teamService.selectCountByTeamName(teamName);
+	public ResponseEntity<Integer> isTeamCreatable(@RequestParam("teamname") String teamName) {
+		int result = teamService.selectCountByTeamName(teamName);
 		return ResponseEntity.ok(result);
 	}
-	
 
 	@GetMapping("/create")
 	public void createTeam(HttpSession session) {
 		String userId = (String) session.getAttribute("signedInUserId");
-	
+
 	}
 
 	@PostMapping("/create")
 	public String createNewTeam(HttpServletRequest request, TeamCreateDto dto, HttpSession session,
 			@RequestParam("file") MultipartFile file) throws IllegalStateException, IOException {
-		
+
 		String userId = (String) session.getAttribute("signedInUserId");
 		dto.setUserId(userId);
 
-		final String UPLOAD_DIR = "C:/uploadTeamImg/";
-
-		// 원본 파일 이름
-		String originalFilename = file.getOriginalFilename();
-		// UUID 적용한 파일 이름
-		String uuidFilename = UUID.randomUUID().toString() + "_" + originalFilename;
-		// 파일 저장 경로
-		File saveFile = new File(UPLOAD_DIR, uuidFilename);
-
-		// 디렉토리가 존재하지 않으면 생성
-		if (!saveFile.getParentFile().exists()) {
-			saveFile.getParentFile().mkdirs();
-		}
-
-		// 지정한 디렉토리에 파일 저장
-		file.transferTo(saveFile);
+		String uuidFilename = FileController.getNewFileNameAndSaveFile(file);
 
 		dto.setImagePath(request.getContextPath() + "/api/uploadTeamImg/" + URLEncoder.encode(uuidFilename, "UTF-8"));
 		dto.setUniqName(uuidFilename);
-		
-		//팀생성
+
+		// 팀생성
 		teamService.createNewTeam(dto);
 
 		// 생성된 팀의 teamId 가져오기
-		Integer teamId=teamService.findTeamId(dto.getTeamName(), userId);
+		Integer teamId = teamService.findTeamId(dto.getTeamName(), userId);
 
 		// t_members테이블에 회장추가하는 메서드로 업데이트
 		TMemberCreateDto leader = new TMemberCreateDto();
 		leader.setUserId(userId);
 		leader.setLeaderCheck(1);
 		leader.setTeamId(teamId);
-		log.debug("리더객체={}",leader);
+		log.debug("리더객체={}", leader);
 		tmemService.createNewTMember(leader);
 
 		return "redirect:/team/list";
 	}
-	
+
 	@DeleteMapping("/delete")
 	public ResponseEntity<Integer> deleteTeam(@RequestParam("teamid") Integer teamId) {
-		int result=teamService.deleteTeam(teamId);
+		// 배너이미지 c드라이브에서 삭제
+		TeamItemDto ogTeam = teamService.readByTeamid(teamId);
+		FileController.deleteFileFromDirectory("C:\\uploadTeamImg\\" + ogTeam.getUniqName());
+		int result = teamService.deleteTeam(teamId);
 		return ResponseEntity.ok(result);
 	}
-	
-	
-	
 
 }

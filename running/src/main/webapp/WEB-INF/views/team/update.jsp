@@ -26,6 +26,13 @@
 	<c:url value="/team/update" var="teamUpdate" />
 	<form action="${teamUpdate}" method="post" id="teamForm"
 		enctype="multipart/form-data">
+		<!-- 팀 아이디 -->
+		<div class="mb-3">
+			<input type="hidden" id="teamId" name="teamId"
+				value="${teamItemDto.teamId}" class="form-control">
+		</div>
+
+
 		<!-- 팀 이름 -->
 		<div class="mb-3">
 			<label for="teamName" class="form-label">팀 이름</label> <input
@@ -91,7 +98,7 @@
 		<div class="mb-3">
 			<label for="ageLimit" class="form-label">연령 제한</label> <input
 				type="number" id="ageLimit" name="ageLimit" class="form-control"
-				min="${teamItemDto.ageLimit}" value="${teamItemDto.ageLimit}"
+				max="${teamItemDto.ageLimit}" value="${teamItemDto.ageLimit}"
 				required>
 		</div>
 
