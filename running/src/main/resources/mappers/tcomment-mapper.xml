@@ -39,6 +39,17 @@
 			order by id
 	</select>
 	
+	<select id="selectNicknameByParentId" resultType="String">
+		select nickname from t_comments
+			where id = #{parentId}
+	</select>
+	
+	<update id="updateTCommentById">
+		update t_comments
+			set ctext = #{ctext}, modified_time = systimestamp
+			where id = #{id}
+	</update>
+	
 	<update id="updateTCommentLikeDeleteById">
 		update t_comments
 			set ctext = '작성자가 삭제한 댓글입니다.', modified_time = systimestamp, deleted = 1

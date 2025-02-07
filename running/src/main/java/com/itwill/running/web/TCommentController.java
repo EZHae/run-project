@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.itwill.running.dto.TCommentCreateDto;
 import com.itwill.running.dto.TCommentItemDto;
+import com.itwill.running.dto.TCommentUpdateDto;
 import com.itwill.running.service.TCommentService;
 
 import lombok.RequiredArgsConstructor;
@@ -44,9 +45,36 @@ public class TCommentController {
 		return ResponseEntity.ok(list);
 	}
 	
-	@PutMapping("delete/{id}")
+	@GetMapping("/{id}")
+	public ResponseEntity<TCommentItemDto> getCommentById(@PathVariable Integer teamId, @PathVariable Integer id) {
+		log.debug("TCommentController::getCommentById(id={})", id);
+		
+		TCommentItemDto comment = commentService.readById(id);
+		
+		return ResponseEntity.ok(comment);
+	}
+	
+	@GetMapping("/nickname/{parentId}")
+	public ResponseEntity<String> getNickname(@PathVariable Integer teamId, @PathVariable Integer parentId) {
+		log.debug("TCommentController::getNickname(parentId={})", parentId);
+		
+		String nickname = commentService.readNicknameByParentId(parentId);
+		
+		return ResponseEntity.ok(nickname);
+	}
+	
+	@PutMapping("/update/{id}")
+	public ResponseEntity<Integer> updateComment(@PathVariable Integer id, @RequestBody TCommentUpdateDto dto) {
+		log.debug("TCommentController::deleteComment(id={})", id);
+		
+		int result = commentService.update(dto);
+		
+		return ResponseEntity.ok(result);
+	}
+	
+	@PutMapping("/delete/{id}")
 	public ResponseEntity<Integer> deleteComment(@PathVariable Integer id) {
-		log.debug("TCommentController::deleteComment(id={}", id);
+		log.debug("TCommentController::deleteComment(id={})", id);
 		
 		int result = commentService.delete(id);
 		

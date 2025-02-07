@@ -15,6 +15,16 @@ public interface TPostDao {
 	
 	List<TPost> selectTPostByKeyword(TPostSearchDto dto);
 	
+	// 페이징 된 select
+	int countPostsByTeamId(Integer teamId);
+	
+	List<TPost> selectPagedPostsByTeamId(TPostSearchDto dto);
+	
+	int countSearchedPosts(TPostSearchDto dto);
+	
+	List<TPost> selectSearchedPosts(TPostSearchDto dto);
+	// -----
+	
 	int insertTPost(TPost post);
 	
 	int updateTPostByid(TPost post);

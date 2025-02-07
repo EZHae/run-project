@@ -9,6 +9,67 @@
 			order by id desc
 	</select>
 	
+	<!-- 전체 게시글 개수 조회 -->
+	<select id="countPostsByTeamId" resultType="int">
+		select count(*) from t_posts
+			where team_id = #{teamId}
+	</select>
+	
+	<!-- 페이징 적용된 전체 게시글 조회 -->
+	<select id="selectPagedPostsByTeamId" resultType="TPost">
+		select * from t_posts
+			where team_id = #{teamId}
+			order by id desc
+			offset #{offset} rows
+			fetch next #{limit} rows only
+	</select>
+	
+	<!-- 검색된 게시글 개수 조회 -->
+	<select id="countSearchedPosts" resultType="int">
+		<bind name="searchKeyword" value="'%' + keyword + '%'"></bind>
+		select count(*)
+			from t_posts
+			where team_id = #{teamId}
+			<if test='type == "t"'>
+				and upper(title) like upper(#{searchKeyword})
+			</if>
+			<if test='type == "c"'>
+				and upper(content) like upper(#{searchKeyword})
+			</if>
+			<if test='type == "tc"'>
+				and (upper(title) like upper(#{searchKeyword}) 
+					or
+					upper(content) like upper(#{searchKeyword}))
+			</if>
+			<if test='type == "n"'>
+				and upper(nickname) like upper(#{searchKeyword})
+			</if>
+	</select>
+	
+	<!-- 페이징 적용된 검색 게시글 조회 -->
+	<select id="selectSearchedPosts" resultType="TPost">
+		<bind name="searchKeyword" value="'%' + keyword + '%'"></bind>
+		select * from t_posts
+			where team_id = #{teamId}
+			<if test='type == "t"'>
+				and upper(title) like upper(#{searchKeyword})
+			</if>
+			<if test='type == "c"'>
+				and upper(content) like upper(#{searchKeyword})
+			</if>
+			<if test='type == "tc"'>
+				and (upper(title) like upper(#{searchKeyword}) 
+					or
+					upper(content) like upper(#{searchKeyword}))
+			</if>
+			<if test='type == "n"'>
+				and upper(nickname) like upper(#{searchKeyword})
+			</if>
+			order by id desc
+			offset #{offset} rows
+			fetch next #{limit} rows only
+	</select>
+	
 	<select id="selectTPostByTeamId" resultType="TPost">
 		select * from t_posts
 			where team_id = #{teamId}
@@ -41,7 +102,7 @@
 					</when>
 				</choose>
 			</where>
-		order by id desc
+			order by id desc
 	</select>
 	
 	<insert id="insertTPost" parameterType="TPost" useGeneratedKeys="true" keyColumn="ID" keyProperty="id">

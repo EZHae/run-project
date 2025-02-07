@@ -19,6 +19,8 @@ import lombok.extern.slf4j.Slf4j;
 public class TPostService {
 
 	private final TPostDao postDao;
+	private final int PAGE_SIZE = 10;
+    private final int PAGE_BLOCK_SIZE = 5;
 	
 	public List<TPost> read() {
 		log.debug("TPostService::read()");
@@ -45,6 +47,58 @@ public class TPostService {
 		
 		return post;
 	}
+	
+	// 페이징할 전체 게시글 개수
+	public int countPostsByTeamId(Integer teamId) {
+		int result = postDao.countPostsByTeamId(teamId);
+		
+		return result;
+	}
+	
+	// 페이징된 전체 게시글 조회
+    public List<TPost> readByTeamId(Integer teamId, TPostSearchDto dto, int currentPage) {
+        int totalPosts = postDao.countPostsByTeamId(teamId);
+        int totalPage = (int) Math.ceil((double) totalPosts / PAGE_SIZE);
+
+        int startPage = ((currentPage - 1) / PAGE_BLOCK_SIZE) * PAGE_BLOCK_SIZE + 1;
+        int endPage = Math.min(startPage + PAGE_BLOCK_SIZE - 1, totalPage);
+
+        int offset = (currentPage - 1) * PAGE_SIZE;
+
+        dto.setTeamId(teamId);
+        dto.setOffset(offset);
+        dto.setLimit(PAGE_SIZE);
+        dto.setStartPage(startPage);
+        dto.setEndPage(endPage);
+
+        return postDao.selectPagedPostsByTeamId(dto);
+    }
+    
+	// 페이징할 전체 게시글 개수
+	public int countSearchedPosts(TPostSearchDto dto) {
+		int result = postDao.countSearchedPosts(dto);
+		
+		return result;
+	}
+    
+    // 페이징된 검색 게시글 조회
+    public List<TPost> searchPosts(Integer teamId, TPostSearchDto dto, int currentPage) {
+        int totalPosts = postDao.countSearchedPosts(dto);
+        int totalPage = (int) Math.ceil((double) totalPosts / PAGE_SIZE);
+
+        int startPage = ((currentPage - 1) / PAGE_BLOCK_SIZE) * PAGE_BLOCK_SIZE + 1;
+        int endPage = Math.min(startPage + PAGE_BLOCK_SIZE - 1, totalPage);
+
+        int offset = (currentPage - 1) * PAGE_SIZE;
+        
+        dto.setTeamId(teamId);
+        dto.setOffset(offset);
+        dto.setLimit(PAGE_SIZE);
+        dto.setStartPage(startPage);
+        dto.setEndPage(endPage);
+
+        return postDao.selectSearchedPosts(dto);
+    }
 	
 	public int create(TPostCreateDto dto) {
 		log.debug("TPostService::create(dto={})", dto);

@@ -62,13 +62,29 @@ public class TPostController {
 	}
 	
 	@GetMapping("/list")
-	public String list(@PathVariable Integer teamId, Model model) {
+	public String list(@PathVariable Integer teamId, @RequestParam(defaultValue = "1") int page, TPostSearchDto dto, Model model) {
 		log.debug("TPostController::Get_list");
+		log.debug("dto={}", dto);
 		
-		List<TPost> posts = postService.readByTeamId(teamId);
-		
-		model.addAttribute("posts", posts);
-		model.addAttribute("teamId", teamId);
+		List<TPost> posts;
+        int totalPage;
+
+        if (dto.getType() != null && dto.getKeyword() != null) {
+            posts = postService.searchPosts(teamId, dto, page);
+            totalPage = (int) Math.ceil((double) postService.countSearchedPosts(dto) / 10);
+        } else {
+            posts = postService.readByTeamId(teamId, dto, page);
+            totalPage = (int) Math.ceil((double) postService.countPostsByTeamId(teamId) / 10);
+        }
+
+        model.addAttribute("posts", posts);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPage", totalPage);
+        model.addAttribute("pageBlockSize", 5);
+        model.addAttribute("type", dto.getType());
+        model.addAttribute("keyword", dto.getKeyword());
+        model.addAttribute("startPage", dto.getStartPage());
+        model.addAttribute("endPage", dto.getEndPage());
 		
 		return "tpost/list";
 	}
@@ -120,18 +136,6 @@ public class TPostController {
 	        }
 		}
 		return "redirect:details";
-	}
-	
-	@GetMapping("/search")
-	public String search(@PathVariable Integer teamId, TPostSearchDto dto , Model model) {
-		log.debug("TPostController::Get_search");
-		
-		List<TPost> posts = postService.search(dto);
-		
-		model.addAttribute("posts", posts);
-		model.addAttribute("teamId", teamId);
-		
-		return "/tpost/list";
 	}
 	
 	@GetMapping("/{id}/delete")

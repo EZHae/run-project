@@ -10,6 +10,12 @@ public interface TCommentDao {
 	
 	List<TComment> selectTCommentHierarchyByPostId(Integer postId);
 	
+	TComment selectTCommentById(Integer id);
+	
+	String selectNicknameByParentId(Integer parentId);
+	
+	int updateTCommentById(TComment comment);
+	
 	int updateTCommentLikeDeleteById(Integer id);
 	
 	int deleteTCommentById(Integer id);

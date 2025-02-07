@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.itwill.running.domain.TComment;
 import com.itwill.running.dto.TCommentCreateDto;
 import com.itwill.running.dto.TCommentItemDto;
+import com.itwill.running.dto.TCommentUpdateDto;
 import com.itwill.running.repository.TCommentDao;
 
 import lombok.RequiredArgsConstructor;
@@ -35,6 +36,30 @@ public class TCommentService {
 		List<TComment> comments = commentDao.selectTCommentHierarchyByPostId(postId);
 		
 		return comments.stream().map(TCommentItemDto::fromEntity).toList();
+	}
+	
+	public TCommentItemDto readById(Integer id) {
+		log.debug("TCommentService::read(id={})", id);
+		
+		TComment comment = commentDao.selectTCommentById(id);
+		
+		return TCommentItemDto.fromEntity(comment);
+	}
+	
+	public String readNicknameByParentId(Integer parentId) {
+		log.debug("TCommentService::readNicknameByParentId(parentId={})", parentId);
+		
+		String nickname = commentDao.selectNicknameByParentId(parentId);
+		
+		return nickname;
+	}
+	
+	public int update(TCommentUpdateDto dto) {
+		log.debug("TCommentService::update(dto={})", dto);
+		
+		int result = commentDao.updateTCommentById(dto.toEntity());
+		
+		return result;
 	}
 	
 	public int delete(Integer id) {
