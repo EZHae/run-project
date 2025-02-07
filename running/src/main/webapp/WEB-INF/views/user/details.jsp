@@ -26,9 +26,35 @@
         <div>
             <div>
                 <form method="post">
-                    <div>
+                
+                    <c:if test="${empty sessionScope.signedInUserId}">
+                        <p style="color: red;">사용자 ID 없음</p>
+                    </c:if>
+                   <div>
                     <img src="<c:url value='/image/view/user/${signedInUserId}' />" alt="프로필 이미지" style="width:70px; height:70px; border-radius:50%;"/>
+                        <button type="button" id="changeImageBtn" data-user-id="${sessionScope.signedInUserId}">변경</button>
+                    </div> 
+                    
+                    <div class="modal" tabindex="-1" id="imageModal">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">프로필 이미지 변경</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body text-center" >
+                            <img id="previewImage" src="<c:url value='/image/view/user/${signedInUserId}' />" alt="프로필 이미지 미리보기" style="width:70px; height:70px; border-radius:50%;"/>
+                            
+                            <input type="file" id="imageUpload" accept="image/*" >
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                            <button id="uploadBtn" type="button" class="btn btn-primary">업로드</button>
+                          </div>
+                        </div>
+                      </div>
                     </div>
+                    
                     <div>
                         <input class="d-none" type="text" id="userId" name="userId" />
                     </div>
@@ -100,5 +126,11 @@
                 crossorigin="anonymous">
         </script>
         
+        <!-- Axios JS -->
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        
+        <!-- members.js -->
+        <c:url var="userDetailsJS" value="/js/user_details.js"/>
+        <script src="${userDetailsJS}"></script>
 	</body>
 </html>

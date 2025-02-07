@@ -39,10 +39,32 @@
         where user_id = #{userId} and password = #{password}
     </select>
     
+    <!-- 로그인에서 최근 접속 시간을 업데이트하는 SQL -->
+    <update id="updateAccessTime">
+        update users
+        set user_access_time = systimestamp
+        where user_id = #{userId}   
+    </update>
+    
+    
     <!-- 이미지 변경에서 사용할 SQL -->
     <update id="updateByImgId">
         update users
         set img_id = #{imgId}
         where user_id = #{userId}
     </update>
+    
+    <!-- 회원 정보 변경에서 사용할 SQL -->
+    <update id="updateUser">
+        update users 
+        set password = #{password}, nickname = #{nickname}, username = #{username}, gender = #{gender}, age = #{age},
+                phonenumber = #{phonenumber}, residence = #{residence}, email = #{email} 
+        where user_id = #{userId}
+    </update>
+    
+    <!-- 회원 탈퇴에서 사용할 SQL -->
+    <delete id="deleteUser">
+        delete from users 
+        where user_id = #{userId}
+    </delete>
   </mapper>

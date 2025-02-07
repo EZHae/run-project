@@ -5,10 +5,13 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +23,7 @@ import com.itwill.running.domain.UImages;
 import com.itwill.running.domain.User;
 import com.itwill.running.dto.UserSignInDto;
 import com.itwill.running.dto.UserSignUpDto;
+import com.itwill.running.repository.UserDao;
 import com.itwill.running.service.UImagesService;
 import com.itwill.running.service.UserService;
 
@@ -73,6 +77,10 @@ public class UserController {
 			log.debug("signedInUserId={}", session.getAttribute("signedInUserId").toString());
 			log.debug("signedInUserNickname={}", nickname);
 			
+			// 로그인 성공 시 최근 접속 시간 업데이트!
+			int accessTime = userService.updateAccessTime(user.getUserId());
+			log.debug("로그인 업데이트 : {}",accessTime);
+			
 			targetPage = target.equals("") ? "/" : target;
 		} else { // 로그인 실패 시 다시 로그인 페이지로 이동
 			
@@ -111,6 +119,38 @@ public class UserController {
 		model.addAttribute("selectedImgId", selectedImgId);
 	}
 	
+	// 유저 삭제 
+	@DeleteMapping("/{userId}")
+	@ResponseBody
+	public ResponseEntity<String> deleteUser(@PathVariable String userId, HttpSession session) {
+		// 현재 세션의 유저아이디 조회
+		String signedInUserId = (String) session.getAttribute("signedInUserId");
+		if (signedInUserId == null) {
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 필요");
+	    }
+	    if (!signedInUserId.equals(userId)) {
+	        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("본인 계정만 삭제 가능");
+	    }
+
+		userService.deleteUser(userId);
+		session.invalidate();
+		
+		return ResponseEntity.ok("계정 삭제 완료");
+	}
+	
+	// 이미지 업데이트 API
+	@GetMapping("/api/{userId}")
+	@ResponseBody
+	public ResponseEntity<User> getUserImage(@PathVariable String userId){
+		 // 유저 조회
+		User user = userService.selectByUserId(userId); 
+		
+		if (user != null) {
+	        return ResponseEntity.ok(user);
+	    } else {
+	        return ResponseEntity.notFound().build();
+	    }
+	}
 	
 	
 	

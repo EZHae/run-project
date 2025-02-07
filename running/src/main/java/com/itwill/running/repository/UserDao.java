@@ -11,5 +11,7 @@ public interface UserDao {
 	int insertUser(User user); 				// 유저 생성
 	User selectByUserIdAndPassword(User user);  // 로그인 (아이디, 패스워드로)
 	int updateByImgId(User user);			// 유저 이미지 아이디 업데이트
-	
+	int updateAccessTime(String userId);	// 유저 최근 접속 시간 업데이트
+	int updateUser(User user);				// 유저 정보 수정 업데이트
+	int deleteUser(String userId);				// 유저 삭제
 }

@@ -1,6 +1,7 @@
 package com.itwill.running.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwill.running.domain.UImages;
 import com.itwill.running.domain.User;
@@ -74,6 +75,18 @@ public class UserService {
 		
 		return user;
 	}
+	
+	// 로그인 접속 시간 업데이트
+	public int updateAccessTime(String userId) {
+		return userDao.updateAccessTime(userId);
+	}
+	
+	// 유저 삭제 서비스
+	public int deleteUser(String userId) {
+		
+		return userDao.deleteUser(userId);
+	}
+	
 	
 	// 회원가입 서비스
 	public User createUser(UserSignUpDto dto) {

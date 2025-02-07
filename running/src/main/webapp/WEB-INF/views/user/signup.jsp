@@ -141,7 +141,7 @@
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         
         <!-- members.js -->
-        <c:url var="usersJS" value="/js/users.js"/>
-        <script src="${usersJS}"></script>
+        <c:url var="userSignUpJS" value="/js/user_signup.js"/>
+        <script src="${userSignUpJS}"></script>
 	</body>
 </html>

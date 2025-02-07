@@ -26,6 +26,35 @@
         <div>
             <div>
                 <form method="post">
+                
+                <c:if test="${empty sessionScope.signedInUserId}">
+                        <p style="color: red;">사용자 ID 없음</p>
+                    </c:if>
+                   <div>
+                    <img src="<c:url value='/image/view/user/${signedInUserId}' />" alt="프로필 이미지" style="width:70px; height:70px; border-radius:50%;"/>
+                        <button type="button" id="changeImageBtn" data-user-id="${sessionScope.signedInUserId}">변경</button>
+                    </div> 
+                    
+                    <div class="modal" tabindex="-1" id="imageModal">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">프로필 이미지 변경</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body text-center" >
+                            <img id="previewImage" src="<c:url value='/image/view/user/${signedInUserId}' />" alt="프로필 이미지 미리보기" style="width:70px; height:70px; border-radius:50%;"/>
+                            
+                            <input type="file" id="imageUpload" accept="image/*" >
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                            <button id="uploadBtn" type="button" class="btn btn-primary">업로드</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
                     <div>
                         <input class="d-none" type="text" id="userId" name="userId" placeholder="사용자 아이디" required autofocus/>
                     </div>
@@ -48,16 +77,16 @@
                     
                     <div>
                         <label> 이름 </label>
-                        <input type="text" id="username" name="username" placeholder="사용자 이름" />
+                        <input type="text" id="username" name="username" value="${user.username}" />
                     </div>
                     <div>
-                        <select name="gender" id="gender">
+                        <select name="gender" id="gender" class="d-none">
                             <option value="1">남성</option>
                             <option value="2">여성</option>
                         </select>
                     </div>
                     <div>
-                        <input class="d-none" type="text" id="age" name="age" placeholder="나이" />
+                        <input class="d-none" type="text" id="age" name="age" value="${user.age}" />
                     </div>
                     
                     <div>
@@ -77,7 +106,7 @@
                                 "양천구", "영등포구", "용산구", "은평구", "종로구", "중구", "중랑구"
                             };
                         %>
-                        <select name="residence" id="residence" >
+                        <select name="residence" id="residence" class="d-none">
                         <option value="">구 선택</option>
                             <% for (String district : seoulDistricts) { %>
                                 <option value="<%= district %>"><%= district %></option>
@@ -86,7 +115,7 @@
                     </div>
                     <div>
                         <label> 이메일 </label>
-                        <input type="text" id="email" name="email" value="${user.email}" readonly/>
+                        <input type="text" id="email" name="email" value="${user.email}"/>
                     </div>
                      <%-- email 중복체크 결과를 출력할 영역 --%>
                     <div id="checkEmailResult">
@@ -96,34 +125,19 @@
                     <div>
                         <input type="hidden" name="authCheck" placeholder="승인" value="1" />
                     </div>
-                    
-                    <!-- 이미지 라디오 버튼 -->
-                    <div >
-                        <label>
-                            <input type="radio" name="imgId" value="1" ${selectedImgId == 1 ? 'checked' : ''}>
-                            <img src="../images/profile01.jpeg" alt="기본 이미지 1" style="width:100px; height:auto; border: 2px solid black; border-radius: 50%;">
-                        </label>
-                        <label>
-                            <input type="radio" name="imgId" value="2" ${selectedImgId == 2 ? 'checked' : ''}>
-                            <img src="../images/profile02.jpeg" alt="기본 이미지 2" style="width:100px; height:auto; border: 2px solid black; border-radius: 50%;">
-                        </label>
-                        <label>
-                            <input type="radio" name="imgId" value="3" ${selectedImgId == 3 ? 'checked' : ''}>
-                            <img src="../images/profile03.jpeg" alt="기본 이미지 3" style="width:100px; height:auto; border: 2px solid black; border-radius: 50%;">
-                        </label>
-                        <label>
-                            <input type="radio" name="imgId" value="4" ${selectedImgId == 4 ? 'checked' : ''}>
-                            <img src="../images/profile04.jpeg" alt="기본 이미지 4" style="width:100px; height:auto; border: 2px solid black; border-radius: 50%;">
-                        </label>
-                        <label>
-                            <input type="radio" name="imgId" value="5" ${selectedImgId == 5 ? 'checked' : ''}>
-                            <img src="../images/profile05.jpeg" alt="기본 이미지 5" style="width:100px; height:auto; border: 2px solid black; border-radius: 50%;">
-                        </label>
-                    </div>
                     <div class="mt-2">
-                        <button class="btn disabled" id="btnSignUp">작성 완료</button>
+                        <button class="btn" id="btnSignUp">작성 완료</button>
                     </div>
                 </form>
+                
+                <hr/>
+                <div>
+                    <button >비밀번호 변경</button>
+                    <button id="btnDelete" data-user-id="${sessionScope.signedInUserId}">계정 탈퇴</button>
+                </div>
+                <div>
+                    <a></a>
+                </div>
             </div>
         </div>
     
@@ -135,5 +149,10 @@
                 crossorigin="anonymous">
         </script>
         
+        <!-- Axios JS -->
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        
+        <c:url var="userModifyJS" value="/js/user_modify.js"/>
+        <script src="${userModifyJS}"></script>
 	</body>
 </html>
