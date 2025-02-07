@@ -12,9 +12,12 @@ document.addEventListener('DOMContentLoaded', ()=> {
     // 버튼의 이벤트 리스너
     const changeImageBtn = document.querySelector('button#changeImageBtn');
     const btnDelete = document.querySelector('button#btnDelete')
+    const btnUpdate = document.querySelector('button#btnUpdate')
     
     changeImageBtn.addEventListener('click', showImageModal);
     btnDelete.addEventListener('click', deleteUser);
+    btnUpdate.addEventListener('click', updateUser);
+    
     
     function showImageModal(event) {
         
@@ -39,7 +42,41 @@ document.addEventListener('DOMContentLoaded', ()=> {
     }
     
     
-    // 유저삭제버튼 이벤트 리스너
+    // 유저 업데이트 버튼 이벤트 리스너
+    function updateUser(event) {
+        console.log(event.target);
+        
+        // 업데이트할 데이터
+        const nickname = document.querySelector('input#nickname').value;
+        const username = document.querySelector('input#username').value;
+        const age = document.querySelector('input#age').value;
+        const phonenumber =document.querySelector('input#phonenumber').value;
+        const email = document.querySelector('input#email').value;
+        
+        const data = {nickname, username, age, phonenumber, email, userId}
+        console.log(data);
+        
+        
+        const userId = btnUpdate.getAttribute('data-user-id')
+        const result = confirm('변경 하시겠습니까?')
+        if (!result) {
+            return;
+        }   
+        
+        const uri = `../user/api/${userId}`;
+        
+        axios
+        .put(uri,data)
+        .then((response) => {
+            console.log(response);
+//            window.location.href = "/running/user/details";
+        })
+        .catch((error) => {
+            alert("수정 실패: " + error.response.data);
+        });
+    }
+    
+    // 유저 삭제 버튼 이벤트 리스너
     function deleteUser(event) {
         console.log(event.target);
 

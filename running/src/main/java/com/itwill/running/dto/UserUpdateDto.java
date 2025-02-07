@@ -5,7 +5,8 @@ import com.itwill.running.domain.User;
 import lombok.Data;
 
 @Data
-public class UserUdateDto {
+public class UserUpdateDto {
+	private String userId;
 	private String password;
 	private String nickname;
 	private String username;
@@ -19,7 +20,7 @@ public class UserUdateDto {
 
 	
 	public User toEntity() {
-		return User.builder().password(password).nickname(nickname).username(username)
+		return User.builder().userId(userId).password(password).nickname(nickname).username(username)
 				.gender(gender).age(age).phonenumber(phonenumber).residence(residence).email(email)
 				.authCheck(authCheck).imgId(imgId).build();
 	}

@@ -7,6 +7,7 @@ import com.itwill.running.domain.UImages;
 import com.itwill.running.domain.User;
 import com.itwill.running.dto.UserSignInDto;
 import com.itwill.running.dto.UserSignUpDto;
+import com.itwill.running.dto.UserUpdateDto;
 import com.itwill.running.repository.UserDao;
 
 import lombok.RequiredArgsConstructor;
@@ -83,8 +84,12 @@ public class UserService {
 	
 	// 유저 삭제 서비스
 	public int deleteUser(String userId) {
-		
 		return userDao.deleteUser(userId);
+	}
+	
+	// 유저 업데이트 서비스
+	public int updateUser(UserUpdateDto dto) {
+		return userDao.updateUser(dto);
 	}
 	
 	
@@ -110,5 +115,4 @@ public class UserService {
 		return user;
 	}
 	
-	// 로그인 서비스
 }

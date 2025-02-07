@@ -56,7 +56,7 @@
                     </div>
                     
                     <div>
-                        <input class="d-none" type="text" id="userId" name="userId" placeholder="사용자 아이디" required autofocus/>
+                        <input class="d-none" type="text" id="userId" name="userId" placeholder="사용자 아이디"/>
                     </div>
                     <div>
                         <input class="d-none" type="password" id="password" name="password" placeholder="비밀번호" />
@@ -80,9 +80,9 @@
                         <input type="text" id="username" name="username" value="${user.username}" />
                     </div>
                     <div>
-                        <select name="gender" id="gender" class="d-none">
-                            <option value="1">남성</option>
-                            <option value="2">여성</option>
+                        <select name="gender" id="gender">
+                           <option value="1" ${user.gender == '1' ? 'selected' : ''}>남성</option>
+                           <option value="2" ${user.gender == '2' ? 'selected' : ''}>여성</option>
                         </select>
                     </div>
                     <div>
@@ -125,10 +125,10 @@
                     <div>
                         <input type="hidden" name="authCheck" placeholder="승인" value="1" />
                     </div>
-                    <div class="mt-2">
-                        <button class="btn" id="btnSignUp">작성 완료</button>
-                    </div>
                 </form>
+                    <div>
+                        <button class="btn" id="btnUpdate" data-user-id="${sessionScope.signedInUserId}">작성 완료</button>
+                    </div>
                 
                 <hr/>
                 <div>
