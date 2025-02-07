@@ -3,7 +3,7 @@
  */
 
 document.addEventListener('DOMContentLoaded', ()=> {
-    // 포스트 아이디 위치
+    // 아이디 위치
     const inputUserId = document.querySelector('input#userId');
 
     // 부트스트랩 모달 객체를 생성.
@@ -11,12 +11,14 @@ document.addEventListener('DOMContentLoaded', ()=> {
 
     // 버튼의 이벤트 리스너
     const changeImageBtn = document.querySelector('button#changeImageBtn');
-    const btnDelete = document.querySelector('button#btnDelete')
-    const btnUpdate = document.querySelector('button#btnUpdate')
+    const btnDelete = document.querySelector('button#btnDelete');
+    const btnUpdate = document.querySelector('button#btnUpdate');
+    const btnUpload = document.querySelector('button#btnUpload');
     
     changeImageBtn.addEventListener('click', showImageModal);
     btnDelete.addEventListener('click', deleteUser);
     btnUpdate.addEventListener('click', updateUser);
+    btnUpload.addEventListener('click', updateImage);
     
     
     function showImageModal(event) {
@@ -102,5 +104,26 @@ document.addEventListener('DOMContentLoaded', ()=> {
         .catch(error => {
             alert("삭제 실패: " + error.response.data);
         });
+    }
+    
+    function updateImage() {
+        // 사용자 아이디
+        const userId = btnUpdate.getAttribute('data-user-id');
+
+
+        // 업데이트할 이미지 내용
+        const imgId = document.querySelector('input[name="imgId"]:checked').value;
+
+
+        // 이미지 업데이트 REST API(요청 URI)
+        const uri = `../user/api/${userId}`;
+
+        // Ajax 요청을 보냄.
+        axios
+            .put(uri, { userId: userId, imgId: imgId })
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((error) => {});
     }
 })

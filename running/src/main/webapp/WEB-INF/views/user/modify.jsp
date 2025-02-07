@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -26,59 +27,63 @@
         <div>
             <div>
                 <form method="post">
-                
-                <c:if test="${empty sessionScope.signedInUserId}">
-                        <p style="color: red;">사용자 ID 없음</p>
-                    </c:if>
-                   <div>
-                    <img src="<c:url value='/image/view/user/${signedInUserId}' />" alt="프로필 이미지" style="width:70px; height:70px; border-radius:50%;"/>
-                        <button type="button" id="changeImageBtn" data-user-id="${sessionScope.signedInUserId}">변경</button>
-                    </div> 
                     
-                    <div class="modal" tabindex="-1" id="imageModal">
-                      <div class="modal-dialog">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 class="modal-title">프로필 이미지 변경</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                          </div>
-                          <div class="modal-body text-center" >
-                            <img id="previewImage" src="<c:url value='/image/view/user/${signedInUserId}' />" alt="프로필 이미지 미리보기" style="width:70px; height:70px; border-radius:50%;"/>
-                            
-                            <div>
-                                <label>
-                                    <input type="radio" name="imgId" value="1" ${userImagePath == '../images/profile01.jpeg' ? 'checked' : ''}>
-                                    <img src="../images/profile01.jpeg" alt="기본 이미지 1" style="width:100px; height:auto; border: 2px solid black; border-radius: 50%;">
-                                </label>
-                                <label>
-                                    <input type="radio" name="imgId" value="2" ${userImagePath == '../images/profile02.jpeg' ? 'checked' : ''}>
-                                    <img src="../images/profile02.jpeg" alt="기본 이미지 2" style="width:100px; height:auto; border: 2px solid black; border-radius: 50%;">
-                                </label>
-                                <label>
-                                    <input type="radio" name="imgId" value="3" ${userImagePath == '../images/profile03.jpeg' ? 'checked' : ''}>
-                                    <img src="../images/profile03.jpeg" alt="기본 이미지 3" style="width:100px; height:auto; border: 2px solid black; border-radius: 50%;">
-                                </label>
-                                <label>
-                                    <input type="radio" name="imgId" value="4" ${userImagePath == '../images/profile04.jpeg' ? 'checked' : ''}>
-                                    <img src="../images/profile04.jpeg" alt="기본 이미지 4" style="width:100px; height:auto; border: 2px solid black; border-radius: 50%;">
-                                </label>
-                                <label>
-                                    <input type="radio" name="imgId" value="5" ${userImagePath == '../images/profile05.jpeg' ? 'checked' : ''}>
-                                    <img src="../images/profile05.jpeg" alt="기본 이미지 5" style="width:100px; height:auto; border: 2px solid black; border-radius: 50%;">
-                                </label>
-                            </div>    
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                            <button id="uploadBtn" type="button" class="btn btn-primary">업로드</button>
-                          </div>
-                        </div>
-                      </div>
+                    <!-- 유저 프로필 이미지 -->
+                    <div>
+                        <img src="<c:url value='/image/view/user/${signedInUserId}' />" alt="프로필 이미지" style="width:70px; height:70px; border-radius:50%;"/>
+                            <button type="button" id="changeImageBtn" data-user-id="${sessionScope.signedInUserId}">변경</button>
                     </div>
-                        <input class="d-none" type="text" id="userId" name="userId" value="${user.userId}" />
-                        <input class="d-none" type="password" id="password" name="password" value="${user.password}" />
-                        <input class="d-none" type="text" id="imgId" name="imgId" value="${user.imgId}"/>
-                        <input class="d-none" type="text" id="age" name="age" value="${user.age}" />
+
+                    <div class="modal" tabindex="-1" id="imageModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">프로필 이미지 변경</h5>
+                                    <button type="button" class="btn-close"
+                                        data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body text-center">
+                                    <img id="previewImage"
+                                        src="<c:url value='/image/view/user/${signedInUserId}' />"
+                                        alt="프로필 이미지 미리보기"
+                                        style="width: 70px; height: 70px; border-radius: 50%;" />
+    
+                                    <c:set var="imageList"
+                                        value="${fn:split('profile01.jpeg,profile02.jpeg,profile03.jpeg,profile04.jpeg,profile05.jpeg', ',')}" />
+    
+                                    <div>
+                                        <c:forEach var="image"
+                                            items="${imageList}"
+                                            varStatus="status">
+                                            <label> <input
+                                                type="radio" name="imgId"
+                                                value="${status.index + 1}"
+                                                ${userImagePath.endsWith(image) ? 'checked' : ''}>
+                                                <img
+                                                src="../images/${image}"
+                                                alt="기본 이미지 ${status.index + 1}"
+                                                style="width: 100px; height: auto; border: 2px solid black; border-radius: 50%;">
+                                            </label>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button"
+                                        class="btn btn-secondary"
+                                        data-bs-dismiss="modal">취소</button>
+                                    <button id=btnUpload type="button"
+                                        class="btn btn-primary">업로드</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                        <!-- 유저 정보 -->
+                    <input class="d-none" type="text" id="userId" name="userId" value="${user.userId}" />
+                    <input class="d-none" type="password" id="password" name="password" value="${user.password}" />
+                    <input class="d-none" type="text" id="imgId" name="imgId" value="${user.imgId}"/>
+                    <input class="d-none" type="text" id="age" name="age" value="${user.age}" />
                     <div>
                         <label> 닉네임 </label>
                         <input type="text" id="nickname" name="nickname" value="${user.nickname}"/>
@@ -113,7 +118,7 @@
                             };
                         %>
                         <select name="residence" id="residence">
-                        <option value="${user.residence}"></option>
+                        <option value="">${user.residence}</option>
                             <% for (String district : seoulDistricts) { %>
                                 <option value="<%= district %>"><%= district %></option>
                             <% } %>
@@ -132,9 +137,9 @@
                         <input type="hidden" name="authCheck" placeholder="승인" value="1" />
                     </div>
                 </form>
-                    <div>
-                        <button class="btn" id="btnUpdate" data-user-id="${sessionScope.signedInUserId}">작성 완료</button>
-                    </div>
+                <div>
+                    <button class="btn" id="btnUpdate" data-user-id="${sessionScope.signedInUserId}">작성 완료</button>
+                </div>
                 
                 <hr/>
                 <div>
