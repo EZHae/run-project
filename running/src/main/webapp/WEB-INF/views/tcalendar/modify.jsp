@@ -65,43 +65,38 @@
 	    </script>
 	</head>
 	<body>
-	    <h2>모임 일정 생성</h2>
-	    <c:url value="/teampage/${teamId}/tcalendar/create" var="tCalendarCreatePage"/>
-	    <form action="${tCalendarCreatePage}" method="post">
-	        <table>
-	            <tr>
-	                <td><label for="title">제목:</label></td>
-	                <td><input type="text" id="title" name="title" required></td>
-	            </tr>
-	            <tr>
-	                <td><label for="date">날짜 선택:</label></td>
-	                <td><input type="text" id="date" name="date" autocomplete="off" required></td>
-	            </tr>
-	            <tr>
-	                <td><label for="time">시간 선택:</label></td>
-	                <td><input type="text" id="time" name="time" autocomplete="off" required></td>
-	            </tr>
-	            <tr>
-	                <td><label for="content">내용:</label></td>
-	                <td><textarea id="content" name="content" rows="5" cols="30" required></textarea></td>
-	            </tr>
-	            <tr>
-	                <td><label for="max_num">최대 인원수:</label></td>
-              		<td><input type="number" id="max_num" name="max_num" min="2" max="99" required ></td>
-	            </tr>
-	            <tr>
-	                <td colspan="2" style="text-align: center;">
-	                    <button type="submit">작성완료</button>
-	                </td>
-	            </tr>
-	        </table>
-	    </form>
-	    
-	    <!-- Bootstrap JS 링크 -->
-	    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
-	            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
-	            crossorigin="anonymous">
-	    </script>
-	</body>
+    <h2>모임 일정 수정</h2>
+    <c:url value="/teampage/${teamId}/tcalendar/update" var="tCalendarUpdatedPage"/>
+    <form action="${tCalendarUpdatedPage}" method="post">
+        <input type="hidden" name="calendarId" value="${tCalendar.id}" />
+        <table>
+            <tr>
+                <td><label for="title">제목:</label></td>
+                <td><input type="text" id="title" name="title" value="${tCalendar.title}" readonly></td>
+            </tr>
+            <tr>
+                <td><label for="date">날짜/시간:</label></td>
+                <td><input type="text" id="date" name="date" autocomplete="off" value="${tCalendar.dateTime}" disabled></td>
+            </tr>
+            <tr>
+                <td><label for="content">내용:</label></td>
+                <td><textarea id="content" name="content" rows="5" cols="30" readonly>${tCalendar.content}</textarea></td>
+            </tr>
+            <tr>
+                <td><label for="max_num">최대 인원수:</label></td>
+                <td><input type="number" id="max_num" name="max_num" min="${tCalendar.maxNum}" max="99" placeholder="${tCalendar.maxNum }" required autofocus></td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align: center;">
+                    <button type="submit">작성완료</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
+            crossorigin="anonymous"></script>
+            
+</body>
+	
 </html>
-

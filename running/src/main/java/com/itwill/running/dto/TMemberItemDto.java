@@ -23,5 +23,6 @@ public class TMemberItemDto {
 	public static TMemberItemDto fromEntity(TMember tmember) {
 		return TMemberItemDto.builder().id(tmember.getId()).leaderCheck(tmember.getLeaderCheck()).teamId(tmember.getTeamId()).nickname(tmember.getNickname())
 				.userId(tmember.getUserId()).createdTime(tmember.getCreatedTime()).build();
+
 	}
 }

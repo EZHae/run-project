@@ -80,52 +80,123 @@ public class TCalendarController {
 		return "/tcalendar/list";
 	}
 
-	// 일정 상세 보기
+
 	@GetMapping("/details")
-	public String detail(@PathVariable Integer teamId, @RequestParam Integer calendarId, Model model,
-			HttpServletRequest request) {
-		log.debug("details() - teamId: {}, calendarId: {}", teamId, calendarId);
+	public String details(@PathVariable Integer teamId, @RequestParam Integer calendarId, Model model,
+	                      HttpServletRequest request) {
+	    log.debug("details() - teamId: {}, calendarId: {}", teamId, calendarId);
 
-		TCalendar tCalendar = tCalendarService.read(calendarId, teamId);
-		model.addAttribute("tCalendar", tCalendar);
-		model.addAttribute("teamId", teamId);
+	    // 일정 정보 가져오기
+	    TCalendar tCalendar = tCalendarService.read(calendarId, teamId);
+	    model.addAttribute("tCalendar", tCalendar);
+	    log.debug("tCalendar 정보 - maxNum: {}, currentNum: {}", tCalendar.getMaxNum(), tCalendar.getCurrentNum());
+	    log.debug("서비스에서 가져온 일정 정보 - maxNum: {}", tCalendar.getMaxNum());
+	    
+	    model.addAttribute("teamId", teamId);
 
-		LocalDateTime dateTime = tCalendar.getDateTime();
-		// 원하는 포맷 지정
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH-mm");
-		// 포맷 적용
-		String formattedDate = dateTime.format(formatter);
-		model.addAttribute("dateTime", formattedDate);
+	    // 날짜 포맷팅
+	    LocalDateTime dateTime = tCalendar.getDateTime();
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH-mm");
+	    String formattedDate = dateTime.format(formatter);
+	    model.addAttribute("dateTime", formattedDate);
 
-		List<TCalendarMemberItemDto> tCalendarMember = tCalendarMemberService.getTCalendarMembers(teamId, calendarId);
-		model.addAttribute("tCalendarMember", tCalendarMember);
+	    // 신청한 멤버 목록
+	    List<TCalendarMemberItemDto> tCalendarMember = tCalendarMemberService.getTCalendarMembers(teamId, calendarId);
+	    model.addAttribute("tCalendarMember", tCalendarMember);
 
-		List<TMemberItemDto> tMember = tMemberService.readAllByTeamId(teamId);
-		model.addAttribute("tMember", tMember);
+	    // 팀원 목록
+	    List<TMemberItemDto> tMember = tMemberService.readAllByTeamId(teamId);
+	    model.addAttribute("tMember", tMember);
 
-		HttpSession session = request.getSession();
-		String userId = (String) session.getAttribute("signedInUserId");
-		model.addAttribute("userId", userId);
+	    // 현재 로그인한 사용자 정보 가져오기
+	    HttpSession session = request.getSession();
+	    String userId = (String) session.getAttribute("signedInUserId");
+	    model.addAttribute("userId", userId);
 
-		 // 팀장 확인
+	    // 팀장 여부 확인
 	    String teamLeaderId = tMemberService.getTeamLeaderId(teamId);
 	    boolean isTeamLeader = userId != null && userId.equals(teamLeaderId);
 	    model.addAttribute("isTeamLeader", isTeamLeader);
-	    
-		// 신청 여부 확인
-		boolean isApplied = tCalendarMemberService.isApplied(calendarId, userId, teamId);
-		model.addAttribute("isApplied", isApplied);
 
-		// 현재인원수가 최대인원수에 도달했는지 확인
-		boolean isFull = tCalendar.getCurrentNum() >= tCalendar.getMaxNum();
-		model.addAttribute("isFull", isFull);
+	    // 신청 여부 확인
+	    boolean isApplied = tCalendarMemberService.isApplied(calendarId, userId, teamId);
+	    model.addAttribute("isApplied", isApplied);
 
-		// 일정이 현재 시간보다 이전인지 확인
-		boolean isExpired = tCalendar.getDateTime().isBefore(LocalDateTime.now());
-		model.addAttribute("isExpired", isExpired);
+	    // 현재 인원 수가 최대 인원 수에 도달했는지 확인
+	    boolean isFull = tCalendar.getCurrentNum() >= tCalendar.getMaxNum();
+	    model.addAttribute("isFull", isFull);
 
-		return "/tcalendar/details";
+	    // 일정이 현재 시간보다 이전인지 확인
+	    boolean isExpired = tCalendar.getDateTime().isBefore(LocalDateTime.now());
+	    model.addAttribute("isExpired", isExpired);
+
+	    return "tcalendar/details"; // details.jsp로 이동
 	}
+
+	@GetMapping("/modify")
+	public String modify(@PathVariable Integer teamId, @RequestParam Integer calendarId, Model model,
+	                     HttpServletRequest request) {
+	    log.debug("modify() - teamId: {}, calendarId: {}", teamId, calendarId);
+
+	    // 일정 정보 가져오기
+	    TCalendar tCalendar = tCalendarService.read(calendarId, teamId);
+	    model.addAttribute("tCalendar", tCalendar);
+	    log.debug("tCalendar 정보 - maxNum: {}, currentNum: {}", tCalendar.getMaxNum(), tCalendar.getCurrentNum());
+	    log.debug("서비스에서 가져온 일정 정보 - maxNum: {}", tCalendar.getMaxNum());
+	    
+	    model.addAttribute("teamId", teamId);
+
+	    // 날짜 포맷팅
+	    LocalDateTime dateTime = tCalendar.getDateTime();
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH-mm");
+	    String formattedDate = dateTime.format(formatter);
+	    model.addAttribute("dateTime", formattedDate);
+
+	    // 신청한 멤버 목록
+	    List<TCalendarMemberItemDto> tCalendarMember = tCalendarMemberService.getTCalendarMembers(teamId, calendarId);
+	    model.addAttribute("tCalendarMember", tCalendarMember);
+
+	    // 팀원 목록
+	    List<TMemberItemDto> tMember = tMemberService.readAllByTeamId(teamId);
+	    model.addAttribute("tMember", tMember);
+
+	    // 현재 로그인한 사용자 정보 가져오기
+	    HttpSession session = request.getSession();
+	    String userId = (String) session.getAttribute("signedInUserId");
+	    model.addAttribute("userId", userId);
+
+	    // 팀장 여부 확인
+	    String teamLeaderId = tMemberService.getTeamLeaderId(teamId);
+	    boolean isTeamLeader = userId != null && userId.equals(teamLeaderId);
+	    model.addAttribute("isTeamLeader", isTeamLeader);
+
+	    // 신청 여부 확인
+	    boolean isApplied = tCalendarMemberService.isApplied(calendarId, userId, teamId);
+	    model.addAttribute("isApplied", isApplied);
+
+	    // 현재 인원 수가 최대 인원 수에 도달했는지 확인
+	    boolean isFull = tCalendar.getCurrentNum() >= tCalendar.getMaxNum();
+	    model.addAttribute("isFull", isFull);
+
+	    // 일정이 현재 시간보다 이전인지 확인
+	    boolean isExpired = tCalendar.getDateTime().isBefore(LocalDateTime.now());
+	    model.addAttribute("isExpired", isExpired);
+
+	    return "tcalendar/modify"; // modify.jsp로 이동
+	}
+
+    //최대인원수 업데이트
+    @PostMapping("/update")
+    public String update(@PathVariable Integer teamId,
+                         @RequestParam Integer calendarId,
+                         @RequestParam("max_num") Integer maxNum, 
+                         Model model) {
+        log.debug("update() - teamId: {}, calendarId: {}, maxNum: {}", teamId, calendarId, maxNum);
+
+        tCalendarService.updateMaxNum(teamId, calendarId, maxNum);
+        
+        return "redirect:/teampage/" + teamId + "/tcalendar/details?calendarId=" + calendarId;
+    }
 
 	// 일정 작성 폼
 	@GetMapping("/create")
@@ -171,6 +242,16 @@ public class TCalendarController {
 		// 사용자 닉네임 가져오기
 		String nickname = (String) session.getAttribute("signedInUserNickname");
 		dto.setNickname(nickname);
+		
+		// maxNum 값 설정 및 로그 추가
+	    String maxNumStr = request.getParameter("max_num");
+	    if (maxNumStr != null) {
+	        int maxNum = Integer.parseInt(maxNumStr);
+	        dto.setMaxNum(maxNum);
+	        log.debug("입력된 max_num 값: {}", maxNum);
+	    } else {
+	        log.debug("max_num 값이 전달되지 않았습니다.");
+	    }
 
 		// 서비스에 DTO를 전달하여 일정 생성 및 생성된 ID를 반환받음
 		int generatedId = tCalendarService.create(dto);
@@ -267,40 +348,6 @@ public class TCalendarController {
 
         // 신청자 목록 가져오기
         return tCalendarMemberService.getTCalendarMembers(teamId, calendarId);
-    }
-
-//모달창 쓰려고     
-//    //업데이트
-//    @GetMapping("/update")
-//    public String updateForm(@PathVariable Integer teamId,
-//                             @RequestParam Integer calendarId,
-//                             Model model) {
-//        log.debug("updateForm() - teamId: {}, calendarId: {}", teamId, calendarId);
-//
-//        TCalendar tCalendar = tCalendarService.read(calendarId, teamId);
-//        model.addAttribute("tCalendar", tCalendar);
-//        model.addAttribute("teamId", teamId);
-//        
-//        return "/tcalendar/update";
-//    }
-
-    //최대인원수 업데이트
-    @PostMapping("/update")
-    @ResponseBody
-    public ResponseEntity<String> update(@PathVariable Integer teamId,
-                         @RequestParam Integer calendarId,
-                         @RequestParam Integer maxNum) {
-        log.debug("update() - teamId: {}, calendarId: {}, maxNum: {}", teamId, calendarId, maxNum);
-
-        tCalendarService.updateMaxNum(teamId, calendarId, maxNum);
-
-//        TCalendar tCalendar = tCalendarService.read(calendarId, teamId);
-//        model.addAttribute("tCalendar", tCalendar);
-//        model.addAttribute("teamId", teamId);
-//        model.addAttribute("currentNum", currentNum);
-//        model.addAttribute("maxNum", maxNum);
-        
-        return ResponseEntity.ok("success");
     }
 
     

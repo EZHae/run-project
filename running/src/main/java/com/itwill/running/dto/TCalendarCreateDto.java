@@ -15,7 +15,7 @@ public class TCalendarCreateDto {
     private LocalDateTime dateTime;
     private String content;
     private Integer currentNum = 0; // 현재 인원수 0으로
-    private Integer maxNum = 2; // 최대 인원을 2명부터 되게끔
+    private Integer maxNum;
 
     public TCalendar toEntity() {
         return TCalendar.builder()

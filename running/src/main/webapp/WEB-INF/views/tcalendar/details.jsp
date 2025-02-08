@@ -16,6 +16,10 @@
               rel="stylesheet"
               integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
               crossorigin="anonymous">
+              
+        <!-- Axios CDN 추가 (head 태그 내) -->
+		<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+              
     </head>
     <body>
         <!-- applyUrl 변수 정의 -->
@@ -119,37 +123,12 @@
 				    <c:if test="${isTeamLeader}">
 				        <!-- 수정 버튼 -->
 				        <div>
-				            <c:url var="updateMaxNumUrl" value="/teampage/${teamId}/tcalendar/update">
-				                <c:param name="calendarId" value="${tCalendar.id}" />
-				            </c:url>
-				            <a href="#" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#updateMaxNumModal" data-teamid="${teamId}" data-calendarid="${tCalendar.id}" data-currentnum="${tCalendar.currentNum}">수정</a>
+				        	<c:url var="modifyUrl" value="/teampage/${teamId}/tcalendar/modify">
+				        		<c:param name="calendarId" value="${tCalendar.id}"/>
+				        	</c:url>
+				        	<a href="${modifyUrl}" class = "btn btn-primary">수정</a>
 				        </div>
-				
-				        <!-- 수정 버튼의 모달창-->
-						<!-- 최대 인원수 수정 모달창 -->
-						<div class="modal fade" id="updateMaxNumModal" tabindex="-1" aria-labelledby="updateMaxNumModalLabel" aria-hidden="true">
-						    <div class="modal-dialog">
-						        <div class="modal-content">
-						            <div class="modal-header">
-						                <h5 class="modal-title" id="updateMaxNumModalLabel">최대 인원수 수정</h5>
-						                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-						            </div>
-						            <div class="modal-body">
-						                <form id="updateMaxNumForm">
-						                    <div class="mb-3">
-						                        <label for="maxNum" class="form-label">최대 인원수</label>
-						                        <input type="number" class="form-control" id="maxNum" name="maxNum" min="${tCalendar.currentNum}" max="99" required>
-						                    </div>
-						                    <input type="hidden" id="teamId" name="teamId" value="${teamId}">
-						                    <input type="hidden" id="calendarId" name="calendarId" value="${tCalendar.id}">
-						                    <button type="submit" class="btn btn-primary" id="submitUpdate">확인</button>
-						                </form>
-						            </div>
-						        </div>
-						    </div>
-						</div>
-						
-								        
+
 				        <!-- 삭제 버튼 -->
 				        <div>
 				            <c:url var="deleteUrl" value="/teampage/${teamId}/tcalendar/delete">
@@ -182,9 +161,6 @@
             <c:url var="viewTCalendarMembersJS" value="/js/tcalendar_viewTCalendarMembers.js"/>
             <script src="${viewTCalendarMembersJS}"></script>
             
-            <!-- 최대 인원수 수정 모달창 JS -->
-	        <c:url var="updateMaxNumJS" value="/js/tcalendar_update_maxnum.js"/>
-	        <script src="${updateMaxNumJS}"></script>
             
         </body>
 </html>
