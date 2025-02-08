@@ -121,31 +121,34 @@
                 <!-- 수정 및 삭제 버튼(팀장만 보이게) -->
 				<div class="mb-3">
 				    <c:if test="${isTeamLeader}">
-				        <!-- 수정 버튼 -->
-				        <div>
-				        	<c:url var="modifyUrl" value="/teampage/${teamId}/tcalendar/modify">
-				        		<c:param name="calendarId" value="${tCalendar.id}"/>
-				        	</c:url>
-				        	<a href="${modifyUrl}" class = "btn btn-primary">수정</a>
-				        </div>
-
+				        <!-- 수정 버튼 : 현재 인원수와 최대인원 수가 같은 경우에는 모집종료된 게시글이라 수정버튼 안보이게 -->
+				        <c:if test="${tCalendar.currentNum != tCalendar.maxNum}">
+				            <div>
+				                <c:url var="modifyUrl" value="/teampage/${teamId}/tcalendar/modify">
+				                    <c:param name="calendarId" value="${tCalendar.id}"/>
+				                </c:url>
+				                <a href="${modifyUrl}" class="btn btn-primary">수정</a>
+				            </div>
+				        </c:if>
+				
 				        <!-- 삭제 버튼 -->
 				        <div>
 				            <c:url var="deleteUrl" value="/teampage/${teamId}/tcalendar/delete">
-				                <c:param name="calendarId" value="${tCalendar.id}" />
+				                <c:param name="calendarId" value="${tCalendar.id}"/>
 				            </c:url>
 				            <form action="${deleteUrl}" method="post" style="display: inline;">
 				                <button type="submit" class="btn btn-danger" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</button>
 				            </form>
 				        </div>
 				    </c:if>
-       
-		        <!-- 목록으로 돌아가는 버튼 -->
-		        <div>
-		            <c:url var="listPageUrl" value="/teampage/${teamId}/tcalendar/list" />
-		            <a href="${listPageUrl}" class="btn btn-primary">목록으로 돌아가기</a>
-		        </div>
-		   </div>
+				
+				    <!-- 목록으로 돌아가는 버튼 -->
+				    <div>
+				        <c:url var="listPageUrl" value="/teampage/${teamId}/tcalendar/list"/>
+				        <a href="${listPageUrl}" class="btn btn-primary">목록으로 돌아가기</a>
+				    </div>
+				</div>
+								
     
             <!-- Bootstrap JS 링크 -->
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 

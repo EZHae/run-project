@@ -12,7 +12,6 @@
 		
 		<title>Running</title>
 		
-		<!-- 지해가 작성 -->
 		<!-- Bootstrap CSS 링크 -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" 
                 rel="stylesheet" 
@@ -20,18 +19,11 @@
                 crossorigin="anonymous">
 	</head>
 	<body>
-		<h1>Running Home</h1>
-		<c:url var="courseListPage" value="/course/list" />
-        <a href="${courseListPage}">courseListPage</a>
-
-
-        <c:url var="gPostListPage" value="/gpost/list" /> 
-        <a href="${gPostListPage}">목록</a>
-
-        <c:url var="teamListPage" value="/teampage/list" />
-        <a href="${teamListPage}">teamListPage</a>
-        
-
+		<c:forEach var="team" items="${teams}" >
+			<c:url var="teamDetailsPage" value="/teampage/${team.teamId}" />
+			<a href="${teamDetailsPage}">${team.teamName}</a>
+		</c:forEach>
+		
 		<!-- Bootstrap JS 링크 -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
                 integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 

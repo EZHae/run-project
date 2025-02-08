@@ -9,7 +9,7 @@ import com.itwill.running.dto.TCalendarMemberItemDto;
 
 @Mapper
 public interface TCalendarMemberDao {
-    // 일정 게시판의 모든 멤버 조회
+    // 일정 게시글의 모든 멤버 조회
     List<TCalendarMemberItemDto> selectAllTCalendarMemberByCalendarId(@Param("teamId") Integer teamId, @Param("calendarId") Integer calendarId);
 
     // 신청한 멤버 조회
