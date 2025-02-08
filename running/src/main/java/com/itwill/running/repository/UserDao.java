@@ -15,4 +15,6 @@ public interface UserDao {
 	int updateAccessTime(String userId);	// 유저 최근 접속 시간 업데이트
 	int updateUser(UserUpdateDto dto);				// 유저 정보 수정 업데이트
 	int deleteUser(String userId);				// 유저 삭제
+	void updateByImgId(String userId, int imgId);
 }
+ 

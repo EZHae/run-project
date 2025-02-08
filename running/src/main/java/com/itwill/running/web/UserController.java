@@ -3,7 +3,9 @@ package com.itwill.running.web;
 import java.awt.Image;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -157,19 +159,29 @@ public class UserController {
 		
 	}
 	
-	// 이미지 업데이트 API
+	// 이미지 업데이트 변경 모달
 	@GetMapping("/api/{userId}")
 	@ResponseBody
-	public ResponseEntity<User> getUserImage(@PathVariable String userId){
-		 // 유저 조회
-		User user = userService.selectByUserId(userId); 
-		
-		if (user != null) {
-	        return ResponseEntity.ok(user);
-	    } else {
-	        return ResponseEntity.notFound().build();
-	    }
+	public ResponseEntity<User> getUserImage(@PathVariable String userId) {
+	    // 유저 조회
+	    User user = userService.selectByUserId(userId);
+
+        return ResponseEntity.ok(user);
 	}
+	
+	// 이미지 업데이트 API
+	@PutMapping("/api/{userId}/image")
+	@ResponseBody
+	public ResponseEntity<String> updateUserImage(@PathVariable String userId, @RequestBody Map<String, Integer> requestBody){
+		// 유저 조회
+		int defaultImageId = requestBody.get("imgId");
+		
+		// 업데이트
+        int updatedRows = uimagesService.updateUserProfileImage(userId, defaultImageId);
+        
+		return ResponseEntity.ok("프로필 이미지가 변경되었습니다.");
+	}
+		
 	 
 	
 	

@@ -58,6 +58,21 @@ public class UImagesService {
 		return image.getId();
 	}
 	
+	public int updateUserProfileImage(String userId, int defaultImageId) {
+		//user테이블 에서 img_id 조회 
+		Integer imgId = uimagesDao.selectImgIdByUserId(userId);
+		
+		// 기본 이미지 파일명
+		String fileName = DEFAULT_IMAGE_MAP.get(defaultImageId);
+		
+		// 업데이트 할 값.
+		
+		String imageName = "기본 이미지" +  defaultImageId;
+		String imagePath = UPLOAD_DIR + fileName;
+		
+		return uimagesDao.updateUserImage(imgId, imageName, imagePath);
+	}
+	
 	
 	// userId로 해당 사용자의 프로필 이미지 정보 조회
 	public UImages selectUserImageByUserId(String userId) {

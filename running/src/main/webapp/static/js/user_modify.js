@@ -21,27 +21,8 @@ document.addEventListener('DOMContentLoaded', ()=> {
     btnUpload.addEventListener('click', updateImage);
     
     
-    function showImageModal(event) {
-        
-        // 현재 로그인한 유저 ID 가져오기
-        const userId = changeImageBtn.getAttribute('data-user-id');
-        console.log("현재 로그인한 사용자 ID:", userId);
-        
-        // 모달표시
-        imageModal.show();
-
-        
-        const uri = `../user/api/${userId}`;
-        
-        axios
-        .get(uri)
-        .then(response => {
-            console.log("서버 응답 데이터:", response.data);
-        })
-        .catch(error => {
-            console.error("에러 발생:", error);
-        });
-    }
+    
+    
     
     
     // 유저 업데이트 버튼 이벤트 리스너
@@ -106,23 +87,67 @@ document.addEventListener('DOMContentLoaded', ()=> {
         });
     }
     
+    
+    function showImageModal(event) {
+            
+        // 현재 로그인한 유저 ID 가져오기
+        const userId = changeImageBtn.getAttribute('data-user-id');
+        console.log("현재 로그인한 사용자 ID:", userId);
+
+//        if (!result) { // 사용자가 [취소]를 클릭했을 때
+//            return; // 함수 종료
+//        }
+
+
+        const uri = `../user/api/${userId}`;
+
+        axios
+        .get(uri)
+        .then(response => {
+            console.log("서버 응답 데이터:", response.data);
+
+            const userImgId = response.data.imgId;
+            console.log("현재 사용자의 프로필 이미지:", userImgId);
+
+            const selectedRadio = document.querySelector('input[name="imgId"]:checked');
+
+            // 모달표시
+            imageModal.show();
+        })
+        .catch(error => {
+            console.error("에러 발생:", error);
+        });
+    }
+    
     function updateImage() {
         // 사용자 아이디
-        const userId = btnUpdate.getAttribute('data-user-id');
+        const userId = btnUpload.getAttribute('data-user-id');
 
+        // 선택된 라디오 버튼
+        const selectedRadio = document.querySelector('input[name="imgId"]:checked');
 
-        // 업데이트할 이미지 내용
-        const imgId = document.querySelector('input[name="imgId"]:checked').value;
+        // 선택된 이미지에 정보 
+        const imgId = selectedRadio.value; // U_IMAGES.id
+        console.log("선택한 이미지 아이디:",imgId);
+        
+        const selectedImage = selectedRadio.nextElementSibling;
+        const originName = selectedImage.getAttribute("data-origin-name"); // 원본 파일명
+        const uniqName = selectedImage.getAttribute("data-uniq-name"); // 고유 파일명 (UUID)
+        const imagePath = selectedImage.getAttribute("src"); // 이미지 경로
 
 
         // 이미지 업데이트 REST API(요청 URI)
-        const uri = `../user/api/${userId}`;
+        const uri = `../user/api/${userId}/image`;
 
         // Ajax 요청을 보냄.
         axios
-            .put(uri, { userId: userId, imgId: imgId })
+            .put(uri, { imgId: imgId },{ headers: { "Content-Type": "application/json" } })
             .then((response) => {
                 console.log(response);
+                
+                document.getElementById("previewImage").src = selectedRadio.nextElementSibling.getAttribute("src");
+                
+                commentModal.hide(); // 댓글 업데이트 모달을 닫음.
             })
             .catch((error) => {});
     }

@@ -52,7 +52,7 @@
                                     <c:set var="imageList"
                                         value="${fn:split('profile01.jpeg,profile02.jpeg,profile03.jpeg,profile04.jpeg,profile05.jpeg', ',')}" />
     
-                                    <div>
+                                    <div id="imageForm">
                                         <c:forEach var="image"
                                             items="${imageList}"
                                             varStatus="status">
@@ -108,21 +108,32 @@
                     <div id="checkPhoneNumberResult">
                     
                     </div>
+                    
+                    
                     <div>
-                        <%
-                            String[] seoulDistricts = {
-                                "강남구", "강동구", "강북구", "강서구", "관악구", "광진구",
-                                "구로구", "금천구", "노원구", "도봉구", "동대문구", "동작구",
-                                "마포구", "서대문구", "서초구", "성동구", "성북구", "송파구",
-                                "양천구", "영등포구", "용산구", "은평구", "종로구", "중구", "중랑구"
-                            };
-                        %>
-                        <select name="residence" id="residence">
-                        <option value="">${user.residence}</option>
-                            <% for (String district : seoulDistricts) { %>
-                                <option value="<%= district %>"><%= district %></option>
-                            <% } %>
-                        </select>
+                        <c:set var="seoulDistricts" value="
+                            강남구, 강동구, 강북구, 강서구, 관악구, 광진구, 구로구, 금천구, 노원구, 도봉구, 동대문구, 동작구,
+                            마포구, 서대문구, 서초구, 성동구, 성북구, 송파구,
+                            양천구, 영등포구, 용산구, 은평구, 종로구, 중구, 중랑구
+                        " />
+                        <c:set var="cleanedDistricts" value="${fn:replace(seoulDistricts, ' ', '')}" />
+                        <c:set var="districtList" value="${fn:split(cleanedDistricts, ',')}" />
+
+                    <select name="residence" id="residence">
+                        <option value="${user.residence}"
+                            ${empty user.residence ? 'selected' : ''}>
+                            ${not empty user.residence ? user.residence : '주소 선택'}
+                        </option>
+
+                        <c:forEach var="district"
+                            items="${districtList}">
+                            <option value="${district}"
+                                ${district eq user.residence ? 'selected' : ''}>${district}</option>
+                        </c:forEach>
+                    </select>
+
+                    <!-- 디버깅용: residence 값 확인 -->
+                        <p>현재 선택된 주소: ${user.residence}</p>
                     </div>
                     <div>
                         <label> 이메일 </label>

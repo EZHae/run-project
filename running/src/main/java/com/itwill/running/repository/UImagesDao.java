@@ -8,5 +8,6 @@ public interface UImagesDao {
 	UImages selectUserImageByImgId(Integer imgId);  // imgId로 해당 유저 이미지를 조회
 	
 	Integer selectImgIdByUserId(String userId);		// userId로 imgId 조회
+	int updateUserImage(Integer imgId, String imageName, String imagePath);
 	
 }

@@ -92,6 +92,11 @@ public class UserService {
 		return userDao.updateUser(dto);
 	}
 	
+	// 유저 이미지 업데이트
+	public void updateUserImgId(String userId, int imgId) {
+		userDao.updateByImgId(userId, imgId);
+	}
+	
 	
 	// 회원가입 서비스
 	public User createUser(UserSignUpDto dto) {
