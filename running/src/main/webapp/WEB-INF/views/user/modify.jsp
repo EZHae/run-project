@@ -63,6 +63,9 @@
                                                 <img
                                                 src="../images/${image}"
                                                 alt="기본 이미지 ${status.index + 1}"
+                                                data-img-id="${status.index + 1}"
+                                                data-image-name="기본 이미지 ${status.index + 1}"
+                                                data-image-file="${image}"
                                                 style="width: 100px; height: auto; border: 2px solid black; border-radius: 50%;">
                                             </label>
                                         </c:forEach>
@@ -73,7 +76,7 @@
                                         class="btn btn-secondary"
                                         data-bs-dismiss="modal">취소</button>
                                     <button id=btnUpload type="button"
-                                        class="btn btn-primary">업로드</button>
+                                        class="btn btn-primary" data-user-id="${sessionScope.signedInUserId}">업로드</button>
                                 </div>
                             </div>
                         </div>
@@ -81,7 +84,47 @@
                     
                         <!-- 유저 정보 -->
                     <input class="d-none" type="text" id="userId" name="userId" value="${user.userId}" />
+                    
+<!--                     유저 패스워드 변경 -->
                     <input class="d-none" type="password" id="password" name="password" value="${user.password}" />
+                    
+                    <div class="modal" tabindex="-1" id="passwordModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">패스워드 변경</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body text-center">
+                                <form id="passwordForm">
+                                    현재 비밀번호 입력
+                                    <div>
+                                        <label for="currentPassword"></label>
+                                        <input type="password" id="currentPassword" required />
+                                    </div>
+                                    
+                                    새 비밀번호 입력
+                                    <div>
+                                        <label for="newFirstPassword"></label>
+                                        <input type="password" id="newFirstPassword" required />
+                                    </div>
+                                    
+                                     새 비밀번호 확인
+                                    <div>
+                                        <label for="newSecondPassword"></label>
+                                        <input type="password" id="newSecondPassword" required />
+                                    </div>
+                                    
+                                    
+                                     <div class="modal-footer">`
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                                        <button id=btnUpdatePassword type="submit" class="btn btn-primary">확인</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
                     <input class="d-none" type="text" id="imgId" name="imgId" value="${user.imgId}"/>
                     <input class="d-none" type="text" id="age" name="age" value="${user.age}" />
                     <div>
@@ -154,7 +197,7 @@
                 
                 <hr/>
                 <div>
-                    <button >비밀번호 변경</button>
+                    <button  id="changePasswordBtn" data-user-id="${sessionScope.signedInUserId}">비밀번호 변경</button>
                     <button id="btnDelete" data-user-id="${sessionScope.signedInUserId}">계정 탈퇴</button>
                 </div>
             </div>

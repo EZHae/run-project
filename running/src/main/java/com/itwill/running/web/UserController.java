@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.itwill.running.domain.Gimages;
 import com.itwill.running.domain.UImages;
 import com.itwill.running.domain.User;
+import com.itwill.running.dto.UImagesDto;
 import com.itwill.running.dto.UserSignInDto;
 import com.itwill.running.dto.UserSignUpDto;
 import com.itwill.running.dto.UserUpdateDto;
@@ -172,14 +173,38 @@ public class UserController {
 	// 이미지 업데이트 API
 	@PutMapping("/api/{userId}/image")
 	@ResponseBody
-	public ResponseEntity<String> updateUserImage(@PathVariable String userId, @RequestBody Map<String, Integer> requestBody){
-		// 유저 조회
-		int defaultImageId = requestBody.get("imgId");
-		
-		// 업데이트
-        int updatedRows = uimagesService.updateUserProfileImage(userId, defaultImageId);
+	public ResponseEntity<String> updateUserImage(
+			@RequestBody UImagesDto dto){
+		// 요청 데이터 로그 출력
+        log.debug("요청된 데이터: {}", dto);
+        // 서비스 계층에 DTO 전달
+        uimagesService.updateUserProfileImage(dto);
         
-		return ResponseEntity.ok("프로필 이미지가 변경되었습니다.");
+        return ResponseEntity.ok("이미지 변경 완료");
+	}
+	
+	
+	// 비밀번호 확인 메서드
+	@PutMapping("/api/{userId}/password")
+	@ResponseBody
+	public ResponseEntity<String> getPassword(@PathVariable String userId, @RequestBody Map<String, String> request){
+		String password = request.get("password");
+		
+		 // 유저의 기존 비밀번호 가져오기
+		String storedPassword = userService.getPasswordByUserId(userId);
+
+	    if (password == null || password.isBlank()) {
+	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("비밀번호가 비어 있습니다.");
+	    }
+
+	    if (storedPassword.equals(password)) {
+	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("현재 비밀번호와 새 비밀번호가 동일합니다.");
+	    }
+		
+		// 비밀번호 변경 수행
+		userService.updateUserPassword(userId, password);
+		return ResponseEntity.ok("비밀번호 변경 완료");
+		
 	}
 		
 	 

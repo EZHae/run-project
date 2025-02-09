@@ -67,4 +67,21 @@
         delete from users 
         where user_id = #{userId}
     </delete>
+    
+    <!-- 이미지 아이디 조회에 사용할 SQL-->
+    <select id="selectImgIdByUserId" resultType="int">
+        select img_id from users where user_id = #{userId}
+    </select>
+    
+    <!-- 해당 아이디의 비밀번호 조회에 사용할 SQL-->
+    <select id="selectPasswordByUserId" parameterType="String" resultType="String">
+        select password from users where user_id = #{userId}
+    </select>
+    
+    <!-- 비밀번호 업데이트에 사용할 SQL -->
+    <update id="updateUserByPassword" parameterType="map">
+        update users
+        set password = #{password}
+        where user_id = #{userId}
+    </update>
   </mapper>

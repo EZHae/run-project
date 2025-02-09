@@ -15,8 +15,8 @@
   
     <update id="updateUserImage">
         update u_images
-        set user_id = #{userId}, image_name = #{imageName}, image_path =  #{imagePath}
-        where id = #{id}
+        set image_name = #{imageName}, image_path =  #{imagePath}, user_id = #{userId}
+        where user_id = #{userId}
     </update>
     
     <!-- userId를 기준으로 u_image 테이블에 데이터 검색 -->

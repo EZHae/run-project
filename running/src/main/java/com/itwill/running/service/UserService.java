@@ -1,9 +1,8 @@
 package com.itwill.running.service;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.itwill.running.domain.UImages;
 import com.itwill.running.domain.User;
 import com.itwill.running.dto.UserSignInDto;
 import com.itwill.running.dto.UserSignUpDto;
@@ -19,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 public class UserService {
 	
 	private final UserDao userDao;
-	private final UImagesService uimagesService;
+	private final UImagesService uimagesService; 
 	
 	
 	// 유저 아이디 중복체크
@@ -118,6 +117,30 @@ public class UserService {
 		userDao.updateByImgId(user);
 
 		return user;
+	}
+	
+	// 이미지 조회를 위한 아이디 
+	public int getUserImgId(String userId) {
+	    Integer imgId = userDao.selectImgIdByUserId(userId);
+	    
+	    return imgId;
+	}
+	
+	// 비밀번호 변경 서비스
+	public boolean  updateUserPassword(String userId, String password) {
+	    log.info("비밀번호 변경 요청 - userId: {}, newPassword: {}", userId, password);
+	    int result = userDao.updateUserByPassword(userId, password);
+
+	    if (result == 0) {
+	        log.error("비밀번호 변경 실패 - userId: {}", userId);
+	        return false;
+	    }
+	    return true;
+	}
+	
+	// 아이디로 비밀번호 조회 서비스
+	public String getPasswordByUserId(String userId) {
+		return userDao.selectPasswordByUserId(userId);
 	}
 	
 }
