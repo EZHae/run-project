@@ -7,7 +7,7 @@
 		<!-- Bootstrap을 사용하기 위한 meta name="viewport" 설정. -->
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		
-	    <title>모임 일정 생성</title>
+	    <title>모임 일정 수정</title>
 	    
 	    <!-- Bootstrap CSS 링크 -->
 	    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" 
@@ -15,12 +15,18 @@
 	          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
 	          crossorigin="anonymous">
 	                
-	    <!-- jQuery 및 jQuery UI -->
+	    <!-- jQuery & jQuery UI   -->
+	    <!-- (1) jQuery UI 컴포넌트에 필요한 스타일시트 -->
 	    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+	    <!-- (2) jQuery의 핵심 라이브러리 -->
 	    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	    <!-- (3) jQuery UI 라이브러리로 추가 UI 컴포넌트를 제공 -->
 	    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+	    
 	    <!-- jQuery Timepicker 플러그인 -->
+	    <!-- (1) 시간 선택 플러그인용 자바스크립트 파일 -->
 	    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.js"></script>
+	    <!-- (2) 시간 선택 플러그인용 스타일시트 -->
 	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.css">
 	
 	    <script>
@@ -83,8 +89,9 @@
                 <td><textarea id="content" name="content" rows="5" cols="30" readonly>${tCalendar.content}</textarea></td>
             </tr>
             <tr>
+            	<!-- 최대인원수 수정 가능 범위 : 게시글의 최대인원수 ~ 99 -->
                 <td><label for="max_num">최대 인원수:</label></td>
-                <td><input type="number" id="max_num" name="max_num" min="${tCalendar.maxNum}" max="99" placeholder="${tCalendar.maxNum }" required autofocus></td>
+                <td><input type="number" id="max_num" name="max_num" min="${tCalendar.maxNum}" max="99" placeholder="${tCalendar.maxNum}" required autofocus></td>
             </tr>
             <tr>
                 <td colspan="2" style="text-align: center;">

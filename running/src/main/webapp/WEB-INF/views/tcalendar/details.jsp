@@ -56,7 +56,7 @@
                 </div>
             </c:if>
     
-            <!-- 신청 상태에 따른 버튼 표시 -->
+            <!-- 신청 버튼 : 팀장과 팀멤버 둘다 신청 가능 -->
             <div class="mb-3">
                 <button id="applyButton" class="btn
                     <c:choose>

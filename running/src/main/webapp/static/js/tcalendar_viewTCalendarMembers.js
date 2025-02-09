@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
             noMembersMessage.style.backgroundColor = '#ffffff'; // 흰색 배경 설정
             noMembersMessage.style.color = '#000000'; // 검정색 글자 설정
             noMembersMessage.textContent = '참여한 멤버가 없습니다.';
-            membersList.appendChild(noMembersMessage);
+            membersList.appendChild(noMembersMessage); // listItem(<li>)이 membersList(<ul> || <ol>)의 자식 요소라서, listItem을 membersList라는 부모 요소의 마지막 자식 요소로 추가
             
             // 모달 창 표시하기
             membersModal.show();
@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         data.forEach(member => {
                             const listItem = document.createElement('li');
                             listItem.className = 'list-group-item';
-                            listItem.textContent = member.nickname || '닉네임 없음';
+                            listItem.textContent = member.nickname;
                             membersList.appendChild(listItem);
                         });
                     } else {

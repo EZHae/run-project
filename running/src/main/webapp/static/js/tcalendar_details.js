@@ -33,8 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		            // 현재 인원수 요소 가져오기
 		            const currentNumElement = document.getElementById('currentNum');
 
-		            if (response.status === 'applied') {
-		                // 버튼 텍스트 및 클래스 변경
+		            if (response.status === 'applied') { //신청 버튼을 누르면
 		                applyButton.textContent = '신청취소';
 		                applyButton.classList.remove('btn-primary');
 		                applyButton.classList.add('btn-danger');
@@ -51,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		                    applyButton.disabled = true;
 		                }
 
-		            } else if (response.status === 'cancelled') {
+		            } else if (response.status === 'cancelled') { //신청취소 버튼을 누르면
 		                applyButton.textContent = '신청';
 		                applyButton.classList.remove('btn-danger');
 		                applyButton.classList.add('btn-primary');
@@ -59,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		                // 현재 인원수 감소
 		                currentNumElement.textContent = parseInt(currentNumElement.textContent) - 1;
 
-		            } else if (response.status === 'full') {
+		            } else if (response.status === 'full') { // 현재 인원수 = 최대인원수
 		                applyButton.textContent = '모집종료';
 		                applyButton.disabled = true;
 
@@ -87,6 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
             messageArea.innerHTML = '<div class="alert alert-danger">네트워크 오류가 발생했습니다.</div>';
         };
 
+		//calendarId 값을 문자열로 추가해 서버로 전송
         xhr.send('calendarId=' + calendarId);
     });
 });
