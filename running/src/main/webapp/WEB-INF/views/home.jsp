@@ -18,13 +18,12 @@
                 rel="stylesheet" 
                 integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
                 crossorigin="anonymous">
-	</head>
 	<body>
+        <%@ include file="./fragments/header.jspf"%>
 		<div class="container-fluid">
             <c:set var="pageTitle" value="홈페이지" />
         </div>
 		<h1>Running Home</h1>
-
 
 		<c:url var="courseListPage" value="/course/list" />
         <a href="${courseListPage}">courseListPage</a>
@@ -33,7 +32,7 @@
         <c:url var="gPostListPage" value="/gpost/list" /> 
         <a href="${gPostListPage}">목록</a>
 
-        <c:url var="teamListPage" value="/teampage/list" />
+        <c:url var="teamListPage" value="/team/list" />
         <a href="${teamListPage}">teamListPage</a>
         
 

@@ -12,12 +12,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class Team {
-	
+
 	private Integer teamId;
 	private String teamName;
 	private String userId;
-	private String uniqName;
-	private String imagePath;
+	private String nickname;
+	private String uniqueName;
+	private String imagepath;
 	private String title;
 	private String content;
 	private Integer parkId;
@@ -27,4 +28,5 @@ public class Team {
 	private Integer genderLimit;
 	private LocalDateTime createdTime;
 	private LocalDateTime modifiedTime;
+
 }

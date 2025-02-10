@@ -130,6 +130,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     dnone = 'd-none'; //reply버튼을 볼 수 없음
                     ctext = '비밀댓글을 볼 권한이 없습니다';
                 }
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> e1adf589ffc3325435f9c054cab51418bc1b86de
 			} else {
 				//비밀댓글이 아닌 일반 댓글일 때
 				secretType = '';
@@ -173,7 +178,11 @@ document.addEventListener("DOMContentLoaded", () => {
             
             html += `</div>`;
 
+<<<<<<< HEAD
 			if (!comment.parentId == "") {
+=======
+			if (!comment.parentId == ""&&comment.secret==0) {
+>>>>>>> e1adf589ffc3325435f9c054cab51418bc1b86de
 				html += `<span class="sm text-muted h6"><em>@${comment.parentNickname}</em></span>`;
 			}
 

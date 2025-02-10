@@ -1,6 +1,7 @@
 package com.itwill.running.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import com.itwill.running.domain.Gpost;
 import com.itwill.running.dto.GpostCategoryDto;
@@ -14,5 +15,7 @@ public interface GpostDao {
 	Integer updatePost(Gpost gPost);	// 포스트 글 수정
 	Integer deletePost(Integer id);		// 포스트 글 삭제
 	Integer updateViewCountPost(Integer id);	// 포스트 뷰 카운트
+	List<Gpost> readPageWithOffset(Map<String, Object> params);
+	Integer selectCountPostsBySearch(GpostCategoryDto dto);
 	
 }
