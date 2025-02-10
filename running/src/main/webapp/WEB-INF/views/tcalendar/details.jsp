@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -126,7 +126,7 @@
                 <!-- 수정 및 삭제 버튼(팀장만 보이게) -->
 				<div class="mb-3">
 				    <c:if test="${isTeamLeader}">
-				        <!-- 수정 버튼 : 현재 인원수와 최대인원 수가 같은 경우, 현재시간에 모집시간에 도래한 경우 수정버튼 안보이게 설정함-->
+				        <!-- 수정 버튼 : 현재 인원수와 최대인원 수가 같은 경우, 현재시간이 모집시간에 도래한 경우 수정버튼 안보이게 설정함-->
 				        <c:if test="${tCalendar.currentNum != tCalendar.maxNum and isBefore}">
 				            <div>
 				                <c:url var="modifyUrl" value="/teampage/${teamId}/tcalendar/modify">
