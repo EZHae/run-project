@@ -3,10 +3,60 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.itwill.running.repository.TCalendarDao">
-  	<!-- 일정 게시판 전체(모집중, 모집종료 둘다) 목록 보기 -->
-  	<select id="selectTCalendarOrderByDateTimeAsc" resultType="TCalendar">
-  		select * from T_Calendars where team_id = #{teamId} order by date_time asc
-  	</select>
+  
+<!--   	일정 게시판 전체(모집중, 모집종료 둘다) 목록 보기 -->
+<!--   	<select id="selectTCalendarOrderByDateTimeAsc" resultType="TCalendar"> -->
+<!--   		select * from T_Calendars where team_id = #{teamId} order by date_time asc -->
+<!--   	</select> -->
+  	
+  	<!-- 일정 게시판  -->
+  	<!-- 일정 목록을 필터링하고 페이징하여 가져오는 쿼리 -->
+    <select id="selectCalendars" parameterType="map" resultType="TCalendar">
+        SELECT *
+        FROM TCalendar
+        WHERE teamId = #{teamId}
+        <!-- 필터 조건에 따른 WHERE 절 추가 -->
+        <if test="filter != '모두'">
+            AND (
+                <if test="filter == '모집중'">
+                    <![CDATA[
+                        currentNum < maxNum AND dateTime > NOW()
+                    ]]>
+                </if>
+                <if test="filter == '모집종료'">
+                    <![CDATA[
+                        currentNum >= maxNum OR dateTime <= NOW()
+                    ]]>
+                </if>
+            )
+        </if>
+        <!-- 일정 목록을 날짜 시간 기준으로 내림차순 정렬 -->
+        ORDER BY dateTime DESC
+        <!-- 페이징 처리를 위한 LIMIT 절 추가 -->
+        LIMIT #{start}, #{size}
+    </select>
+
+    <!-- 일정의 총 개수를 카운트하는 쿼리 -->
+    <select id="countCalendars" parameterType="map" resultType="int">
+        SELECT COUNT(*)
+        FROM TCalendar
+        WHERE teamId = #{teamId}
+        <!-- 필터 조건에 따른 WHERE 절 추가 -->
+        <if test="filter != '모두'">
+            AND (
+                <if test="filter == '모집중'">
+                    <![CDATA[
+                        currentNum < maxNum AND dateTime > NOW()
+                    ]]>
+                </if>
+                <if test="filter == '모집종료'">
+                    <![CDATA[
+                        currentNum >= maxNum OR dateTime <= NOW()
+                    ]]>
+                </if>
+            )
+        </if>
+    </select>
   	
   	<!-- 일정 글 상세보기 -->
   	<select id="selectTCalendarById" resultType="TCalendar">

@@ -46,7 +46,7 @@ public class TCalendarController {
 		log.debug("list() - teamId: {}", teamId);
 
 		// 팀의 일정 목록 가져오기.
-		List<TCalendar> tCalendars = tCalendarService.read(teamId);
+//		List<TCalendar> tCalendars = tCalendarService.read(teamId);
 
 		// 날짜 포맷터 설정
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
