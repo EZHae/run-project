@@ -9,7 +9,13 @@ import com.itwill.running.domain.TCalendar;
 
 public interface TCalendarDao {
 	// 일정 게시글 목록
-	List<TCalendar> selectTCalendarOrderByIdDesc(@Param("teamId") Integer teamId);
+//	List<TCalendar> selectTCalendarOrderByDateTimeAsc(@Param("teamId") Integer teamId);
+	
+	// 필터링 및 페이징을 위한 일정 목록 조회
+    List<TCalendar> selectCalendars(@Param("teamId") Integer teamId, @Param("filter") String filter, @Param("offset") int offset, @Param("limit") int limit);
+
+    // 필터링된 일정의 총 개수 조회
+    int countCalendars(@Param("teamId") Integer teamId, @Param("filter") String filter);
 	
 	//일정 게시글 상세보기 by id
 	TCalendar selectTCalendarById(@Param("id") Integer id, @Param("teamId") Integer teamId); 

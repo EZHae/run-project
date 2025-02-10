@@ -46,45 +46,56 @@ public class TCalendarController {
 
 	// 일정 목록 보기
 	@GetMapping("/list")
-	public String list(@PathVariable Integer teamId, Model model, HttpSession session) {
-		log.debug("list() - teamId: {}", teamId);
+    public String list(@PathVariable Integer teamId, 
+                       @RequestParam(defaultValue = "1") int page, 
+                       @RequestParam(defaultValue = "모두") String filter, 
+                       Model model, HttpSession session) {
+        int pageSize = 10;
+        int offset = (page - 1) * pageSize;
 
-		// 팀의 일정 목록 가져오기.
-		List<TCalendar> tCalendars = tCalendarService.read(teamId);
+        List<TCalendar> tCalendars = tCalendarService.readFiltered(teamId, filter, offset, pageSize);
+        int totalCalendars = tCalendarService.countFiltered(teamId, filter);
+        int totalPages = (int) Math.ceil((double) totalCalendars / pageSize);
 
-		// 날짜 포맷터 설정
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-		
-		// 현재 시간 설정
-	    LocalDateTime currentTime = LocalDateTime.now();
+        LocalDateTime currentTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-		// 각 일정의 dateTime을 포맷팅하여 새로운 리스트 생성
-		List<TCalendarItemDto> tCalendarItems = tCalendars.stream().map(calendar -> {
-			TCalendarItemDto item = new TCalendarItemDto();
-			item.setId(calendar.getId());
-			item.setTitle(calendar.getTitle());
-			item.setNickname(calendar.getNickname());
-			item.setContent(calendar.getContent());
-			item.setCurrentNum(calendar.getCurrentNum());
-			item.setMaxNum(calendar.getMaxNum());
-			item.setFormattedDateTime(calendar.getDateTime().format(formatter));
-			item.setExpired(calendar.getDateTime().isBefore(currentTime)); // isExpired 설정
-			return item;
-		}).collect(Collectors.toList());
-		
-		// 현재 로그인한 사용자 정보 가져오기
-	    String userId = (String) session.getAttribute("signedInUserId");
-	    
-	    // 팀장
-	    String teamLeaderId = tMemberService.getTeamLeaderId(teamId);
-	    boolean isTeamLeader = userId != null && userId.equals(teamLeaderId);
-	    model.addAttribute("isTeamLeader", isTeamLeader);
+        List<TCalendarItemDto> tCalendarItems = tCalendars.stream().map(calendar -> {
+            TCalendarItemDto item = new TCalendarItemDto();
+            item.setId(calendar.getId());
+            item.setTitle(calendar.getTitle());
+            item.setNickname(calendar.getNickname());
+            item.setContent(calendar.getContent());
+            item.setCurrentNum(calendar.getCurrentNum());
+            item.setMaxNum(calendar.getMaxNum());
+            item.setFormattedDateTime(calendar.getDateTime().format(formatter));
+            item.setExpired(calendar.getDateTime().isBefore(currentTime));
+            return item;
+        }).collect(Collectors.toList());
 
-		// 뷰에 전달할 데이터를 추가
-		model.addAttribute("tCalendars", tCalendarItems);
-		model.addAttribute("teamId", teamId);
+        String userId = (String) session.getAttribute("signedInUserId");
+        String teamLeaderId = tMemberService.getTeamLeaderId(teamId);
+        boolean isTeamLeader = userId != null && userId.equals(teamLeaderId);
 
-		return "/tcalendar/list";
+        // 페이징 범위 계산
+        int beginPage = Math.max(1, page - 2);
+        int endPage = Math.min(totalPages, page + 2);
+        if (page <= 3) {
+            endPage = Math.min(5, totalPages);
+        } else if (page + 2 > totalPages) {
+            beginPage = Math.max(1, totalPages - 4);
+        }
+
+        model.addAttribute("isTeamLeader", isTeamLeader);
+        model.addAttribute("tCalendars", tCalendarItems);
+        model.addAttribute("teamId", teamId);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("filter", filter);
+        model.addAttribute("beginPage", beginPage);
+        model.addAttribute("endPage", endPage);
+
+        return "/tcalendar/list";
 	}
 
 	@GetMapping({"/details", "/modify"})
