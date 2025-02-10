@@ -13,6 +13,7 @@ public class TCalendarItemDto {
     private Integer currentNum;
     private Integer maxNum;
     private String formattedDateTime; // 포맷팅된 날짜와 시간
+    private boolean isExpired; //만료되었는지
     
     
 }

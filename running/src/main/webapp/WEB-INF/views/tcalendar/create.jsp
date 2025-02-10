@@ -58,14 +58,15 @@
 	            // 시간 선택 기능 활성화
 	            $("#time").timepicker({
 	                timeFormat: 'tt h:mm',
-	                interval: 30, // 30분 간격
+	                interval: 10, // 10분 간격
 	                minTime: '06:00am',
 	                maxTime: '11:30pm',
 	                defaultTime: '12:00pm',
 	                startTime: '06:00am',
 	                dynamic: false,
 	                dropdown: true,
-	                scrollbar: true
+	                scrollbar: true,
+	                stepMinute: 10 // 사용자가 선택할 분 간격
 	            });
 	        });
 	    </script>

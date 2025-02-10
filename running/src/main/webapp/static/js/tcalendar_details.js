@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // 버튼을 비활성화하여 중복 클릭 방지
         applyButton.disabled = true;
 
+		// 페이지 새로고침 안해도 서버로 데이터를 받아오거나 보낼 수 있게 XMLHttpRequest API 사용.
         const xhr = new XMLHttpRequest();
         xhr.open('POST', applyUrl);
 
@@ -23,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		    // 요청 완료 후 버튼을 다시 활성화
 		    applyButton.disabled = false;
 
-		    if (xhr.status === 200) {
+		    if (xhr.status === 200) { //200 ok : HTTP 요청이 성공
 		        try {
 		            const response = JSON.parse(xhr.responseText);
 
@@ -33,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		            // 현재 인원수 요소 가져오기
 		            const currentNumElement = document.getElementById('currentNum');
 
-		            if (response.status === 'applied') { //신청 버튼을 누르면
+		            if (response.status === 'applied') { //신청을 누르면
 		                applyButton.textContent = '신청취소';
 		                applyButton.classList.remove('btn-primary');
 		                applyButton.classList.add('btn-danger');
@@ -45,12 +46,12 @@ document.addEventListener('DOMContentLoaded', function() {
 		                const maxNum = parseInt(document.getElementById('maxNum').textContent);
 		                const currentNum = parseInt(currentNumElement.textContent);
 
-		                if (currentNum >= maxNum) {
+		                if (currentNum >= maxNum) { // 도달했을시 바로 모집종료로 글자 변경
 		                    applyButton.textContent = '모집종료';
 		                    applyButton.disabled = true;
 		                }
 
-		            } else if (response.status === 'cancelled') { //신청취소 버튼을 누르면
+		            } else if (response.status === 'cancelled') { //신청 취소를 누르면
 		                applyButton.textContent = '신청';
 		                applyButton.classList.remove('btn-danger');
 		                applyButton.classList.add('btn-primary');

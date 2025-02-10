@@ -50,6 +50,9 @@ public class TCalendarController {
 
 		// 날짜 포맷터 설정
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+		
+		// 현재 시간 설정
+	    LocalDateTime currentTime = LocalDateTime.now();
 
 		// 각 일정의 dateTime을 포맷팅하여 새로운 리스트 생성
 		List<TCalendarItemDto> tCalendarItems = tCalendars.stream().map(calendar -> {
@@ -61,6 +64,7 @@ public class TCalendarController {
 			item.setCurrentNum(calendar.getCurrentNum());
 			item.setMaxNum(calendar.getMaxNum());
 			item.setFormattedDateTime(calendar.getDateTime().format(formatter));
+			item.setExpired(calendar.getDateTime().isBefore(currentTime)); // isExpired 설정
 			return item;
 		}).collect(Collectors.toList());
 		
@@ -71,7 +75,6 @@ public class TCalendarController {
 	    String teamLeaderId = tMemberService.getTeamLeaderId(teamId);
 	    boolean isTeamLeader = userId != null && userId.equals(teamLeaderId);
 	    model.addAttribute("isTeamLeader", isTeamLeader);
-
 
 		// 뷰에 전달할 데이터를 추가
 		model.addAttribute("tCalendars", tCalendarItems);
@@ -97,6 +100,14 @@ public class TCalendarController {
 	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 	    String formattedDate = dateTime.format(formatter);
 	    model.addAttribute("dateTime", formattedDate);
+
+	    // 현재 시간 설정
+	    LocalDateTime currentTime = LocalDateTime.now();
+	    request.setAttribute("currentTime", currentTime);
+
+	    // 모집 일정 시간이 현재 시간보다 이후인지 확인하는 플래그 설정
+	    boolean isBefore = currentTime.isBefore(dateTime);
+	    request.setAttribute("isBefore", isBefore);
 
 	    // 신청한 멤버 목록
 	    List<TCalendarMemberItemDto> tCalendarMember = tCalendarMemberService.getTCalendarMembers(teamId, calendarId);
