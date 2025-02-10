@@ -17,10 +17,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	function getALLComments() {
 		//답댓글이 없는 unknown댓글 삭제
-		axios.delete(`../api/comment/deleteunknown`).then((response)=>{
+		axios.delete(`../api/comment/deleteunknown`).then((response) => {
 			console.log(response);
-		}).catch((error)=>{console.log(error);})
-		
+		}).catch((error) => { console.log(error); })
+
 		//댓글읽기
 		const url = `../api/comment/all/${postId}`;
 		axios.get(url).then((response) => {
@@ -52,9 +52,26 @@ document.addEventListener("DOMContentLoaded", () => {
 			if (response.data === 1) {
 				alert('댓글 1개 등록 성공');
 				document.querySelector('textarea#ctext').value = '';
-				secret.checked=false;
-				//업데이트된 내용을 보여준다.
+				secret.checked = false;
+
+				//알림테이블 업데이트
+				const link = `${contextPath}/gpost/details?id=${postId}`;
+				if (ctext.length > 10) {
+					ctext = ctext.substring(0, 10);
+				}
+				const noti = { userId: postUserId, type: 1, link: link, checked: 0, content: ctext };
+
+				console.log("Noti", noti);
+
+				axios.post(`../api/notification`, noti).then((response) => {
+					if (response.data == 1) {
+						
+					}
+				}).catch((error) => {
+					console.log(error);
+				})
 				getALLComments();
+
 			}
 
 		}).catch((error) => {
@@ -62,25 +79,25 @@ document.addEventListener("DOMContentLoaded", () => {
 		});
 	}
 
-	
+
 	//현재시간을 초/분/시로 계산
 	function timeAgo(dateString) {
-	    const date = new Date(dateString);
-	    const now = new Date();
-	    const diffInSeconds = Math.floor((now - date) / 1000);
-	    
-	    if (diffInSeconds < 60) return `${diffInSeconds}초 전`;
-	    
-	    const diffInMinutes = Math.floor(diffInSeconds / 60);
-	    if (diffInMinutes < 60) return `${diffInMinutes}분 전`;
-	    
-	    const diffInHours = Math.floor(diffInMinutes / 60);
-	    if (diffInHours < 24) return `${diffInHours}시간 전`;
-	    
-	    const diffInDays = Math.floor(diffInHours / 24);
-	    if (diffInDays < 30) return `${diffInDays}일 전`;
-	    
-	    return dateString.toISOString().split('T')[0]; // 30일 이상이면 YYYY-MM-DD 형식으로 표시
+		const date = new Date(dateString);
+		const now = new Date();
+		const diffInSeconds = Math.floor((now - date) / 1000);
+
+		if (diffInSeconds < 60) return `${diffInSeconds}초 전`;
+
+		const diffInMinutes = Math.floor(diffInSeconds / 60);
+		if (diffInMinutes < 60) return `${diffInMinutes}분 전`;
+
+		const diffInHours = Math.floor(diffInMinutes / 60);
+		if (diffInHours < 24) return `${diffInHours}시간 전`;
+
+		const diffInDays = Math.floor(diffInHours / 24);
+		if (diffInDays < 30) return `${diffInDays}일 전`;
+
+		return dateString.toISOString().split('T')[0]; // 30일 이상이면 YYYY-MM-DD 형식으로 표시
 	}
 
 
@@ -134,20 +151,20 @@ document.addEventListener("DOMContentLoaded", () => {
 				nickname = comment.nickname; //작성자가보임
 				ctext = comment.ctext; //내용이보임
 			}
-			
-			
+
+
 			const date = new Date(
 				//ajax로 받은 createdTime을 localDateTime으로 변환
-			    comment.createdTime[0],      // 연도
-			    comment.createdTime[1] - 1,  // 월 (0부터 시작하므로 1을 빼줘야 올바른 월)
-			    comment.createdTime[2],      // 일
-			    comment.createdTime[3],      // 시
-			    comment.createdTime[4],      // 분
-			    comment.createdTime[5],      // 초
-			    comment.createdTime[6] / 1000000 // 밀리초
+				comment.createdTime[0],      // 연도
+				comment.createdTime[1] - 1,  // 월 (0부터 시작하므로 1을 빼줘야 올바른 월)
+				comment.createdTime[2],      // 일
+				comment.createdTime[3],      // 시
+				comment.createdTime[4],      // 분
+				comment.createdTime[5],      // 초
+				comment.createdTime[6] / 1000000 // 밀리초
 			);
-			const time=timeAgo(date); //원하는 시간포맷으로 변환
-			
+			const time = timeAgo(date); //원하는 시간포맷으로 변환
+
 			html +=
 				`<img class="rounded-circle shadow-1-strong me-3"
 					src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(10).webp" alt="avatar" width="65"
@@ -159,7 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
 							${nickname} <span class="small">${time}</span>
 							<span class="small text-danger">${secretType}</span>
 								</p>`;
-			if (comment.userId!=='unknown'&&!signedInUserId=='') {
+			if (comment.userId !== 'unknown' && !signedInUserId == '') {
 				html += `<button class="btnReply ${dnone} btn btn-sm" data-id="${comment.id}">답글</button>`;
 			}
 
@@ -167,7 +184,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				html += `<button class="btnUpdateComment btn btn-outline-success btn-sm" data-id="${comment.id}">수정</button>
 					     <button class="btnDeleteComment btn btn-outline-danger btn-sm" data-id="${comment.id}">삭제</button>`;
 			}
-			
+
 			html += `</div>`;
 
 			if (!comment.parentId == "") {
@@ -198,20 +215,20 @@ document.addEventListener("DOMContentLoaded", () => {
 			btn.addEventListener('click', openReplyCommentForm);
 		}
 	}
-	
+
 
 	//댓글수정 버튼 클릭 후
 	function openUpdateComment(event) {
 		const commentId = event.target.getAttribute('data-id'); //수정할댓글의 아이디
-		let ctext='';
-		let secret='';
-		axios.get(`../api/comment/${commentId}`).then((response)=>{
+		let ctext = '';
+		let secret = '';
+		axios.get(`../api/comment/${commentId}`).then((response) => {
 			ctext = response.data.ctext.toString();
-			secret=response.data.secret.toString();
+			secret = response.data.secret.toString();
 			console.log(ctext);
-			
+
 			const updateSpan = document.querySelector(`span[data-id="${commentId}"]`);
-			let html=`<textarea class="form-control mb-2" id="update-input-${commentId}" rows="2">${ctext}</textarea>
+			let html = `<textarea class="form-control mb-2" id="update-input-${commentId}" rows="2">${ctext}</textarea>
 					  <!-- 댓글 작성 완료 버튼 -->
 					<button class="btn btn-primary" id="updateCommentButton" data-id="${commentId}">수정</button>
 					<button class="btn" id="updateCancelButton" data-id="${commentId}">취소</button>
@@ -219,28 +236,28 @@ document.addEventListener("DOMContentLoaded", () => {
 					<label class="form-check-label" for="privateCommentCheckbox">
 					비밀 댓글
 					</label>`;
-			updateSpan.innerHTML=html;
-			
-			if(secret==1){
+			updateSpan.innerHTML = html;
+
+			if (secret == 1) {
 				//기존댓글이 비밀댓글인경우
 				document.getElementById(`update-secret-input-${commentId}`).checked = true;
 			}
-			
+
 			const updateCancelButtons = document.querySelectorAll("button#updateCancelButton");
-			for (btn of updateCancelButtons){
+			for (btn of updateCancelButtons) {
 				btn.addEventListener('click', getALLComments);
 			}
 			const updateCommentButtons = document.querySelectorAll("button#updateCommentButton");
-			for (btn of updateCommentButtons){
+			for (btn of updateCommentButtons) {
 				btn.addEventListener('click', updateComment);
 			}
-			
-		}).catch((error)=>{console.log(error);});
-		
+
+		}).catch((error) => { console.log(error); });
+
 	}
-	
+
 	//댓글수정
-	function updateComment(event){
+	function updateComment(event) {
 		const commentId = event.target.getAttribute('data-id'); //수정할 댓글의 아이디
 		const ctext = document.querySelector(`textarea[id="update-input-${commentId}"]`);
 		if (ctext.value == '') {
@@ -255,14 +272,14 @@ document.addEventListener("DOMContentLoaded", () => {
 		else {
 			secretType = 0;
 		}
-		const data = {id:commentId, ctext: ctext.value, secret: secretType};
-		axios.put(`../api/comment/${commentId}`,data).then((response)=>{
+		const data = { id: commentId, ctext: ctext.value, secret: secretType };
+		axios.put(`../api/comment/${commentId}`, data).then((response) => {
 			alert("수정완료");
 			getALLComments();
-		}).catch((error)=>{console.log(error);})
-		
+		}).catch((error) => { console.log(error); })
+
 	}
-	
+
 	//답글달기 버튼 클릭 후
 	function openReplyCommentForm(event) {
 		const parentId = event.target.getAttribute('data-id'); //답글달 댓글의 아이디
@@ -302,16 +319,16 @@ document.addEventListener("DOMContentLoaded", () => {
 		replySection.innerHTML = html;
 		const submitCommentButton = document.querySelector(`button#submitCommentButton[parent-id="${parentId}"]`);
 		submitCommentButton.addEventListener('click', createReply);
-		const submitCancelButton=document.querySelector(`button#submitCancelButton[parent-id="${parentId}"]`);
-		submitCancelButton.addEventListener('click',cancelReply);
+		const submitCancelButton = document.querySelector(`button#submitCancelButton[parent-id="${parentId}"]`);
+		submitCancelButton.addEventListener('click', cancelReply);
 	}
-	
-	
+
+
 	//답글등록취소
-	function cancelReply(event){
-		const parentId=event.target.getAttribute('parent-id');
+	function cancelReply(event) {
+		const parentId = event.target.getAttribute('parent-id');
 		const replySection = document.querySelector(`div.replySectoin[id="${parentId}"]`);
-		replySection.innerHTML='';
+		replySection.innerHTML = '';
 	}
 
 

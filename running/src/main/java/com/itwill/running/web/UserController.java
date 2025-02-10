@@ -2,6 +2,7 @@ package com.itwill.running.web;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
@@ -20,11 +21,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwill.running.domain.UImages;
 import com.itwill.running.domain.User;
+import com.itwill.running.dto.NotificationItemDto;
 import com.itwill.running.dto.UImagesDto;
 import com.itwill.running.dto.UserItemDto;
 import com.itwill.running.dto.UserSignInDto;
 import com.itwill.running.dto.UserSignUpDto;
 import com.itwill.running.dto.UserUpdateDto;
+import com.itwill.running.service.NotificationService;
 import com.itwill.running.service.UImagesService;
 import com.itwill.running.service.UserService;
 
@@ -40,6 +43,14 @@ public class UserController {
 	
 	private final UserService userService;
 	private final UImagesService uimagesService;
+	private final NotificationService notiService;
+	
+	//알림목록보기
+	@GetMapping("/notifications")
+	public void getNotificationsByUserId(@RequestParam("userid") String userId, Model model) {
+		List<NotificationItemDto> dto=notiService.readNotisByUserId(userId);
+		model.addAttribute("notiList",dto);
+	}
 	
 	// 로그아웃 처리
 	@GetMapping("/signout")

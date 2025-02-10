@@ -18,12 +18,10 @@
         <typeAlias type="com.itwill.running.domain.GComment" alias="GComment"/>
         <typeAlias type="com.itwill.running.domain.Gimages" alias="Gimages"/>
         
-
         <typeAlias type="com.itwill.running.domain.TPost" alias="TPost"/>
         <typeAlias type="com.itwill.running.domain.TComment" alias="TComment"/>
         <typeAlias type="com.itwill.running.domain.TImage" alias="TImage"/>
         
-
         <typeAlias type="com.itwill.running.domain.Team" alias="Team"/>
         <typeAlias type="com.itwill.running.domain.TMember" alias="TMember"/>
 		<typeAlias type="com.itwill.running.domain.TApplication" alias="TApplication"/>
@@ -32,7 +30,7 @@
         <typeAlias type="com.itwill.running.domain.TCalendarMember" alias="TCalendarMember"/>
         <typeAlias type="com.itwill.running.domain.TMember" alias="TMember"/>
         
-        <typeAlias type="com.itwill.running.domain.Team" alias="Team"/>
+        <typeAlias type="com.itwill.running.domain.Notification" alias="Notification"/>
 
     </typeAliases>
     
