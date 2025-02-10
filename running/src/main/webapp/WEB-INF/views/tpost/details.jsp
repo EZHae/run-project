@@ -22,7 +22,9 @@
 	 	<c:url var="homePage" value="/" />
 		<a href="${homePage}">홈으로</a>
 		
-		<c:url var="teamPage" value="/teampage/${teamId}" />
+		<c:url var="teamPage" value="/team/details">
+			<c:param name="teamid" value="${teamId}" />
+		</c:url>
 		<a href="${teamPage}">내 팀으로</a>
 		
 		<c:url var="postListPage" value="/teampage/${teamId}/post/list" />
@@ -33,31 +35,31 @@
 	
 		<h1>팀 게시판 글 상세보기</h1>
 		<div>
-			<input id="id" name="id" type="text" value="${post.id}" />
+			<input id="id" name="id" type="text" value="${post.id}" readonly/>
 		</div>
 		<div>
-			<input id="teamId" name="teamId" type="text" value="${post.teamId}" />
+			<input id="teamId" name="teamId" type="text" value="${post.teamId}" readonly/>
 		</div>
 		<div>
-			<input id="userId" name="postId" type="text" value="${post.userId}" />
+			<input id="userId" name="postId" type="text" value="${post.userId}" readonly/>
 		</div>
 		<div>
-			<input id="nickname" name="nickname" type="text" value="${post.nickname}">
+			<input id="nickname" name="nickname" type="text" value="${post.nickname}" readonly/>
 		</div>
 		<div>
-			<input id="title" name="title" type="text" value="${post.title}">
+			<input id="title" name="title" type="text" value="${post.title}" readonly>
 		</div>
 		<div>
-			<textarea rows="10" id="content" name="content">${post.content}</textarea>
+			<textarea rows="10" id="content" name="content" readonly>${post.content}</textarea>
 		</div>
 		<div>
-			<input id="viewCount" name="viewCount" type="text" value="${post.viewCount}">
+			<input id="viewCount" name="viewCount" type="text" value="${post.viewCount}" readonly>
 		</div>
 		<div>
-			<input id="createdTime" name="createdTime" type="text" value="${post.createdTime}">
+			<input id="createdTime" name="createdTime" type="text" value="${post.createdTime}" readonly>
 		</div>
 		<div>
-			<input id="modifiedTime" name="modifiedTime" type="text" value="${post.modifiedTime}">
+			<input id="modifiedTime" name="modifiedTime" type="text" value="${post.modifiedTime}" readonly>
 		</div>
 		
 		<span>첨부파일</span> <br>

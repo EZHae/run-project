@@ -3,6 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
+
   
 <mapper namespace="com.itwill.running.repository.TeamDao">
 	<!-- 이지해 -->
@@ -14,23 +15,83 @@
 		select * from teams where team_id = #{teamId}
 	</select>
 	
-	<!-- 최호철 -->
-	  <!-- TODO 팀삭제, 팀수정, 팀검색(이름,공원타입 등), 내게맞는공고찾기(성별,연령대에맞는) -->
-  	<select id="selectAll" resultType="Team">
-  		  select t.*, u.nickname as nickname from teams t left join users u on t.user_id=u.user_id order by team_id desc
-  	</select>
-  	
-  	<select id="selectByTeamId" resultType="Team">
-  		select t.*,u.nickname as nickname from teams t left join users u on t.user_id=u.user_id where team_id=#{teamId}
-  	</select>
-  	
-  	<!-- 닉네임추가하기 -->
-    <!-- 현재인원과 최대인원이 같은 팀을 찾는 SQL(모집중, 모집완료) -->
-  	<select id="selectClosedTeams" resultType="Team">
-  		select * from teams where max_num = current_num order by team_id desc
-  	</select>
-  	<select id="selectOpenTeams" resultType="Team">
-  		select * from teams where current_num != max_num order by team_id desc
-  	</select>
+	<!-- TODO 팀삭제, 팀수정, 팀검색(이름,공원타입 등), 내게맞는공고찾기(성별,연령대에맞는) -->
+	<select id="selectAll" resultType="Team">
+		select t.*, u.nickname as
+		nickname from teams t left join users u on
+		t.user_id=u.user_id order by
+		team_id desc
+	</select>
+
+	<select id="selectByTeamId" resultType="Team">
+		select t.*,u.nickname as
+		nickname from teams t left join users u on
+		t.user_id=u.user_id where
+		team_id=#{teamId}
+	</select>
+
+	<select id="selectClosedTeams" resultType="Team">
+		select * from teams
+		where max_num=current_num order by team_id desc
+	</select>
+
+	<select id="selectOpenTeams" resultType="Team">
+		select * from teams
+		where current_num != max_num order by team_id desc
+	</select>
+	
+		<select id="findTeamIdByTeamNameAndUserId" resultType="Integer">
+		select
+		team_id from teams where team_name=#{teamName} and user_id=#{userId}
+	</select>
+
+	<select id="selectCountByTeamName" resultType="Integer">
+		select count(*)
+		from teams where team_name=#{teamName}
+	</select>
+
+	<select id="searchTeams" resultType="Team">
+		select t.*
+		from teams t
+		join parks p on t.park_id = p.id
+		<where>
+			<if test="district != 'all'">
+				p.park_loc = #{district}
+			</if>
+			<bind name="searchKeyword" value="'%' + keyword + '%'" />
+			and upper(t.team_name) like upper(#{searchKeyword})
+			<choose>
+				<when test="status == 'closed'">and t.max_num = t.current_num</when>
+				<otherwise>and t.current_num != t.max_num</otherwise>
+			</choose>
+		</where>
+		order by t.team_id desc
+	</select>
+
+
+	<insert id="insertNewTeam">
+		insert into teams (team_name, user_id, uniq_name,
+		image_path, title,
+		content, park_id, current_num, max_num,
+		age_limit,
+		gender_limit, created_time, modified_time) values (#{teamName},
+		#{userId}, #{uniqName}, #{imagePath},
+		#{title}, #{content}, #{parkId},
+		1, #{maxNum}, #{ageLimit}, #{genderLimit},
+		systimestamp, systimestamp)
+	</insert>
+
+	<update id="updateTeam">
+		update teams set team_name=#{teamName},
+		uniq_name=#{uniqName}, image_path=#{imagePath}, title=#{title},
+		content=#{content}, max_num=#{maxNum}, age_limit=#{ageLimit},
+		gender_limit=#{genderLimit}, modified_time=systimestamp
+		where
+		team_id=#{teamId}
+	</update>
+
+	<delete id="deleteTeam">
+		delete from teams where team_id=#{teamId}
+	</delete>
 </mapper>
 

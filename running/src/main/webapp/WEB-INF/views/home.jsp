@@ -26,14 +26,15 @@
 		<h1>Running Home</h1>
 
 		<c:url var="courseListPage" value="/course/list" />
-        <a href="${courseListPage}">courseListPage</a>
+        <a href="${courseListPage}">코스 리뷰/추천</a>
 
 
         <c:url var="gPostListPage" value="/gpost/list" /> 
         <a href="${gPostListPage}">목록</a>
 
-        <c:url var="teamListPage" value="/team/list" />
-        <a href="${teamListPage}">teamListPage</a>
+        
+        <c:url var="courseRecruitPage" value="/team/list" />
+        <a href="${courseRecruitPage}">팀 목록</a>
         
 
 		<!-- Bootstrap JS 링크 -->

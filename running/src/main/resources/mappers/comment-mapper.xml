@@ -16,6 +16,7 @@
 		order siblings by gc.created_time
 	</select>
 
+
     <select id="selectByUserId" resultType="GComment">
         select * from g_comments
         where user_id=#{user_id} order by id desc
@@ -25,6 +26,7 @@
         select * from g_comments
         where id=#{id}
     </select>
+
 
 	<select id="isCommentDeletable" resultType="Integer">
 		select case
@@ -48,6 +50,7 @@
         systimestamp, #{commentType}, #{secret}, #{parentId})
     </insert>
 
+
 	<update id="updateComment">
 		update g_comments set ctext=#{ctext},
 		secret=#{secret}, modified_time=systimestamp where id=#{id}
@@ -70,6 +73,7 @@
 		where sub.parent_id = g_comments.id
 		)
 	</delete>
+
 
     <delete id="deleteById">
         delete from g_comments where id=#{id}

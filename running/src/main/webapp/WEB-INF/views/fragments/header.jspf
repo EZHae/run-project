@@ -73,6 +73,26 @@
                         href="${userProfilePage}">마이페이지</a></li>
                 </c:if>
             </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <c:url value="/" var="homePage" />
+                        <a class="nav-link nowrap" href="${homePage}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <c:url value="/gpost/list" var="gPostListPage" />
+                        <a class="nav-link nowrap" href="${gPostListPage}">게시판</a>
+                    </li>
+                    <li class="nav-item">
+                        <c:url value="/team/list" var="courseRecruitPage" />
+                        <a class="nav-link nowrap" href="${courseRecruitPage}">팀 목록</a>
+                    </li>
+                    <li class="nav-item">
+                        <c:url value="/course/list" var="courseListPage" />
+                        <a class="nav-link nowrap" href="${courseListPage}">코스리스트</a>
+                    </li>
+                    
+                </ul>
+            </div>
         </div>
     </div>
 </header>

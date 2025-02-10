@@ -33,6 +33,10 @@
                 #{phonenumber}, #{residence}, #{email}, #{authCheck}, #{imgId}, systimestamp, systimestamp)
     </insert>
     
+    <select id="findByVerificationToken">
+    	select * from users where token=#{token}
+    </select>
+    
     <!-- 로그인에서 사용할 SQL -->
     <select id="selectByUserIdAndPassword" resultType="User">
         select * from users 

@@ -25,6 +25,7 @@ import com.itwill.running.domain.Gimages;
 import com.itwill.running.domain.UImages;
 import com.itwill.running.domain.User;
 import com.itwill.running.dto.UImagesDto;
+import com.itwill.running.dto.UserItemDto;
 import com.itwill.running.dto.UserSignInDto;
 import com.itwill.running.dto.UserSignUpDto;
 import com.itwill.running.dto.UserUpdateDto;
@@ -100,12 +101,12 @@ public class UserController {
 	public void signUp() {
 	}
 	// 회원가입 처리
-	@PostMapping("/signup")
-	public String signUp(UserSignUpDto dto) {
-		userService.createUser(dto);
-		
-		return "redirect:/user/signin";
-	}
+//	@PostMapping("/signup")
+//	public String signUp(UserSignUpDto dto) {
+//		userService.createUser(dto);
+//		
+//		return "redirect:/user/signin";
+//	}
 	
 	// 유저 상세 정보 페이지
 	@GetMapping({"/details", "/modify"})
@@ -113,7 +114,7 @@ public class UserController {
 		
 		// 현재 세션의 유저아이디 조회
 		String signedInUserId = (String) session.getAttribute("signedInUserId");
-		User user = userService.selectByUserId(signedInUserId);
+		UserItemDto user = userService.selectByUserId(signedInUserId);
 		log.debug("유저 아이디: {}",user);
 		
 		int selectedImgId = user.getImgId();
@@ -163,11 +164,15 @@ public class UserController {
 	// 이미지 업데이트 변경 모달
 	@GetMapping("/api/{userId}")
 	@ResponseBody
-	public ResponseEntity<User> getUserImage(@PathVariable String userId) {
-	    // 유저 조회
-	    User user = userService.selectByUserId(userId);
-
-        return ResponseEntity.ok(user);
+	public ResponseEntity<UserItemDto> getUserImage(@PathVariable String userId){
+		 // 유저 조회
+		UserItemDto user = userService.selectByUserId(userId); 
+		
+		if (user != null) {
+	        return ResponseEntity.ok(user);
+	    } else {
+	        return ResponseEntity.notFound().build();
+	    }
 	}
 	
 	// 이미지 업데이트 API

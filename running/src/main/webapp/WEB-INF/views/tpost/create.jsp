@@ -22,7 +22,10 @@
 	 	<c:url var="homePage" value="/" />
 		<a href="${homePage}">홈으로</a>
 		
-		<c:url var="teamPage" value="/teampage/${teamId}" />
+		<c:url var="teamPage" value="/team/details">
+			<c:param name="teamid" value="${teamId}" />
+		</c:url>
+		
 		<a href="${teamPage}">내 팀으로</a>
 		
 		<c:url var="postListPage" value="/teampage/${teamId}/post/list" />

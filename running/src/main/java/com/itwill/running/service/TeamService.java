@@ -5,7 +5,12 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.itwill.running.domain.Team;
+import com.itwill.running.dto.TeamCreateDto;
 import com.itwill.running.dto.TeamItemDto;
+
+import com.itwill.running.dto.TeamSearchDto;
+import com.itwill.running.dto.TeamUpdateDto;
+
 import com.itwill.running.repository.TeamDao;
 
 import lombok.RequiredArgsConstructor;
@@ -47,6 +52,31 @@ public class TeamService {
 		return TeamItemDto.fromEntity(team);
 	}
 	
+
+	public Integer createNewTeam(TeamCreateDto dto) {
+		return teamDao.insertNewTeam(dto.toEntity());
+	}
+	
+	public Integer findTeamId(String teamName, String userId) {
+		return teamDao.findTeamIdByTeamNameAndUserId(teamName, userId);
+	}
+	
+	public Integer selectCountByTeamName(String teamName){
+		return teamDao.selectCountByTeamName(teamName);
+	}
+	
+	public Integer updateTeam(TeamUpdateDto dto) {
+		return teamDao.updateTeam(dto.toEntity());
+	}
+	
+	public Integer deleteTeam(Integer teamId) {
+		return teamDao.deleteTeam(teamId);
+	}
+	
+	public List<Team> searchTeams(TeamSearchDto dto){
+		return teamDao.searchTeams(dto);
+	}
+	
 	
 	public List<TeamItemDto> readOpenTeams(){
 		List<Team> teams = teamDao.selectOpenTeams();
@@ -57,4 +87,5 @@ public class TeamService {
 		List<Team> teams = teamDao.selectClosedTeams();
 		return teams.stream().map(TeamItemDto::fromEntity).toList();
 	}
+
 }

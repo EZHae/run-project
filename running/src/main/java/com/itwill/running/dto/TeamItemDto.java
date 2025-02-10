@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,8 +18,8 @@ public class TeamItemDto {
 	private String teamName;
 	private String userId;
 	private String nickname;
-	private String uniqueName;
-	private String imagepath;
+	private String uniqName;
+	private String imagePath;
 	private String title;
 	private String content;
 	private Integer parkId;
@@ -28,12 +29,13 @@ public class TeamItemDto {
 	private Integer genderLimit;
 	private LocalDateTime createdTime;
 	private LocalDateTime modifiedTime;
-	
+
 	public static TeamItemDto fromEntity(Team team) {
-		return TeamItemDto.builder().teamId(team.getTeamId()).teamName(team.getTeamName()).userId(team.getUserId()).nickname(team.getNickname())
-				.uniqueName(team.getUniqueName())
-				.imagepath(team.getImagepath()).title(team.getTitle()).content(team.getContent()).parkId(team.getParkId()).currentNum(team.getCurrentNum())
-				.maxNum(team.getMaxNum()).ageLimit(team.getAgeLimit()).genderLimit(team.getGenderLimit())
-				.createdTime(team.getCreatedTime()).modifiedTime(team.getModifiedTime()).build();
+		return TeamItemDto.builder().teamId(team.getTeamId()).teamName(team.getTeamName()).userId(team.getUserId())
+				.nickname(team.getNickname()).uniqName(team.getUniqName()).imagePath(team.getImagePath())
+				.title(team.getTitle()).content(team.getContent()).parkId(team.getParkId())
+				.currentNum(team.getCurrentNum()).maxNum(team.getMaxNum()).ageLimit(team.getAgeLimit())
+				.genderLimit(team.getGenderLimit()).createdTime(team.getCreatedTime())
+				.modifiedTime(team.getModifiedTime()).build();
 	}
 }

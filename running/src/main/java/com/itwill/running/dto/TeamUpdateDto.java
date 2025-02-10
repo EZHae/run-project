@@ -1,32 +1,32 @@
-package com.itwill.running.domain;
+package com.itwill.running.dto;
 
 import java.time.LocalDateTime;
+
+import com.itwill.running.domain.Team;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
-public class Team {
-
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+public class TeamUpdateDto {
 	private Integer teamId;
 	private String teamName;
-	private String userId;
-	private String nickname;
 	private String uniqName;
 	private String imagePath;
 	private String title;
 	private String content;
-	private Integer parkId;
-	private Integer currentNum;
 	private Integer maxNum;
 	private Integer ageLimit;
 	private Integer genderLimit;
-	private LocalDateTime createdTime;
-	private LocalDateTime modifiedTime;
+	
+	public Team toEntity() {
+		return Team.builder().teamId(teamId).teamName(teamName).uniqName(uniqName).imagePath(imagePath).title(title).content(content)
+				.maxNum(maxNum).ageLimit(ageLimit).genderLimit(genderLimit).build();
+	}
 
 }
