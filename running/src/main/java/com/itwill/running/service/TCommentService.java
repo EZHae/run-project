@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.itwill.running.domain.TComment;
 import com.itwill.running.dto.TCommentCreateDto;
 import com.itwill.running.dto.TCommentItemDto;
+import com.itwill.running.dto.TCommentReadDto;
 import com.itwill.running.dto.TCommentUpdateDto;
 import com.itwill.running.repository.TCommentDao;
 
@@ -26,6 +27,14 @@ public class TCommentService {
 		TComment comment = dto.toEntity();
 		
 		int result = commentDao.insertTComment(comment);
+		
+		return result;
+	}
+	
+	public int countSearchedTCommentByPostId(Integer postId) {
+		log.debug("TcommentService::countSearchedTCommentByPostId(postId={})", postId);
+		
+		int result = commentDao.countSearchedTComment(postId);
 		
 		return result;
 	}

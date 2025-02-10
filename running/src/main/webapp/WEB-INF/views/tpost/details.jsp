@@ -63,7 +63,7 @@
 		<span>첨부파일</span> <br>
 		<c:choose>
 			<c:when test="${empty images}">
-				<span>파일이 없습니다.</span>
+				<span>등록된 파일이 없습니다.</span>
 			</c:when>
 			<c:otherwise>
 				<c:forEach var="image" items="${images}">

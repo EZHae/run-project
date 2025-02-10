@@ -10,6 +10,14 @@
 			values (#{teamId}, #{postId}, #{ctext}, #{userId}, #{nickname}, systimestamp, systimestamp, #{parentId}, #{commentType})
 	</insert>
 	
+	<!-- 페이징을 위한 현재 게시글 댓글 개수 -->
+	<select id="countSearchedTComment" resultType="int">
+		select count(*)
+		    from t_comments
+		    where post_id = #{postId};
+	</select>
+	
+	<!-- 페이징된 현재 게시글의 댓글 목록 -->
 	<select id="selectTCommentHierarchyByPostId" resultType="TComment">
 		with CommentHierarchy (id, team_id, post_id, ctext, user_id, nickname, created_time, modified_Time, parent_id, comment_type, deleted, RootID, SortTime) AS (
 			select id, team_id, post_id, ctext, user_id, nickname, created_time, modified_Time, parent_id, comment_type, deleted, id AS RootID, created_time AS SortTime
