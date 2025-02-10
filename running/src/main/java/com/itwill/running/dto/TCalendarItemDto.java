@@ -1,7 +1,5 @@
 package com.itwill.running.dto;
 
-import java.time.LocalDateTime;
-
 import lombok.Data;
 
 @Data

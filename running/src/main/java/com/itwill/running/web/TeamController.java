@@ -39,39 +39,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-
-/*
- * 이지해
-=======
->>>>>>> 046dced2ff34593bec14eb93a10e27ce26641ccd
-@RequestMapping("/teampage")
-public class TeamController {
-
-	private final TeamService teamService;
-	
-	@GetMapping("/list")
-	public void list(Model model) {
-		log.debug("TeamController::Get_list()");
-		
-		List<Team> teams = teamService.read();
-		
-		model.addAttribute("teams", teams);
-	}
-	
-	@GetMapping("/{teamId}")
-	public String details(@PathVariable Integer teamId, Model model) {
-		log.debug("TeamController::Get_details()");
-		
-		Team team = teamService.read(teamId);
-		
-		model.addAttribute("team", team);
-		
-		return "teampage/details";
-	}
-<<<<<<< HEAD
-	*/
-
-// 최호철
 @RequestMapping("/team")
 public class TeamController {
 	private final TeamService teamService;

@@ -1,13 +1,9 @@
 package com.itwill.running.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.itwill.running.domain.TCalendarMember;
 import com.itwill.running.dto.TCalendarMemberItemDto;
 import com.itwill.running.repository.TCalendarMemberDao;
 

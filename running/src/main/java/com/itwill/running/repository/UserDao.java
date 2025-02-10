@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.itwill.running.domain.User;
 import com.itwill.running.dto.UserUpdateDto;
+import com.itwill.running.dto.UserVerificationUpdateDto;
 
 public interface UserDao {
 	User selectByUserId(String userId);		// 유저 아이디 조회
@@ -17,9 +18,13 @@ public interface UserDao {
 	int updateAccessTime(String userId);	// 유저 최근 접속 시간 업데이트
 	int updateUser(UserUpdateDto dto);				// 유저 정보 수정 업데이트
 	int deleteUser(String userId);				// 유저 삭제
+
 	void updateByImgId(String userId, int imgId);
 	int selectImgIdByUserId(String userId);		
 	Integer updateUserByPassword(@Param("userId") String userId, @Param("password") String password); // 유저 비밀번호 업데이트
 	String selectPasswordByUserId(String userId); // 유저 비밀번호 조회
+
+	int updateToken(UserVerificationUpdateDto dto); //토큰업데이트
+
 }
  

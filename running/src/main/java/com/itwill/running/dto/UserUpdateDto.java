@@ -15,13 +15,12 @@ public class UserUpdateDto {
 	private String phonenumber;
 	private String residence;
 	private String email;
-	private Integer authCheck;
 	private Integer imgId;
 
 	
 	public User toEntity() {
 		return User.builder().userId(userId).password(password).nickname(nickname).username(username)
 				.gender(gender).age(age).phonenumber(phonenumber).residence(residence).email(email)
-				.authCheck(authCheck).imgId(imgId).build();
+				.imgId(imgId).build();
 	}
 }

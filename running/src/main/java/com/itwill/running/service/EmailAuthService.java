@@ -19,8 +19,8 @@ public class EmailAuthService {
     //토큰 이메일 전송 서비스
     public void sendVerificationEmail(String toEmail, String verificationToken) {
         String subject = "회원가입 이메일 인증";
-        String verificationLink = "http://localhost:8080/verify?token=" + verificationToken;
-        String content = "아래 링크를 클릭하여 이메일을 인증하세요:<br><a href='" + verificationLink + "'>이메일 인증</a>";
+        String verificationLink = "http://localhost:8080/running/verify?token=" + verificationToken;
+        String content = "아래 링크를 클릭하면 이메일 인증이 완료됩니다. 다시 로그인해주세요.:<br><a href='" + verificationLink + "'>이메일 인증</a>";
 
         try {
             MimeMessage message = mailSender.createMimeMessage();

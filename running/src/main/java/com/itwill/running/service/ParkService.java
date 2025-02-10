@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.itwill.running.domain.Park;
-import com.itwill.running.repository.GpostDao;
 import com.itwill.running.repository.ParkDao;
 
 import lombok.RequiredArgsConstructor;

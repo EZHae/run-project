@@ -239,6 +239,8 @@
 						<span>닉네임-${app.nickname}</span> <span>소개-${app.introMsg}</span>
 						<button id="applyConfirmButton" data-id="${app.userId}"
 							data-name="${app.nickname}" class="btn btn-success">수락</button>
+						<button id="applyDeclineButton" data-id="${app.userId}"
+							data-name="${app.nickname}" class="btn btn-danger">거절</button>
 					</div>
 				</c:forEach>
 
@@ -267,7 +269,7 @@
 		const tmemNum = '${tmembers.size()}';
 	</script>
 
-	
+
 	<!-- Axios Http Js-->
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 

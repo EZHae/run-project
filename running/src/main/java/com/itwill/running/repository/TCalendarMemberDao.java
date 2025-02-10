@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import com.itwill.running.domain.TCalendarMember;
+
 import com.itwill.running.dto.TCalendarMemberItemDto;
 
 @Mapper

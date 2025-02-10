@@ -1,10 +1,7 @@
 package com.itwill.running.web;
 
-import java.awt.Image;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
@@ -21,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.itwill.running.domain.Gimages;
 import com.itwill.running.domain.UImages;
 import com.itwill.running.domain.User;
 import com.itwill.running.dto.UImagesDto;
@@ -29,7 +25,6 @@ import com.itwill.running.dto.UserItemDto;
 import com.itwill.running.dto.UserSignInDto;
 import com.itwill.running.dto.UserSignUpDto;
 import com.itwill.running.dto.UserUpdateDto;
-import com.itwill.running.repository.UserDao;
 import com.itwill.running.service.UImagesService;
 import com.itwill.running.service.UserService;
 
@@ -79,6 +74,9 @@ public class UserController {
 			session.getAttribute("signedInUserId").toString();
 			String nickname = user.getNickname();
 			session.setAttribute("signedInUserNickname", nickname);
+			
+			Integer authCheck = user.getAuthCheck();
+			session.setAttribute("authCheck", authCheck);
 			
 			log.debug("signedInUserId={}", session.getAttribute("signedInUserId").toString());
 			log.debug("signedInUserNickname={}", nickname);

@@ -12,11 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.itwill.running.domain.Course;
 import com.itwill.running.domain.Gimages;
 import com.itwill.running.domain.Gpost;
-import com.itwill.running.domain.User;
-import com.itwill.running.dto.CourseSearchDto;
 import com.itwill.running.dto.GpostCategoryDto;
 import com.itwill.running.dto.GpostCreateDto;
 import com.itwill.running.dto.GpostUpdateDto;

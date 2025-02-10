@@ -27,10 +27,10 @@
     <!-- 회원가입에서 사용할 SQL -->
     <insert id="insertUser" parameterType="User" useGeneratedKeys="true">
         insert into users (user_id, password, nickname, username, gender, age, 
-                           phonenumber, residence, email, auth_check, img_id, user_created_time, user_access_time)
+                           phonenumber, residence, email, auth_check, img_id, user_created_time, user_access_time, token)
                            
         values (#{userId}, #{password}, #{nickname}, #{username}, #{gender}, #{age},
-                #{phonenumber}, #{residence}, #{email}, #{authCheck}, #{imgId}, systimestamp, systimestamp)
+                #{phonenumber}, #{residence}, #{email}, #{authCheck}, #{imgId}, systimestamp, systimestamp, #{token})
     </insert>
     
     <select id="findByVerificationToken">
@@ -48,6 +48,13 @@
         update users
         set user_access_time = systimestamp
         where user_id = #{userId}   
+    </update>
+    
+    <!-- 유저 토큰 업데이트 -->
+    <update id="updateToken">
+    	update users
+    	set token=#{token}, auth_check=#{authCheck}
+    	where user_id = #{userId}
     </update>
     
     

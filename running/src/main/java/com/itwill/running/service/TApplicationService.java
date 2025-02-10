@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import com.itwill.running.domain.TApplication;
 import com.itwill.running.dto.TApplicationItemDto;
 import com.itwill.running.repository.TApplicationDao;
-import com.itwill.running.repository.TeamDao;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
