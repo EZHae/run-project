@@ -28,5 +28,6 @@ public class User implements Serializable {
 	private Integer imgId;
 	private LocalDateTime userCreatedTime;
 	private LocalDateTime userAccessTime;
+	private String token;
 
 }

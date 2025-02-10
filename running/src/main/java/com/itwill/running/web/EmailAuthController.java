@@ -10,28 +10,33 @@ import com.itwill.running.service.ParkService;
 import com.itwill.running.service.TApplicationService;
 import com.itwill.running.service.TMemberService;
 import com.itwill.running.service.TeamService;
+import com.itwill.running.service.UImagesService;
 import com.itwill.running.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@Controller
 @Slf4j
 @RequiredArgsConstructor
-@Controller
-
 //이메일 전송 후 인증 컨트롤러
 public class EmailAuthController {
-	private UserService userService;
-	private EmailAuthService emailService;
+	private final UserService userService;
+	private final EmailAuthService emailService;
 
-//	@GetMapping("/verify")
-//	public String verifyEmail(@RequestParam("token") String token) {
-//		boolean isVerified = userService.verifyUser(token);
-//
-//		if (isVerified) {
-//			return "email_verified"; // 인증 완료 페이지
-//		} else {
-//			return "invalid_token"; // 실패 페이지
-//		}
-//	}
+	@GetMapping("/verify")
+	public String verifyEmail(@RequestParam("token") String token) {
+		boolean isVerified = userService.verifyUser(token);
+
+		if (isVerified) {
+			return "user/signin"; // 인증 완료 페이지
+		} else {
+			return "authcheck/failed"; // 실패 페이지
+		}
+	}
+	
+	@GetMapping("/authcheck/failed")
+	public void failed() {
+		
+	}
 }

@@ -16,6 +16,11 @@ document.addEventListener("DOMContentLoaded", () => {
 		btn.addEventListener('click', confirmApplication);
 	}
 
+	const btnApplyDeclineButton = document.querySelectorAll("button#applyDeclineButton");
+	for (const btn of btnApplyDeclineButton) {
+		btn.addEventListener('click', declineApplication);
+	}
+
 	const btnForceToResigns = document.querySelectorAll("button#forceToResignButton");
 	for (const btn of btnForceToResigns) {
 		btn.addEventListener('click', forceToResign);
@@ -25,11 +30,31 @@ document.addEventListener("DOMContentLoaded", () => {
 	btnTeamDelete.addEventListener('click', deleteTeam);
 
 	const btnTeamUpdate = document.querySelector("button#btnTeamUpdate");
-	btnTeamUpdate.addEventListener('click', function(){window.location.href = `../team/update?teamid=${teamId}`;});
+	btnTeamUpdate.addEventListener('click', function() { window.location.href = `../team/update?teamid=${teamId}`; });
 
 	/* -------------------------------------콜백함수--------------------------------- */
 
+	//팀 신청 거절
+	function declineApplication(event) {
+		console.log("거절");
+		const userId = event.target.getAttribute('data-id'); //수락할 회원의 아이디
+		const nickname = event.target.getAttribute('data-name'); //수락할 회원의 닉네임
+		const applyConfirm = confirm(`${nickname}님의 가입 신청을 거절하시겠습니까?`);
+		if (applyConfirm) {
+			//applications테이블에서 삭제
+			axios.delete(`../api/teamapplication/cancel?teamid=${teamId}&userid=${userId}`).then((response) => {
+				if (response.data == 1) {
+					alert(`${nickname}님의 신청을 거절하였습니다`);
+					window.location.href = `../team/details?teamid=${teamId}`;
+				}
 
+			}).catch((error) => {
+				console.log(error);
+			});
+		}
+	}
+
+	//팀 삭제
 	function deleteTeam(event) {
 		const result = confirm(`정말 ${teamName}팀을 삭제하시겠습니까? 복구가 불가능합니다.`);
 		if (result) {

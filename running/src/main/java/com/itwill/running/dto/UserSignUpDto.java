@@ -18,10 +18,11 @@ public class UserSignUpDto {
 	private String email;
 	private Integer authCheck;
 	private Integer imgId;
+	private String token;
 
 	public User toEntity() {
-		return User.builder().userId(userId).password(password).nickname(nickname).username(username)
-				.gender(gender).age(age).phonenumber(phonenumber).residence(residence).email(email)
-				.authCheck(authCheck).imgId(imgId).build();
+		return User.builder().userId(userId).password(password).nickname(nickname).username(username).gender(gender)
+				.age(age).phonenumber(phonenumber).residence(residence).email(email).authCheck(authCheck).imgId(imgId).token(token)
+				.build();
 	}
 }

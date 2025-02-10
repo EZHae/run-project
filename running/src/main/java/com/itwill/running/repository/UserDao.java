@@ -2,6 +2,7 @@ package com.itwill.running.repository;
 
 import com.itwill.running.domain.User;
 import com.itwill.running.dto.UserUpdateDto;
+import com.itwill.running.dto.UserVerificationUpdateDto;
 
 public interface UserDao {
 	User selectByUserId(String userId);		// 유저 아이디 조회
@@ -15,4 +16,5 @@ public interface UserDao {
 	int updateAccessTime(String userId);	// 유저 최근 접속 시간 업데이트
 	int updateUser(UserUpdateDto dto);				// 유저 정보 수정 업데이트
 	int deleteUser(String userId);				// 유저 삭제
+	int updateToken(UserVerificationUpdateDto dto); //토큰업데이트
 }

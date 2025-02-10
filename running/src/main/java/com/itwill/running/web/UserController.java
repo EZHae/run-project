@@ -77,6 +77,9 @@ public class UserController {
 			String nickname = user.getNickname();
 			session.setAttribute("signedInUserNickname", nickname);
 			
+			Integer authCheck = user.getAuthCheck();
+			session.setAttribute("authCheck", authCheck);
+			
 			log.debug("signedInUserId={}", session.getAttribute("signedInUserId").toString());
 			log.debug("signedInUserNickname={}", nickname);
 			
@@ -98,12 +101,12 @@ public class UserController {
 	public void signUp() {
 	}
 	// 회원가입 처리
-//	@PostMapping("/signup")
-//	public String signUp(UserSignUpDto dto) {
-//		userService.createUser(dto);
-//		
-//		return "redirect:/user/signin";
-//	}
+	@PostMapping("/signup")
+	public String signUp(UserSignUpDto dto) {
+		userService.createUser(dto);
+		
+		return "redirect:/user/signin";
+	}
 	
 	// 유저 상세 정보 페이지
 	@GetMapping({"/details", "/modify"})
