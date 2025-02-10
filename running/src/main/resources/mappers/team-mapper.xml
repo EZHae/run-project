@@ -38,6 +38,25 @@
 		from teams where team_name=#{teamName}
 	</select>
 
+	<select id="searchTeams" resultType="Team">
+		select t.*
+		from teams t
+		join parks p on t.park_id = p.id
+		<where>
+			<if test="district != 'all'">
+				p.park_loc = #{district}
+			</if>
+			<bind name="searchKeyword" value="'%' + keyword + '%'" />
+			and upper(t.team_name) like upper(#{searchKeyword})
+			<choose>
+				<when test="status == 'closed'">and t.max_num = t.current_num</when>
+				<otherwise>and t.current_num != t.max_num</otherwise>
+			</choose>
+		</where>
+		order by t.team_id desc
+	</select>
+
+
 	<insert id="insertNewTeam">
 		insert into teams (team_name, user_id, uniq_name,
 		image_path, title,
@@ -63,6 +82,6 @@
 		delete from teams where team_id=#{teamId}
 	</delete>
 
-	
+
 </mapper>
 

@@ -46,6 +46,48 @@
 				<button style="${status eq 'closed'}">모집완료</button>
 			</a>
 		</div>
+
+		<div class="container mt-5">
+			<c:url value="/team/search" var="teamSearchPage" />
+			<form action="${teamSearchPage}" method="get" id="searchForm">
+				<select class="form-select mb-2" id="status"
+					name="status">
+					<option value="open" selected>모집중</option>
+					<option value="closed">모집완료</option>
+				</select> <select class="form-select mb-2" id="seoul-districts"
+					name="district">
+					<option value="all" selected>전체</option>
+					<option value="강남구">강남구</option>
+					<option value="강동구">강동구</option>
+					<option value="강북구">강북구</option>
+					<option value="강서구">강서구</option>
+					<option value="관악구">관악구</option>
+					<option value="광진구">광진구</option>
+					<option value="구로구">구로구</option>
+					<option value="금천구">금천구</option>
+					<option value="노원구">노원구</option>
+					<option value="도봉구">도봉구</option>
+					<option value="동대문구">동대문구</option>
+					<option value="동작구">동작구</option>
+					<option value="마포구">마포구</option>
+					<option value="서대문구">서대문구</option>
+					<option value="서초구">서초구</option>
+					<option value="성동구">성동구</option>
+					<option value="성북구">성북구</option>
+					<option value="송파구">송파구</option>
+					<option value="양천구">양천구</option>
+					<option value="영등포구">영등포구</option>
+					<option value="용산구">용산구</option>
+					<option value="은평구">은평구</option>
+					<option value="종로구">종로구</option>
+					<option value="중구">중구</option>
+					<option value="중랑구">중랑구</option>
+				</select> <input type="text" id="keyword" name="keyword"
+					class="form-control mb-2" placeholder="팀 이름으로 검색이 가능합니다">
+				<button id="searchButton" class="btn btn-secondary">검색</button>
+			</form>
+		</div>
+
 		<table>
 			<thead>
 				<tr>
@@ -72,53 +114,7 @@
 		</table>
 	</div>
 
-	<div id="map" style="width: 500px; height: 400px;"></div>
-
-
-	<script type="text/javascript"
-		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a968ac66f9f47a5a20d82c0fa106e0f0&libraries=services,clusterer,drawing"></script>
-	<script type="text/javascript">
-		// <맵 생성>
-		var container = document.getElementById('map');
-		var options = {
-			center : new kakao.maps.LatLng(37.5665, 126.9780), // 서울 중심부(시청 기준)
-			level : 9
-		};
-
-		var map = new kakao.maps.Map(container, options);
-		// </맵 생성>
-
-		//db에서 공원 위도,경도 불러오기
-		let positions = []; // 빈 배열 생성
-		//parkdata에 공원리스트담기
-		//for (const park of parkdata) {
-		//positions.push({
-		//title: `${park.parkName}`,
-		//lat: `${park.parkLat}`,  // 위도 값
-		//lng: `${park.parkLng}` // 경도 값
-		//});
-		//}
-		positions.push({
-			title : '상암공원',
-			lat : 37.5738,
-			lng : 126.8955
-		})
-
-		var markers = positions.map(function(position) { // 마커를 배열 단위로 묶음
-			return new kakao.maps.Marker({
-				position : new kakao.maps.LatLng(position.lat, position.lng)
-			});
-		});
-
-		var clusterer = new kakao.maps.MarkerClusterer({
-			map : map, // 마커들을 클러스터로 관리하고 표시할 지도 객체 
-			averageCenter : true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정 
-			minLevel : 5, // 클러스터 할 최소 지도 레벨 
-			markers : markers
-		// 클러스터에 마커 추가
-		});
-	</script>
-
+	
 
 
 	<!-- Bootstrap Javascript  -->

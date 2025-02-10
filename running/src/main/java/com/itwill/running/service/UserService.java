@@ -97,41 +97,42 @@ public class UserService {
 		return userDao.updateUser(dto);
 	}
 
-	// 회원가입 서비스
-	public User createUser(UserSignUpDto dto) {
-		// 랜덤 인증 토큰 생성
-		String token = UUID.randomUUID().toString();
-		// 인증 전에는 비활성화
-		dto.setAuthCheck(0);
-		
-		// 사용자 정보 생성
-		userDao.insertUser(dto.toEntity());
-
-		// 이메일발송
-		emailAuthService.sendVerificationEmail(dto.getEmail(), token);
-		//todo: 토큰테이블업데이트
-
-		// 등록한 사용자의 userId 조회
-		User user = userDao.selectByUserId(dto.getUserId());
-
-		// 회원가입에 선택한 기본 이미지 id 추출
-		int dafaultImageId = dto.getImgId();
-
-		// UImagesService를 통해 기본 이미지 레코드 INSERT 후 생성된 이미지 id 반환
-		int insertImage = uimagesService.insertDefaultUserImages(user.getUserId(), dafaultImageId);
-
-		// 생성된 이미지 id를 USERS 테이블에 img_id 업데이트
-		user.setImgId(insertImage);
-		userDao.updateByImgId(user);
-
-		return user;
-	}
-
+//	// 회원가입 서비스
+//	public User createUser(UserSignUpDto dto) {
+//		// 랜덤 인증 토큰 생성
+//		String token = UUID.randomUUID().toString();
+//		// 인증 전에는 비활성화
+//		dto.setAuthCheck(0);
+//		
+//		// 사용자 정보 생성
+//		userDao.insertUser(dto.toEntity());
+//
+//		// 이메일발송
+//		emailAuthService.sendVerificationEmail(dto.getEmail(), token);
+//		//todo: 토큰업데이트
+//
+//		// 등록한 사용자의 userId 조회
+//		User user = userDao.selectByUserId(dto.getUserId());
+//
+//		// 회원가입에 선택한 기본 이미지 id 추출
+//		int dafaultImageId = dto.getImgId();
+//
+//		// UImagesService를 통해 기본 이미지 레코드 INSERT 후 생성된 이미지 id 반환
+//		int insertImage = uimagesService.insertDefaultUserImages(user.getUserId(), dafaultImageId);
+//
+//		// 생성된 이미지 id를 USERS 테이블에 img_id 업데이트
+//		user.setImgId(insertImage);
+//		userDao.updateByImgId(user);
+//
+//		return user;
+//	}
+	
+//	//이메일 인증
 //	public boolean verifyUser(String token) {
-//		User user = userRepository.findByVerificationToken(token);
+//		User user = userDao.findByVerificationToken(token);
 //
 //		if (user != null) {
-//			user.setEnabled(true); // 계정 활성화
+//			user.setAuthCheck(1); // 계정 활성화
 //			user.setVerificationToken(null); // 토큰 제거
 //			userRepository.save(user);
 //			return true;

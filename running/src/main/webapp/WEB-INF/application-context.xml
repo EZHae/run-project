@@ -66,7 +66,7 @@
 		<property name="host" value="smtp.gmail.com" />
 		<property name="port" value="587" />
 		<property name="username" value="runningproject157@gmail.com" /> <!-- 본인 이메일 -->
-		<property name="password" value="runningproject157!@" /> <!-- 앱 비밀번호 -->
+		<property name="password" value="ygbytnltjygigdbb" /> <!-- 앱 비밀번호 -->
 
 		<property name="javaMailProperties">
 			<props>

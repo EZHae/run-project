@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.itwill.running.domain.Team;
 import com.itwill.running.dto.TeamCreateDto;
 import com.itwill.running.dto.TeamItemDto;
+import com.itwill.running.dto.TeamSearchDto;
 import com.itwill.running.dto.TeamUpdateDto;
 import com.itwill.running.repository.GCommentDao;
 import com.itwill.running.repository.TeamDao;
@@ -48,6 +49,10 @@ public class TeamService {
 	
 	public Integer deleteTeam(Integer teamId) {
 		return teamDao.deleteTeam(teamId);
+	}
+	
+	public List<Team> searchTeams(TeamSearchDto dto){
+		return teamDao.searchTeams(dto);
 	}
 	
 	

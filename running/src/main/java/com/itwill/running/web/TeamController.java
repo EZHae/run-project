@@ -27,6 +27,7 @@ import com.itwill.running.dto.TMemberCreateDto;
 import com.itwill.running.dto.TMemberItemDto;
 import com.itwill.running.dto.TeamCreateDto;
 import com.itwill.running.dto.TeamItemDto;
+import com.itwill.running.dto.TeamSearchDto;
 import com.itwill.running.dto.TeamUpdateDto;
 import com.itwill.running.dto.UserItemDto;
 import com.itwill.running.service.CourseService;
@@ -60,6 +61,13 @@ public class TeamController {
 		model.addAttribute("teams",teams);
 		model.addAttribute("status", status);
 
+	}
+	
+	@GetMapping("/search")
+	public String searchTeams(TeamSearchDto dto, Model model) {
+		List<Team> teams=teamService.searchTeams(dto);
+		model.addAttribute("teams",teams);
+		return "/team/list";
 	}
 
 	@GetMapping({ "/details", "/update" })
