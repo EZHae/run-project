@@ -41,4 +41,5 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 		location.href = `like?id=${id}`;
 	});
+	// test 
 });

@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		else {
 			secretType = 0;
 		}
-		const data = { postId: postId, ctext: ctext, userId: signedInUserId, nickname: signedInUserName, commentType: 0, secret: secretType };
+		const data = { postId: postId, ctext: ctext, userId: signedInUserId, nickname: signedInUserNickname, commentType: 0, secret: secretType };
 		axios.post('../api/comment', data).then((response) => {
 			if (response.data === 1) {
 				alert('댓글 1개 등록 성공');
@@ -267,6 +267,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		const parentId = event.target.getAttribute('data-id'); //답글달 댓글의 아이디
 		const replySection = document.querySelector(`div.replySectoin[id="${parentId}"]`);
 
+<<<<<<< HEAD
         let html = `<div class="reply-container ms-5 mt-3">
             <div class="d-flex flex-start">
                 <img class="rounded-circle shadow-1-strong me-3"
@@ -342,6 +343,83 @@ document.addEventListener("DOMContentLoaded", () => {
                 //업데이트된 내용을 보여준다.
                 getALLComments();
             }
+=======
+		let html = `<div class="reply-container ms-5 mt-3">
+		    <div class="d-flex flex-start">
+		        <img class="rounded-circle shadow-1-strong me-3"
+		             src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(10).webp" 
+		             alt="avatar" width="65" height="65" />
+		        <div class="flex-grow-1 flex-shrink-1">
+		            <div>
+		                <div class="d-flex justify-content-between align-items-center">
+		                    <p class="mb-1">
+		                        ${signedInUserNickname}
+		                    </p>
+		                </div>
+		                <!-- 댓글 입력 영역 -->
+		                <div class="comment-input-area mt-3">
+		                    <!-- 비밀 댓글 체크박스 -->
+		                    <div class="form-check mb-2">
+		                        <input class="form-check-input" type="checkbox" id="secret-input-${parentId}">
+		                        <label class="form-check-label" for="privateCommentCheckbox">
+		                            비밀 댓글
+		                        </label>
+		                    </div>
+		                    <!-- 댓글 입력 textarea -->
+		                    <textarea class="form-control mb-2" id="reply-input-${parentId}" rows="2" placeholder="댓글 내용을 입력하세요."></textarea>
+		                    <!-- 댓글 작성 완료 버튼 -->
+		                    <button class="btn btn-primary" id="submitCommentButton" parent-id="${parentId}">작성</button>
+							<button class="btn" id="submitCancelButton" parent-id="${parentId}">취소</button>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		</div>`;
+		replySection.innerHTML = html;
+		const submitCommentButton = document.querySelector("button#submitCommentButton");
+		submitCommentButton.addEventListener('click', createReply);
+		const submitCancelButton=document.querySelector("button#submitCancelButton");
+		submitCancelButton.addEventListener('click',cancelReply);
+	}
+	
+	
+	//답글등록취소
+	function cancelReply(event){
+		const parentId=event.target.getAttribute('parent-id');
+		const replySection = document.querySelector(`div.replySectoin[id="${parentId}"]`);
+		replySection.innerHTML='';
+	}
+
+
+	//답글등록
+	function createReply(event) {
+		const parentId = event.target.getAttribute('parent-id');
+		const replyInput = document.getElementById(`reply-input-${parentId}`);
+		const replyText = replyInput.value;
+		if (replyText == '') {
+			alert("댓글 내용을 반드시 입력하세요");
+			return;
+		}
+		const secret = document.getElementById(`secret-input-${parentId}`);
+		let secretType;
+		if (secret.checked) {
+			secretType = 1;
+		}
+		else {
+			secretType = 0;
+		}
+		const data = {
+			postId: postId, ctext: replyText, userId: signedInUserId, nickname: signedInUserNickname, commentType: 1,
+			parentId: parentId, secret: secretType
+		};
+		axios.post('../api/comment', data).then((response) => {
+			if (response.data === 1) {
+				alert('댓글 1개 등록 성공');
+				document.querySelector('textarea#ctext').value = '';
+				//업데이트된 내용을 보여준다.
+				getALLComments();
+			}
+>>>>>>> 5b1e8dde843ebb698daa2ae545d6f383c53f7143
 
         }).catch((error) => {
             console.log(error);
