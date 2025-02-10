@@ -29,7 +29,7 @@
 	}
 	
 	.card {
-	    width: calc(33.333% - 20px); /* 한 줄에 3개의 카드 표시 */
+	    width: calc(50% - 20px); /* 한 줄에 2개의 카드 표시 */
 	    border: 1px solid #ccc; /* 카드 테두리 추가 */
 	    border-radius: 8px;
 	    overflow: hidden;
@@ -110,7 +110,7 @@
 	                    <!-- 일정의 날짜와 시간 -->
 	                    <span>
 	                        <c:choose>
-	                        	<%-- 현재 인원수가 최대인원수보다 작은 경우 or 현재 시간이 dateTime(모이는 시간)에 도래하지 않은 경우에만 모집중으로 보이게  --%>
+	                        	<%-- 현재 인원수가 최대인원수보다 작은 경우 or 현재 시간이 dateTime(모이는 시간)에 도래하지 않은 경우에만 '모집중'으로 보이게  --%>
 	                            <c:when test="${calendar.currentNum < calendar.maxNum and !calendar.expired}">
 	                                <span style="color: red;">모집중</span>
 	                            </c:when>
@@ -150,4 +150,3 @@
 	    </script>
 	</body>
 </html>
-

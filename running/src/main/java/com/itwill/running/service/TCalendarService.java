@@ -23,14 +23,14 @@ public class TCalendarService {
     private final TCalendarDao tCalendarDao;
     private final TCalendarMemberDao tCalendarMemberDao;
     
-    // 일정 게시글 목록 보기 서비스
-    public List<TCalendar> read(Integer teamId) {
-        log.debug("TCalendarService::read(teamId={})", teamId);
-        
-        List<TCalendar> tCalendars = tCalendarDao.selectTCalendarOrderByIdDesc(teamId);
-        log.debug("# of tCalendars = {}", tCalendars.size());
-        return tCalendars;
-    }
+//    // 일정 게시글 목록 보기 서비스
+//    public List<TCalendar> read(Integer teamId) {
+//        log.debug("TCalendarService::read(teamId={})", teamId);
+//        
+//        List<TCalendar> tCalendars = tCalendarDao.selectTCalendarOrderByDateTimeAsc(teamId);
+//        log.debug("# of tCalendars = {}", tCalendars.size());
+//        return tCalendars;
+//    }
     
     // 일정 게시글 아이디로 검색 서비스
     public TCalendar read(Integer id, Integer teamId) {
