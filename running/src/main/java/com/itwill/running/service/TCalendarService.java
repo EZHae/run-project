@@ -27,7 +27,7 @@ public class TCalendarService {
     public List<TCalendar> read(Integer teamId) {
         log.debug("TCalendarService::read(teamId={})", teamId);
         
-        List<TCalendar> tCalendars = tCalendarDao.selectTCalendarOrderByIdDesc(teamId);
+        List<TCalendar> tCalendars = tCalendarDao.selectTCalendarOrderByDateTimeAsc(teamId);
         log.debug("# of tCalendars = {}", tCalendars.size());
         return tCalendars;
     }
