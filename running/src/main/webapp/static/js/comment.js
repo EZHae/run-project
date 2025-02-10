@@ -226,7 +226,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				document.getElementById(`update-secret-input-${commentId}`).checked = true;
 			}
 			
-			const updateCancelButton = document.querySelector("button#updateCancelButton");
+			const updateCancelButton = document.querySelectorAll("button#updateCancelButton");
 			updateCancelButton.addEventListener('click', getALLComments);
 			const updateCommentButton = document.querySelector("button#updateCommentButton");
 			updateCommentButton.addEventListener('click', updateComment);
