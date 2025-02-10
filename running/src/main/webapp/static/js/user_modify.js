@@ -113,9 +113,15 @@ document.addEventListener('DOMContentLoaded', ()=> {
 
             const userImgId = response.data.imgId;
             console.log("현재 사용자의 프로필 이미지:", userImgId);
-
+            
+            
             // 모달표시
             imageModal.show();
+            
+            document.getElementById('imageModal').focus();
+            
+            
+            
         })
         .catch(error => {
             console.error("에러 발생:", error);
@@ -149,6 +155,7 @@ document.addEventListener('DOMContentLoaded', ()=> {
     
     // 이미지 업데이트를 위한 이벤트 리스너
     function updateImage() {
+        
         // 사용자 아이디
         const userId = btnUpload.getAttribute('data-user-id');
         const imageForm = document.querySelector('div#imageForm');
@@ -203,21 +210,18 @@ document.addEventListener('DOMContentLoaded', ()=> {
                 alert("프로필 이미지가 변경되었습니다!");
                 window.location.reload();
                 
-                const imageModal = bootstrap.Modal.getInstance(document.getElementById("imageModal"));
-                imageModal.style.display = "block";
-                imageModal.setAttribute("aria-hidden", "false");
-                imageModal.removeAttribute("inert");  // 포커스 가능하도록 변경
                 
-                if (imageModal) {
-                    imageModal.hide();
-                }
+                // 모달 닫기
+                imageModal.hide();
+                
+                
             })
             .catch((error) => {});
     }
     
     
     // 비밀번호 변경 버튼 이벤트 리스너 
-    function updatePassword() {
+    function updatePassword(event) {
         event.preventDefault(); //  기본 폼 제출 동작 막기 (submit 동작 막기)
         const userId = changePasswordBtn.getAttribute('data-user-id');
         
@@ -257,14 +261,7 @@ document.addEventListener('DOMContentLoaded', ()=> {
             alert("비밀번호 변경이 완료되었습니다."); 
             window.location.reload();
             
-            const passwordModal = bootstrap.Modal.getInstance(document.getElementById("passwordModal"));
-            passwordModal.style.display = "block";
-            passwordModal.setAttribute("aria-hidden", "false");
-            passwordModal.removeAttribute("inert");  // 포커스 가능하도록 변경
-            
-            if (passwordModal) {
-                passwordModal.hide();
-            }
+            passwordModal.hide();
         })
         .catch((error) => {
             if (error.response && error.response.status === 400) { 
