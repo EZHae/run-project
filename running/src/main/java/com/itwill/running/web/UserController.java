@@ -189,20 +189,44 @@ public class UserController {
 	@ResponseBody
 	public ResponseEntity<String> getPassword(@PathVariable String userId, @RequestBody Map<String, String> request){
 		String password = request.get("password");
+		String currentPassword = request.get("currentPassword");
+		 
+		if (currentPassword == null || currentPassword.isBlank()) {
+	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("현재 비밀번호를 입력해주세요.");
+	    }
 		
-		 // 유저의 기존 비밀번호 가져오기
+		// 유저의 기존 비밀번호 가져오기
 		String storedPassword = userService.getPasswordByUserId(userId);
-
+		
+		// 기존 비밀번호가 없을 경우 (예: 유저가 존재하지 않음)
+		if (storedPassword == null) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("존재하지 않는 사용자입니다.");
+		}
+		
+	    // 새 비밀번호가 비어 있는 경우	
 	    if (password == null || password.isBlank()) {
 	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("비밀번호가 비어 있습니다.");
 	    }
-
+	    
+	    // 현재 비밀번호와 새 비밀번호가 동일한 경우
 	    if (storedPassword.equals(password)) {
 	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("현재 비밀번호와 새 비밀번호가 동일합니다.");
 	    }
 		
+	    if (password == null || password.isBlank()) {
+	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("새 비밀번호를 입력해주세요.");
+	    }
+	    
 		// 비밀번호 변경 수행
 		userService.updateUserPassword(userId, password);
+		
+		// 변경 후, 다시 DB에서 최신 비밀번호 가져와서 업데이트가 정상적으로 되었는지 확인
+	    String updatedPassword = userService.getPasswordByUserId(userId);
+	    
+	    if (!updatedPassword.equals(password)) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("비밀번호 변경이 실패했습니다.");
+	    }
+	    
 		return ResponseEntity.ok("비밀번호 변경 완료");
 		
 	}
