@@ -21,8 +21,10 @@
                 crossorigin="anonymous">
     </head>
     <body>
-        <c:url var="homePage" value="/" />
-        <a href="${homePage}">홈으로</a>
+        <%@ include file="../fragments/header.jspf"%>
+		<div class="container-fluid">
+            <c:set var="pageTitle" value="코스 목록" />
+        </div>
         
         <h1>Running CourseList</h1>
 

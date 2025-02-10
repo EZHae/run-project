@@ -18,6 +18,11 @@
 </head>
 <body class="container mt-5">
 
+        <%@ include file="../fragments/header.jspf"%>
+		<div class="container-fluid">
+            <c:set var="pageTitle" value="팀 상세보기" />
+        </div>
+
 	<main class="m-2 p-2">
 		<div class="mt-2">
 			<h2>팀배너</h2>
@@ -82,6 +87,11 @@
 		<div class="mt-2">
 			<c:url var="imageListPage" value="/teampage/${teamItemDto.teamId}/image/list" />
 			<a href="${imageListPage}">팀 앨범</a>
+		</div>
+		
+		<div class="mt-2">
+			<c:url var="calendarListPage" value="/teampage/${teamItemDto.teamId}/tcalendar/list"/>
+			<a href="${calendarListPage}">팀 일정게시판</a>
 		</div>
 
 		<div class="mt-2">

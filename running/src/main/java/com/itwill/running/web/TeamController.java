@@ -1,5 +1,6 @@
 package com.itwill.running.web;
 
+
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.List;
@@ -41,6 +42,8 @@ import lombok.extern.slf4j.Slf4j;
 
 /*
  * 이지해
+=======
+>>>>>>> 046dced2ff34593bec14eb93a10e27ce26641ccd
 @RequestMapping("/teampage")
 public class TeamController {
 
@@ -65,6 +68,7 @@ public class TeamController {
 		
 		return "teampage/details";
 	}
+<<<<<<< HEAD
 	*/
 
 // 최호철

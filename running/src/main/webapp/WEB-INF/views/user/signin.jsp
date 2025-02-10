@@ -18,8 +18,10 @@
               crossorigin="anonymous">
 	</head>
 	<body>
-		<c:url value="/" var="homePage" />
-        <a href=${homePage }>home</a>
+        <%@ include file="../fragments/header.jspf"%>
+		<div class="container-fluid">
+            <c:set var="pageTitle" value="유저 로그인" />
+        </div>
 		
         <div>
             <div>

@@ -94,4 +94,3 @@
 		delete from teams where team_id=#{teamId}
 	</delete>
 </mapper>
-

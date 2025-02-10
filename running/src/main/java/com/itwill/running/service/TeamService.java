@@ -7,10 +7,8 @@ import org.springframework.stereotype.Service;
 import com.itwill.running.domain.Team;
 import com.itwill.running.dto.TeamCreateDto;
 import com.itwill.running.dto.TeamItemDto;
-
 import com.itwill.running.dto.TeamSearchDto;
 import com.itwill.running.dto.TeamUpdateDto;
-
 import com.itwill.running.repository.TeamDao;
 
 import lombok.RequiredArgsConstructor;
@@ -89,3 +87,4 @@ public class TeamService {
 	}
 
 }
+

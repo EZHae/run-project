@@ -28,14 +28,6 @@ public class CourseController {
 
 	private final CourseService courseService;
 
-//	@GetMapping("/list")
-//	public void list(Model model) {
-//		log.debug("CourseController::list()");
-//		
-//		List<Course> courses = courseService.read();
-//		
-//		model.addAttribute("courses", courses);
-//	}
 	@GetMapping("/list") // 페이징처리에 관해서 정확한 url 맵핑을 하기위해 void가 아닌 String으로
 	public String list(@RequestParam(defaultValue = "0") int offset, // offset : 데이터를 가져올 시작 위치
 			@RequestParam(defaultValue = "10") int limit, // limit : 한 번에 가져올 데이터의 수
@@ -45,7 +37,8 @@ public class CourseController {
 
 		
 		// 페이징된 코스 목록 가져오기
-		List<Course> courses = courseService.read();
+		// read() => readAllPageWithOffset(ofset, limit)
+		List<Course> courses = courseService.readAllPageWithOffset(offset, limit);
 		model.addAttribute("courses", courses);
 
 		// 총 게시글 수 가져오기

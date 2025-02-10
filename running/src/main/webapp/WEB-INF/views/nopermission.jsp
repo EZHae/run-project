@@ -19,10 +19,7 @@
                 crossorigin="anonymous">
 	</head>
 	<body>
-		<c:forEach var="team" items="${teams}" >
-			<c:url var="teamDetailsPage" value="/teampage/${team.teamId}" />
-			<a href="${teamDetailsPage}">${team.teamName}</a>
-		</c:forEach>
+		<span>권한 없음</span>
 		
 		<!-- Bootstrap JS 링크 -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 

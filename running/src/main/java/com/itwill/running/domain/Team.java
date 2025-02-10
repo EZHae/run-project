@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Team {
 
+
 	private Integer teamId;
 	private String teamName;
 	private String userId;
@@ -28,5 +29,4 @@ public class Team {
 	private Integer genderLimit;
 	private LocalDateTime createdTime;
 	private LocalDateTime modifiedTime;
-
 }

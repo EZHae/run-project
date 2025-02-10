@@ -19,8 +19,10 @@
                 crossorigin="anonymous">
 	</head>
 	<body>
-	 	<c:url var="homePage" value="/" />
-		<a href="${homePage}">홈으로</a>
+        <%@ include file="../fragments/header.jspf"%>
+		<div class="container-fluid">
+            <c:set var="pageTitle" value="팀 게시글 상세보기" />
+        </div>
 		
 		<c:url var="teamPage" value="/team/details">
 			<c:param name="teamid" value="${teamId}" />

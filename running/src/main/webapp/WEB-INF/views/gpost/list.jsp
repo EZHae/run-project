@@ -18,9 +18,12 @@
               crossorigin="anonymous">
 	</head>
 	<body>
+        <%@ include file="../fragments/header.jspf"%>
+		<div class="container-fluid">
+            <c:set var="pageTitle" value="글 목록" />
+        </div>
+        
         <div class="container-fluid">
-            <c:url value="/" var="homePage" />
-            <a href=${homePage }>리스트</a>
             <main>
                 <c:url value="/gpost/list" var="gPostGategoryPage" />
                 <form action="${gPostGategoryPage}" method="get" id="searchForm">
