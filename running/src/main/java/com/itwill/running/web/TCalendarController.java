@@ -94,7 +94,7 @@ public class TCalendarController {
 
 	    // 날짜 포맷팅
 	    LocalDateTime dateTime = tCalendar.getDateTime();
-	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH-mm");
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 	    String formattedDate = dateTime.format(formatter);
 	    model.addAttribute("dateTime", formattedDate);
 

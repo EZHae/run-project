@@ -29,46 +29,6 @@
 	    <!-- (2) 시간 선택 플러그인용 스타일시트 -->
 	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-ui-timepicker-addon/1.6.3/jquery-ui-timepicker-addon.min.css">
 	
-	    <script>
-	        $(function() {
-	            // 한국어 지역화 설정
-	            $.timepicker.regional['ko'] = {
-	                timeOnlyTitle: '시간 선택',
-	                timeText: '시간',
-	                hourText: '시',
-	                minuteText: '분',
-	                secondText: '초',
-	                millisecText: '밀리초',
-	                microsecText: '마이크로초',
-	                timezoneText: '시간대',
-	                currentText: '현재 시간',
-	                closeText: '확인',
-	                amNames: ['오전', 'AM', 'A'],
-	                pmNames: ['오후', 'PM', 'P'],
-	                isRTL: false
-	            };
-	            $.timepicker.setDefaults($.timepicker.regional['ko']);
-	
-	            // 날짜 선택 기능 활성화
-	            $("#date").datepicker({
-	                dateFormat: 'yy-mm-dd',
-	                minDate: 0 // 오늘 이후 날짜만 선택 가능
-	            });
-	
-	            // 시간 선택 기능 활성화
-	            $("#time").timepicker({
-	                timeFormat: 'tt h:mm',
-	                interval: 30, // 30분 간격
-	                minTime: '06:00am',
-	                maxTime: '11:30pm',
-	                defaultTime: '12:00pm',
-	                startTime: '06:00am',
-	                dynamic: false,
-	                dropdown: true,
-	                scrollbar: true
-	            });
-	        });
-	    </script>
 	</head>
 	<body>
     <h2>모임 일정 수정</h2>

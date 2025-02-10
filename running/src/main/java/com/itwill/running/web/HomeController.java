@@ -22,7 +22,7 @@ public class HomeController {
 		log.debug("home()");
 		
 		if (session.getAttribute("signedInUserId") == null) {
-			session.setAttribute("signedInUserId", "user2");
+			session.setAttribute("signedInUserId", "admin1");
 			
 			// 로그인할때 signedInUser와 동일한 userId를 검색하고 그 User 객체의 nickname도 세션에 저장
 			String userId = session.getAttribute("signedInUserId").toString();
