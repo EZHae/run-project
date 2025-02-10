@@ -19,8 +19,10 @@
 
 
 <body class="container mt-5">
-	<c:url var="courseRecruitPage" value="/team/list" />
-	<a href="${courseRecruitPage}">팀 목록</a>
+        <%@ include file="../fragments/header.jspf"%>
+		<div class="container-fluid">
+            <c:set var="pageTitle" value="팀 수정" />
+        </div>
 
 	<h2 class="mb-4">팀 수정(현재로그인)${signedInUserId}</h2>
 	<c:url value="/team/update" var="teamUpdate" />

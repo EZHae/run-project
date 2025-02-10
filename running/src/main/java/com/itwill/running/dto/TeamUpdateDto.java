@@ -1,7 +1,5 @@
 package com.itwill.running.dto;
 
-import java.time.LocalDateTime;
-
 import com.itwill.running.domain.Team;
 
 import lombok.AllArgsConstructor;

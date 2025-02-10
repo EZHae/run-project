@@ -17,6 +17,11 @@
 	crossorigin="anonymous">
 </head>
 <body class="container mt-5">
+        <%@ include file="../fragments/header.jspf"%>
+		<div class="container-fluid">
+            <c:set var="pageTitle" value="팀 생성" />
+        </div>
+        
 	<c:url var="courseRecruitPage" value="/team/list" />
 	<a href="${courseRecruitPage}">팀 목록</a>
 	

@@ -3,6 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.itwill.running.repository.TMemberDao">
+  
   	<select id="selectAllByTeamId" resultType="TMember">
   		select tm.*,u.nickname from t_members tm left join users u on tm.user_id=u.user_id where team_id=#{teamId}
   	</select>
@@ -14,4 +15,19 @@
   	<delete id="deleteMember">
   		delete from t_members where team_id=#{teamId} and user_id=#{userId}
   	</delete>
+
+  	<!-- 팀멤버를 검색 -->
+  	<select id="selectTeamMember" resultType="int">
+	    SELECT COUNT(*)
+	    FROM t_members
+	    WHERE team_id = #{teamId} AND user_id = #{userId}
+	</select>
+
+	
+	<select id="getTeamLeaderId" resultType="String">
+        SELECT user_id
+        FROM t_members
+        WHERE team_id = #{teamId} AND leader_check = 1
+    </select>
+
   </mapper>

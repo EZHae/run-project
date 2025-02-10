@@ -18,9 +18,12 @@
               crossorigin="anonymous">
 	</head>
 	<body>
+        <%@ include file="../fragments/header.jspf"%>
+		<div class="container-fluid">
+            <c:set var="pageTitle" value="글 상세보기" />
+        </div>
+	
         <div class="container-fluid">
-            <c:url value="/gpost/list" var="homePage" />
-            <a href=${homePage }>리스트</a>
             <main>
                 <div class="card mt-2">
                     <div class="card-header">

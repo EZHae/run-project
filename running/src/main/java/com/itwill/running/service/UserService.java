@@ -3,9 +3,7 @@ package com.itwill.running.service;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import com.itwill.running.domain.UImages;
 import com.itwill.running.domain.User;
 import com.itwill.running.dto.UserItemDto;
 import com.itwill.running.dto.UserSignInDto;
@@ -97,6 +95,40 @@ public class UserService {
 	public int updateUser(UserUpdateDto dto) {
 		return userDao.updateUser(dto);
 	}
+
+	
+	// 유저 이미지 업데이트
+	public void updateUserImgId(String userId, int imgId) {
+		userDao.updateByImgId(userId, imgId);
+	}
+	
+	
+
+	
+	// 이미지 조회를 위한 아이디 
+	public int getUserImgId(String userId) {
+	    Integer imgId = userDao.selectImgIdByUserId(userId);
+	    
+	    return imgId;
+	}
+	
+	// 비밀번호 변경 서비스
+	public boolean  updateUserPassword(String userId, String password) {
+	    log.info("비밀번호 변경 요청 - userId: {}, newPassword: {}", userId, password);
+	    int result = userDao.updateUserByPassword(userId, password);
+
+	    if (result == 0) {
+	        log.error("비밀번호 변경 실패 - userId: {}", userId);
+	        return false;
+	    }
+	    return true;
+	}
+	
+	// 아이디로 비밀번호 조회 서비스
+	public String getPasswordByUserId(String userId) {
+		return userDao.selectPasswordByUserId(userId);
+	}
+	
 
 	// 회원가입 서비스
 	public User createUser(UserSignUpDto dto) {

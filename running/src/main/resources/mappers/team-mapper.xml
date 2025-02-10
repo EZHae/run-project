@@ -2,7 +2,19 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+  
 <mapper namespace="com.itwill.running.repository.TeamDao">
+	<!-- 이지해 -->
+	<select id="selectTeamByAll" resultType="Team">
+		select * from teams order by team_id desc
+	</select>
+	
+	<select id="selectTeamByTeamId" resultType="Team">
+		select * from teams where team_id = #{teamId}
+	</select>
+	
 	<!-- TODO 팀삭제, 팀수정, 팀검색(이름,공원타입 등), 내게맞는공고찾기(성별,연령대에맞는) -->
 	<select id="selectAll" resultType="Team">
 		select t.*, u.nickname as
@@ -27,8 +39,8 @@
 		select * from teams
 		where current_num != max_num order by team_id desc
 	</select>
-
-	<select id="findTeamIdByTeamNameAndUserId" resultType="Integer">
+	
+		<select id="findTeamIdByTeamNameAndUserId" resultType="Integer">
 		select
 		team_id from teams where team_name=#{teamName} and user_id=#{userId}
 	</select>
@@ -81,7 +93,4 @@
 	<delete id="deleteTeam">
 		delete from teams where team_id=#{teamId}
 	</delete>
-
-
 </mapper>
-

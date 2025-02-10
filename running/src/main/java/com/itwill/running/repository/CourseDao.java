@@ -32,5 +32,8 @@ public interface CourseDao {
 	
 	List<Course> readPageWithOffset(Map<String, Object> params); // Map 파라미터로 데이터를 검색
 	
+	List<Course> readAllPageWithOffset(Map<String, Object> params); // 추가: 구분 없이 페이징된 코스 조회
+	
 	int countPosts();											// 전체 코스 개수 조회 (검색 조건 없이)
 }
+

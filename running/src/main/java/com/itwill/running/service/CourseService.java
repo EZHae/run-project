@@ -143,6 +143,16 @@ public class CourseService {
 		return courseDao.selectCountPostsBySearch(dto);
 	}
 	
+	// 추가: 페이징 처리된 전체글 메서드
+	public List<Course> readAllPageWithOffset(int offset, int limit) {
+		log.debug("CourseService::readAllPageWithOffset()");
+		Map<String, Object> params = new HashMap<>();
+		params.put("offset", offset);
+		params.put("limit", limit);
+		
+		return courseDao.readAllPageWithOffset(params);
+	}
+	
     // 총 게시글 수를 가져오는 메서드
 	public int countPosts() {
         log.debug("CourseService::countPosts()");

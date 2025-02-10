@@ -1,5 +1,8 @@
 package com.itwill.running.filter;
 
+import java.io.IOException;
+import java.net.URLEncoder;
+
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.FilterConfig;
@@ -12,11 +15,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
-
-import java.io.IOException;
-import java.net.URLEncoder;
-
-import javax.mail.Session;
 
 /**
  * Servlet Filter implementation class AuthentificationFilter

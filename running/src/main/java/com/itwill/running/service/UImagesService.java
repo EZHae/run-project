@@ -5,6 +5,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.itwill.running.domain.UImages;
+import com.itwill.running.dto.UImagesDto;
 import com.itwill.running.repository.UImagesDao;
 
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class UImagesService {
 	private final UImagesDao uimagesDao;
+	
+
 	
 	// 실제 파일이 저장되는 경로 (서버 내 물리적 위치)
     private static final String UPLOAD_DIR = "C:/upload_data/profile/";
@@ -58,6 +61,17 @@ public class UImagesService {
 		return image.getId();
 	}
 	
+    // 현재 userId의 img_id 가져오기
+    public Integer getUserImgId(String userId) {
+        return uimagesDao.selectImgIdByUserId(userId);
+    }
+    
+	// 이미지 업데이트 서비스
+	public void updateUserProfileImage(UImagesDto dto) {
+		uimagesDao.updateUserImage(dto.toEntity());
+		
+	}
+	
 	
 	// userId로 해당 사용자의 프로필 이미지 정보 조회
 	public UImages selectUserImageByUserId(String userId) {
@@ -71,7 +85,6 @@ public class UImagesService {
 	    }
 		
 		//img_id를 이용해 u_images 테이블에서 이미지 정보 조회
-		
 		UImages userImage = uimagesDao.selectUserImageByImgId(imgId);
 		if (userImage == null) {
 			log.debug("img_id {}에 해당하는 이미지가 u_images 테이블에 없음", imgId);
@@ -79,5 +92,6 @@ public class UImagesService {
 	    }
 		 return userImage;
 	}
+	
 	
 }

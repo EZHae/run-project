@@ -19,6 +19,11 @@
               
 	</head>
 	<body>
+        <%@ include file="../fragments/header.jspf"%>
+		<div class="container-fluid">
+            <c:set var="pageTitle" value="글 수정" />
+        </div>
+        
         <div class="container-fluid">
             <main>
                 <div class="card mt-2">

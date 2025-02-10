@@ -18,11 +18,12 @@
                 crossorigin="anonymous">
 	</head>
 	<body>
-	 	
-	 	<c:url var="homePage" value="/" />
-		<a href="${homePage}">홈으로</a>
+        <%@ include file="../fragments/header.jspf"%>
+		<div class="container-fluid">
+            <c:set var="pageTitle" value="새 코스 작성" />
+        </div>
 		
-		<h1>새글작성</h1>
+		<h1>새 코스 작성</h1>
 		<c:url value="/course/create" var="coureCreatePage"/>
 		<form action="${coureCreatePage}" method="post">
 			<input id="categoryRec" name="category" type="radio" value="0" checked>
@@ -39,7 +40,6 @@
 			<input id ="nickname" type="text" name="nickname" value="${ signedInUserNickname }" readonly/><br>
 			<button type="submit">작성완료</button>
 		</form>
-		
 	
 		
 		<!-- Bootstrap JS 링크 -->

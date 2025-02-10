@@ -226,10 +226,14 @@ document.addEventListener("DOMContentLoaded", () => {
 				document.getElementById(`update-secret-input-${commentId}`).checked = true;
 			}
 			
-			const updateCancelButton = document.querySelectorAll("button#updateCancelButton");
-			updateCancelButton.addEventListener('click', getALLComments);
-			const updateCommentButton = document.querySelector("button#updateCommentButton");
-			updateCommentButton.addEventListener('click', updateComment);
+			const updateCancelButtons = document.querySelectorAll("button#updateCancelButton");
+			for (btn of updateCancelButtons){
+				btn.addEventListener('click', getALLComments);
+			}
+			const updateCommentButtons = document.querySelectorAll("button#updateCommentButton");
+			for (btn of updateCommentButtons){
+				btn.addEventListener('click', updateComment);
+			}
 			
 		}).catch((error)=>{console.log(error);});
 		

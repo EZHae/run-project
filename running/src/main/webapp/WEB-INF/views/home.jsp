@@ -23,23 +23,8 @@
 		<div class="container-fluid">
             <c:set var="pageTitle" value="홈페이지" />
         </div>
+        
 		<h1>Running Home</h1>
-
-
-		<c:url var="courseListPage" value="/course/list" />
-        <a href="${courseListPage}">courseListPage</a>
-
-
-        <c:url var="gPostListPage" value="/gpost/list" /> 
-        <a href="${gPostListPage}">목록</a>
-
-        
-        <c:url var="fileTestPage" value="/gpost/uploadForm" />
-        <a href="${fileTestPage}"> 파일</a>
-        
-        <c:url var="courseRecruitPage" value="/team/list" />
-        <a href="${courseRecruitPage}">팀 목록</a>
-        
 
 		<!-- Bootstrap JS 링크 -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 

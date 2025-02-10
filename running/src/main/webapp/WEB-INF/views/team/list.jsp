@@ -18,14 +18,17 @@
 	crossorigin="anonymous">
 </head>
 <body>
+        <%@ include file="../fragments/header.jspf"%>
+		<div class="container-fluid">
+            <c:set var="pageTitle" value="팀 목록" />
+        </div>
+
 	<c:forEach items="${teamItemDtoList}" var="team">
 		<c:url var="teamDetailPage" value="/team/details">
 			<c:param name="teamid" value="${team.teamId}" />
 		</c:url>
 		<a href="${teamDetailPage}">${team.teamName}</a>
 	</c:forEach>
-	<c:url value="/" var="homePage" />
-	<a href=${homePage }>home</a> >>>>>>>
 
 	<div>
 		<c:url var="teamCreatePage" value="/team/create" />

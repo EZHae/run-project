@@ -23,22 +23,22 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const btnLike = document.querySelector('button#btnLike');
     btnLike.addEventListener('click', () => {
+		const userId = document.querySelector('span#userId').innerHTML;
+		if (`${signedInUserId}` === userId) {
+			alert('자신의 글에는 좋아요를 할 수 없습니다.');
+			return;
+		}
+		
+		if (`${signedInUserId}` === null || `${signedInUserId}` === '') {
+			alert('로그인을 해야 좋아요가 가능합니다.');
+			return;
+		}
+		
+		if (`${likeUserIds}`.includes(`${signedInUserId}`)) {
+			alert('한 글에 좋아요를 두 번 할 수 없습니다.');
+			return;
+		}
+		location.href = `like?id=${id}`;
+	});
 
-        const userId = document.querySelector('span#userId').innerHTML;
-        if (`${signedInUserId}` === userId) {
-            alert('자신의 글에는 좋아요를 할 수 없습니다.');
-            return;
-        }
-        
-        if (`${signedInUserId}` === null || `${signedInUserId}` === '') {
-            alert('로그인을 해야 좋아요가 가능합니다.');
-            return;
-        }
-        
-        if (`${likeUserIds}`.includes(`${signedInUserId}`)) {
-            alert('한 글에 좋아요를 두 번 할 수 없습니다.');
-            return;
-        }
-        location.href = `like?id=${id}`;
-    });
 });

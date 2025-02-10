@@ -9,12 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwill.running.dto.TApplicationItemDto;
-import com.itwill.running.dto.TMemberCreateDto;
-import com.itwill.running.dto.TMemberItemDto;
 import com.itwill.running.service.TApplicationService;
 import com.itwill.running.service.TMemberService;
-import com.itwill.running.service.TeamService;
-import com.itwill.running.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -3,48 +3,42 @@
  */
 
 document.addEventListener('DOMContentLoaded', ()=> {
-    // 포스트 아이디 위치
+    // 아이디 위치
     const inputUserId = document.querySelector('input#userId');
 
-    // 부트스트랩 모달 객체를 생성.
-    const imageModal = new bootstrap.Modal('div#imageModal', { backdrop: true });
+    
 
     // 버튼의 이벤트 리스너
-    const changeImageBtn = document.querySelector('button#changeImageBtn');
-    const btnDelete = document.querySelector('button#btnDelete')
-    const btnUpdate = document.querySelector('button#btnUpdate')
     
-    changeImageBtn.addEventListener('click', showImageModal);
+    const btnDelete = document.querySelector('button#btnDelete');
+    const btnUpdate = document.querySelector('button#btnUpdate');
+    const btnUpload = document.querySelector('button#btnUpload');
+    const btnUpdatePassword = document.querySelector('button#btnUpdatePassword');
+    
+    
+    
     btnDelete.addEventListener('click', deleteUser);
     btnUpdate.addEventListener('click', updateUser);
+    btnUpload.addEventListener('click', updateImage);
+    btnUpdatePassword.addEventListener('click', updatePassword);
     
+    // 부트스트랩 모달 객체를 생성.
+    const changeImageBtn = document.querySelector('button#changeImageBtn');
+    const changePasswordBtn = document.querySelector('button#changePasswordBtn')
     
-    function showImageModal(event) {
-        
-        // 현재 로그인한 유저 ID 가져오기
-        const userId = changeImageBtn.getAttribute('data-user-id');
-        console.log("현재 로그인한 사용자 ID:", userId);
-        
-        // 모달표시
-        imageModal.show();
-
-        
-        const uri = `../user/api/${userId}`;
-        
-        axios
-        .get(uri)
-        .then(response => {
-            console.log("서버 응답 데이터:", response.data);
-        })
-        .catch(error => {
-            console.error("에러 발생:", error);
-        });
-    }
+    const imageModal = new bootstrap.Modal('div#imageModal', { backdrop: true });
+    const passwordModal = new bootstrap.Modal('div#passwordModal', { backdrop: true });
     
+    changeImageBtn.addEventListener('click', showImageModal);
+    changePasswordBtn.addEventListener('click', showPasswordModal);
+    
+    //-------------------------------------------------
     
     // 유저 업데이트 버튼 이벤트 리스너
     function updateUser(event) {
         console.log(event.target);
+        const userId = btnUpdate.getAttribute('data-user-id');
+        
         
         // 업데이트할 데이터
         const nickname = document.querySelector('input#nickname').value;
@@ -52,12 +46,15 @@ document.addEventListener('DOMContentLoaded', ()=> {
         const age = document.querySelector('input#age').value;
         const phonenumber =document.querySelector('input#phonenumber').value;
         const email = document.querySelector('input#email').value;
+        const password = document.querySelector('input#password').value;
+        const gender = document.querySelector('select#gender').value;
+        const residence = document.querySelector('select#residence').value;
+        const imgId = document.querySelector('input#imgId').value;
         
-        const data = {nickname, username, age, phonenumber, email, userId}
+        const data = {userId, nickname, username, age, phonenumber, email, password, gender, residence, imgId}
         console.log(data);
         
         
-        const userId = btnUpdate.getAttribute('data-user-id')
         const result = confirm('변경 하시겠습니까?')
         if (!result) {
             return;
@@ -69,7 +66,7 @@ document.addEventListener('DOMContentLoaded', ()=> {
         .put(uri,data)
         .then((response) => {
             console.log(response);
-//            window.location.href = "/running/user/details";
+            window.location.href = "/running/user/details";
         })
         .catch((error) => {
             alert("수정 실패: " + error.response.data);
@@ -98,4 +95,179 @@ document.addEventListener('DOMContentLoaded', ()=> {
             alert("삭제 실패: " + error.response.data);
         });
     }
-})
+    
+    
+    // 모달창을 보여주기 위한 이벤트 리스너 -------------------------------------------------------------
+    function showImageModal(event) {
+            
+        // 현재 로그인한 유저 ID 가져오기
+        const userId = changeImageBtn.getAttribute('data-user-id');
+        console.log("현재 로그인한 사용자 ID:", userId);
+
+        const uri = `../user/api/${userId}`;
+
+        axios
+        .get(uri)
+        .then(response => {
+            console.log("서버 응답 데이터:", response.data);
+
+            const userImgId = response.data.imgId;
+            console.log("현재 사용자의 프로필 이미지:", userImgId);
+            
+            
+            // 모달표시
+            imageModal.show();
+            
+            document.getElementById('imageModal').focus();
+            
+            
+            
+        })
+        .catch(error => {
+            console.error("에러 발생:", error);
+        });
+    }
+    
+    
+    
+    function showPasswordModal(event) {
+            
+            const userId = changePasswordBtn.getAttribute('data-user-id');
+            console.log("현재 로그인한 사용자 ID:", userId);
+            
+            const uri = `../user/api/${userId}`;
+
+            axios
+            .get(uri)
+            .then(response => {
+                console.log("서버 응답 데이터:", response.data);
+
+                // 모달표시
+                passwordModal.show();
+            })
+            .catch(error => {
+                console.error("에러 발생:", error);
+            });
+        }
+        
+            
+    
+    
+    // 이미지 업데이트를 위한 이벤트 리스너
+    function updateImage() {
+        
+        // 사용자 아이디
+        const userId = btnUpload.getAttribute('data-user-id');
+        const imageForm = document.querySelector('div#imageForm');
+
+        if (!userId) {
+            alert("사용자 ID를 찾을 수 없습니다.");
+            return;
+        }
+        
+        // 선택된 라디오 버튼
+        const selectedRadio = document.querySelector('input[name="imgId"]:checked');
+
+
+        if (!selectedRadio) {
+            alert("이미지를 선택하세요.");
+            return;
+        }
+        
+        // 라디오 버튼이 포함된 `label` 태그 내부의 이미지 태그 가져오기
+        const selectedLabel = selectedRadio.closest("label");
+        if (!selectedLabel) {
+            alert("선택된 이미지의 정보를 찾을 수 없습니다.");
+            return;
+        }
+        
+        const selectedImage = selectedLabel.querySelector("img");
+        if (!selectedImage) {
+            alert("이미지 태그를 찾을 수 없습니다.");
+            return;
+        }
+        
+        
+        const imageName = selectedImage.getAttribute("data-image-name"); // 원본 이미지명
+        const imageFileName = selectedImage.getAttribute("data-image-file"); // 이미지 파일 이름만 보내고 컨트롤러에서 경로 저장
+
+        const basePath = "C:/upload_data/profile/";
+        const imagePath = basePath + imageFileName;
+                
+        // 서버에 보낼 데이터 객체
+        const data = {userId, imageName, imagePath};
+        
+        console.log("서버로 보낼 데이터:", data);
+        
+        // 이미지 업데이트 REST API(요청 URI)
+        const uri = `../user/api/${userId}/image`;
+
+        // Ajax 요청을 보냄.
+        axios
+            .put(uri, data)
+            .then((response) => {
+                console.log(response);
+                alert("프로필 이미지가 변경되었습니다!");
+                window.location.reload();
+                
+                
+                // 모달 닫기
+                imageModal.hide();
+                
+                
+            })
+            .catch((error) => {});
+    }
+    
+    
+    // 비밀번호 변경 버튼 이벤트 리스너 
+    function updatePassword(event) {
+        event.preventDefault(); //  기본 폼 제출 동작 막기 (submit 동작 막기)
+        const userId = changePasswordBtn.getAttribute('data-user-id');
+        
+        const currentPassword = document.querySelector('input#currentPassword').value;
+        const password = document.querySelector('input#newFirstPassword').value;
+        const newSecondPassword = document.querySelector('input#newSecondPassword').value;
+
+        console.log("유저 아이디 : ",userId);
+        console.log("유저 변경 전 패스워드 : ",currentPassword);
+        console.log("유저 변경 후 패스워드 : ",password);
+        
+        const storedPassword = document.querySelector('input#password').value;
+        console.log("유저 기존 패스워드 : ",storedPassword);
+        
+        if (!password || password.trim() === '') {
+            alert("새 비밀번호를 입력해주세요.");
+            return;
+        }
+        if (password !== newSecondPassword) {
+            alert("새 비밀번호가 일치하지 않습니다.");
+            return;
+        }
+        if (currentPassword === password) {
+            alert("현재 비밀번호와 동일한 비밀번호를 사용할 수 없습니다.");
+            return;
+        }
+        const data = { password };
+        const uri = `../user/api/${userId}/password`
+        
+        console.log("데이터 정보 : ",data);
+        
+        // 비밀번호 변경 요청 (AJAX 요청 예제)
+        axios
+        .put(uri, data)
+        .then((response) => {
+            console.log(response)
+            alert("비밀번호 변경이 완료되었습니다."); 
+            window.location.reload();
+            
+            passwordModal.hide();
+        })
+        .catch((error) => {
+            if (error.response && error.response.status === 400) { 
+                // 서버에서 동일한 비밀번호라서 변경 불가능한 경우
+                alert(error.response.data); // 서버의 메시지를 alert 창으로 띄움
+            }
+        });
+    }
+});

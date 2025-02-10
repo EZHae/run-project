@@ -19,8 +19,10 @@
                 crossorigin="anonymous">
 	</head>
 	<body>
-		<c:url var="homePage" value="/" />
-		<a href="${homePage}">홈으로</a>
+        <%@ include file="../fragments/header.jspf"%>
+		<div class="container-fluid">
+            <c:set var="pageTitle" value="코스 상세보기" />
+        </div>
 		
 		<h1>Running CourseDetails</h1>
 		<span>COURSE.id(코스 아이디) = <span id="id">${course.id}</span></span> <br>

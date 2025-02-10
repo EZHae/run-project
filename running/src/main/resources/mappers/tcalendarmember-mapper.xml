@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itwill.running.repository.TCalendarMemberDao">
+
+    <!-- 일정 모집글 신청(자동가입)된 사람들 검색 -->
+    <select id="selectAllTCalendarMemberByCalendarId" parameterType="map" resultType="TCalendarMember">
+        SELECT DISTINCT tcm.user_id, tcm.nickname, tcm.created_time
+        FROM T_Calendars_Members tcm
+        LEFT JOIN T_Members tm ON tcm.user_id = tm.user_id
+        WHERE tcm.team_id = #{teamId} AND tcm.calendar_id = #{calendarId}
+    </select>
+    
+    <!-- 이미 캘린더멤버인지 확인(신청 여부 확인) -->
+    <select id="selectAppliedCalendarMember" resultType="int">
+	    SELECT COUNT(*)
+	    FROM t_calendars_members
+	    WHERE calendar_id = #{calendarId} AND user_id = #{userId} and team_id = #{teamId}
+	</select>
+	
+	<!-- 일정모임에 멤버 추가 -->
+	<insert id="insertTCalendarMember" >
+	    INSERT INTO t_calendars_members (calendar_id, user_id, team_id, nickname)
+	    VALUES (#{calendarId}, #{userId}, #{teamId}, #{nickname})
+	</insert>
+	
+	<!-- 일정모임의 멤버를 삭제 -->
+	<delete id="deleteTCalendarMember" parameterType="map">
+	    DELETE FROM t_calendars_members
+	    WHERE calendar_id = #{calendarId} AND user_id = #{userId} and team_id = #{teamId}
+	</delete>
+    
+</mapper>

@@ -1,16 +1,10 @@
 package com.itwill.running.web;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwill.running.service.EmailAuthService;
-import com.itwill.running.service.ParkService;
-import com.itwill.running.service.TApplicationService;
-import com.itwill.running.service.TMemberService;
-import com.itwill.running.service.TeamService;
-import com.itwill.running.service.UImagesService;
 import com.itwill.running.service.UserService;
 
 import lombok.RequiredArgsConstructor;

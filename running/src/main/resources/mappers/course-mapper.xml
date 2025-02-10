@@ -99,6 +99,7 @@
     </update>
     
     <!-- offset (페이징처리) // limit : 한 번에 가져올 데이터의 수, offset : 데이터를 가져올 시작 위치 -->
+    <!-- 검색 결과 페이징 -->
     <select id="readPageWithOffset"  parameterType="map" resultType="Course">
         select * from course
         where (#{keyword} IS NULL OR course_name LIKE '%' || #{keyword} || '%')
@@ -113,6 +114,14 @@
         FROM course 
         WHERE course_name LIKE '%' || #{keyword} || '%' 
         AND category = #{category}
+    </select>
+    
+    <!-- offset (페이징처리) // limit : 한 번에 가져올 데이터의 수, offset : 데이터를 가져올 시작 위치 -->
+    <!-- 전체 코스 페이징 -->
+    <select id="readAllPageWithOffset"  parameterType="map" resultType="Course">
+        select * from course
+        order by id DESC
+        offset #{offset} rows fetch next #{limit} rows only 
     </select>
     
     <!-- 총 게시글 갯수 (페이징처리) -->

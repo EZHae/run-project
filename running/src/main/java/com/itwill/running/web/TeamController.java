@@ -1,11 +1,9 @@
 package com.itwill.running.web;
 
-import java.io.File;
+
 import java.io.IOException;
 import java.net.URLEncoder;
-import java.net.http.HttpRequest;
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -13,15 +11,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.itwill.running.domain.Park;
 import com.itwill.running.domain.Team;
-import com.itwill.running.domain.User;
-import com.itwill.running.dto.GCommentCreateDto;
 import com.itwill.running.dto.TApplicationItemDto;
 import com.itwill.running.dto.TMemberCreateDto;
 import com.itwill.running.dto.TMemberItemDto;
@@ -30,7 +25,6 @@ import com.itwill.running.dto.TeamItemDto;
 import com.itwill.running.dto.TeamSearchDto;
 import com.itwill.running.dto.TeamUpdateDto;
 import com.itwill.running.dto.UserItemDto;
-import com.itwill.running.service.CourseService;
 import com.itwill.running.service.ParkService;
 import com.itwill.running.service.TApplicationService;
 import com.itwill.running.service.TMemberService;
@@ -51,7 +45,7 @@ public class TeamController {
 	private final TMemberService tmemService;
 	private final TApplicationService tappService;
 	private final UserService userService;
-	private final ParkService parkService;
+	private final ParkService parkService;	
 
 	@GetMapping("/list")
 	public void getAllTeams(Model model, @RequestParam(value= "status", defaultValue = "open")String status) {
@@ -60,7 +54,6 @@ public class TeamController {
 		
 		model.addAttribute("teams",teams);
 		model.addAttribute("status", status);
-
 	}
 	
 	@GetMapping("/search")
