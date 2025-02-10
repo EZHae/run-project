@@ -23,22 +23,13 @@ public class TCalendarService {
     private final TCalendarDao tCalendarDao;
     private final TCalendarMemberDao tCalendarMemberDao;
     
-//    // 일정 게시글 목록 보기 서비스
-//    public List<TCalendar> read(Integer teamId) {
-//        log.debug("TCalendarService::read(teamId={})", teamId);
-//        
-//        List<TCalendar> tCalendars = tCalendarDao.selectTCalendarOrderByDateTimeAsc(teamId);
-//        log.debug("# of tCalendars = {}", tCalendars.size());
-//        return tCalendars;
-//    }
-    
-    //추가 !
-    public List<TCalendar> readFiltered(int teamId, String filter, int offset, int limit) {
+    // 일정 게시글 목록
+    public List<TCalendar> readFiltered(int teamId, int filter, int offset, int limit) {
         return tCalendarDao.selectCalendars(teamId, filter, offset, limit);
     }
 
-    //추가!
-    public int countFiltered(int teamId, String filter) {
+    // 일정 게시글 갯수
+    public int countFiltered(int teamId, int filter) {
         return tCalendarDao.countCalendars(teamId, filter);
     }
     

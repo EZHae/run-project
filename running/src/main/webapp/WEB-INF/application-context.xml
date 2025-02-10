@@ -18,9 +18,9 @@
 			value="oracle.jdbc.OracleDriver" />
 
 		<property name="jdbcUrl"
-			value="jdbc:oracle:thin:@192.168.14.1:1521:xe" />
-		<property name="username" value="run" />
-		<property name="password" value="run" />
+			value="jdbc:oracle:thin:@localhost:1521:xe" />
+		<property name="username" value="localrun" />
+		<property name="password" value="localrun" />
 
 		<!-- <property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:1521:xe" 
 			/> -->

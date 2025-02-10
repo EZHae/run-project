@@ -45,58 +45,59 @@ public class TCalendarController {
 	private final TMemberService tMemberService;
 
 	// 일정 목록 보기
-	@GetMapping("/list")
-    public String list(@PathVariable Integer teamId, 
-                       @RequestParam(defaultValue = "1") int page, 
-                       @RequestParam(defaultValue = "모두") String filter, 
-                       Model model, HttpSession session) {
-        int pageSize = 10;
-        int offset = (page - 1) * pageSize;
+		@GetMapping("/list")
+	    public String list(@PathVariable Integer teamId, 
+	                       @RequestParam(defaultValue = "1") int page, 
+	                       @RequestParam(defaultValue = "1") int filter, 
+	                       Model model, HttpSession session) {
+	        int pageSize = 6; //한 페이지당 게시글 갯수 설정
+	        int offset = (page - 1) * pageSize;
 
-        List<TCalendar> tCalendars = tCalendarService.readFiltered(teamId, filter, offset, pageSize);
-        int totalCalendars = tCalendarService.countFiltered(teamId, filter);
-        int totalPages = (int) Math.ceil((double) totalCalendars / pageSize);
+	        List<TCalendar> tCalendars = tCalendarService.readFiltered(teamId, filter, offset, pageSize);
+	        int totalCalendars = tCalendarService.countFiltered(teamId, filter);
+	        int totalPages = (int) Math.ceil((double) totalCalendars / pageSize);
 
-        LocalDateTime currentTime = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+	        LocalDateTime currentTime = LocalDateTime.now();
+	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-        List<TCalendarItemDto> tCalendarItems = tCalendars.stream().map(calendar -> {
-            TCalendarItemDto item = new TCalendarItemDto();
-            item.setId(calendar.getId());
-            item.setTitle(calendar.getTitle());
-            item.setNickname(calendar.getNickname());
-            item.setContent(calendar.getContent());
-            item.setCurrentNum(calendar.getCurrentNum());
-            item.setMaxNum(calendar.getMaxNum());
-            item.setFormattedDateTime(calendar.getDateTime().format(formatter));
-            item.setExpired(calendar.getDateTime().isBefore(currentTime));
-            return item;
-        }).collect(Collectors.toList());
+	        List<TCalendarItemDto> tCalendarItems = tCalendars.stream().map(calendar -> {
+	            TCalendarItemDto item = new TCalendarItemDto();
+	            item.setId(calendar.getId());
+	            item.setTitle(calendar.getTitle());
+	            item.setNickname(calendar.getNickname());
+	            item.setContent(calendar.getContent());
+	            item.setCurrentNum(calendar.getCurrentNum());
+	            item.setMaxNum(calendar.getMaxNum());
+	            item.setFormattedDateTime(calendar.getDateTime().format(formatter));
+	            item.setExpired(calendar.getDateTime().isBefore(currentTime));
+	            return item;
+	        }).collect(Collectors.toList());
 
-        String userId = (String) session.getAttribute("signedInUserId");
-        String teamLeaderId = tMemberService.getTeamLeaderId(teamId);
-        boolean isTeamLeader = userId != null && userId.equals(teamLeaderId);
+	        String userId = (String) session.getAttribute("signedInUserId");
+	        String teamLeaderId = tMemberService.getTeamLeaderId(teamId);
+	        boolean isTeamLeader = userId != null && userId.equals(teamLeaderId);
 
-        // 페이징 범위 계산
-        int beginPage = Math.max(1, page - 2);
-        int endPage = Math.min(totalPages, page + 2);
-        if (page <= 3) {
-            endPage = Math.min(5, totalPages);
-        } else if (page + 2 > totalPages) {
-            beginPage = Math.max(1, totalPages - 4);
-        }
+	        // 페이징 범위
+	        int beginPage = Math.max(1, page - 2);
+	        int endPage = Math.min(totalPages, page + 2);
+	        if (page <= 3) {
+	            endPage = Math.min(5, totalPages);
+	        } else if (page + 2 > totalPages) {
+	            beginPage = Math.max(1, totalPages - 4);
+	        }
 
-        model.addAttribute("isTeamLeader", isTeamLeader);
-        model.addAttribute("tCalendars", tCalendarItems);
-        model.addAttribute("teamId", teamId);
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", totalPages);
-        model.addAttribute("filter", filter);
-        model.addAttribute("beginPage", beginPage);
-        model.addAttribute("endPage", endPage);
+	        model.addAttribute("isTeamLeader", isTeamLeader);
+	        model.addAttribute("tCalendars", tCalendarItems);
+	        model.addAttribute("teamId", teamId);
+	        model.addAttribute("currentPage", page);
+	        model.addAttribute("totalPages", totalPages);
+	        model.addAttribute("filter", filter);
+	        model.addAttribute("beginPage", beginPage);
+	        model.addAttribute("endPage", endPage);
 
-        return "/tcalendar/list";
-	}
+	        return "/tcalendar/list";
+		}
+
 
 	@GetMapping({"/details", "/modify"})
 	public String details(@PathVariable Integer teamId, @RequestParam Integer calendarId, Model model, HttpServletRequest request) {

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <%@ taglib prefix="fn" uri="jakarta.tags.functions"%>
 
@@ -104,11 +104,11 @@
     <!-- 필터링 콤보박스 -->
     <c:url value="/teampage/${teamId}/tcalendar/list" var="ListPage"/>
     <form action="${ListPage}" method="get">
-        <label for="filter">필터:</label>
+        <label for="filter">검색:</label>
         <select name="filter" id="filter" onchange="this.form.submit()">
-            <option value="모두" ${filter == '모두' ? 'selected' : ''}>모두</option>
-            <option value="모집중" ${filter == '모집중' ? 'selected' : ''}>모집중</option>
-            <option value="모집종료" ${filter == '모집종료' ? 'selected' : ''}>모집종료</option>
+            <option value="1" ${filter == '1' ? 'selected' : ''}>전체</option>
+            <option value="2" ${filter == '2' ? 'selected' : ''}>모집중인 게시글</option>
+            <option value="3" ${filter == '3' ? 'selected' : ''}>모집종료된 게시글</option>
         </select>
     </form>
 
@@ -152,46 +152,62 @@
         </c:forEach>
     </div>
 
-    <!-- 페이징 -->
+    <!-- 페이징 처리 : 페이지버튼 5개까지 보임-->
     <c:set var="beginPage" value="${1}" />
-    <c:set var="endPage" value="${1}" />
-    <c:choose>
-        <c:when test="${currentPage <= 3}">
-            <c:set var="beginPage" value="${1}" />
-            <c:set var="endPage" value="${totalPages < 5 ? totalPages : 5}" />
-        </c:when>
-        <c:otherwise>
-            <c:set var="beginPage" value="${currentPage - 2}" />
-            <c:set var="endPage" value="${(currentPage + 2) > totalPages ? totalPages : (currentPage + 2)}" />
-        </c:otherwise>
-    </c:choose>
-
-    <div class="pagination">
-        <c:if test="${currentPage > 1}">
-            <c:url var="prevPageUrl" value="/teampage/${teamId}/tcalendar/list">
-                <c:param name="page" value="${currentPage - 1}" />
-                <c:param name="filter" value="${filter}" />
-            </c:url>
-            <a href="${prevPageUrl}" class="prev">이전</a>
-        </c:if>
-
-        <c:forEach begin="${beginPage}" end="${endPage}" var="i">
-            <c:url var="pageUrl" value="/teampage/${teamId}/tcalendar/list">
-                <c:param name="page" value="${i}" />
-                <c:param name="filter" value="${filter}" />
-            </c:url>
-            <a href="${pageUrl}" class="${i == currentPage ? 'active' : ''}">${i}</a>
-        </c:forEach>
-
-        <c:if test="${currentPage < totalPages}">
-            <c:url var="nextPageUrl" value="/teampage/${teamId}/tcalendar/list">
-                <c:param name="page" value="${currentPage + 1}" />
-                <c:param name="filter" value="${filter}" />
-            </c:url>
-            <a href="${nextPageUrl}" class="next">다음</a>
-        </c:if>
-    </div>
-
+	<c:set var="endPage" value="${1}" />
+	<c:choose>
+	    <c:when test="${currentPage <= 3}">
+	        <c:set var="beginPage" value="${1}" />
+	        <c:set var="endPage" value="${totalPages < 5 ? totalPages : 5}" />
+	    </c:when>
+	    <c:otherwise>
+	        <c:set var="beginPage" value="${currentPage - 2}" />
+	        <c:set var="endPage" value="${(currentPage + 2) > totalPages ? totalPages : (currentPage + 2)}" />
+	    </c:otherwise>
+	</c:choose>
+	
+	<div class="pagination">
+	    <c:if test="${currentPage > 1}">
+	        <c:url var="firstPageUrl" value="/teampage/${teamId}/tcalendar/list">
+	            <c:param name="page" value="1" />
+	            <c:param name="filter" value="${filter}" />
+	        </c:url>
+	        <a href="${firstPageUrl}" class="first">첫 페이지</a>
+	    </c:if>
+	
+	    <c:if test="${currentPage > 1}">
+	        <c:url var="prevPageUrl" value="/teampage/${teamId}/tcalendar/list">
+	            <c:param name="page" value="${currentPage - 1}" />
+	            <c:param name="filter" value="${filter}" />
+	        </c:url>
+	        <a href="${prevPageUrl}" class="prev">이전</a>
+	    </c:if>
+	
+	    <c:forEach begin="${beginPage}" end="${endPage}" var="i">
+	        <c:url var="pageUrl" value="/teampage/${teamId}/tcalendar/list">
+	            <c:param name="page" value="${i}" />
+	            <c:param name="filter" value="${filter}" />
+	        </c:url>
+	        <a href="${pageUrl}" class="${i == currentPage ? 'active' : ''}">${i}</a>
+	    </c:forEach>
+	
+	    <c:if test="${currentPage < totalPages}">
+	        <c:url var="nextPageUrl" value="/teampage/${teamId}/tcalendar/list">
+	            <c:param name="page" value="${currentPage + 1}" />
+	            <c:param name="filter" value="${filter}" />
+	        </c:url>
+	        <a href="${nextPageUrl}" class="next">다음</a>
+	    </c:if>
+	
+	    <c:if test="${currentPage < totalPages}">
+	        <c:url var="lastPageUrl" value="/teampage/${teamId}/tcalendar/list">
+	            <c:param name="page" value="${totalPages}" />
+	            <c:param name="filter" value="${filter}" />
+	        </c:url>
+	        <a href="${lastPageUrl}" class="last">마지막 페이지</a>
+	    </c:if>
+	</div>
+    
     <!-- Bootstrap JS 링크 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
@@ -199,4 +215,3 @@
 </body>
 
 </html>
-

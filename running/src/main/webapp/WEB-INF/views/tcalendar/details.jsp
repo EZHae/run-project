@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html>
@@ -168,7 +168,6 @@
             <!-- 신청한 멤버 보기 버튼 JS -->
             <c:url var="viewTCalendarMembersJS" value="/js/tcalendar_viewTCalendarMembers.js"/>
             <script src="${viewTCalendarMembersJS}"></script>
-            
-            
+             
         </body>
 </html>
