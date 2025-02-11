@@ -16,6 +16,10 @@
 		values (#{userId}, #{type}, #{link}, #{checked}, #{content}, systimestamp)
 	</insert>
 	
+	<update id="updateToChecked">
+		update notifications set checked=1 where id=#{id}
+	</update>
+	
 	<delete id="deleteNotification">
 		delete from notifications where id=#{id}
 	</delete>

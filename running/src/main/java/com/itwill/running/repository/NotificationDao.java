@@ -9,4 +9,5 @@ public interface NotificationDao {
 	List<Notification> readUnreadByUserId(String userId);
 	Integer insertNewNotification(Notification noti);
 	Integer deleteNotification(Integer id);
+	Integer updateToChecked(Integer id);
 }

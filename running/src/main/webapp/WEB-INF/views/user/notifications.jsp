@@ -83,7 +83,10 @@
 							<c:when test="${noti.type eq 3}">팀 이름/신청 인사말:</c:when>
 							<c:when test="${noti.type eq 4}">해당 팀 신청이 수락되었습니다:</c:when>
 						</c:choose>
-						<a href="${noti.link}" class="noti-link">${noti.content}</a>
+						<c:url value="/api/notification/chekced/${noti.id}" var="checkedLink">
+							<c:param name="target" value="${noti.link}"></c:param>
+						</c:url>
+						<a href="${checkedLink}" class="noti-link">${noti.content}</a>
 					</div>
 				</div>
 			</c:forEach>

@@ -35,6 +35,10 @@ public class NotificationService {
 		return result;
 	}
 	
+	public Integer updateToChecked(Integer id) {
+		return notiDao.updateToChecked(id);
+	}
+	
 	public Integer deleteNotification(Integer id) {
 		return notiDao.deleteNotification(id);
 	}
