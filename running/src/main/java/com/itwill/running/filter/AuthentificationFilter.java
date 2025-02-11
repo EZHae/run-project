@@ -24,6 +24,11 @@ import lombok.extern.slf4j.Slf4j;
 public class AuthentificationFilter extends HttpFilter implements Filter {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
 	 * @see HttpFilter#HttpFilter()
 	 */
 	public AuthentificationFilter() {
@@ -46,42 +51,21 @@ public class AuthentificationFilter extends HttpFilter implements Filter {
 		HttpServletResponse httpRes = (HttpServletResponse) response;
 
 		HttpSession session = httpReq.getSession();
-		String signedInUserId = (String) session.getAttribute("signedInUserId");
+		Integer authCheck = (Integer) session.getAttribute("authCheck");
 		
-		log.debug("signedInUserId={}",signedInUserId);
-		
-		if (signedInUserId== "" || signedInUserId == null) {
-			// 로그인이 되지 않은 유저
-			String url = httpReq.getRequestURL().toString();
-			String qs = httpReq.getQueryString();
-			String target = null; // 로그인 성공후 이동할 주소
-			if (qs != null) {
-				// 쿼리스트링 존재
-				target = URLEncoder.encode(url + "?" + qs, "UTF-8");
-			} else {
-				target = URLEncoder.encode(url, "UTF-8");
-			}
-			String signInPage = httpReq.getContextPath() + "/user/signin?target=" + target;
-			httpRes.sendRedirect(signInPage);
+		log.debug("authCheck={}", authCheck);
+		if (authCheck == 1) {
+			// 이메일 인증이 완료된 유저
+			log.debug("인증완료");
+			chain.doFilter(request, response);
+			return;
 
 		} else {
-			Integer authCheck = (Integer) session.getAttribute("authCheck");
-			log.debug("authCheck={}",authCheck);
-			if (authCheck == 1) {
-				// 이메일 인증이 완료된 유저
-				log.debug("인증완료");
-				chain.doFilter(request, response);
-				return;
-
-			} else {
-				// 이메일 인증이 되지 않은 유저
-				log.debug("인증전");
-				String authCheckFailedPage = httpReq.getContextPath() + "/authcheck/failed";
-				httpRes.sendRedirect(authCheckFailedPage);
-			}
-
+			// 이메일 인증이 되지 않은 유저
+			log.debug("인증전");
+			String authCheckFailedPage = httpReq.getContextPath() + "/authcheck/failed";
+			httpRes.sendRedirect(authCheckFailedPage);
 		}
-
 	}
 
 	/**

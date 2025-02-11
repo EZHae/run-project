@@ -26,7 +26,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.itwill.running.domain.TImage;
 import com.itwill.running.dto.TImageCreateDto;
 import com.itwill.running.service.TImageService;
+import com.itwill.running.service.TMemberService;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -40,10 +42,20 @@ public class TImageController {
 	private static final String UPLOAD_DIR = "C:/upload_data/temp/timages/";
 	
 	private final TImageService imageService;
+	private final TMemberService memberService;
 	
 	@GetMapping("/list")
-	public String list(@PathVariable Integer teamId, Model model) {
+	public String list(@PathVariable Integer teamId, Model model, HttpSession session) {
 		log.debug("TImageController::Get_list");
+		
+		// 로그인 아이디와 teamId로 로그인 계정이 해당 팀의 팀원인지 확인 필터링
+		String signedInUserId = session.getAttribute("signedInUserId").toString();
+		boolean isTeam = memberService.isTeamMember(teamId, signedInUserId);
+		if (!isTeam) {
+			model.addAttribute("errorcode", "팀 앨범 목록");
+			model.addAttribute("errordetail", 2);
+			return "nopermission";
+		}
 		
 		model.addAttribute("teamId", teamId);
 		
@@ -73,8 +85,17 @@ public class TImageController {
 	}
 	
 	@GetMapping("/create")
-	public String create(@PathVariable Integer teamId, Model model) {
+	public String create(@PathVariable Integer teamId, Model model, HttpSession session) {
 		log.debug("TImageController::Get_create");
+		
+		// 로그인 아이디와 teamId로 로그인 계정이 해당 팀의 팀원인지 확인 필터링
+		String signedInUserId = session.getAttribute("signedInUserId").toString();
+		boolean isTeam = memberService.isTeamMember(teamId, signedInUserId);
+		if (!isTeam) {
+			model.addAttribute("errorcode", "팀 앨범 작성");
+			model.addAttribute("errordetail", 2);
+			return "nopermission";
+		}
 		
 		model.addAttribute("teamId", teamId);
 		
@@ -82,9 +103,18 @@ public class TImageController {
 	}
 	
 	@PostMapping("/create")
-	public String createImage(@PathVariable Integer teamId, TImageCreateDto dto,
+	public String createImage(@PathVariable Integer teamId, TImageCreateDto dto, HttpSession session, Model model,
 							  @RequestParam(value = "file", required = false) List<MultipartFile> files) throws Exception {
 		log.debug("TImageController::Post_create");
+		
+		// 로그인 아이디와 teamId로 로그인 계정이 해당 팀의 팀원인지 확인 필터링
+		String signedInUserId = session.getAttribute("signedInUserId").toString();
+		boolean isTeam = memberService.isTeamMember(teamId, signedInUserId);
+		if (!isTeam) {
+			model.addAttribute("errorcode", "팀 앨범 작성");
+			model.addAttribute("errordetail", 2);
+			return "nopermission";
+		}
 		
 		// TODO 업로드할 이미지가 있을 경우 실행할 이미지 저장 컨트롤러
 		// 서버에 저장될 저장 위치

@@ -88,9 +88,23 @@ public class TCalendarController {
 	}
 
 	@GetMapping({"/details", "/modify"})
-	public String details(@PathVariable Integer teamId, @RequestParam Integer calendarId, Model model, HttpServletRequest request) {
+	public String details(@PathVariable Integer teamId, @RequestParam Integer calendarId, Model model, HttpServletRequest request, HttpSession session) {
 	    log.debug("{}() - teamId: {}, calendarId: {}", request.getRequestURI().contains("/details") ? "details" : "modify", teamId, calendarId);
-
+		
+	    // /modify만 필터링
+	    String requestURI = request.getRequestURI();
+		log.debug("요청주소: {}", requestURI);
+		if (request.getRequestURI().endsWith("/modify")) {
+			// 로그인아이디와 작성자아이디 체크
+			String signedInUserId = session.getAttribute("signedInUserId").toString();
+			String userId = tCalendarService.read(calendarId, teamId).getUserId();
+			if (signedInUserId == null || !signedInUserId.equals(userId)) {
+				model.addAttribute("errorcode", "일정 수정");
+				model.addAttribute("errordetail", 1);
+				return "nopermission";
+			}
+		}
+	    
 	    // 일정 정보 가져오기
 	    TCalendar tCalendar = tCalendarService.read(calendarId, teamId);
 	    model.addAttribute("tCalendar", tCalendar);
@@ -122,7 +136,7 @@ public class TCalendarController {
 	    model.addAttribute("tMember", tMember);
 
 	    // 현재 로그인한 사용자 정보 가져오기
-	    HttpSession session = request.getSession();
+	    session = request.getSession();
 	    String userId = (String) session.getAttribute("signedInUserId");
 	    model.addAttribute("userId", userId);
 
@@ -151,7 +165,16 @@ public class TCalendarController {
     public String update(@PathVariable Integer teamId,
                          @RequestParam Integer calendarId,
                          @RequestParam("max_num") Integer maxNum, 
-                         Model model) {
+                         Model model, HttpSession session) {
+		// 로그인아이디와 작성자아이디 체크
+		String signedInUserId = session.getAttribute("signedInUserId").toString();
+		String userId = tCalendarService.read(calendarId, teamId).getUserId();
+		if (!signedInUserId.equals(userId)) {
+			model.addAttribute("errorcode", "팀 일정 수정");
+			model.addAttribute("errordetail", 1);
+			return "nopermission";
+		}
+    	
         log.debug("update() - teamId: {}, calendarId: {}, maxNum: {}", teamId, calendarId, maxNum);
 
         tCalendarService.updateMaxNum(teamId, calendarId, maxNum);
@@ -161,8 +184,17 @@ public class TCalendarController {
 
 	// 일정 글 작성 폼
 	@GetMapping("/create")
-	public String createForm(@PathVariable Integer teamId, Model model) {
+	public String createForm(@PathVariable Integer teamId, Model model, HttpSession session) {
 		log.debug("createForm() - teamId: {}", teamId);
+		
+		// 로그인 아이디와 teamId로 로그인 계정이 해당 팀의 팀원인지 확인 필터링
+		String signedInUserId = session.getAttribute("signedInUserId").toString();
+		boolean isTeam = tMemberService.isTeamMember(teamId, signedInUserId);
+		if (!isTeam) {
+			model.addAttribute("errorcode", "팀 일정 작성");
+			model.addAttribute("errordetail", 2);
+			return "nopermission";
+		}
 
 		model.addAttribute("teamId", teamId);
 
@@ -172,8 +204,17 @@ public class TCalendarController {
 	// 일정 새글 작성 처리
 	@PostMapping("/create")
 	public String create(@PathVariable Integer teamId, @ModelAttribute TCalendarCreateDto dto,
-			HttpServletRequest request) {
+			HttpServletRequest request, HttpSession session, Model model) {
 		log.debug("create() - teamId: {}, dto: {}", teamId, dto);
+		
+		// 로그인 아이디와 teamId로 로그인 계정이 해당 팀의 팀원인지 확인 필터링
+		String signedInUserId = session.getAttribute("signedInUserId").toString();
+		boolean isTeam = tMemberService.isTeamMember(teamId, signedInUserId);
+		if (!isTeam) {
+			model.addAttribute("errorcode", "팀 일정 작성");
+			model.addAttribute("errordetail", 2);
+			return "nopermission";
+		}
 
 		String date = request.getParameter("date"); // 예: "2023-10-28"
 		String time = request.getParameter("time"); // 예: "오전 10:30"
@@ -194,7 +235,7 @@ public class TCalendarController {
 		dto.setTeamId(teamId);
 
 		// 현재 로그인한 사용자 정보 가져오기
-		HttpSession session = request.getSession();
+		session = request.getSession();
 		String userId = (String) session.getAttribute("signedInUserId");
 
 		// DTO에 사용자 정보 설정
@@ -313,9 +354,18 @@ public class TCalendarController {
 
     
     //일정 글 삭제
-    @PostMapping("/delete")
+    @GetMapping("/delete")
     public String delete(@PathVariable Integer teamId,
-                         @RequestParam Integer calendarId) {
+                         @RequestParam Integer calendarId, HttpSession session, Model model) {
+		// 로그인아이디와 작성자아이디 체크
+		String signedInUserId = session.getAttribute("signedInUserId").toString();
+		String userId = tCalendarService.read(calendarId, teamId).getUserId();
+		if (!signedInUserId.equals(userId)) {
+			model.addAttribute("errorcode", "팀 일정 삭제");
+			model.addAttribute("errordetail", 1);
+			return "nopermission";
+		}
+    	
         log.debug("delete() - teamId: {}, calendarId: {}", teamId, calendarId);
 
         tCalendarService.delete(teamId, calendarId);

@@ -20,14 +20,19 @@ document.addEventListener('DOMContentLoaded', () => {
 	
 	/* ▼▼▼▼▼▼▼▼▼ 댓글/답글 관련 ▼▼▼▼▼▼▼▼▼ */
 	// 페이지 들어오자마자 해당 postId에 작성되어 있는 댓글/답글 목록을 출력
-	getALLComments();
+	let currentPage = 0;
+	const pageSize = 10;
+	const blockSize = 5;
+	getPagedComments(currentPage);
+	// getALLComments();
 
 	/**
 	 * 댓글 작성 버튼을 클릭하면 registerComment 함수를 호출 하는데, 
 	 * 함수에서 객체(data = TCommentCreateDto)를 생성하지 않고 생성을 한 후, 함수에 아규먼트로 전달함.
 	 * - 이유: 댓글 작성뿐만 아니라 답글 작성도 해당 함수를 사용하기 때문에, 객체를 생성 후 전달하는게 안정적임. 
 	 * 
-	 * @data 댓글 생성에 필요한 TCommentCreateDto 객체
+	 * @function registerComment 댓글을 DB에 추가하기 위해 axios.post를 호출하는 함수
+	 * 		@param data 댓글 생성에 필요한 TCommentCreateDTo 객체
 	 */
 	const btnRegisterComment = document.querySelector("button#btnRegisterComment");
 	btnRegisterComment.addEventListener('click', () => {
@@ -66,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				}
 				
 				// 댓글/답글 작성 후 댓글/답글 목록을 새로 받아와 출력한다.
-				getALLComments();
+				getPagedComments(currentPage);
 			}
 		}).catch((error) => {
 			console.log(error);
@@ -75,8 +80,46 @@ document.addEventListener('DOMContentLoaded', () => {
 	 
 	/**
 	 * 현재 보고있는 포스트에 달려있는 댓글/답글 목록을 가져온다.
+	 * + 페이징처리 되어 있음.
 	 * TComment-mapper.xml 참고
+	 * 
+	 * 호출: TCommentController getPagedComments() -> 리턴: Map<String, Object>
+	 * 리턴받은 Map의 comments, currentPage, totalPages를 각각 필요한 메서드에 전달
+	 * 
+	 * @param page 해당 페이지에 있는 댓글 리턴(최대 10개 리턴, 기본값 0)
+	 * @function makeCommentSection 리턴받은 TCommentItemDto 객체를 html로 출력하게 하는 함수
+	 * @function renderPagination 리턴받은 현재 페이지와 총 페이지 개수를 html(페이징 숫자 버튼)로 출력하게 하는 함수
 	 */
+	function getPagedComments(page) {
+		console.log('getPagedComments');
+	    const uri = `../api/tcomment/paged/${postId}?page=${page}&size=${pageSize}`;
+
+	    axios.get(uri).then((response) => {
+	        const data = response.data;
+			console.log(data);
+	        makeCommentSection(data.comments);
+	        renderPagination(data.currentPage, data.totalPages);
+			if (data.comments.length === 0) {
+				const sectionComment = document.querySelector("section#commentSection");
+				
+				const html =
+				`<div class="container my-1 py-1">
+					<div class="row d-flex justify-content-center">
+						<div class="col-md-12 col-lg-10 col-xl-8"> 
+							<div class="card p-4">
+								<p class="text-center">등록된 댓글이 없습니다.</p>
+							</div>
+						</div>
+					</div>
+				</div>`
+				
+				sectionComment.innerHTML = html;
+			}
+	    }).catch((error) => {
+	        console.log(error);
+	    });
+	}
+	/*
 	function getALLComments() {
 		console.log('getALLComments');
 		
@@ -108,6 +151,73 @@ document.addEventListener('DOMContentLoaded', () => {
 	        .catch((error) => {
 	            console.log(error)
 	        });
+	}
+	*/
+
+	/**
+	 * 리턴받은 현재 페이지와 총 페이지 개수를 html(페이징 숫자 버튼)로 출력하게 하는 함수
+	 * 
+	 * @param currentPage 현재 페이지
+	 * @param totalpages 총 페이지 개수
+	 * @function createPaginationButton 페이징 버튼(이전, 숫자, 다음)에 해당 페이지로 이동하는 기능을 넣는 함수 
+	 * 		@param text 페이징 버튼에 출력될 글자 
+	 * 		@param page 이동할 페이지 번호
+	 */
+	function renderPagination(currentPage, totalPages) {
+	    const pagination = document.querySelector('#pagination');
+	    pagination.innerHTML = '';
+
+	    let startPage = Math.floor(currentPage / blockSize) * blockSize;
+	    let endPage = Math.min(startPage + blockSize, totalPages);
+
+		// 시작 페이지가 0보다 크면(댓글이 50개 초과인 경우, 한 페이지당 10개씩 출력되기 때문)
+		// 시작 페이지 번호는 1, 6, 11, ... 처럼 1부터 5씩 증가됨(blocksize를 5로 지정했기 때문에)
+	    if (startPage > 0) {
+			// '이전' 버튼 생성, page = 사용자가 보고 있는 블럭의 시작페이지 -1 블럭
+			// ex) 7페이지를 보고 있었으면 startPage는 6이므로, 5페이지로 이동 
+	        const prevButton = createPaginationButton('이전', startPage - 1);
+	        pagination.appendChild(prevButton);
+	    }
+
+		// 페이지 번호를 마지막 페이지번호 까지 생성
+	    for (let i = startPage; i < endPage; i++) {
+	        const pageButton = createPaginationButton(i + 1, i);
+	        if (i === currentPage) {
+				// 사용자가 해당 페이지를 보고 있으면 active 효과 추가
+	            pageButton.classList.add('active');
+	        }
+	        pagination.appendChild(pageButton);
+	    }
+
+		// 마지막 페이지가 전체페이지보다 적은 경우
+	    if (endPage < totalPages) {
+			// '다음' 버튼 생성
+	        const nextButton = createPaginationButton('다음', endPage);
+	        pagination.appendChild(nextButton);
+	    }
+	}
+
+	/**
+	 * 페이징 버튼(이전, 숫자, 다음)에 해당 페이지로 이동하는 기능을 넣는 함수
+	 * + 해당 버튼 클릭 시 해당 페이지에 있는 comments를 요청하게 됨
+	 * 
+	 * @param text 버튼에 출력될 글자
+	 * @param page 버튼을 클릭 시 @function getPagedComments(@param currentPage)를 호출하여 해당 페이지에 있는 comments를 요청
+	 */
+	function createPaginationButton(text, page) {
+	    const li = document.createElement('li');
+	    li.classList.add('page-item');
+
+	    const button = document.createElement('button');
+	    button.classList.add('page-link');
+	    button.innerText = text;
+	    button.addEventListener('click', () => {
+	        currentPage = page;
+	        getPagedComments(currentPage);
+	    });
+
+	    li.appendChild(button);
+	    return li;
 	}
 	
 	/**
@@ -286,7 +396,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			/**
 			 * 댓/답글 수정 버튼
 			 * 버튼 클릭 시 내용(ctext) 영역이 span에서 textarea로 변경됨. 
-			 * @openUpdateCommentForm - 해당 버튼 클릭 시 호출할 함수
+			 * @function openUpdateCommentForm 해당 버튼 클릭 시 호출할 댓글 수정 Form 함수
 			 */
 			const btnUpdateComment = document.createElement('button');
 				btnUpdateComment.setAttribute('id', 'btnUpdateComment')
@@ -322,7 +432,7 @@ document.addEventListener('DOMContentLoaded', () => {
 						});
 					alert('댓글이 삭제되었습니다.');
 
-					getALLComments();
+					getPagedComments(currentPage);
 					}
 				});
 				
@@ -335,7 +445,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			 * 답글 작성 버튼
 			 * 버튼 클릭 시 답글을 작성할 수 있는 모달을 출력함.
 			 * 
-			 * @openReplyCommentForm - 해당 버튼 클릭 시 호출할 함수
+			 * @function openReplyCommentForm 해당 버튼 클릭 시 호출할 답글작성Form 함수
 			 * 
 			 * 추가로 해당 모달이 열려 있는 상태에서 또 다시 버튼을 클릭 하면 해당 영역을 제거함.
 			 */
@@ -425,7 +535,7 @@ document.addEventListener('DOMContentLoaded', () => {
 						});
 					alert('댓글이 수정되었습니다.');
 					
-					getALLComments();
+					getPagedComments(currentPage);
 					}
 				});
 				
@@ -527,7 +637,8 @@ document.addEventListener('DOMContentLoaded', () => {
 			 * 함수에서 객체(data = TCommentCreateDto)를 생성하지 않고 생성을 한 후, 함수에 아규먼트로 전달함.
 			 * - 이유: 답글 작성뿐만 아니라 댓글 작성도 해당 함수를 사용하기 때문에, 객체를 생성 후 전달하는게 안정적임. 
 			 * 
-			 * @data 답글 생성에 필요한 TCommentCreateDto 객체
+			 * @function registerComment 댓글을 DB에 추가하기 위해 axios.post를 호출하는 함수
+			 * 		@param data 댓글 생성에 필요한 TCommentCreateDTo 객체
 			 */
 			btnRegisterReplyComment.addEventListener('click', () => {
 				const ctext = textReplyComment.value;

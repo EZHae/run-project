@@ -87,16 +87,30 @@ public class CourseController {
 		
 		String search = request.getRequestURI();
 		model.addAttribute("type", search);
+		log.debug("type: {}", search);
 		
 		return "/course/list";
 	}
 
 	@GetMapping({ "/details", "/update" })
-	public void details(@RequestParam Integer id, Model model, HttpSession session, HttpServletRequest request) {
+	public String details(@RequestParam Integer id, Model model, HttpSession session, HttpServletRequest request) {
 		log.debug("CourseController::details()");
+		
+		// /update만 필터링
+		String requestURI = request.getRequestURI();
+		log.debug("요청주소: {}", requestURI);
+		if (requestURI.equals("/running/course/update")) {
+			// 로그인아이디와 작성자아이디 체크
+			String signedInUserId = session.getAttribute("signedInUserId").toString();
+			String userId = courseService.read(id).getUserId();
+			if (signedInUserId == null || !signedInUserId.equals(userId)) {
+				model.addAttribute("errorcode", "코스 수정");
+				model.addAttribute("errordetail", 1);
+				return "nopermission";
+			}
+		}
 
 		Course course = courseService.read(id);
-
 		Object signedInUserId = session.getAttribute("signedInUserId");
 		String userId = course.getUserId();
 
@@ -114,11 +128,22 @@ public class CourseController {
 
 		model.addAttribute("likeUserIds", likeUserIds);
 		model.addAttribute("course", course);
+		
+		return requestURI.equals("/running/course/update") ? "course/update" : "course/details";
 	}
 
 	@PostMapping("/update")
-	public String update(CourseUpdateDto dto) {
+	public String update(HttpSession session, CourseUpdateDto dto, Model model) {
 		log.debug("CourseController::update()");
+		
+		// 로그인아이디와 작성자아이디 체크
+		String signedInUserId = session.getAttribute("signedInUserId").toString();
+		String userId = courseService.read(dto.getId()).getUserId();
+		if (!signedInUserId.equals(userId)) {
+			model.addAttribute("errorcode", "코스 수정");
+			model.addAttribute("errordetail", 1);
+			return "nopermission";
+		}
 
 		courseService.update(dto);
 
@@ -127,8 +152,17 @@ public class CourseController {
 	}
 
 	@GetMapping("/delete")
-	public String delete(@RequestParam Integer id) {
+	public String delete(@RequestParam Integer id, HttpSession session, Model model) {
 		log.debug("CourseController::delete()");
+		
+		// 로그인아이디와 작성자아이디 체크
+		String signedInUserId = session.getAttribute("signedInUserId").toString();
+		String userId = courseService.read(id).getUserId();
+		if (!signedInUserId.equals(userId)) {
+			model.addAttribute("errorcode", "코스 삭제");
+			model.addAttribute("errordetail", 1);
+			return "nopermission";
+		}
 
 		courseService.delete(id);
 
