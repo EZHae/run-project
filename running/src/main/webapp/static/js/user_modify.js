@@ -6,8 +6,6 @@ document.addEventListener('DOMContentLoaded', ()=> {
     // 아이디 위치
     const inputUserId = document.querySelector('input#userId');
 
-    
-
     // 버튼의 이벤트 리스너
     
     const btnDelete = document.querySelector('button#btnDelete');
@@ -31,6 +29,21 @@ document.addEventListener('DOMContentLoaded', ()=> {
     
     changeImageBtn.addEventListener('click', showImageModal);
     changePasswordBtn.addEventListener('click', showPasswordModal);
+    
+    // 포커스 해제 
+    document.querySelector('div#imageModal').addEventListener('hidden.bs.modal', (e) => {
+        if (document.activeElement) {
+            document.activeElement.blur();
+        }
+    });
+    document.querySelector('div#passwordModal').addEventListener('hidden.bs.modal', (e) => {
+        if (document.activeElement) {
+            document.activeElement.blur();
+        }
+        document.querySelector('input#currentPassword').value = '';
+        document.querySelector('input#newFirstPassword').value = '';
+        document.querySelector('input#newSecondPassword').value = '';
+    });
     
     //-------------------------------------------------
     
@@ -248,7 +261,7 @@ document.addEventListener('DOMContentLoaded', ()=> {
             alert("현재 비밀번호와 동일한 비밀번호를 사용할 수 없습니다.");
             return;
         }
-        const data = { password };
+        const data = { password , currentPassword};
         const uri = `../user/api/${userId}/password`
         
         console.log("데이터 정보 : ",data);
@@ -259,9 +272,12 @@ document.addEventListener('DOMContentLoaded', ()=> {
         .then((response) => {
             console.log(response)
             alert("비밀번호 변경이 완료되었습니다."); 
-            window.location.reload();
             
+            console.log(signedInUserId);
             passwordModal.hide();
+            // 모달이 닫힌 후 새로고침 (약간의 지연)
+//            window.location.href = "/user/details?userId=" + signedInUserId;
+            window.location.reload(true);
         })
         .catch((error) => {
             if (error.response && error.response.status === 400) { 

@@ -4,36 +4,33 @@
 
 document.addEventListener('DOMContentLoaded', ()=> {
     
-
-    // 부트스트랩 모달 객체를 생성.
-    const imageModal = new bootstrap.Modal('div#imageModal', { backdrop: true });
-
     // 버튼의 이벤트 리스너
-    const changeImageBtn = document.querySelector('button#changeImageBtn');
+    const btnLeaveTeam = document.querySelectorAll('button.btnLeaveTeam');
+    for (const btn of btnLeaveTeam){
+        btn.addEventListener('click', leaveTeam);
+    }
     
-    
-    changeImageBtn.addEventListener('click', showImageModal);
-    
-    
-    function showImageModal(event) {
-
-        // 현재 로그인한 유저 ID 가져오기
-        const userId = changeImageBtn.getAttribute('data-user-id');
-        console.log("현재 로그인한 사용자 ID:", userId);
+    function leaveTeam(event){
+        console.log(event.target);
         
-        // 모달표시
-        imageModal.show();
-
+        const teamId = event.target.getAttribute('data-team-id');
         
-        const uri = `../user/api/${userId}`;
+        const result = confirm('정말로 이 팀에서 탈퇴하시겠습니까?');
+        if (!result) { // 사용자가 [취소]를 클릭했을 때
+            return; // 함수 종료
+        }
+        
+        const uri = `../user/leave/${teamId}`;
         
         axios
-        .get(uri)
+        .delete(uri)
         .then(response => {
-            console.log("서버 응답 데이터:", response.data);
+            alert(response.data);
+            window.location.reload();
         })
         .catch(error => {
-            console.error("에러 발생:", error);
+            alert("탈퇴 실패: " + error.response.data);
         });
     }
+    
 })

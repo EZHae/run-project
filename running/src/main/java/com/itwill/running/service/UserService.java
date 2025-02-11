@@ -1,9 +1,11 @@
 package com.itwill.running.service;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import com.itwill.running.domain.Team;
 import com.itwill.running.domain.User;
 import com.itwill.running.dto.UserItemDto;
 import com.itwill.running.dto.UserSignInDto;
@@ -177,5 +179,4 @@ public class UserService {
 		}
 		return false;
 	}
-
 }

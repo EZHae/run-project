@@ -93,4 +93,24 @@
 	<delete id="deleteTeam">
 		delete from teams where team_id=#{teamId}
 	</delete>
+    
+    <!-- 마이페이지 팀 조회 및 탈퇴 SQL -->
+    <select id="selectTeamsByUserId" resultType="Team">
+        SELECT t.team_id, t.team_name
+        FROM teams t
+        JOIN t_members tm ON t.team_id = tm.team_id
+        WHERE tm.user_id = #{userId}
+    </select>
+    
+    <delete id="deleteTeamMember">
+        delete from t_members 
+        where team_id = #{teamId} and user_id = #{userId} 
+    </delete>
+    
+    <select id="selectTeamLeaderCheck" resultType="Integer">
+        select leader_check 
+        from t_members
+        where team_id = #{teamId} and user_id = #{userId}
+    </select>
+    <!-- 마이페이지 팀 조회 및 탈퇴 SQL -->
 </mapper>

@@ -205,13 +205,20 @@
             </div>
         </div>
     
-
+    
       	
 		<!-- Bootstrap JS 링크 -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
                 integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
                 crossorigin="anonymous">
         </script>
+        
+        <script>
+         //세션에 저장된 로그인 사용자 아이디를 자바스크립트 변수에 저장.
+         //->comment.js 파일의 코드들에서 그 변수를 사용할 수 있도록 하기 위해서
+         const signedInUserId = '${signedInUserId}';//문자열 포맷으로 변수를 저장.
+         const signedInUserNickname = '${signedInUserNickname}';
+         </script>
         
         <!-- Axios JS -->
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

@@ -49,6 +49,17 @@ public class TeamService {
 		Team team=teamDao.selectByTeamId(teamId);
 		return TeamItemDto.fromEntity(team);
 	}
+	public List<Team> getUserTeams(String userId) {
+		return teamDao.selectTeamsByUserId(userId);
+	}
+	public Integer deleteTeamMember(Integer teamId, String userId) {
+		return teamDao.deleteTeamMember(teamId, userId);
+	}
+	public Integer selectTeamLeaderCheck(Integer teamId, String userId) {
+		return teamDao.selectTeamLeaderCheck(teamId, userId);
+	}
+	
+	
 	
 
 	public Integer createNewTeam(TeamCreateDto dto) {
