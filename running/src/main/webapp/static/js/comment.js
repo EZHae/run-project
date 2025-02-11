@@ -111,6 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="card p-4">
          `;
 		for (const comment of data) {
+			//댓글 이미지 불러오기
 			const parentId = comment.parentId;
 			if (!parentId) {
 				//최상위댓글일 때
@@ -167,7 +168,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 			html +=
 				`<img class="rounded-circle shadow-1-strong me-3"
-					src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(10).webp" alt="avatar" width="65"
+					src="/running/image/view/user/${comment.userId}" alt="avatar" width="65"
 					height="65" />
 					<div class="flex-grow-1 flex-shrink-1">
 					<div>
@@ -289,7 +290,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		let html = `<div class="reply-container ms-5 mt-3">
 		    <div class="d-flex flex-start">
 		        <img class="rounded-circle shadow-1-strong me-3"
-		             src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(10).webp" 
+		             src="/running/image/view/user/${signedInUserId}" 
 		             alt="avatar" width="65" height="65" />
 		        <div class="flex-grow-1 flex-shrink-1">
 		            <div>
