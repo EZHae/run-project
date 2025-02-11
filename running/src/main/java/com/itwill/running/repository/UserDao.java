@@ -25,6 +25,6 @@ public interface UserDao {
 	String selectPasswordByUserId(String userId); // 유저 비밀번호 조회
 
 	int updateToken(UserVerificationUpdateDto dto); //토큰업데이트
-
+	
 }
  

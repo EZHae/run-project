@@ -78,9 +78,31 @@
                     </div>
                     
                 </form>
+                
+                    <!-- 마이페이지 팀 관리 -->
+                     <div>
+                        <label> 팀 관리</label>    
+                           <ul>
+                            <c:choose>
+                                <c:when test="${not empty teams}">
+                                    <c:forEach items="${teams}" var="t">
+                                        <li>
+                                            <a href="${pageContext.request.contextPath}/team/details?teamid=${t.teamId}">
+                                                ${t.teamName}
+                                            </a>
+                                            <c:if test="${leaderCheck[t.teamId] == 1}">&#x1F451;</c:if>  <!-- 팀장일 경우 왕관 이모지 -->
+                                            <button class="btnLeaveTeam" data-team-id="${t.teamId}">팀 나가기</button>
+                                        </li>
+                                    </c:forEach>
+                                </c:when>
+                                <c:otherwise>
+                                    <p>소속된 팀이 없습니다.</p>
+                                </c:otherwise>
+                            </c:choose>
+                        </ul>
+                    </div>
                     
                     <!-- 로그인 아이디가 작성자 아이디와 같을 때 수정하기 버튼이 활성화 -->
-<%--                     <c:if test="${signedInUserNickname}"> --%>
                     <div class="card-footer">
                         <div class="d-flex justify-content-center">
                             <c:url var="userModifyPage" value="/user/modify">
@@ -90,7 +112,6 @@
                                 href="${userModifyPage}">수정</a>
                         </div>
                     </div>
-<%--                     </c:if> --%>
             </div>
         </div>
     
@@ -105,7 +126,7 @@
         <!-- Axios JS -->
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         
-<%--         <c:url var="userDetailsJS" value="/js/user_details.js"/> --%>
-<%--         <script src="${userDetailsJS}"></script> --%>
+        <c:url var="userDetailsJS" value="/js/user_details.js"/>
+        <script src="${userDetailsJS}"></script>
 	</body>
 </html>

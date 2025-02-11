@@ -15,6 +15,9 @@ public interface TeamDao {
 	List<Team> selectAll();
 	List<Team> selectOpenTeams();
 	Team selectByTeamId(Integer teamId);
+	List<Team> selectTeamsByUserId(String userId);
+	Integer deleteTeamMember(Integer teamId, String userId);
+	Integer selectTeamLeaderCheck(Integer teamId,String userId);
 
 	// 이수빈
 	Integer insertNewTeam(Team team);
@@ -24,5 +27,5 @@ public interface TeamDao {
 	Integer updateTeam(Team team);
 	List<Team> searchTeams(TeamSearchDto dto);
 	List<Team> selectClosedTeams();
-
+	
 }

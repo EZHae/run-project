@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwill.running.dto.TApplicationItemDto;
 import com.itwill.running.service.TApplicationService;
-import com.itwill.running.service.TMemberService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +20,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/api/teamapplication")
 public class TeamApplicationController {
 	private final TApplicationService tappService;
-	private final TMemberService tmemService;
 
 	@PostMapping
 	public ResponseEntity<Integer> createTeamApplication(@RequestBody TApplicationItemDto dto) {

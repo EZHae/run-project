@@ -140,7 +140,21 @@ public class GpostController {
 	
 	// 상세보기 및 수정 페이지를 처리하는 메서드
 	@GetMapping({"/details","/modify"})
-	public void details(@RequestParam("id") Integer id, Model model, HttpSession session) {
+	public String details(@RequestParam("id") Integer id, Model model, HttpSession session, HttpServletRequest request) {
+		// /modify만 필터링
+		String requestURI = request.getRequestURI();
+		log.debug("요청주소: {}", requestURI);
+		if (requestURI.equals("/running/gpost/modify")) {
+			// 로그인아이디와 작성자아이디 체크
+			String signedInUserId = session.getAttribute("signedInUserId").toString();
+			String userId = gPostService.read(id).getUserId();
+			if (signedInUserId == null || !signedInUserId.equals(userId)) {
+				model.addAttribute("errorcode", "일반 게시글 수정");
+				model.addAttribute("errordetail", 1);
+				return "nopermission";
+			}
+		}
+		
 		// JSP로 데이터를 넘기기 위해 Model을 사용
 
 		// 게시글 정보 가져오기
@@ -163,11 +177,21 @@ public class GpostController {
 	    
 	    model.addAttribute("gPost",gPost);
 	    model.addAttribute("gImages", gImages);
+	    
+	    return requestURI.equals("/running/gpost/modify") ? "gpost/modify" : "gpost/details";
 	}
 		
 	@PostMapping("/update")
-	public String update(GpostUpdateDto dto, String deletedImages, 
-			@RequestParam(value = "file", required = false) MultipartFile[] newFiles) throws Exception {
+	public String update(GpostUpdateDto dto, String deletedImages, Model model,
+			@RequestParam(value = "file", required = false) MultipartFile[] newFiles, HttpSession session) throws Exception {
+		// 로그인아이디와 작성자아이디 체크
+		String signedInUserId = session.getAttribute("signedInUserId").toString();
+		String userId = gPostService.read(dto.getId()).getUserId();
+		if (!signedInUserId.equals(userId)) {
+			model.addAttribute("errorcode", "일반 게시글 수정");
+			model.addAttribute("errordetail", 1);
+			return "nopermission";
+		}
 		
 		// 게시글 업데이트
 		gPostService.updatePost(dto);
@@ -200,7 +224,15 @@ public class GpostController {
 	
 	
 	@GetMapping("/delete")
-	public String delete(@RequestParam Integer id, HttpSession session) {
+	public String delete(@RequestParam Integer id, HttpSession session, Model model) {
+		// 로그인아이디와 작성자아이디 체크
+		String signedInUserId = session.getAttribute("signedInUserId").toString();
+		String userId = gPostService.read(id).getUserId();
+		if (!signedInUserId.equals(userId)) {
+			model.addAttribute("errorcode", "일반 게시글 삭제");
+			model.addAttribute("errordetail", 1);
+			return "nopermission";
+		}
 		
 		// 현재 카테고리 값을 가져옴
 		Gpost deletedPost = gPostService.read(id); // 삭제할 포스트

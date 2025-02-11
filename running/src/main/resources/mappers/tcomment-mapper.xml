@@ -14,10 +14,30 @@
 	<select id="countSearchedTComment" resultType="int">
 		select count(*)
 		    from t_comments
-		    where post_id = #{postId};
+		    where post_id = #{postId}
 	</select>
 	
 	<!-- 페이징된 현재 게시글의 댓글 목록 -->
+	<select id="selectPagedTCommentHierarchyByPostId" resultType="TComment">
+		with CommentHierarchy (id, team_id, post_id, ctext, user_id, nickname, created_time, modified_Time, parent_id, comment_type, deleted, RootID, SortTime) AS (
+			select id, team_id, post_id, ctext, user_id, nickname, created_time, modified_Time, parent_id, comment_type, deleted, id AS RootID, created_time AS SortTime
+				from t_comments
+				where parent_id is null
+	
+			union all
+	
+			select c.id, c.team_id, c.post_id, c.ctext, c.user_id, c.nickname, c.created_time, c.modified_Time, c.parent_id, c.comment_type, c.deleted, h.RootID, c.created_time AS SortTime
+				from t_comments c
+				inner join CommentHierarchy h on c.parent_id = h.id
+		)
+		select id, team_id, post_id, ctext, user_id, nickname, created_time, modified_Time, parent_id, comment_type, deleted
+			from CommentHierarchy
+			where post_id = #{postId}
+			order by RootID, SortTime
+			offset #{offset} rows
+			fetch next #{limit} rows only
+	</select>
+	
 	<select id="selectTCommentHierarchyByPostId" resultType="TComment">
 		with CommentHierarchy (id, team_id, post_id, ctext, user_id, nickname, created_time, modified_Time, parent_id, comment_type, deleted, RootID, SortTime) AS (
 			select id, team_id, post_id, ctext, user_id, nickname, created_time, modified_Time, parent_id, comment_type, deleted, id AS RootID, created_time AS SortTime

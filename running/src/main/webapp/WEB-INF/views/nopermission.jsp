@@ -19,7 +19,28 @@
                 crossorigin="anonymous">
 	</head>
 	<body>
-		<span>권한 없음</span>
+        <%@ include file="./fragments/header.jspf"%>
+		<div class="container-fluid">
+            <c:set var="pageTitle" value="권한없음" />
+        </div>
+        
+		<div>
+			<span>에러코드: ${errorcode}</span>
+		</div>
+		<div>
+			<c:choose>
+				<c:when test="${errordetail == 1}">
+					<span>권한없음: 로그인 계정과 글 작성자가 일치하지 않습니다.</span>
+				</c:when>
+				<c:when test="${errordetail == 2}">
+					<span>권한없음: 로그인 계정이 해당 팀의 멤버가 아닙니다.</span>
+				</c:when>
+				<c:otherwise>
+					<span>권한없음: 팀장만 접근할 수 있습니다.</span>
+				</c:otherwise> 
+			</c:choose>
+		</div>
+		
 		
 		<!-- Bootstrap JS 링크 -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 

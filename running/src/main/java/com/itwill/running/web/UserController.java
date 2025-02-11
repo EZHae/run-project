@@ -2,6 +2,7 @@ package com.itwill.running.web;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.itwill.running.domain.Team;
 import com.itwill.running.domain.UImages;
 import com.itwill.running.domain.User;
 import com.itwill.running.dto.NotificationItemDto;
@@ -28,6 +30,7 @@ import com.itwill.running.dto.UserSignInDto;
 import com.itwill.running.dto.UserSignUpDto;
 import com.itwill.running.dto.UserUpdateDto;
 import com.itwill.running.service.NotificationService;
+import com.itwill.running.service.TeamService;
 import com.itwill.running.service.UImagesService;
 import com.itwill.running.service.UserService;
 
@@ -43,6 +46,7 @@ public class UserController {
 	
 	private final UserService userService;
 	private final UImagesService uimagesService;
+	private final TeamService teamService;
 	private final NotificationService notiService;
 	
 	//알림목록보기
@@ -132,7 +136,20 @@ public class UserController {
 		UImages userImage = uimagesService.selectUserImageByUserId(signedInUserId);
 		String userImagePath = userImage.getImagePath();
 		
+		// 팀이름 조회
+		List<Team> teams = teamService.getUserTeams(signedInUserId);
+		log.debug("조회된 팀 목록: {}", teams); // 팀 리스트 출력
+		// 팀 리더 조회
+		
+		Map<Integer, Integer> leaderCheck = new HashMap<>();
+		for(Team team : teams) {
+			int leaderCheckList = teamService.selectTeamLeaderCheck(team.getTeamId(), signedInUserId);
+			leaderCheck.put(team.getTeamId(), leaderCheckList);
+		}
+		
 		model.addAttribute("user", user);
+		model.addAttribute("teams",teams);	
+		model.addAttribute("leaderCheck",leaderCheck);	
 		model.addAttribute("selectedImgId", selectedImgId);
 		model.addAttribute("userImagePath", userImagePath);
 	}
@@ -203,26 +220,66 @@ public class UserController {
 	@PutMapping("/api/{userId}/password")
 	@ResponseBody
 	public ResponseEntity<String> getPassword(@PathVariable String userId, @RequestBody Map<String, String> request){
+		String currentPassword = request.get("currentPassword");
 		String password = request.get("password");
+		 
+		if (currentPassword == null || currentPassword.isBlank()) {
+	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("현재 비밀번호를 입력해주세요.");
+	    }
 		
-		 // 유저의 기존 비밀번호 가져오기
+		// 유저의 기존 비밀번호 가져오기
 		String storedPassword = userService.getPasswordByUserId(userId);
 
+		// 현재 비밀번호가 일치하는지 확인
+	    if (!storedPassword.equals(currentPassword)) {
+	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("현재 비밀번호가 올바르지 않습니다.");
+	    }
+		
 	    if (password == null || password.isBlank()) {
 	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("비밀번호가 비어 있습니다.");
 	    }
-
+	    
+	    // 현재 비밀번호와 새 비밀번호가 동일한 경우
 	    if (storedPassword.equals(password)) {
 	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("현재 비밀번호와 새 비밀번호가 동일합니다.");
 	    }
 		
+	    if (password == null || password.isBlank()) {
+	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("새 비밀번호를 입력해주세요.");
+	    }
+	    
 		// 비밀번호 변경 수행
 		userService.updateUserPassword(userId, password);
+		
+		// 변경 후, 다시 DB에서 최신 비밀번호 가져와서 업데이트가 정상적으로 되었는지 확인
+	    String updatedPassword = userService.getPasswordByUserId(userId);
+	    
+	    if (!updatedPassword.equals(password)) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("비밀번호 변경이 실패했습니다.");
+	    }
+	    
 		return ResponseEntity.ok("비밀번호 변경 완료");
 		
 	}
+	
+	// 마이페이지 팀 조회 및 팀 탈퇴 API
+	@DeleteMapping("/leave/{teamId}")
+	@ResponseBody
+	public ResponseEntity<String> leaveTeam(@PathVariable Integer teamId, HttpSession session) {
+		String userId = (String) session.getAttribute("signedInUserId");
+		log.debug("팀 ID: {}, 유저 ID: {}", teamId, userId);
 		
-	 
+		// 팀장 체크
+		Integer teamLeaderCheck = teamService.selectTeamLeaderCheck(teamId, userId);
+		if(teamLeaderCheck == 1 && teamLeaderCheck != null) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("팀 탈퇴가 불가능합니다. 팀장이 아닌 팀원만 탈퇴할 수 있으며, "
+					+ "팀장은 팀 상세 페이지에서 팀원을 정리한 후 팀을 삭제할 수 있습니다.");
+		} 
+		// 팀 떠나기
+		teamService.deleteTeamMember(teamId, userId);
+		return ResponseEntity.ok("팀을 탈퇴하였습니다.");
+	}
+		
 	
 	
 	//  ---------------------------------- 중복체크 ---------------------------------------// 

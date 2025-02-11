@@ -26,7 +26,7 @@ public class FileController {
 	public void getImageFile(@PathVariable String filename, HttpSession session ,HttpServletRequest request, HttpServletResponse response) throws FileNotFoundException, IOException {
 		final long serialVersionUID = 1L;
 		final String BASE_IMAGE_DIR = "C:\\upload_data\\teamimage";
-
+		
 		String imagePath = BASE_IMAGE_DIR +File.separator+ filename;
 		log.debug("Requested Image Path: " + imagePath); // 추가된 로그
 		File imageFile = new File(imagePath);

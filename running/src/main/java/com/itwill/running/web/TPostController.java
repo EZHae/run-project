@@ -22,6 +22,7 @@ import com.itwill.running.dto.TPostCreateDto;
 import com.itwill.running.dto.TPostSearchDto;
 import com.itwill.running.dto.TPostUpdateDto;
 import com.itwill.running.service.TImageService;
+import com.itwill.running.service.TMemberService;
 import com.itwill.running.service.TPostService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,10 +38,20 @@ public class TPostController {
 
 	private final TPostService postService;
 	private final TImageService imageService;
+	private final TMemberService memberService;
 	
 	@GetMapping("/create")
-	public String create(@PathVariable Integer teamId, Model model) {
+	public String create(@PathVariable Integer teamId, Model model, HttpSession session) {
 		log.debug("TPostController::Get_create");
+		
+		// 로그인 아이디와 teamId로 로그인 계정이 해당 팀의 팀원인지 확인 필터링
+		String signedInUserId = session.getAttribute("signedInUserId").toString();
+		boolean isTeam = memberService.isTeamMember(teamId, signedInUserId);
+		if (!isTeam) {
+			model.addAttribute("errorcode", "팀 게시글 작성");
+			model.addAttribute("errordetail", 2);
+			return "nopermission";
+		}
 
 		model.addAttribute("teamId", teamId);
 		
@@ -48,9 +59,18 @@ public class TPostController {
     }
 	
 	@PostMapping("/create")
-	public String createTPost(@PathVariable Integer teamId, TPostCreateDto dto,
+	public String createTPost(@PathVariable Integer teamId, TPostCreateDto dto, HttpSession session, Model model,
 							  @RequestParam(value = "file", required = false) List<MultipartFile> files) throws Exception {
 		log.debug("TPostController::Post_createTPost");
+		
+		// 로그인 아이디와 teamId로 로그인 계정이 해당 팀의 팀원인지 확인 필터링
+		String signedInUserId = session.getAttribute("signedInUserId").toString();
+		boolean isTeam = memberService.isTeamMember(teamId, signedInUserId);
+		if (!isTeam) {
+			model.addAttribute("errorcode", "팀 게시글 작성");
+			model.addAttribute("errordetail", 2);
+			return "nopermission";
+		}
 		
 		int postId = postService.create(dto);
 		
@@ -94,17 +114,35 @@ public class TPostController {
 						  HttpServletRequest request, HttpSession session) {
 		log.debug("TPostController::Get_details");
 		
+		// /update만 필터링
+		String requestURI = request.getRequestURI();
+		String signedInUserId = session.getAttribute("signedInUserId").toString();
+		log.debug("요청주소: {}", requestURI);
+		if (request.getRequestURI().endsWith("/update")) {
+			// 로그인아이디와 작성자아이디 체크
+			String userId = postService.read(id).getUserId();
+			if (signedInUserId == null || !signedInUserId.equals(userId)) {
+				model.addAttribute("errorcode", "팀 게시글 수정");
+				model.addAttribute("errordetail", 1);
+				return "nopermission";
+			}
+		} else { // details 필터링
+			// 로그인 아이디와 teamId로 로그인 계정이 해당 팀의 팀원인지 확인 필터링
+			boolean isTeam = memberService.isTeamMember(teamId, signedInUserId);
+			if (!isTeam) {
+				model.addAttribute("errorcode", "팀 게시글 상세보기");
+				model.addAttribute("errordetail", 2);
+				return "nopermission";
+			}
+		}
+		
 		TPost post = postService.read(id);
 		List<TImage> images = imageService.loadImage(id);
 		
 		model.addAttribute("post", post);
 		model.addAttribute("images", images);
 		
-		Object signedInUserId = session.getAttribute("signedInUserId");
-		
 		if (signedInUserId != null) {
-			signedInUserId = signedInUserId.toString();
-			
 			if (!signedInUserId.equals(post.getUserId())) {
 				postService.updateViewCount(id);
 			}
@@ -119,8 +157,17 @@ public class TPostController {
 	
 	@PostMapping("/{id}/update")
 	public String update(@PathVariable Integer teamId, @PathVariable Integer id, TPostUpdateDto dto, String deletedImages, 
-						 @RequestParam(value = "file", required = false) List<MultipartFile> files) throws Exception {
+						 @RequestParam(value = "file", required = false) List<MultipartFile> files, HttpSession session, Model model) throws Exception {
 		log.debug("TPostController::Post_update");
+		
+		// 로그인아이디와 작성자아이디 체크
+		String signedInUserId = session.getAttribute("signedInUserId").toString();
+		String userId = postService.read(id).getUserId();
+		if (!signedInUserId.equals(userId)) {
+			model.addAttribute("errorcode", "팀 게시글 수정");
+			model.addAttribute("errordetail", 1);
+			return "nopermission";
+		}
 		
 		int postId = postService.update(dto);
 		
@@ -139,8 +186,17 @@ public class TPostController {
 	}
 	
 	@GetMapping("/{id}/delete")
-	public String delete(@PathVariable Integer teamId, @PathVariable Integer id) {
+	public String delete(@PathVariable Integer teamId, @PathVariable Integer id, HttpSession session, Model model) {
 		log.debug("TPostController::Get_delete");
+		
+		// 로그인아이디와 작성자아이디 체크
+		String signedInUserId = session.getAttribute("signedInUserId").toString();
+		String userId = postService.read(id).getUserId();
+		if (!signedInUserId.equals(userId)) {
+			model.addAttribute("errorcode", "팀 게시글 삭제");
+			model.addAttribute("errordetail", 1);
+			return "nopermission";
+		}
 		
 		imageService.deleteByPostId(id);
 		postService.delete(id);

@@ -2,12 +2,11 @@ package com.itwill.running.service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.itwill.running.repository.CourseDao;
 
 import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor

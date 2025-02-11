@@ -8,7 +8,6 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -64,7 +63,21 @@ public class TeamController {
 	}
 
 	@GetMapping({ "/details", "/update" })
-	public void recruitTeam(@RequestParam("teamid") Integer teamId, Model model, HttpSession session) {
+	public String recruitTeam(@RequestParam("teamid") Integer teamId, Model model, HttpSession session, HttpServletRequest request) {
+		// /modify만 필터링
+		String requestURI = request.getRequestURI();
+		log.debug("요청주소: {}", requestURI);
+		if (requestURI.equals("/running/team/update")) {
+			// 로그인아이디와 작성자아이디 체크
+			String signedInUserId = session.getAttribute("signedInUserId").toString();
+			String userId = teamService.read(teamId).getUserId();
+			if (signedInUserId == null || !signedInUserId.equals(userId)) {
+				model.addAttribute("errorcode", "팀 수정");
+				model.addAttribute("errordetail", 3);
+				return "nopermission";
+			}
+		}
+		
 		TeamItemDto team = teamService.readByTeamid(teamId);
 		model.addAttribute(team);
 
@@ -83,11 +96,21 @@ public class TeamController {
 			model.addAttribute("user", currentUser);
 		}
 
+		return requestURI.equals("/running/team/update") ? "team/update" : "team/details";
 	}
 
 	@PostMapping("/update")
-	public String updateTeam(TeamUpdateDto dto, HttpServletRequest request, @RequestParam("file") MultipartFile file)
+	public String updateTeam(TeamUpdateDto dto, HttpServletRequest request, @RequestParam("file") MultipartFile file, HttpSession session, Model model)
 			throws IllegalStateException, IOException {
+		// 로그인아이디와 작성자아이디 체크
+		String signedInUserId = session.getAttribute("signedInUserId").toString();
+		String userId = teamService.read(dto.getTeamId()).getUserId();
+		if (!signedInUserId.equals(userId)) {
+			model.addAttribute("errorcode", "팀 수정");
+			model.addAttribute("errordetail", 3);
+			return "nopermission";
+		}
+		
 		String originalFilename = file.getOriginalFilename();
 		TeamItemDto ogTeam = teamService.readByTeamid(dto.getTeamId());
 		if (originalFilename != "") {
@@ -153,13 +176,23 @@ public class TeamController {
 		return "redirect:/team/list";
 	}
 
-	@DeleteMapping("/delete")
-	public ResponseEntity<Integer> deleteTeam(@RequestParam("teamid") Integer teamId) {
+	@GetMapping("/delete")
+	public String deleteTeam(@RequestParam("teamid") Integer teamId, HttpSession session, Model model) {
+		// 로그인아이디와 작성자아이디 체크
+		String signedInUserId = session.getAttribute("signedInUserId").toString();
+		String userId = teamService.read(teamId).getUserId();
+		if (!signedInUserId.equals(userId)) {
+			model.addAttribute("errorcode", "팀 삭제");
+			model.addAttribute("errordetail", 3);
+			return "nopermission";
+		}
+		
 		// 배너이미지 c드라이브에서 삭제
 		TeamItemDto ogTeam = teamService.readByTeamid(teamId);
 		FileController.deleteFileFromDirectory("C:\\uploadTeamImg\\" + ogTeam.getUniqName());
 		int result = teamService.deleteTeam(teamId);
-		return ResponseEntity.ok(result);
+		
+		return "redirect:/team/list";
 	}
 
 }

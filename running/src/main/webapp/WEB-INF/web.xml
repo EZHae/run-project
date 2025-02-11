@@ -37,21 +37,45 @@
 	</filter-mapping>
 	
 	<filter>
+		<filter-name>signinFilter</filter-name>
+		<filter-class>com.itwill.running.filter.SigninFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>signinFilter</filter-name>
+		<url-pattern>/user/details</url-pattern>
+		<url-pattern>/user/modify</url-pattern>
+		<url-pattern>/user/signout</url-pattern>
+		
+		<url-pattern>/course/create</url-pattern>
+		<url-pattern>/course/update</url-pattern>
+		<url-pattern>/course/delete</url-pattern>
+		
+		<url-pattern>/gpost/create</url-pattern>
+		<url-pattern>/gpost/modify</url-pattern>
+		<url-pattern>/gpost/delete</url-pattern>
+		
+		<url-pattern>/team/create</url-pattern>
+		<url-pattern>/team/update</url-pattern>
+		<url-pattern>/team/delete</url-pattern>
+		
+		<url-pattern>/teampage/*</url-pattern>
+		
+		<url-pattern>/api/teamapplication/*</url-pattern>
+	</filter-mapping>
+	
+	<filter>
 		<filter-name>authentificationFilter</filter-name>
 		<filter-class>com.itwill.running.filter.AuthentificationFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>authentificationFilter</filter-name>
+		<url-pattern>/course/create</url-pattern>
 		<url-pattern>/gpost/create</url-pattern>
-		<url-pattern>/gpost/delete</url-pattern>
-		<url-pattern>/gpost/modify</url-pattern>
-		<url-pattern>/gpost/update</url-pattern>
-
 		<url-pattern>/team/create</url-pattern>
-		<url-pattern>/team/delete</url-pattern>
-		<url-pattern>/team/update</url-pattern>
 		
+		<url-pattern>/teampage/*</url-pattern>
 	</filter-mapping>
+	
 
 	<!-- 필터 TODO -->
 
