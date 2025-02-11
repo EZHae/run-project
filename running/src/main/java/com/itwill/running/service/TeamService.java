@@ -44,7 +44,6 @@ public class TeamService {
 		List<Team> teams =teamDao.selectAll();
 		return teams.stream().map(TeamItemDto::fromEntity).toList();
 	}
-	
 	public TeamItemDto readByTeamid(Integer teamId) {
 		Team team=teamDao.selectByTeamId(teamId);
 		return TeamItemDto.fromEntity(team);
@@ -58,6 +57,9 @@ public class TeamService {
 	public Integer selectTeamLeaderCheck(Integer teamId, String userId) {
 		return teamDao.selectTeamLeaderCheck(teamId, userId);
 	}
+	public Integer deleteTeamLeader(Integer teamId) {
+		return teamDao.deleteTeamLeader(teamId);
+	};
 	
 	
 	

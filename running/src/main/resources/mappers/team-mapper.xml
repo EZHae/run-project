@@ -107,10 +107,14 @@
         where team_id = #{teamId} and user_id = #{userId} 
     </delete>
     
+    <delete id="deleteTeamLeader">
+        delete from teams 
+        where team_id = #{teamId}
+    </delete>
+    
     <select id="selectTeamLeaderCheck" resultType="Integer">
         select leader_check 
         from t_members
         where team_id = #{teamId} and user_id = #{userId}
     </select>
-    <!-- 마이페이지 팀 조회 및 탈퇴 SQL -->
 </mapper>
