@@ -25,7 +25,7 @@
 	<c:url var="courseRecruitPage" value="/team/list" />
 	<a href="${courseRecruitPage}">팀 목록</a>
 	
-	<h2 class="mb-4">팀 생성(현재로그인)${signedInUserId}</h2>
+	<h2 class="mb-4">팀 생성</h2>
 	<c:url value="/team/create" var="teamCreatePage" />
 	<form action="${teamCreatePage}" method="post" id="teamForm"
 		enctype="multipart/form-data">

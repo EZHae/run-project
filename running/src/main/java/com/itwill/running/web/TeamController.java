@@ -122,7 +122,7 @@ public class TeamController {
 			dto.setUniqName(uuidFilename);
 
 			// 기존배너이미지 삭제
-			FileController.deleteFileFromDirectory("C:\\uploadTeamImg\\" + ogTeam.getUniqName());
+			FileController.deleteFileFromDirectory("C:\\uploadTeamImg\\teamimage\\" + ogTeam.getUniqName());
 
 		} else {
 			// 기존배너를 유지할 때

@@ -56,10 +56,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 				//알림테이블 업데이트
 				const link = `http://localhost:8080/running/gpost/details?id=${postId}`;
-				let newctext=ctext;
+				let newctext = ctext;
 				if (ctext.length > 10) {
 					newctext = ctext.substring(0, 10);
-					newctext=newctext+'...';
+					newctext = newctext + '...';
 				}
 				const noti = { userId: postUserId, type: 1, link: link, checked: 0, content: newctext };
 
@@ -111,6 +111,8 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="card p-4">
          `;
 		for (const comment of data) {
+
+			//댓글 이미지 불러오기
 			const parentId = comment.parentId;
 			if (!parentId) {
 				//최상위댓글일 때
@@ -167,7 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 			html +=
 				`<img class="rounded-circle shadow-1-strong me-3"
-					src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(10).webp" alt="avatar" width="65"
+					src="/running/image/view/user/${comment.userId}" alt="avatar" width="65"
 					height="65" />
 					<div class="flex-grow-1 flex-shrink-1">
 					<div>
@@ -176,16 +178,16 @@ document.addEventListener("DOMContentLoaded", () => {
 							${nickname} <span class="small">${time}</span>
 							<span class="small text-danger">${secretType}</span>
 								</p>`;
-			if (comment.userId !== 'unknown' && !signedInUserId == '') {
-				html += `<button class="btnReply ${dnone} btn btn-sm" data-id="${comment.id}" data-parent-id="${comment.userId}">답글</button>`;
-			}
-
+			html += '<p class="">';
 			if (signedInUserId == comment.userId) {
 				html += `<button class="btnUpdateComment btn btn-outline-success btn-sm" data-id="${comment.id}">수정</button>
 					     <button class="btnDeleteComment btn btn-outline-danger btn-sm" data-id="${comment.id}">삭제</button>`;
 			}
+			if (comment.userId !== 'unknown' && !signedInUserId == '') {
+				html += `<button class="btnReply ${dnone} btn btn-sm" data-id="${comment.id}" data-parent-id="${comment.userId}">답글</button>`;
+			}
 
-			html += `</div>`;
+			html += `</p> </div>`;
 
 			if (!comment.parentId == "") {
 				html += `<span class="sm text-muted h6"><em>@${comment.parentNickname}</em></span>`;
@@ -198,6 +200,7 @@ document.addEventListener("DOMContentLoaded", () => {
 									</div>`;
 			html += `<div class="replySectoin" id="${comment.id}"></div>`;
 		}
+
 		sectionComment.innerHTML = html;
 
 		const btnDeletes = document.querySelectorAll("button.btnDeleteComment");
@@ -283,13 +286,13 @@ document.addEventListener("DOMContentLoaded", () => {
 	//답글달기 버튼 클릭 후
 	function openReplyCommentForm(event) {
 		const parentId = event.target.getAttribute('data-id'); //답글달 댓글의 아이디
-		const parentUserId=event.target.getAttribute('data-parent-id');
+		const parentUserId = event.target.getAttribute('data-parent-id');
 		const replySection = document.querySelector(`div.replySectoin[id="${parentId}"]`);
 
 		let html = `<div class="reply-container ms-5 mt-3">
 		    <div class="d-flex flex-start">
 		        <img class="rounded-circle shadow-1-strong me-3"
-		             src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(10).webp" 
+		             src="/running/image/view/user/${signedInUserId}" 
 		             alt="avatar" width="65" height="65" />
 		        <div class="flex-grow-1 flex-shrink-1">
 		            <div>
@@ -336,7 +339,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	//답글등록
 	function createReply(event) {
 		const parentId = event.target.getAttribute('parent-id');
-		const parentUserId=event.target.getAttribute('parent-user-id');
+		const parentUserId = event.target.getAttribute('parent-user-id');
 		const replyInput = document.getElementById(`reply-input-${parentId}`);
 		const replyText = replyInput.value;
 		if (replyText == '') {
@@ -359,13 +362,13 @@ document.addEventListener("DOMContentLoaded", () => {
 			if (response.data === 1) {
 				alert('답글 1개 등록 성공');
 				document.querySelector('textarea#ctext').value = '';
-				
+
 				//알림테이블 업데이트
 				const link = `http://localhost:8080/running/gpost/details?id=${postId}`;
-				let newreplyText=replyText;
+				let newreplyText = replyText;
 				if (replyText.length > 10) {
 					newreplyText = replyText.substring(0, 10);
-					newreplyText=newreplyText+'...';
+					newreplyText = newreplyText + '...';
 				}
 				const noti = { userId: parentUserId, type: 2, link: link, checked: 0, content: newreplyText };
 

@@ -24,9 +24,9 @@ import lombok.extern.slf4j.Slf4j;
 public class FileController {
 	@GetMapping("/api/uploadTeamImg/{filename}")
 	public void getImageFile(@PathVariable String filename, HttpSession session ,HttpServletRequest request, HttpServletResponse response) throws FileNotFoundException, IOException {
+		final long serialVersionUID = 1L;
+		final String BASE_IMAGE_DIR = "C:\\upload_data\\teamimage";
 		
-		final String BASE_IMAGE_DIR = "C:\\uploadTeamImg";
-
 		String imagePath = BASE_IMAGE_DIR +File.separator+ filename;
 		log.debug("Requested Image Path: " + imagePath); // 추가된 로그
 		File imageFile = new File(imagePath);
@@ -67,7 +67,7 @@ public class FileController {
 	}
 	
 	public static String getNewFileNameAndSaveFile(MultipartFile file) throws IllegalStateException, IOException {
-		final String UPLOAD_DIR = "C:/uploadTeamImg/";
+		final String UPLOAD_DIR = "C:/upload_data/teamimage";
 		// 원본 파일 이름
 		String originalFilename = file.getOriginalFilename();
 		String extension = "";
