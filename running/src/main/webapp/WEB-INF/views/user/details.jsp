@@ -3,25 +3,25 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		
-		<!-- Bootstrap을 사용하기 위한 meta name="viewport" 설정. -->
+    <head>
+        <meta charset="UTF-8">
+        
+        <!-- Bootstrap을 사용하기 위한 meta name="viewport" 설정. -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
         
-		<title>마이페이지</title>
-		
-		<!-- Bootstrap CSS 링크 -->
+        <title>마이페이지</title>
+        
+        <!-- Bootstrap CSS 링크 -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" 
               rel="stylesheet" 
               integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
               crossorigin="anonymous">
               
       
-	</head>
-	<body>
+    </head>
+    <body>
         <%@ include file="../fragments/header.jspf"%>
-		<div class="container-fluid">
+        <div class="container-fluid">
             <c:set var="pageTitle" value="유저 상세보기" />
         </div>
         
@@ -90,8 +90,15 @@
                                             <a href="${pageContext.request.contextPath}/team/details?teamid=${t.teamId}">
                                                 ${t.teamName}
                                             </a>
-                                            <c:if test="${leaderCheck[t.teamId] == 1}">&#x1F451;</c:if>  <!-- 팀장일 경우 왕관 이모지 -->
-                                            <button class="btnLeaveTeam" data-team-id="${t.teamId}">팀 나가기</button>
+                                            <c:if test="${leaderCheck[t.teamId] == 1}">
+                                                &#x1F451;
+                                                <button class="btnDeleteTeam" data-team-id="${t.teamId}">팀 삭제</button>
+                                            </c:if>  <!-- 팀장일 경우 왕관 이모지 -->
+                                            <c:if test="${leaderCheck[t.teamId] == 0}">
+                                            &#x1F45F;
+                                            <button class="btnLeaveTeam" data-team-id="${t.teamId}">팀 탈퇴</button>
+                                            
+                                            </c:if>
                                         </li>
                                     </c:forEach>
                                 </c:when>
@@ -116,8 +123,8 @@
         </div>
     
 
-      	
-		<!-- Bootstrap JS 링크 -->
+        
+        <!-- Bootstrap JS 링크 -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
                 integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
                 crossorigin="anonymous">
@@ -128,5 +135,5 @@
         
         <c:url var="userDetailsJS" value="/js/user_details.js"/>
         <script src="${userDetailsJS}"></script>
-	</body>
+    </body>
 </html>

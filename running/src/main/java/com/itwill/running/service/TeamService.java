@@ -58,6 +58,9 @@ public class TeamService {
 	public Integer selectTeamLeaderCheck(Integer teamId, String userId) {
 		return teamDao.selectTeamLeaderCheck(teamId, userId);
 	}
+	public Integer deleteTeamLeader(Integer teamId) {
+		return teamDao.deleteTeamLeader(teamId);
+	};
 	
 	
 	
