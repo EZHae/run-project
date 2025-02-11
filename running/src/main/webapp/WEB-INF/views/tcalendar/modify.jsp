@@ -22,10 +22,25 @@
 	<body>
         <%@ include file="../fragments/header.jspf"%>
 		<div class="container-fluid">
-            <c:set var="pageTitle" value="팀 일정 수정" />
-        </div>	
+            <c:set var="pageTitle" value="팀 일정 게시글 수정" />
+        </div>
+		
+		<c:url var="teamPage" value="/team/details">
+			<c:param name="teamid" value="${teamId}" />
+		</c:url>
+		<a href="${teamPage}">내 팀으로</a>
+		
+		<c:url var="postListPage" value="/teampage/${teamId}/post/list" />
+		<a href="${postListPage}">팀 게시판</a>
+		
+		<c:url var="imageListPage" value="/teampage/${teamId}/image/list" />
+		<a href="${imageListPage}">팀 앨범</a>
+		
+		<c:url var="calendarListPage" value="/teampage/${teamId}/tcalendar/list" />
+		<a href="${calendarListPage}">팀 일정 게시판</a>
 
-	    <h2>모임 일정 수정</h2>
+	    <h2>팀 일정 게시글 수정</h2>
+	    
 	    <c:url value="/teampage/${teamId}/tcalendar/update" var="tCalendarUpdatedPage"/>
 	    <form action="${tCalendarUpdatedPage}" method="post">
 	        <input type="hidden" name="calendarId" value="${tCalendar.id}" />
