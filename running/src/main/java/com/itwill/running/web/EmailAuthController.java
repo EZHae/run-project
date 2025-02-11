@@ -23,9 +23,9 @@ public class EmailAuthController {
 		boolean isVerified = userService.verifyUser(token);
 
 		if (isVerified) {
-			return "user/signin"; // 인증 완료 페이지
+			return "redirect:/user/signin"; // 인증 완료 페이지 -> 수정: user/signin -> redirect:/
 		} else {
-			return "authcheck/failed"; // 실패 페이지
+			return "authcheck/succeed"; // 실패 페이지 -> 수정: authcheck/failed -> authcheck/succeed
 		}
 	}
 	
