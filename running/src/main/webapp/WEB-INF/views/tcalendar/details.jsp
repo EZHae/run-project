@@ -22,10 +22,26 @@
               
     </head>
     <body>
-        <%@ include file="../fragments/header.jspf"%>
+    	<%@ include file="../fragments/header.jspf"%>
 		<div class="container-fluid">
-            <c:set var="pageTitle" value="팀 일정 상세보기" />
+            <c:set var="pageTitle" value="팀 일정 게시글 상세보기" />
         </div>
+		
+		<c:url var="teamPage" value="/team/details">
+			<c:param name="teamid" value="${teamId}" />
+		</c:url>
+		<a href="${teamPage}">내 팀으로</a>
+		
+		<c:url var="postListPage" value="/teampage/${teamId}/post/list" />
+		<a href="${postListPage}">팀 게시판</a>
+		
+		<c:url var="imageListPage" value="/teampage/${teamId}/image/list" />
+		<a href="${imageListPage}">팀 앨범</a>
+		
+		<c:url var="calendarListPage" value="/teampage/${teamId}/tcalendar/list" />
+		<a href="${calendarListPage}">팀 일정 게시판</a>
+		
+		<h1>팀 일정 게시판 상세보기</h1>	
     
         <!-- applyUrl 변수 정의 -->
         <c:url var="applyUrl" value="/teampage/${teamId}/tcalendar/apply" />
