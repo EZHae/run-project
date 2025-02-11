@@ -8,4 +8,5 @@ public interface NotificationDao {
 	List<Notification> readAllByUserId(String userId);
 	List<Notification> readUnreadByUserId(String userId);
 	Integer insertNewNotification(Notification noti);
+	Integer deleteNotification(Integer id);
 }

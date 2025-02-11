@@ -1,5 +1,7 @@
 package com.itwill.running.domain;
 
+import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,4 +20,5 @@ public class Notification {
 	private String link;
 	private Integer checked;
 	private String content;
+	private LocalDateTime createdTime;
 }

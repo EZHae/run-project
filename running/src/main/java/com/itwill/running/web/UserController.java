@@ -49,6 +49,7 @@ public class UserController {
 	@GetMapping("/notifications")
 	public void getNotificationsByUserId(@RequestParam("userid") String userId, Model model) {
 		List<NotificationItemDto> dto=notiService.readNotisByUserId(userId);
+		log.debug("notiList={}",dto);
 		model.addAttribute("notiList",dto);
 	}
 	

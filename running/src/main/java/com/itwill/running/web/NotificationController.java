@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,5 +42,11 @@ public class NotificationController {
 	public ResponseEntity<List<NotificationItemDto>> readUnreadsByUserId(@PathVariable("userid") String userId){
 		List<NotificationItemDto> notis=notiService.readUnreadNotisByUserId(userId);
 		return ResponseEntity.ok(notis);
+	}
+	
+	@DeleteMapping("/{notificationid}")
+	public ResponseEntity<Integer> deleteNotification(@PathVariable("notificationid") Integer notiId){
+		int result=notiService.deleteNotification(notiId);
+		return ResponseEntity.ok(result);
 	}
 }

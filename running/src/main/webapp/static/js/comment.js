@@ -55,17 +55,17 @@ document.addEventListener("DOMContentLoaded", () => {
 				secret.checked = false;
 
 				//알림테이블 업데이트
-				const link = `${contextPath}/gpost/details?id=${postId}`;
+				const link = `http://localhost:8080/running/gpost/details?id=${postId}`;
+				let newctext=ctext;
 				if (ctext.length > 10) {
-					ctext = ctext.substring(0, 10);
+					newctext = ctext.substring(0, 10);
+					newctext=newctext+'...';
 				}
-				const noti = { userId: postUserId, type: 1, link: link, checked: 0, content: ctext };
-
-				console.log("Noti", noti);
+				const noti = { userId: postUserId, type: 1, link: link, checked: 0, content: newctext };
 
 				axios.post(`../api/notification`, noti).then((response) => {
 					if (response.data == 1) {
-						
+
 					}
 				}).catch((error) => {
 					console.log(error);
@@ -177,7 +177,7 @@ document.addEventListener("DOMContentLoaded", () => {
 							<span class="small text-danger">${secretType}</span>
 								</p>`;
 			if (comment.userId !== 'unknown' && !signedInUserId == '') {
-				html += `<button class="btnReply ${dnone} btn btn-sm" data-id="${comment.id}">답글</button>`;
+				html += `<button class="btnReply ${dnone} btn btn-sm" data-id="${comment.id}" data-parent-id="${comment.userId}">답글</button>`;
 			}
 
 			if (signedInUserId == comment.userId) {
@@ -283,6 +283,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	//답글달기 버튼 클릭 후
 	function openReplyCommentForm(event) {
 		const parentId = event.target.getAttribute('data-id'); //답글달 댓글의 아이디
+		const parentUserId=event.target.getAttribute('data-parent-id');
 		const replySection = document.querySelector(`div.replySectoin[id="${parentId}"]`);
 
 		let html = `<div class="reply-container ms-5 mt-3">
@@ -309,7 +310,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		                    <!-- 댓글 입력 textarea -->
 		                    <textarea class="form-control mb-2" id="reply-input-${parentId}" rows="2" placeholder="댓글 내용을 입력하세요."></textarea>
 		                    <!-- 댓글 작성 완료 버튼 -->
-		                    <button class="btn btn-primary" id="submitCommentButton" parent-id="${parentId}">작성</button>
+		                    <button class="btn btn-primary" id="submitCommentButton" parent-user-id="${parentUserId}" parent-id="${parentId}">작성</button>
 							<button class="btn" id="submitCancelButton" parent-id="${parentId}">취소</button>
 		                </div>
 		            </div>
@@ -335,6 +336,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	//답글등록
 	function createReply(event) {
 		const parentId = event.target.getAttribute('parent-id');
+		const parentUserId=event.target.getAttribute('parent-user-id');
 		const replyInput = document.getElementById(`reply-input-${parentId}`);
 		const replyText = replyInput.value;
 		if (replyText == '') {
@@ -355,10 +357,25 @@ document.addEventListener("DOMContentLoaded", () => {
 		};
 		axios.post('../api/comment', data).then((response) => {
 			if (response.data === 1) {
-				alert('댓글 1개 등록 성공');
+				alert('답글 1개 등록 성공');
 				document.querySelector('textarea#ctext').value = '';
-				//업데이트된 내용을 보여준다.
-				getALLComments();
+				
+				//알림테이블 업데이트
+				const link = `http://localhost:8080/running/gpost/details?id=${postId}`;
+				let newreplyText=replyText;
+				if (replyText.length > 10) {
+					newreplyText = replyText.substring(0, 10);
+					newreplyText=newreplyText+'...';
+				}
+				const noti = { userId: parentUserId, type: 2, link: link, checked: 0, content: newreplyText };
+
+				axios.post(`../api/notification`, noti).then((response) => {
+					if (response.data == 1) {
+						getALLComments();
+					}
+				}).catch((error) => {
+					console.log(error);
+				})
 			}
 
 		}).catch((error) => {

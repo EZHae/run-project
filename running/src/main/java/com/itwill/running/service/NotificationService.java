@@ -34,5 +34,9 @@ public class NotificationService {
 		int result=notiDao.insertNewNotification(dto.toEntity());
 		return result;
 	}
+	
+	public Integer deleteNotification(Integer id) {
+		return notiDao.deleteNotification(id);
+	}
 
 }

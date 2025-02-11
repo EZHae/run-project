@@ -4,7 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.itwill.running.repository.NotificationDao">
 	<select id="readAllByUserId" resultType="Notification">
-		select * from notifications where user_id=#{userId}
+		select * from notifications where user_id=#{userId} order by id desc
 	</select>
 	
 	<select id="readUnreadByUserId" resultType="Notification">
@@ -12,6 +12,11 @@
 	</select>
 	
 	<insert id="insertNewNotification">
-		insert into notifications (user_id, type, link, checked, content) values (#{userId}, #{type}, #{link}, #{checked}, #{content})
+		insert into notifications (user_id, type, link, checked, content, created_time) 
+		values (#{userId}, #{type}, #{link}, #{checked}, #{content}, systimestamp)
 	</insert>
+	
+	<delete id="deleteNotification">
+		delete from notifications where id=#{id}
+	</delete>
 </mapper>

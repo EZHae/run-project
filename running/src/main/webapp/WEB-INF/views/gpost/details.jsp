@@ -138,7 +138,6 @@
          const signedInUserNickname = '${signedInUserNickname}';
          const postId = '${gPost.id}';
          const postUserId = '${gPost.userId}';
-         const contextPath='${pageContext.request.contextPath}';
       </script>
 
       <!-- Axios Http Js-->
