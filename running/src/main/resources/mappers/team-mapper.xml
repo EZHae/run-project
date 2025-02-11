@@ -107,6 +107,11 @@
         where team_id = #{teamId} and user_id = #{userId} 
     </delete>
     
+    <delete id="deleteTeamLeader">
+        delete from teams 
+        where team_id = #{teamId}
+    </delete>
+    
     <select id="selectTeamLeaderCheck" resultType="Integer">
         select leader_check 
         from t_members

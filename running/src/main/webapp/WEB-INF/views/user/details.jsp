@@ -90,8 +90,15 @@
                                             <a href="${pageContext.request.contextPath}/team/details?teamid=${t.teamId}">
                                                 ${t.teamName}
                                             </a>
-                                            <c:if test="${leaderCheck[t.teamId] == 1}">&#x1F451;</c:if>  <!-- 팀장일 경우 왕관 이모지 -->
-                                            <button class="btnLeaveTeam" data-team-id="${t.teamId}">팀 나가기</button>
+                                            <c:if test="${leaderCheck[t.teamId] == 1}">
+                                                &#x1F451;
+                                                <button class="btnDeleteTeam" data-team-id="${t.teamId}">팀 삭제</button>
+                                            </c:if>  <!-- 팀장일 경우 왕관 이모지 -->
+                                            <c:if test="${leaderCheck[t.teamId] == 0}">
+                                            &#x1F45F;
+                                            <button class="btnLeaveTeam" data-team-id="${t.teamId}">팀 탈퇴</button>
+                                            
+                                            </c:if>
                                         </li>
                                     </c:forEach>
                                 </c:when>
