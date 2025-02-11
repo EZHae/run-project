@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 public class FileController {
 	@GetMapping("/api/uploadTeamImg/{filename}")
 	public void getImageFile(@PathVariable String filename, HttpSession session ,HttpServletRequest request, HttpServletResponse response) throws FileNotFoundException, IOException {
-		final long serialVersionUID = 1L;
+		
 		final String BASE_IMAGE_DIR = "C:\\uploadTeamImg";
 
 		String imagePath = BASE_IMAGE_DIR +File.separator+ filename;

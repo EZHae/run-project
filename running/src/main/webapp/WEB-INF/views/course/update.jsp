@@ -39,7 +39,10 @@
 		<input id="categoryRev" name="category" type="radio" value="1">
 		<label for="categoryRev">코스 리뷰</label> <br>
 		</form>
-		<button class="btn btn-secondary" id="btnUpdate">수정</button>
+		
+		<c:if test="${signedInUserId eq course.userId}">
+			<button class="btn btn-secondary" id="btnUpdate">수정</button>
+		</c:if>
 		
 		<!-- Bootstrap JS 링크 -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 

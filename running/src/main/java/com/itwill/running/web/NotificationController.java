@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwill.running.dto.NotificationCreateDto;
 import com.itwill.running.dto.NotificationItemDto;
-import com.itwill.running.service.GCommentService;
 import com.itwill.running.service.NotificationService;
 
 import lombok.RequiredArgsConstructor;

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.itwill.running.domain.TComment;
 import com.itwill.running.dto.TCommentCreateDto;
 import com.itwill.running.dto.TCommentItemDto;
+import com.itwill.running.dto.TCommentReadDto;
 import com.itwill.running.dto.TCommentUpdateDto;
 import com.itwill.running.repository.TCommentDao;
 
@@ -26,14 +27,6 @@ public class TCommentService {
 		TComment comment = dto.toEntity();
 		
 		int result = commentDao.insertTComment(comment);
-		
-		return result;
-	}
-	
-	public int countSearchedTCommentByPostId(Integer postId) {
-		log.debug("TcommentService::countSearchedTCommentByPostId(postId={})", postId);
-		
-		int result = commentDao.countSearchedTComment(postId);
 		
 		return result;
 	}
@@ -76,5 +69,25 @@ public class TCommentService {
 		int result = commentDao.updateTCommentLikeDeleteById(id);
 		
 		return result;
+	}
+	
+	// TODO 페이징 처리
+	public List<TCommentItemDto> readPagedComments(Integer postId, int offset, int limit) {
+	    log.debug("TCommentService::readPagedComments(postId={}, offset={}, limit={})", postId, offset, limit);
+
+	    TCommentReadDto dto = new TCommentReadDto();
+	    dto.setPostId(postId);
+	    dto.setOffset(offset);
+	    dto.setLimit(limit);
+
+	    List<TComment> comments = commentDao.selectPagedTCommentHierarchyByPostId(dto);
+
+	    return comments.stream().map(TCommentItemDto::fromEntity).toList();
+	}
+
+	public int countComments(Integer postId) {
+	    log.debug("TCommentService::countComments(postId={})", postId);
+
+	    return commentDao.countSearchedTComment(postId);
 	}
 }

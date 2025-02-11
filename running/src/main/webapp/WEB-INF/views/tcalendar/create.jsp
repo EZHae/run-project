@@ -1,10 +1,8 @@
-<<<<<<< HEAD
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-=======
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
->>>>>>> 225bb7b2984dbba5798d171383d2b510f2d406c7
+    pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
+
+<!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="UTF-8">

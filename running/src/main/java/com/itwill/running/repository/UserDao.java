@@ -1,10 +1,7 @@
 package com.itwill.running.repository;
 
-import java.util.List;
-
 import org.apache.ibatis.annotations.Param;
 
-import com.itwill.running.domain.Team;
 import com.itwill.running.domain.User;
 import com.itwill.running.dto.UserUpdateDto;
 import com.itwill.running.dto.UserVerificationUpdateDto;
