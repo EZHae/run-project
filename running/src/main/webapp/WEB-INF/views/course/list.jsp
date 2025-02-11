@@ -153,6 +153,7 @@
                             </li>
                         </c:forEach>
                     </c:if>
+                    <!-- 더미 -->
         
                     <!-- 다음 페이지 버튼 -->
                     <c:if test="${offset + limit < totalPosts}">

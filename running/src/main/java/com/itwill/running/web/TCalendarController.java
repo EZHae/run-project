@@ -46,19 +46,19 @@ public class TCalendarController {
 
 	// 일정 목록 보기
 	@GetMapping("/list")
-	public String list(@PathVariable Integer teamId, Model model, HttpSession session) {
-		log.debug("list() - teamId: {}", teamId);
+	public String list(@PathVariable Integer teamId, @RequestParam(defaultValue = "1") int page,
+			@RequestParam(defaultValue = "1") int filter, Model model, HttpSession session) {
+		int pageSize = 6; // 한 페이지당 게시글 갯수 설정
+		int offset = (page - 1) * pageSize;
 
-		// 팀의 일정 목록 가져오기.
-		List<TCalendar> tCalendars = tCalendarService.read(teamId);
+		List<TCalendar> tCalendars = tCalendarService.readFiltered(teamId, filter, offset, pageSize);
+		int totalCalendars = tCalendarService.countFiltered(teamId, filter);
+		int totalPages = (int) Math.ceil((double) totalCalendars / pageSize);
 
-		// 날짜 포맷터 설정
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-		
-		// 현재 시간 설정
-	    LocalDateTime currentTime = LocalDateTime.now();
+		LocalDateTime currentTime = LocalDateTime.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd a h:mm", Locale.KOREA); //오전 오후로 나눈 12시간 형식
+		String formattedDateTime = currentTime.format(formatter);
 
-		// 각 일정의 dateTime을 포맷팅하여 새로운 리스트 생성
 		List<TCalendarItemDto> tCalendarItems = tCalendars.stream().map(calendar -> {
 			TCalendarItemDto item = new TCalendarItemDto();
 			item.setId(calendar.getId());
@@ -68,21 +68,31 @@ public class TCalendarController {
 			item.setCurrentNum(calendar.getCurrentNum());
 			item.setMaxNum(calendar.getMaxNum());
 			item.setFormattedDateTime(calendar.getDateTime().format(formatter));
-			item.setExpired(calendar.getDateTime().isBefore(currentTime)); // isExpired 설정
+			item.setExpired(calendar.getDateTime().isBefore(currentTime));
 			return item;
 		}).collect(Collectors.toList());
-		
-		// 현재 로그인한 사용자 정보 가져오기
-	    String userId = (String) session.getAttribute("signedInUserId");
-	    
-	    // 팀장
-	    String teamLeaderId = tMemberService.getTeamLeaderId(teamId);
-	    boolean isTeamLeader = userId != null && userId.equals(teamLeaderId);
-	    model.addAttribute("isTeamLeader", isTeamLeader);
 
-		// 뷰에 전달할 데이터를 추가
+		String userId = (String) session.getAttribute("signedInUserId");
+		String teamLeaderId = tMemberService.getTeamLeaderId(teamId);
+		boolean isTeamLeader = userId != null && userId.equals(teamLeaderId);
+
+		// 페이징 범위
+		int beginPage = Math.max(1, page - 2);
+		int endPage = Math.min(totalPages, page + 2);
+		if (page <= 3) {
+			endPage = Math.min(5, totalPages);
+		} else if (page + 2 > totalPages) {
+			beginPage = Math.max(1, totalPages - 4);
+		}
+
+		model.addAttribute("isTeamLeader", isTeamLeader);
 		model.addAttribute("tCalendars", tCalendarItems);
 		model.addAttribute("teamId", teamId);
+		model.addAttribute("currentPage", page);
+		model.addAttribute("totalPages", totalPages);
+		model.addAttribute("filter", filter);
+		model.addAttribute("beginPage", beginPage);
+		model.addAttribute("endPage", endPage);
 
 		return "/tcalendar/list";
 	}
@@ -101,17 +111,16 @@ public class TCalendarController {
 
 	    // 날짜 포맷팅
 	    LocalDateTime dateTime = tCalendar.getDateTime();
-	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd a h:mm", Locale.KOREA); //오전 오후로 나눈 12시간 형식
 	    String formattedDate = dateTime.format(formatter);
 	    model.addAttribute("dateTime", formattedDate);
 
 	    // 현재 시간 설정
 	    LocalDateTime currentTime = LocalDateTime.now();
-	    request.setAttribute("currentTime", currentTime);
+	    DateTimeFormatter currentTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd a h:mm", Locale.KOREA);//오전 오후로 나눈 12시간 형식
+	    String formattedCurrentTime = currentTime.format(currentTimeFormatter);
+	    request.setAttribute("currentTime", formattedCurrentTime);
 
-	    // 모집 일정 시간이 현재 시간보다 이후인지 확인하는 플래그 설정
-	    boolean isBefore = currentTime.isBefore(dateTime);
-	    request.setAttribute("isBefore", isBefore);
 
 	    // 신청한 멤버 목록
 	    List<TCalendarMemberItemDto> tCalendarMember = tCalendarMemberService.getTCalendarMembers(teamId, calendarId);
@@ -139,9 +148,13 @@ public class TCalendarController {
 	    boolean isFull = tCalendar.getCurrentNum() >= tCalendar.getMaxNum();
 	    model.addAttribute("isFull", isFull);
 
-	    // 일정이 현재 시간보다 이전인지 확인
+	    // 모집 일정이 현재 시간보다 이전인지 확인
 	    boolean isExpired = tCalendar.getDateTime().isBefore(LocalDateTime.now());
 	    model.addAttribute("isExpired", isExpired);
+	    
+	    // 모집 일정이 현재 시간보다 이후인지 확인
+	    boolean isBefore = currentTime.isBefore(dateTime);
+	    request.setAttribute("isBefore", isBefore);
 
 	    return request.getRequestURI().contains("/details") ? "tcalendar/details" : "tcalendar/modify";
 	}
@@ -305,7 +318,7 @@ public class TCalendarController {
 //        if (!isTeamMember) {
 //            log.warn("User {} is not a member of team {}", userId, teamId);
 //            return null;
-//        }
+//        } 
 
         // 신청자 목록 가져오기
         return tCalendarMemberService.getTCalendarMembers(teamId, calendarId);

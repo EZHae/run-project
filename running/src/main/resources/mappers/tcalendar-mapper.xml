@@ -3,10 +3,50 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.itwill.running.repository.TCalendarDao">
-  	<!-- 일정 게시판 목록 보기 -->
-  	<select id="selectTCalendarOrderByIdDesc" resultType="TCalendar">
-  		select * from T_Calendars where team_id = #{teamId} order by id desc
-  	</select>
+  	
+  	<!-- 일정게시글 목록을 필터링하고 페이징, , filter(콤보박스로 선택) -> 1:전체 2:모집중인 게시글 3:모집종료된 게시글 -->
+    <select id="selectCalendars" parameterType="map" resultType="TCalendar">
+        SELECT *
+        FROM T_Calendars
+        WHERE team_id = #{teamId}
+        <if test="filter != 1">
+            AND (
+                <if test="filter == 2">
+                    <![CDATA[
+                        current_num < max_num AND date_time > SYSDATE
+                    ]]>
+                </if>
+                <if test="filter == 3">
+                    <![CDATA[
+                        current_num >= max_num OR date_time <= SYSDATE
+                    ]]>
+                </if>
+            )
+        </if>
+        ORDER BY date_time ASC
+        OFFSET #{offset} ROWS FETCH NEXT #{limit} ROWS ONLY
+    </select>
+
+    <!-- 일정게시글의 총 개수를 카운트, filter(콤보박스로 선택) -> 1:전체 2:모집중인 게시글 3:모집종료된 게시글  -->
+    <select id="countCalendars" parameterType="map" resultType="int">
+        SELECT COUNT(*)
+        FROM T_Calendars
+        WHERE team_id = #{teamId}
+        <if test="filter != 1">
+            AND (
+                <if test="filter == 2">
+                    <![CDATA[
+                        current_num < max_num AND date_time > SYSDATE
+                    ]]>
+                </if>
+                <if test="filter == 3">
+                    <![CDATA[
+                        current_num >= max_num OR date_time <= SYSDATE
+                    ]]>
+                </if>
+            )
+        </if>
+    </select>
   	
   	<!-- 일정 글 상세보기 -->
   	<select id="selectTCalendarById" resultType="TCalendar">
@@ -52,5 +92,4 @@
         DELETE FROM t_calendars WHERE id = #{calendarId} AND team_id = #{teamId}
     </delete>
   	
-  	<!-- 콤보박스와 키워드로 검색? 할까말까 -->
   </mapper>

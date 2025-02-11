@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
+=======
+<%@ page language="java" contentType="text/html; charset=UTF-8" 
+    pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+>>>>>>> 225bb7b2984dbba5798d171383d2b510f2d406c7
 
 
 
