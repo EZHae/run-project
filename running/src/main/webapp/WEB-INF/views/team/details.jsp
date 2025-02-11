@@ -267,6 +267,7 @@
 		const teamId = '${teamItemDto.teamId}';
 		const teamName = '${teamItemDto.teamName}';
 		const tmemNum = '${tmembers.size()}';
+		const teamLeaderId='${teamItemDto.userId}'
 	</script>
 
 

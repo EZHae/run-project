@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	function confirmApplication(event) {
 		const userId = event.target.getAttribute('data-id'); //수락할 회원의 아이디
 		const nickname = event.target.getAttribute('data-name'); //수락할 회원의 닉네임
-		applyConfirm = confirm(`${nickname}님의 가입 신청을 수락하시겠습니까?`);
+		const applyConfirm = confirm(`${nickname}님의 가입 신청을 수락하시겠습니까?`);
 		if (applyConfirm) {
 			//applications테이블에서 삭제
 			axios.delete(`../api/teamapplication/cancel?teamid=${teamId}&userid=${userId}`).then((response) => {
@@ -102,11 +102,27 @@ document.addEventListener("DOMContentLoaded", () => {
 			axios.post(`../api/tmember/confirm`, data).then((response) => {
 				if (response.data == 1) {
 					alert(`${nickname}님의 신청을 수락하였습니다`);
-					window.location.href = `../team/details?teamid=${teamId}`;
 				}
 			}).catch((error) => {
 				console.log(error);
 			});
+
+			//알림테이블 업데이트
+			const link = `http://localhost:8080/running/team/details?teamid=${teamId}`;
+			let newTeamName=teamName;
+			if (teamName.length > 10) {
+				newTeamName = teamName.substring(0, 10);
+				newTeamName = newTeamName + '...';
+			}
+			const noti = { userId: userId, type: 4, link: link, checked: 0, content: newTeamName };
+
+			axios.post(`../api/notification`, noti).then((response) => {
+				if (response.data == 1) {
+					window.location.href = `../team/details?teamid=${teamId}`;
+				}
+			}).catch((error) => {
+				console.log(error);
+			})
 		}
 	}
 
@@ -135,7 +151,23 @@ document.addEventListener("DOMContentLoaded", () => {
 		axios.post('../api/teamapplication', data).then((response) => {
 			if (response.data == 1) {
 				alert('신청성공!');
-				window.location.href = `../team/details?teamid=${teamId}`;
+
+				//알림테이블 업데이트
+				const link = `http://localhost:8080/running/team/details?teamid=${teamId}`;
+				let content = teamName + '/' + introMsg;
+				if (content.length > 10) {
+					content = content.substring(0, 10);
+					content = content + '...';
+				}
+				const noti = { userId: teamLeaderId, type: 3, link: link, checked: 0, content: content };
+
+				axios.post(`../api/notification`, noti).then((response) => {
+					if (response.data == 1) {
+						window.location.href = `../team/details?teamid=${teamId}`;
+					}
+				}).catch((error) => {
+					console.log(error);
+				})
 			}
 		}).catch((error) => {
 			console.log(error);
