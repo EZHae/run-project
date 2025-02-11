@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', ()=> {
     const btnUpdatePassword = document.querySelector('button#btnUpdatePassword');
     
     
-    
     btnDelete.addEventListener('click', deleteUser);
     btnUpdate.addEventListener('click', updateUser);
     btnUpload.addEventListener('click', updateImage);
@@ -29,6 +28,7 @@ document.addEventListener('DOMContentLoaded', ()=> {
     
     changeImageBtn.addEventListener('click', showImageModal);
     changePasswordBtn.addEventListener('click', showPasswordModal);
+    
     
     // 포커스 해제 
     document.querySelector('div#imageModal').addEventListener('hidden.bs.modal', (e) => {
@@ -111,6 +111,7 @@ document.addEventListener('DOMContentLoaded', ()=> {
     
     
     // 모달창을 보여주기 위한 이벤트 리스너 -------------------------------------------------------------
+    // 이미지 수정 모달
     function showImageModal(event) {
             
         // 현재 로그인한 유저 ID 가져오기
@@ -131,7 +132,7 @@ document.addEventListener('DOMContentLoaded', ()=> {
             // 모달표시
             imageModal.show();
             
-            document.getElementById('imageModal').focus();
+//            document.getElementById('imageModal').focus();
             
             
             
@@ -142,7 +143,7 @@ document.addEventListener('DOMContentLoaded', ()=> {
     }
     
     
-    
+    // 패스워드 모달 
     function showPasswordModal(event) {
             
             const userId = changePasswordBtn.getAttribute('data-user-id');
@@ -166,12 +167,12 @@ document.addEventListener('DOMContentLoaded', ()=> {
             
     
     
-    // 이미지 업데이트를 위한 이벤트 리스너
+    // 이미지 업데이트
     function updateImage() {
         
         // 사용자 아이디
         const userId = btnUpload.getAttribute('data-user-id');
-        const imageForm = document.querySelector('div#imageForm');
+        const imageForm = document.querySelectorAll('div#imageForm');
 
         if (!userId) {
             alert("사용자 ID를 찾을 수 없습니다.");
@@ -204,7 +205,7 @@ document.addEventListener('DOMContentLoaded', ()=> {
         const imageName = selectedImage.getAttribute("data-image-name"); // 원본 이미지명
         const imageFileName = selectedImage.getAttribute("data-image-file"); // 이미지 파일 이름만 보내고 컨트롤러에서 경로 저장
 
-        const basePath = "C:/upload_data/profile/";
+        const basePath = "C:/upload_data/profile/"; // 파일 경로
         const imagePath = basePath + imageFileName;
                 
         // 서버에 보낼 데이터 객체
@@ -226,14 +227,12 @@ document.addEventListener('DOMContentLoaded', ()=> {
                 
                 // 모달 닫기
                 imageModal.hide();
-                
-                
             })
             .catch((error) => {});
     }
     
     
-    // 비밀번호 변경 버튼 이벤트 리스너 
+    // 비밀번호 업데이트 이벤트 
     function updatePassword(event) {
         event.preventDefault(); //  기본 폼 제출 동작 막기 (submit 동작 막기)
         const userId = changePasswordBtn.getAttribute('data-user-id');
@@ -249,6 +248,21 @@ document.addEventListener('DOMContentLoaded', ()=> {
         const storedPassword = document.querySelector('input#password').value;
         console.log("유저 기존 패스워드 : ",storedPassword);
         
+        if (!currentPassword.trim()) {
+            alert("현재 비밀번호를 입력해주세요.");
+            return;
+        }
+
+        if (!password.trim()) {
+            alert("새 비밀번호를 입력해주세요.");
+            return;
+        }
+
+        if (password !== newSecondPassword) {
+            alert("새 비밀번호가 일치하지 않습니다.");
+            return;
+        }
+        
         if (!password || password.trim() === '') {
             alert("새 비밀번호를 입력해주세요.");
             return;
@@ -257,6 +271,7 @@ document.addEventListener('DOMContentLoaded', ()=> {
             alert("새 비밀번호가 일치하지 않습니다.");
             return;
         }
+        
         if (currentPassword === password) {
             alert("현재 비밀번호와 동일한 비밀번호를 사용할 수 없습니다.");
             return;
@@ -275,15 +290,9 @@ document.addEventListener('DOMContentLoaded', ()=> {
             
             console.log(signedInUserId);
             passwordModal.hide();
-            // 모달이 닫힌 후 새로고침 (약간의 지연)
-//            window.location.href = "/user/details?userId=" + signedInUserId;
             window.location.reload(true);
         })
-        .catch((error) => {
-            if (error.response && error.response.status === 400) { 
-                // 서버에서 동일한 비밀번호라서 변경 불가능한 경우
-                alert(error.response.data); // 서버의 메시지를 alert 창으로 띄움
-            }
-        });
+        .catch((error) => {});
     }
+    
 });

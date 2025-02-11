@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.itwill.running.domain.Team;
 import com.itwill.running.domain.User;
@@ -115,6 +116,7 @@ public class UserService {
 	}
 	
 	// 비밀번호 변경 서비스
+	@Transactional
 	public boolean  updateUserPassword(String userId, String password) {
 	    log.info("비밀번호 변경 요청 - userId: {}, newPassword: {}", userId, password);
 	    int result = userDao.updateUserByPassword(userId, password);
@@ -123,6 +125,10 @@ public class UserService {
 	        log.error("비밀번호 변경 실패 - userId: {}", userId);
 	        return false;
 	    }
+	    
+	    String updatedPassword = userDao.selectPasswordByUserId(userId);
+	    log.info("DB에 저장된 변경된 비밀번호: {}", updatedPassword);
+	    
 	    return true;
 	}
 	
