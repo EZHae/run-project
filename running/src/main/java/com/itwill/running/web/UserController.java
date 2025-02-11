@@ -235,10 +235,6 @@ public class UserController {
 	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("현재 비밀번호가 올바르지 않습니다.");
 	    }
 		
-	    if (password == null || password.isBlank()) {
-	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("비밀번호가 비어 있습니다.");
-	    }
-	    
 	    // 현재 비밀번호와 새 비밀번호가 동일한 경우
 	    if (storedPassword.equals(password)) {
 	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("현재 비밀번호와 새 비밀번호가 동일합니다.");
@@ -292,8 +288,6 @@ public class UserController {
 		teamService.deleteTeamLeader(teamId);
 		return ResponseEntity.ok("팀을 삭제하였습니다.");
 	}
-		
-	
 	
 	//  ---------------------------------- 중복체크 ---------------------------------------// 
 	

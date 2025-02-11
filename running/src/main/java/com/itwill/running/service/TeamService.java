@@ -44,7 +44,6 @@ public class TeamService {
 		List<Team> teams =teamDao.selectAll();
 		return teams.stream().map(TeamItemDto::fromEntity).toList();
 	}
-	
 	public TeamItemDto readByTeamid(Integer teamId) {
 		Team team=teamDao.selectByTeamId(teamId);
 		return TeamItemDto.fromEntity(team);
