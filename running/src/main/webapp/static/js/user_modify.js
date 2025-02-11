@@ -292,7 +292,14 @@ document.addEventListener('DOMContentLoaded', ()=> {
             passwordModal.hide();
             window.location.reload(true);
         })
-        .catch((error) => {});
+		.catch((error) => {
+		            console.log("에러 발생:", error.response);
+		            if (error.response && error.response.data) {
+		                alert(error.response.data); // 서버에서 반환한 에러 메시지 출력
+		            } else {
+		                alert("비밀번호 변경 중 오류가 발생했습니다. 다시 시도해주세요.");
+		            }
+		        });
     }
     
 });
