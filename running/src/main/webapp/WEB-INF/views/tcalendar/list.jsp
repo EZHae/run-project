@@ -116,8 +116,8 @@
         <c:forEach var="calendar" items="${tCalendars}">
             <div class="card">
                 <div class="card-header">
+                	<!-- 일정의 날짜와 시간 -->
                     <span>${calendar.formattedDateTime}</span>
-                    <!-- 일정의 날짜와 시간 -->
                     <span>
                         <c:choose>
                             <%-- 현재 인원수가 최대인원수보다 작은 경우 or 현재 시간이 dateTime(모이는 시간)에 도래하지 않은 경우에만 '모집중'으로 보이게 --%>
@@ -152,7 +152,7 @@
         </c:forEach>
     </div>
 
-    <!-- 페이징 처리 : 페이지버튼 5개까지 보임-->
+    <!-- 페이징 처리 : 페이지 숫자버튼 5개까지 보임-->
     <c:set var="beginPage" value="${1}" />
 	<c:set var="endPage" value="${1}" />
 	<c:choose>
