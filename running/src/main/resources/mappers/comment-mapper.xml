@@ -33,10 +33,7 @@
 		when exists (
 		select 1
 		from g_comments
-		where parent_id = #{id} ) and
-		(select parent_id
-		from g_comments
-		where id = #{id}) is null
+		where parent_id = #{id} )
 		then 0
 		else 1
 		end as is_valid
