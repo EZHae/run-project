@@ -117,6 +117,7 @@
 
 				</div>
 			</div>
+<<<<<<< HEAD
 		</div>
 	</div>
 
@@ -187,6 +188,33 @@
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
 		crossorigin="anonymous">
+=======
+		</c:if>
+	
+		<!-- comment section-->
+		<section class="gradient-custom" id="commentSection"></section>
+		
+		<!-- pagination section -->
+		<nav aria-label="Page navigation">
+		    <ul class="pagination justify-content-center" id="pagination">
+		        <!-- Pagination buttons will be dynamically inserted here -->
+		    </ul>
+		</nav>
+		<%@ include file="../fragments/footer.jspf"%>
+		<!-- Bootstrap JS 링크 -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+                integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
+                crossorigin="anonymous">
+									
+		</script>
+        <script>
+			const teamId = '${post.teamId}';
+			const postId = '${post.id}';
+			const signedInUserId = '${signedInUserId}';
+	        const signedInUserNickname = '${signedInUserNickname}';
+	        const userId = '${post.userId}';
+		</script>
+>>>>>>> 44f960e0c94b5154f07628fbfc287e7bf20fd54c
 		
 	</script>
 	<script>

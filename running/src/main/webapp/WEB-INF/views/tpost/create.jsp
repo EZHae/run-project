@@ -124,6 +124,7 @@
                 integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
                 crossorigin="anonymous">
         </script>
+<<<<<<< HEAD
         
          <script>
       //세션에 저장된 로그인 사용자 아이디를 자바스크립트 변수에 저장.
@@ -150,6 +151,9 @@
             });
    </script>
         
+=======
+     	<%@ include file="../fragments/footer.jspf"%>   
+>>>>>>> 44f960e0c94b5154f07628fbfc287e7bf20fd54c
         <!-- Axios Http Js-->
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 

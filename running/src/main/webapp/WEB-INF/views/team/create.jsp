@@ -176,10 +176,14 @@
 					}
 				});
 	</script>
+<<<<<<< HEAD
 
 	<!-- 카카오 맵 API -->
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d1d3b87ab7851c5ad6b2ab818eba8506"></script>
 	
+=======
+	<%@ include file="../fragments/footer.jspf"%>
+>>>>>>> 44f960e0c94b5154f07628fbfc287e7bf20fd54c
 	<!-- Axios Http Js-->
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 

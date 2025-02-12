@@ -161,7 +161,13 @@
         </div>
     </div>
 
+<<<<<<< HEAD
 		
+=======
+			<button type="submit">작성 완료</button>
+		</form>
+		<%@ include file="../fragments/footer.jspf"%>	
+>>>>>>> 44f960e0c94b5154f07628fbfc287e7bf20fd54c
 		<!-- Bootstrap JS 링크 -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
                 integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 

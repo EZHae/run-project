@@ -101,6 +101,7 @@
                         <!-- 소제목 -->
                 		<h2 class="text-center mt-5">팀 앨범</h2>
 
+<<<<<<< HEAD
                         <!-- 앨범 등록 버튼 -->
                         <div class="text-start mt-3">
                             <c:url var="imageCreatePage" value="/teampage/${teamId}/image/create" />
@@ -147,6 +148,23 @@
             </div>
         </div>
 
+=======
+		<!-- 이미지 확대 모달 -->
+		<div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" style="max-width: 90vw; max-height: 90vh;">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">확대</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body text-center" >
+						<img id="modalImage" src="" alt="확대된 이미지" class="img-fluid">
+					</div>
+				</div>
+			</div>
+		</div>
+		<%@ include file="../fragments/footer.jspf"%>
+>>>>>>> 44f960e0c94b5154f07628fbfc287e7bf20fd54c
 		<!-- Bootstrap JS 링크 -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
                 integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
