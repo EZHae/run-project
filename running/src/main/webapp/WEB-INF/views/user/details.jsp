@@ -16,7 +16,17 @@
               rel="stylesheet" 
               integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
               crossorigin="anonymous">
+       
+       
         <style>
+       /* 전체 페이지 스타일 */
+        html, body {
+            height: 100%;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        
         /* 프로필 카드 스타일 */
         .profile-container {
             display: flex;
@@ -93,6 +103,13 @@
         .btn-success:hover {
             background-color: #218838;
         }
+        /* 읽기 전용 input 스타일 조정 */
+        .form-control[readonly] {
+            background-color: white !important; /* 밝은 회색 유지 */
+            color: #6c757d !important; /* 부트스트랩 기본 글자 색상 유지 */
+            box-shadow: none !important; /* 클릭 시 발생하는 효과 제거 */
+            font-weight: normal !important; /* 글씨가 두꺼워지지 않도록 설정 */
+        }
         
         </style>
       
@@ -111,36 +128,36 @@
                         <div class="profile-container">
                             <img src="<c:url value='/image/view/user/${signedInUserId}' />" 
                                  alt="프로필 이미지" 
-                                 class="profile-image" />
+                                 class="profile-image rounded-circle border border-success shadow-sm" />
                             <div class="profile-details w-100">
                                 <div class="row g-3">
-                                    <div class="col-md-6">
-                                        <label class="form-label">닉네임</label>
-                                        <input type="text" class="form-control" value="${user.nickname}" readonly>
+                                   <div class="col-md-6">
+                                        <label class="form-label fw-bold">닉네임</label>
+                                        <input type="text" class="form-control border-success shadow-sm" value="${user.nickname}" readonly>
                                     </div>
                                     <div class="col-md-6">
-                                        <label class="form-label">이름</label>
-                                        <input type="text" class="form-control" value="${user.username}" readonly>
+                                        <label class="form-label fw-bold">이름</label>
+                                        <input type="text" class="form-control border-success shadow-sm" value="${user.username}" readonly>
+                                    </div>
+                                    <div class="col-md-6"> 
+                                        <label class="form-label fw-bold">성별</label>
+                                        <input type="text" class="form-control border-success shadow-sm" value="${user.gender == 1 ? '남자' : '여자'}" readonly>
                                     </div>
                                     <div class="col-md-6">
-                                        <label class="form-label">성별</label>
-                                        <input type="text" class="form-control" value="${user.gender == 1 ? '남자' : '여자'}" readonly>
+                                        <label class="form-label fw-bold">나이</label>
+                                        <input type="text" class="form-control border-success shadow-sm" value="${user.age}" readonly>
                                     </div>
                                     <div class="col-md-6">
-                                        <label class="form-label">나이</label>
-                                        <input type="text" class="form-control" value="${user.age}" readonly>
+                                        <label class="form-label fw-bold">휴대전화번호</label>
+                                        <input type="text" class="form-control border-success shadow-sm" value="${user.phonenumber}" readonly>
                                     </div>
                                     <div class="col-md-6">
-                                        <label class="form-label">휴대전화번호</label>
-                                        <input type="text" class="form-control" value="${user.phonenumber}" readonly>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">주소</label>
-                                        <input type="text" class="form-control" value="${user.residence}" readonly>
+                                        <label class="form-label fw-bold">주소</label>
+                                        <input type="text" class="form-control border-success shadow-sm" value="${user.residence}" readonly>
                                     </div>
                                     <div class="col-12">
-                                        <label class="form-label">이메일</label>
-                                        <input type="text" class="form-control" value="${user.email}" readonly>
+                                        <label class="form-label fw-bold">이메일</label>
+                                        <input type="text" class="form-control border-success shadow-sm" value="${user.email}" readonly>
                                     </div>
                                 </div>  
                             </div>
@@ -149,7 +166,7 @@
                         <!-- 팀 관리 섹션 -->
                         <div class="team-container mt-4">
                             <label class="fw-bold">팀 관리</label>
-                            <ul class="list-group">
+                            <ul class="list-group mt-1">
                                 <c:choose>
                                     <c:when test="${not empty teams}">
                                         <c:forEach items="${teams}" var="t">
@@ -164,7 +181,7 @@
                                                     </c:if>
                                                     <c:if test="${leaderCheck[t.teamId] == 0}">
                                                         <span class="me-2">👟</span>
-                                                        <button class="btn btn-warning btn-sm btnLeaveTeam" data-team-id="${t.teamId}">팀 탈퇴</button>
+                                                        <button class="btn btn-warning btn-sm btnLeaveTeam" data-team-id="${t.teamId}" style="color: white;">팀 탈퇴</button>
                                                     </c:if>
                                                 </div>
                                             </li>
@@ -182,7 +199,10 @@
                             <c:url var="userModifyPage" value="/user/modify">
                                 <c:param name="userId" value="${user.userId}" />
                             </c:url>
-                            <a href="${userModifyPage}" class="btn btn-success btn-lg px-4"> 프로필 수정 </a>
+                            <a href="${userModifyPage}" class="btn fw-bold btn-lg w-100" 
+                               style="background-color: #28a745; border-color: #008C2C; color: white;">
+                                프로필 수정
+                            </a>
                         </div>
                     </div>
                 </div>

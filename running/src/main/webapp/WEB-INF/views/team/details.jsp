@@ -50,7 +50,7 @@
 					<div class="mb-3">
 						<h5>공원</h5>
 						<p>${park.parkName}</p>
-						<div id="map" style="width: 500px; height: 500px;"></div>
+						<div id="map" style="width: 100%; height: 0; padding-bottom: 50%; min-height: 200px;"></div>
 					</div>
 
 					<div class="mb-3">
@@ -251,6 +251,7 @@
 		const parkLat = '${parkLat}';
 		const parkLng = '${parkLng}';
 		var container = document.getElementById('map');
+		
 		var options = {
 			center: new kakao.maps.LatLng(parkLat, parkLng),
 			level: 3

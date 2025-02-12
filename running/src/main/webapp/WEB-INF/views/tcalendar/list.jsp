@@ -94,7 +94,7 @@
 			<c:set var="pageTitle" value="팀 일정 게시글 목록" />
 		</div>
 		<div class="container my-3">
-			<div class="row d-flex justify-content-center">
+	  		<div class="row d-flex justify-content-center">
 				<div class="col-md-12 col-lg-10 col-xl-8">
 					<div class="card p-4">
 						<div class="btn-group" role="group" aria-label="Button group">
@@ -113,17 +113,15 @@
 						    <a href="${calendarListPage}" class="btn custom-btn">팀 일정 게시판</a>
 						</div>
 	
-						<h2 class="text-center mt-5">팀 일정 게시판</h2>
-	
-						<!-- 새글 생성 버튼 (팀장만 보이게) -->
-						<div style="margin-top: 20px;">
-							<c:url var="calendarCreatePage"
-								value="/teampage/${teamId}/tcalendar/create" />
-							<c:if test="${isTeamLeader}">
-								<a href="${calendarCreatePage}"
-									class="btn btn-create float-right"">새글 생성</a>
-							</c:if>
-						</div>
+						<h2 class="text-center mb-4">팀 일정 게시판</h2>
+
+                        <!-- 새글 생성 버튼 (팀장만 보이게) -->
+                        <div class="text-end mt-3">
+                            <c:url var="calendarCreatePage" value="/teampage/${teamId}/tcalendar/create" />
+                            <c:if test="${isTeamLeader}">
+                                <a href="${calendarCreatePage}" class="btn btn-success">새글 생성</a>
+                            </c:if>
+                        </div>
 	
 						<!-- 필터링 콤보박스 -->
 						<c:url value="/teampage/${teamId}/tcalendar/list" var="ListPage" />
