@@ -210,77 +210,18 @@
 					        </ul>
 					    </nav>
 					</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+					
 
+	<%@ include file="../fragments/footer.jspf"%>
     <!-- Bootstrap JS 링크 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <!-- Axios Http JS -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-    <c:url var="gPostListJS" value="/js/gpost_list.js" />
-    <script src="${gPostListJS}"></script>
-</body>
-	
-<<<<<<< HEAD
-							
-
-=======
-				<div class="d-flex justify-content-center mt-3">
-					<nav aria-label="Page navigation">
-						<ul class="pagination">
-							<c:if test="${currentPage > pageBlockSize}">
-								<li class="page-item"><a class="page-link"
-									href="
-									<c:choose>
-		                        		<c:when test="${empty type and empty keyword}">
-		                            		?page=${startPage - 1}
-		                        		</c:when>
-		                        		<c:otherwise>
-		                            		?page=${startPage - 1}&type=${type}&keyword=${keyword}
-		                        		</c:otherwise>
-		                    		</c:choose>">
-										이전 </a></li>
-							</c:if>
-							<c:forEach begin="${startPage}" end="${endPage}" var="page">
-								<li class="page-item ${page == currentPage ? 'active' : ''}">
-									<a class="page-link"
-									href="
-									<c:choose>
-		                        		<c:when test="${empty type and empty keyword}">
-		                            		?page=${page}
-		                        		</c:when>
-		                        		<c:otherwise>
-		                            		?page=${page}&type=${type}&keyword=${keyword}
-		                        		</c:otherwise>
-		                    		</c:choose>">
-										${page} </a>
-								</li>
-							</c:forEach>
-							<c:if test="${endPage < totalPage}">
-								<li class="page-item"><a class="page-link"
-									href="
-									<c:choose>
-				                        <c:when test="${empty type and empty keyword}">
-				                            ?page=${endPage + 1}
-				                        </c:when>
-				                        <c:otherwise>
-				                            ?page=${endPage + 1}&type=${type}&keyword=${keyword}
-				                        </c:otherwise>
-			                    	</c:choose>">
-										다음 </a>
-								</li>
-							</c:if>
-						</ul>
-					</nav>
-				</div>
-		</c:otherwise>
-		</c:choose>
-		
-		<%@ include file="../fragments/footer.jspf"%>
->>>>>>> 44f960e0c94b5154f07628fbfc287e7bf20fd54c
-		<!-- Bootstrap JS 링크 -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
-                integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
-                crossorigin="anonymous">
-        </script>
 	</body>
 </html>

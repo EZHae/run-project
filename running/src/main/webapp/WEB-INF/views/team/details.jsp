@@ -45,22 +45,18 @@
 						</p>
 					</div>
 
-<<<<<<< HEAD
 					<div class="mb-3">
-						<h5>공원</h5>
-						<p>${park.parkName}</p>
-						<div id="map" style="width: 100%; height: 0; padding-bottom: 50%; min-height: 200px;"></div>
-=======
 					<!-- 팀 설명 -->
 					<div class="bg-white p-4 rounded-4 mt-3 shadow-sm">
 						<h5 class="fw-bold text-secondary">팀 소개</h5>
 						<p class="text-muted">${teamItemDto.content}</p>
->>>>>>> 44f960e0c94b5154f07628fbfc287e7bf20fd54c
+
 					</div>
 
 					<!-- 공원 이름 -->
 					<div class="text-center mt-3">
 						<span class="badge bg-primary fs-6">📍 ${park.parkName}</span>
+						<div id="map" style="width: 100%; height: 0; padding-bottom: 50%; min-height: 200px;"></div>
 					</div>
 
 					<!-- 성별 제한 -->
