@@ -61,7 +61,6 @@
                         </c:url>
                         <a href="${teamPage}" class="btn btn-custom">내 팀으로</a>
 
-<<<<<<< HEAD
                         <c:url var="postListPage" value="/teampage/${teamId}/post/list" />
                         <a href="${postListPage}" class="btn btn-custom">팀 게시판</a>
 
@@ -100,48 +99,10 @@
             </div>
         </div>
     </div>
+    
+    <%@ include file="../fragments/footer.jspf"%>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
             crossorigin="anonymous"></script>
 </body>
-	
-=======
-	    <h2>팀 일정 게시글 수정</h2>
-	    
-	    <c:url value="/teampage/${teamId}/tcalendar/update" var="tCalendarUpdatedPage"/>
-	    <form action="${tCalendarUpdatedPage}" method="post">
-	        <input type="hidden" name="calendarId" value="${tCalendar.id}" />
-	        <table>
-	            <tr>
-	                <td><label for="title">제목:</label></td>
-	                <td><input type="text" id="title" name="title" value="${tCalendar.title}" readonly></td>
-	            </tr>
-	            <tr>
-	                <td><label for="date">날짜/시간:</label></td>
-	                <td><input type="text" id="date" name="date" autocomplete="off" value="${dateTime}" disabled></td>
-	            </tr>
-	            <tr>
-	                <td><label for="content">내용:</label></td>
-	                <td><textarea id="content" name="content" rows="5" cols="30" readonly>${tCalendar.content}</textarea></td>
-	            </tr>
-	            <tr>
-	            	<!-- 최대인원수 수정 가능 범위 : 게시글의 최대인원수 ~ 99 -->
-	                <td><label for="max_num">최대 인원수:</label></td>
-	                <td><input type="number" id="max_num" name="max_num" min="${tCalendar.maxNum}" max="99" placeholder="${tCalendar.maxNum}" required autofocus></td>
-	            </tr>
-	            <tr>
-	                <td colspan="2" style="text-align: center;">
-	                    <button type="submit">작성완료</button>
-	                </td>
-	            </tr>
-	        </table>
-	    </form>
-	    <%@ include file="../fragments/footer.jspf"%>
-	    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
-	            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
-	            crossorigin="anonymous"></script>
-	            
-	</body>
->>>>>>> 44f960e0c94b5154f07628fbfc287e7bf20fd54c
-	
 </html>

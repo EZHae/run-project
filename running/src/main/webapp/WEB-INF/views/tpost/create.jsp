@@ -33,17 +33,17 @@
 		}
 		</style>
 	</head>
-	<body>
-        <%@ include file="../fragments/header.jspf"%>
-		<div class="container-fluid">
-            <c:set var="pageTitle" value="팀 게시글 작성" />
-        </div>
-		<div class="container my-5">
-		    <div class="row d-flex justify-content-center">
-		        <div class="col-md-12 col-lg-8">
-		            <div class="card shadow p-4">
-		                
-		                <!-- 버튼 그룹
+<body>
+	<%@ include file="../fragments/header.jspf"%>
+	<div class="container-fluid">
+		<c:set var="pageTitle" value="팀 게시글 작성" />
+	</div>
+	<div class="container my-5">
+		<div class="row d-flex justify-content-center">
+			<div class="col-md-12 col-lg-8">
+				<div class="card shadow p-4">
+
+					<!-- 버튼 그룹
 		                <div class="btn-group mb-4 d-flex justify-content-center" role="group" aria-label="Navigation">
 		                    <c:url var="teamPage" value="/team/details">
 		                        <c:param name="teamid" value="${teamId}" />
@@ -60,104 +60,116 @@
 		                    <a href="${calendarListPage}" class="btn btn-outline-success">팀 일정</a>
 		                </div>
 		                -->
-		
-		                <h2 class="text-center text-success fw-bold mb-4">팀 게시판 글 생성</h2>
-		
-		                <!-- 글 작성 폼 -->
-		                <c:url var="postCreatePage" value="/teampage/${teamId}/post/create" />
-		                <form action="${postCreatePage}" method="post" enctype="multipart/form-data">
-		
-		                    <!-- 팀 ID -->
-		                    <div class="mb-3">
-		                        <label for="teamId" class="form-label text-success fw-bold">팀 ID</label>
-		                        <input type="text" id="teamId" name="teamId" value="${teamId}" class="form-control" readonly>
-		                    </div>
-		
-		                    <!-- 사용자 ID -->
-		                    <div class="mb-3">
-		                        <label for="userId" class="form-label text-success fw-bold">사용자 ID</label>
-		                        <input type="text" id="userId" name="userId" value="${signedInUserId}" class="form-control" readonly>
-		                    </div>
-		
-		                    <!-- 닉네임 -->
-		                    <div class="mb-3">
-		                        <label for="nickname" class="form-label text-success fw-bold">닉네임</label>
-		                        <input type="text" id="nickname" name="nickname" value="${signedInUserNickname}" class="form-control" readonly>
-		                    </div>
-		
-		                    <!-- 제목 -->
-		                    <div class="mb-3">
-		                        <label for="title" class="form-label text-success fw-bold">제목</label>
-		                        <input type="text" id="title" name="title" class="form-control" placeholder="제목을 입력하세요" required autofocus>
-		                    </div>
-		
-		                    <!-- 내용 -->
-		                    <div class="mb-3">
-		                        <label for="content" class="form-label text-success fw-bold">내용</label>
-		                        <textarea id="content" name="content" class="form-control" rows="5" placeholder="내용을 입력하세요" required></textarea>
-		                    </div>
-		
-		                    <!-- 파일 업로드 -->
-		                    <div class="mb-3">
-		                        <label for="file" class="form-label text-success fw-bold">이미지 업로드</label>
-		                        <input type="file" id="file" name="file" class="form-control" accept="image/*" multiple>
-		                        <small class="text-muted">여러 이미지를 선택할 수 있습니다.</small>
-		                    </div>
-		
-		                    <!-- 파일 목록 표시 -->
-		                    <ul id="fileList" class="list-group list-group-flush mt-2"></ul>
-		
-		                    <!-- 제출 버튼 -->
-		                    <div class="text-center mt-4">
-		                        <button type="submit" class="btn btn-success btn-lg px-5">작성 완료</button>
-		                    </div>
-		
-		                </form>
-		            </div>
-		        </div>
-		    </div>
+
+					<h2 class="text-center text-success fw-bold mb-4">팀 게시판 글 생성</h2>
+
+					<!-- 글 작성 폼 -->
+					<c:url var="postCreatePage" value="/teampage/${teamId}/post/create" />
+					<form action="${postCreatePage}" method="post"
+						enctype="multipart/form-data">
+
+						<!-- 팀 ID -->
+						<div class="mb-3">
+							<label for="teamId" class="form-label text-success fw-bold">팀
+								ID</label> <input type="text" id="teamId" name="teamId"
+								value="${teamId}" class="form-control" readonly>
+						</div>
+
+						<!-- 사용자 ID -->
+						<div class="mb-3">
+							<label for="userId" class="form-label text-success fw-bold">사용자
+								ID</label> <input type="text" id="userId" name="userId"
+								value="${signedInUserId}" class="form-control" readonly>
+						</div>
+
+						<!-- 닉네임 -->
+						<div class="mb-3">
+							<label for="nickname" class="form-label text-success fw-bold">닉네임</label>
+							<input type="text" id="nickname" name="nickname"
+								value="${signedInUserNickname}" class="form-control" readonly>
+						</div>
+
+						<!-- 제목 -->
+						<div class="mb-3">
+							<label for="title" class="form-label text-success fw-bold">제목</label>
+							<input type="text" id="title" name="title" class="form-control"
+								placeholder="제목을 입력하세요" required autofocus>
+						</div>
+
+						<!-- 내용 -->
+						<div class="mb-3">
+							<label for="content" class="form-label text-success fw-bold">내용</label>
+							<textarea id="content" name="content" class="form-control"
+								rows="5" placeholder="내용을 입력하세요" required></textarea>
+						</div>
+
+						<!-- 파일 업로드 -->
+						<div class="mb-3">
+							<label for="file" class="form-label text-success fw-bold">이미지
+								업로드</label> <input type="file" id="file" name="file"
+								class="form-control" accept="image/*" multiple> <small
+								class="text-muted">여러 이미지를 선택할 수 있습니다.</small>
+						</div>
+
+						<!-- 파일 목록 표시 -->
+						<ul id="fileList" class="list-group list-group-flush mt-2"></ul>
+
+						<!-- 제출 버튼 -->
+						<div class="text-center mt-4">
+							<button type="submit" class="btn btn-success btn-lg px-5">작성
+								완료</button>
+						</div>
+
+					</form>
+				</div>
+			</div>
 		</div>
+	</div>
+
+
+	<%@ include file="../fragments/footer.jspf"%>
+
+	<!-- Bootstrap JS 링크 -->
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+		crossorigin="anonymous">
 		
-		
-		<!-- Bootstrap JS 링크 -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
-                integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
-                crossorigin="anonymous">
-        </script>
-<<<<<<< HEAD
-        
-         <script>
-      //세션에 저장된 로그인 사용자 아이디를 자바스크립트 변수에 저장.
-      const signedInUserId = '${signedInUserId}';//문자열 포맷으로 변수를 저장.
-      const signedInUserNickname = '${signedInUserNickname}';
-      const teams = '${teams}';
+	</script>
 
-      // 이미지 미리보기 기능
-      document.getElementById("imageUpload").addEventListener("change",
-            function(event) {
-               const file = event.target.files[0]; //사용자가 선택한 첫번째 사진
-               const preview = document.getElementById("imagePreview");
 
-               if (file) {
-                  const reader = new FileReader(); //파일을 읽어서 Base64 인코딩된 Data URL로 변환하는 객체인 FileReader생성
-                  reader.onload = function(e) {
-                     preview.src = e.target.result; //이미지태그의 src에 파일의 Base64 Data URL할당
-                     preview.style.display = "block"; //화면에 보여준다
-                  };
-                  reader.readAsDataURL(file); //파일읽기가 끝나면 onload함수 실행됨
-               } else {
-                  preview.style.display = "none"; //화면에 아무것도 보여주지 않는다
-               }
-            });
-   </script>
-        
-=======
-     	<%@ include file="../fragments/footer.jspf"%>   
->>>>>>> 44f960e0c94b5154f07628fbfc287e7bf20fd54c
-        <!-- Axios Http Js-->
-        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<script>
+		//세션에 저장된 로그인 사용자 아이디를 자바스크립트 변수에 저장.
+		const signedInUserId = '${signedInUserId}';//문자열 포맷으로 변수를 저장.
+		const signedInUserNickname = '${signedInUserNickname}';
+		const teams = '${teams}';
 
-        <c:url var="createJS" value="/js/tpost-create.js" />       
-        <script src="${createJS}"></script> 
-	</body>
+		// 이미지 미리보기 기능
+		document.getElementById("imageUpload").addEventListener("change",
+				function(event) {
+					const file = event.target.files[0]; //사용자가 선택한 첫번째 사진
+					const preview = document.getElementById("imagePreview");
+
+					if (file) {
+						const reader = new FileReader(); //파일을 읽어서 Base64 인코딩된 Data URL로 변환하는 객체인 FileReader생성
+						reader.onload = function(e) {
+							preview.src = e.target.result; //이미지태그의 src에 파일의 Base64 Data URL할당
+							preview.style.display = "block"; //화면에 보여준다
+						};
+						reader.readAsDataURL(file); //파일읽기가 끝나면 onload함수 실행됨
+					} else {
+						preview.style.display = "none"; //화면에 아무것도 보여주지 않는다
+					}
+				});
+	</script>
+
+
+
+
+	<!-- Axios Http Js-->
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+	<c:url var="createJS" value="/js/tpost-create.js" />
+	<script src="${createJS}"></script>
+</body>
 </html>

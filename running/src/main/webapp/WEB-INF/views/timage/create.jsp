@@ -94,90 +94,90 @@
         }
     </style>
 	</head>
-	<body>
-        <%@ include file="../fragments/header.jspf"%>
-		<div class="container-fluid">
-            <c:set var="pageTitle" value="앨범 등록" />
-        </div>
-		
-  <div class="container my-3">
-            <div class="row d-flex justify-content-center">
-                <div class="col-md-12 col-lg-10 col-xl-8">
-                    <div class="card p-4">
-                        <div class="btn-group" role="group" aria-label="Button group">
-                        <c:url var="teamPage" value="/team/details">
-                                <c:param name="teamid" value="${teamId}" />
-                            </c:url>
-                            <a href="${teamPage}" class="btn custom-btn">내 팀으로</a>
-                        
-                            <c:url var="postListPage" value="/teampage/${teamId}/post/list" />
-                            <a href="${postListPage}" class="btn custom-btn">팀 게시판</a>
-                        
-                            <c:url var="imageListPage" value="/teampage/${teamId}/image/list" />
-                            <a href="${imageListPage}" class="btn custom-btn">팀 앨범</a>
-                        
-                            <c:url var="calendarListPage" value="/teampage/${teamId}/tcalendar/list" />
-                            <a href="${calendarListPage}" class="btn custom-btn">팀 일정 게시판</a>
-                        </div>
+<body>
+	<%@ include file="../fragments/header.jspf"%>
+	<div class="container-fluid">
+		<c:set var="pageTitle" value="앨범 등록" />
+	</div>
 
-                    <h2 class="text-center mt-5">팀 앨범 사진 등록</h2>
-        
-                    <c:url var="imageCreatePage" value="" />
-                    <form action="${imageCreatePage}" method="post" enctype="multipart/form-data" class="p-3">
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">팀 ID</label>
-                            <input id="teamId" name="teamId" value="${teamId}" class="form-control" readonly>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">사용자 ID</label>
-                            <input id="userId" name="userId" value="${signedInUserId}" class="form-control" readonly>
-                        </div>
-                    
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">닉네임</label>
-                            <input id="nickname" name="nickname" type="text" value="${signedInUserNickname}" class="form-control" readonly>
-                        </div>
-                    
-                        <div class="mb-3">
-                            <label for="file" class="form-label fw-bold">이미지 업로드</label>
-                            <input type="file" id="file" name="file" accept="image/*" multiple class="form-control">
-                        </div>
-                        
-                        <!-- 업로드한 파일 리스트 -->
-                        <ul id="fileList" class="list-group list-group-flush mt-2"></ul>
+	<div class="container my-3">
+		<div class="row d-flex justify-content-center">
+			<div class="col-md-12 col-lg-10 col-xl-8">
+				<div class="card p-4">
+					<div class="btn-group" role="group" aria-label="Button group">
+						<c:url var="teamPage" value="/team/details">
+							<c:param name="teamid" value="${teamId}" />
+						</c:url>
+						<a href="${teamPage}" class="btn custom-btn">내 팀으로</a>
 
-                        <!-- 작성 완료 버튼 -->
-                        <div class="mt-3">
-                            <button type="submit" class="btn btn-lg w-100"
-                                    style="background-color: #008C2C; border-color: #005A1E; color: white;">
-                                작성 완료
-                            </button>
-                        </div>
-                    </form>
+						<c:url var="postListPage" value="/teampage/${teamId}/post/list" />
+						<a href="${postListPage}" class="btn custom-btn">팀 게시판</a>
 
-                </div>
-            </div>
-        </div>
-    </div>
+						<c:url var="imageListPage" value="/teampage/${teamId}/image/list" />
+						<a href="${imageListPage}" class="btn custom-btn">팀 앨범</a>
 
-<<<<<<< HEAD
-		
-=======
-			<button type="submit">작성 완료</button>
-		</form>
-		<%@ include file="../fragments/footer.jspf"%>	
->>>>>>> 44f960e0c94b5154f07628fbfc287e7bf20fd54c
-		<!-- Bootstrap JS 링크 -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
-                integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
-                crossorigin="anonymous">
+						<c:url var="calendarListPage"
+							value="/teampage/${teamId}/tcalendar/list" />
+						<a href="${calendarListPage}" class="btn custom-btn">팀 일정 게시판</a>
+					</div>
+
+					<h2 class="text-center mt-5">팀 앨범 사진 등록</h2>
+
+					<c:url var="imageCreatePage" value="" />
+					<form action="${imageCreatePage}" method="post"
+						enctype="multipart/form-data" class="p-3">
+						<div class="mb-3">
+							<label class="form-label fw-bold">팀 ID</label> <input id="teamId"
+								name="teamId" value="${teamId}" class="form-control" readonly>
+						</div>
+
+						<div class="mb-3">
+							<label class="form-label fw-bold">사용자 ID</label> <input
+								id="userId" name="userId" value="${signedInUserId}"
+								class="form-control" readonly>
+						</div>
+
+						<div class="mb-3">
+							<label class="form-label fw-bold">닉네임</label> <input
+								id="nickname" name="nickname" type="text"
+								value="${signedInUserNickname}" class="form-control" readonly>
+						</div>
+
+						<div class="mb-3">
+							<label for="file" class="form-label fw-bold">이미지 업로드</label> <input
+								type="file" id="file" name="file" accept="image/*" multiple
+								class="form-control">
+						</div>
+
+						<!-- 업로드한 파일 리스트 -->
+						<ul id="fileList" class="list-group list-group-flush mt-2"></ul>
+
+						<!-- 작성 완료 버튼 -->
+						<div class="mt-3">
+							<button type="submit" class="btn btn-lg w-100"
+								style="background-color: #008C2C; border-color: #005A1E; color: white;">
+								작성 완료</button>
+						</div>
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<%@ include file="../fragments/footer.jspf"%>
+
+	<!-- Bootstrap JS 링크 -->
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+		crossorigin="anonymous">
         </script>
-        
-        <!-- Axios Http Js-->
-        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-        <c:url var="createJS" value="/js/timage-create.js" />       
-        <script src="${createJS}"></script> 
-	</body>
+	<!-- Axios Http Js-->
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+	<c:url var="createJS" value="/js/timage-create.js" />
+	<script src="${createJS}"></script>
+</body>
 </html>

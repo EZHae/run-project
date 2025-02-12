@@ -163,56 +163,16 @@
             </div>
         </div>
     </div>
+    
+    <%@ include file="../fragments/footer.jspf"%>
+    
+    <!-- Bootstrap JS 링크 -->
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+		crossorigin="anonymous">
+		
+	</script>
 </body>
-	
-<<<<<<< HEAD
-	
-		<!-- Bootstrap JS 링크 -->
-		<script
-			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-			integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-			crossorigin="anonymous">
-		    </script>
-=======
-	    <h2>팀 일정 게시글 생성</h2>
-	    
-	    <c:url value="/teampage/${teamId}/tcalendar/create" var="tCalendarCreatePage"/>
-	    <form action="${tCalendarCreatePage}" method="post">
-	        <table>
-	            <tr>
-	                <td><label for="title">제목:</label></td>
-	                <td><input type="text" id="title" name="title" required></td>
-	            </tr>
-	            <tr>
-	                <td><label for="date">날짜 선택:</label></td>
-	                <td><input type="text" id="date" name="date" autocomplete="off" required></td>
-	            </tr>
-	            <tr>
-	                <td><label for="time">시간 선택:</label></td>
-	                <td><input type="text" id="time" name="time" autocomplete="off" required></td>
-	            </tr>
-	            <tr>
-	                <td><label for="content">내용:</label></td>
-	                <td><textarea id="content" name="content" rows="5" cols="30" required></textarea></td>
-	            </tr>
-	            <tr>
-	                <td><label for="max_num">최대 인원수:</label></td>
-              		<td><input type="number" id="max_num" name="max_num" min="2" max="99" required ></td>
-	            </tr>
-	            <tr>
-	                <td colspan="2" style="text-align: center;">
-	                    <button type="submit">작성완료</button>
-	                </td>
-	            </tr>
-	        </table>
-	    </form>
-	    <%@ include file="../fragments/footer.jspf"%>
-	    <!-- Bootstrap JS 링크 -->
-	    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
-	            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
-	            crossorigin="anonymous">
-	    </script>
->>>>>>> 44f960e0c94b5154f07628fbfc287e7bf20fd54c
-	</body>
 </html>
 
