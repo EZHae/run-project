@@ -354,5 +354,28 @@ document.addEventListener('DOMContentLoaded', ()=>{
         
         return isValid;
     }
+    /* ------------------------------------------------------------------ */
     
+    
+    const checkFields = [
+        "checkUserIdResult",
+        "checkNicknameResult",
+        "checkPhoneNumberResult",
+        "checkEmailResult"
+    ];
+
+    checkFields.forEach(id => {
+        const element = document.getElementById(id);
+        if (element) {
+            const observer = new MutationObserver(() => {
+                if (element.innerText.trim() !== "") { // 오류 메시지가 나타나면
+                    setTimeout(() => {
+                        element.scrollIntoView({ behavior: "smooth", block: "center" });
+                    }, 200); // 부드러운 스크롤 적용
+                }
+            });
+
+            observer.observe(element, { childList: true, subtree: true }); // 메시지 변경 감지
+        }
+    });
 });
