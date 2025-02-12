@@ -50,6 +50,7 @@
 					<div class="mb-3">
 						<h5>공원</h5>
 						<p>${park.parkName}</p>
+						<div id="map" style="width: 500px; height: 500px;"></div>
 					</div>
 
 					<div class="mb-3">
@@ -242,6 +243,31 @@
 		const teamName = '${teamItemDto.teamName}';
 		const tmemNum = '${tmembers.size()}';
 		const teamLeaderId = '${teamItemDto.userId}'
+	</script>
+	
+	<!-- 카카오 맵 API -->
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d1d3b87ab7851c5ad6b2ab818eba8506"></script>
+	<script>
+		const parkLat = '${parkLat}';
+		const parkLng = '${parkLng}';
+		var container = document.getElementById('map');
+		var options = {
+			center: new kakao.maps.LatLng(parkLat, parkLng),
+			level: 3
+		};
+
+		var map = new kakao.maps.Map(container, options);
+		
+		// 마커가 표시될 위치입니다 
+		var markerPosition  = new kakao.maps.LatLng(parkLat, parkLng); 
+
+		// 마커를 생성합니다
+		var marker = new kakao.maps.Marker({
+		    position: markerPosition
+		});
+
+		// 마커가 지도 위에 표시되도록 설정합니다
+		marker.setMap(map);
 	</script>
 
 

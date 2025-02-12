@@ -105,8 +105,11 @@
 						<div class="mb-3">
 							<label for="selectPark" class="form-label">공원 선택</label> <select
 								id="selectPark" name="parkId" class="form-select" required>
-								<option value="" selected disabled>먼저 구를 선택하세요</option>
+								<option id="selectPark" value="" selected disabled>먼저 구를 선택하세요</option>
 							</select>
+						</div>
+						<div>
+							<div id="map"></div>
 						</div>
 
 						<!-- 최대 인원 -->
@@ -174,6 +177,9 @@
 				});
 	</script>
 
+	<!-- 카카오 맵 API -->
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d1d3b87ab7851c5ad6b2ab818eba8506"></script>
+	
 	<!-- Axios Http Js-->
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 

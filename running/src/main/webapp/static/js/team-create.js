@@ -29,7 +29,6 @@ document.addEventListener("DOMContentLoaded", () => {
 						option.textContent = park.parkName;
 						parkSelect.appendChild(option);
 					}
-
 				})
 				.catch(error => console.error(error));
 		}
@@ -54,7 +53,47 @@ document.addEventListener("DOMContentLoaded", () => {
 		});
 
 	}
+	
+	
+	// 25-02-12 지해추가: 공원 선택할때 공원지도 미리보기
+	const selectPark = document.getElementById("selectPark");
+	selectPark.addEventListener('change', (event) => {
+		selectParkViewMap(event.target.value);
+	});
+	
+	function selectParkViewMap(id) {
+	    console.log(id);
+	    
+	    axios.get(`../api/park/search/${id}`)
+	        .then((response) => {
+	            const selectedParkLat = response.data.parklat;
+	            const selectedParkLng = response.data.parkLng;
+	            
+	            console.log(selectedParkLat, selectedParkLng);
+	            
+	            const container = document.getElementById('map');
+	            container.style.width = "100%";
+	            container.style.height = `${container.offsetWidth * 0.5}px`; // 2:1 비율
+	            
+	            let options = {
+	                center: new kakao.maps.LatLng(selectedParkLat, selectedParkLng),
+	                level: 3
+	            };
 
+	            let map = new kakao.maps.Map(container, options);
 
+	            let markerPosition  = new kakao.maps.LatLng(selectedParkLat, selectedParkLng); 
+	            let marker = new kakao.maps.Marker({
+	                position: markerPosition
+	            });
 
+	            marker.setMap(map);
+
+	            // 지도를 다시 그리도록 트리거
+	            setTimeout(() => map.relayout(), 100);
+	            
+	        }).catch((error) => {
+	            console.log(error);
+	        });
+	}
 });

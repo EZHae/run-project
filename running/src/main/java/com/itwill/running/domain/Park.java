@@ -14,7 +14,6 @@ import lombok.NoArgsConstructor;
 public class Park {
 	private Integer id;
 	private String parkName;
-	private String parkType;
 	private String parkLoc;
 	private Double parkLng;
 	private Double parklat;
