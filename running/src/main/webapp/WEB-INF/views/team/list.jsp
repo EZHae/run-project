@@ -19,6 +19,9 @@
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
 	rel="stylesheet">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 
 </head>
 <body>
@@ -26,19 +29,20 @@
 	<!-- 팀 검색 폼 -->
 	<div class="container my-3">
 		<div class="row d-flex justify-content-center">
-			<div class="col-md-14 col-lg-12 col-xl-10">
+			<div class="col-md-12 col-lg-10 col-xl-8">
 
 				<main class="mt-3">
 					<c:url value="/team/search" var="teamSearchPage" />
 					<form action="${teamSearchPage}" method="get" id="searchForm"
-						class="d-flex justify-content-between align-items-center">
-						<!-- select 박스 (작게 배치) -->
+						class="d-flex justify-content-between align-items-center bg-white shadow-sm p-3 rounded">
 						<div class="d-flex">
-							<select class="form-select form-select-sm me-2" id="status"
-								name="status">
+							<select
+								class="form-select form-select-sm me-2 border-0 shadow-sm"
+								id="status" name="status">
 								<option value="open" selected>모집중</option>
 								<option value="closed">모집완료</option>
-							</select> <select class="form-select form-select-sm me-2"
+							</select> <select
+								class="form-select form-select-sm me-2 border-0 shadow-sm"
 								id="seoul-districts" name="district">
 								<option value="all" selected>전체</option>
 								<option value="강남구">강남구</option>
@@ -69,18 +73,17 @@
 							</select>
 						</div>
 
-						<!-- 검색 입력 필드 -->
 						<input type="text" id="keyword" name="keyword"
-							class="form-control form-control-sm me-2" placeholder="팀 이름으로 검색">
+							class="form-control form-control-sm me-2 border-0 shadow-sm rounded-pill"
+							placeholder="팀 이름으로 검색">
 
-						<!-- 검색 버튼 (돋보기 아이콘 추가) -->
-						<button id="searchButton" class="btn btn-success btn-sm">
+						<button id="searchButton"
+							class="btn btn-success btn-sm rounded-circle shadow-sm">
 							<i class="bi bi-search"></i>
 						</button>
 					</form>
 
 					<div class="d-flex justify-content-between">
-						<!-- 모집중/모집완료 필터 버튼 (왼쪽) -->
 						<div class="mb-3">
 							<c:url value="/team/list" var="teamListUrl">
 								<c:param name="status" value="open" />
@@ -89,86 +92,267 @@
 								<c:param name="status" value="closed" />
 							</c:url>
 							<a href="${teamListUrl}">
-								<button class="btn btn-outline-success me-2 mt-3">모집중</button>
+								<button
+									class="btn btn-outline-success me-2 mt-3 rounded-pill shadow-sm">모집중</button>
 							</a> <a href="${closedListUrl}">
-								<button class="btn btn-outline-success mt-3">모집완료</button>
+								<button
+									class="btn btn-outline-success mt-3 rounded-pill shadow-sm">모집완료</button>
 							</a>
 						</div>
-
-						<!-- 새 팀 생성 버튼 (오른쪽) -->
 						<div>
 							<c:url var="teamCreatePage" value="/team/create" />
-							<a href="${teamCreatePage}" class="btn btn-outline-success mt-3">새
-								팀 생성</a>
+							<a href="${teamCreatePage}"
+								class="btn btn-success mt-3 shadow-sm rounded-pill">새 팀 생성</a>
 						</div>
 					</div>
 
-
-					<!-- 팀 카드 목록 -->
-					<div class="card mt-3">
+					<div class="card mt-3 shadow-lg rounded">
 						<div class="card-body">
 							<div class="row">
 								<c:forEach items="${teams}" var="team">
-									<!-- 팀 카드 -->
-									<div class="col-md-6 mb-6 mt-3">
-										<article>
-											<div class="card border-0">
-												<img
-													class="card-img-top img-fluid bsb-scale bsb-hover-scale-up"
-													loading="lazy" src="${team.imagePath}"
-													alt="${team.teamName}">
-												<div class="card-body border bg-white p-4">
-													<div class="entry-header mb-3">
-														<ul class="entry-meta list-unstyled d-flex mb-2">
-															<li><a class="link-primary text-decoration-none"
-																href="#!">${team.teamName}</a></li>
-														</ul>
-														<h2 class="card-title entry-title h4 mb-0">
-															<a class="link-dark text-decoration-none" href="#!">${team.title}</a>
-														</h2>
-													</div>
-													<p class="card-text entry-summary text-secondary mb-3">
-														${team.content}</p>
+									<div class="col-md-6 mb-4">
+										<div class="card border-0 shadow-sm rounded overflow-hidden">
+											<img class="card-img-top img-fluid" src="${team.imagePath}"
+												alt="${team.teamName}"
+												style="height: 200px; object-fit: cover;">
+											<div class="card-body bg-light p-4">
+												<h5 class="card-title">
 													<c:url var="teamDetailPage" value="/team/details">
 														<c:param name="teamid" value="${team.teamId}" />
 													</c:url>
-													<a href="${teamDetailPage }"
-														class="btn btn btn-success m-0 text-nowrap entry-more">상세보기</a>
-												</div>
-												<div class="card-footer border border-top-0 bg-light p-4">
-													<ul
-														class="entry-meta list-unstyled d-flex align-items-center m-0">
-														<li><svg xmlns="http://www.w3.org/2000/svg"
-																width="14" height="14" fill="currentColor"
-																class="bi bi-calendar3" viewBox="0 0 16 16">
-                        <path
-																	d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z" />
-                        <path
-																	d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
-                      </svg> <span class="ms-2 fs-7">${team.createdTime}</span></li>
-														<li><span class="px-3">&bull;</span></li>
-														<li><svg xmlns="http://www.w3.org/2000/svg"
-																width="16" height="16" fill="currentColor"
-																class="bi bi-person" viewBox="0 0 16 16">
-  <path
-																	d="M8 0a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm0 7a4 4 0 0 0-4 4v4a4 4 0 0 0 8 0V11a4 4 0 0 0-4-4z" />
-</svg> <span class="ms-2 fs-7">${team.currentNum} / ${team.maxNum}</span></li>
-													</ul>
-												</div>
+
+													<a href="${teamDetailPage}"
+														class="link-dark text-decoration-none fw-bold">${team.title}</a>
+												</h5>
+												<p class="card-text text-secondary mb-3">${team.content}</p>
+												<c:url var="teamDetailPage" value="/team/details">
+													<c:param name="teamid" value="${team.teamId}" />
+												</c:url>
+												<a href="${teamDetailPage}"
+													class="btn btn-outline-success shadow-sm rounded-pill">상세보기</a>
 											</div>
-										</article>
+											<div class="card-footer bg-white p-4">
+												<ul
+													class="entry-meta list-unstyled d-flex justify-content-between m-0">
+													<li><i class="fas fa-calendar-alt text-warning"></i> <span
+														class="ms-2 fs-7">${team.createdTime}</span></li>
+													<li><i class="fas fa-user text-primary"></i> <span
+														class="ms-2 fs-7">${team.currentNum} /
+															${team.maxNum}</span></li>
+												</ul>
+												<ul
+													class="entry-meta list-unstyled d-flex justify-content-between m-0">
+													<li><c:choose>
+															<c:when test="${team.genderLimit == 1}">
+																<i class="fas fa-mars text-primary"></i> 남자만
+											</c:when>
+															<c:when test="${team.genderLimit == 2}">
+																<i class="fas fa-venus text-danger"></i> 여자만
+											</c:when>
+															<c:otherwise>
+																<i class="fas fa-genderless text-success"></i> 남녀모두
+											</c:otherwise>
+														</c:choose></li>
+												</ul>
+											</div>
+										</div>
 									</div>
 								</c:forEach>
-
 							</div>
 						</div>
 					</div>
 				</main>
+
 			</div>
 		</div>
 	</div>
 
+	<!-- 페이징 처리 -->
+	<div class="mt-3">
+		<nav aria-label="Page navigation">
+			<ul class="pagination d-flex justify-content-center">
+				<!-- 맨 처음 페이지 버튼 -->
+				<li class="page-item"><c:choose>
+						<c:when test="${type == '/running/team/search'}">
+							<c:url var="firstPage" value="/team/search">
+								<c:param name="offset" value="0" />
+								<c:param name="limit" value="${limit}" />
+								<c:if test="${not empty district}">
+									<c:param name="district" value="${district}" />
+								</c:if>
+								<c:if test="${not empty open}">
+									<c:param name="open" value="${open}" />
+								</c:if>
+								<c:if test="${not empty search}">
+									<c:param name="search" value="${search}" />
+								</c:if>
+								<c:if test="${not empty keyword}">
+									<c:param name="keyword" value="${keyword}" />
+								</c:if>
+							</c:url>
+						</c:when>
+						<c:otherwise>
+							<c:url var="firstPage" value="/team/list">
+								<c:param name="offset" value="0" />
+								<c:param name="limit" value="${limit}" />
+								<c:param name="district" value="${district}" />
+								<c:param name="open" value="${open}" />
+								<c:param name="search" value="${search}" />
+								<c:param name="keyword" value="${keyword}" />
+							</c:url>
+						</c:otherwise>
+					</c:choose> <a class="page-link text-success" href="${firstPage}"
+					aria-label="First"> <span aria-hidden="true">&laquo;&laquo;
+							First</span>
+				</a></li>
 
+				<!-- 이전 페이지 버튼 -->
+				<c:if test="${offset > 0}">
+					<li class="page-item"><c:choose>
+							<c:when test="${type == '/running/team/search'}">
+								<c:url var="prevPage" value="/team/search">
+									<c:param name="offset" value="${offset - limit}" />
+									<c:param name="limit" value="${limit}" />
+									<c:if test="${not empty district}">
+										<c:param name="district" value="${district}" />
+									</c:if>
+									<c:if test="${not empty open}">
+										<c:param name="open" value="${open}" />
+									</c:if>
+									<c:if test="${not empty search}">
+										<c:param name="search" value="${search}" />
+									</c:if>
+									<c:if test="${not empty keyword}">
+										<c:param name="keyword" value="${keyword}" />
+									</c:if>
+								</c:url>
+							</c:when>
+							<c:otherwise>
+								<c:url var="prevPage" value="/team/list">
+									<c:param name="offset" value="${offset - limit}" />
+									<c:param name="limit" value="${limit}" />
+								</c:url>
+							</c:otherwise>
+						</c:choose> <a class="page-link text-success" href="${prevPage}"
+						aria-label="Previous"> <span aria-hidden="true">&laquo;
+								Previous</span>
+					</a></li>
+				</c:if>
+
+				<!-- 페이지 번호 버튼 -->
+				<c:if test="${totalPages > 0}">
+					<c:forEach begin="0" end="${totalPages-1}" var="page">
+						<li class="page-item ${page * limit == offset ? 'active' : ''}">
+							<c:choose>
+								<c:when test="${type == '/running/team/search'}">
+									<c:url var="pageUrl" value="/team/search">
+										<c:param name="offset" value="${page * limit}" />
+										<c:param name="limit" value="${limit}" />
+										<c:if test="${not empty district}">
+											<c:param name="district" value="${district}" />
+										</c:if>
+										<c:if test="${not empty open}">
+											<c:param name="open" value="${open}" />
+										</c:if>
+										<c:if test="${not empty search}">
+											<c:param name="search" value="${search}" />
+										</c:if>
+										<c:if test="${not empty keyword}">
+											<c:param name="keyword" value="${keyword}" />
+										</c:if>
+									</c:url>
+								</c:when>
+								<c:otherwise>
+									<c:url var="pageUrl" value="/team/list">
+										<c:param name="offset" value="${page * limit}" />
+										<c:param name="limit" value="${limit}" />
+										<c:param name="district" value="${district}" />
+										<c:param name="open" value="${open}" />
+										<c:param name="search" value="${search}" />
+										<c:param name="keyword" value="${keyword}" />
+									</c:url>
+								</c:otherwise>
+							</c:choose> <a class="page-link text-success" href="${pageUrl}">${page + 1}</a>
+						</li>
+					</c:forEach>
+				</c:if>
+
+				<!-- 다음 페이지 버튼 -->
+				<c:if test="${offset + limit < totalPosts}">
+					<li class="page-item"><c:choose>
+							<c:when test="${type == '/running/team/search'}">
+								<c:url var="nextPage" value="/team/search">
+									<c:param name="offset" value="${offset + limit}" />
+									<c:param name="limit" value="${limit}" />
+									<c:if test="${not empty district}">
+										<c:param name="district" value="${district}" />
+									</c:if>
+									<c:if test="${not empty search}">
+										<c:param name="search" value="${search}" />
+									</c:if>
+									<c:if test="${not empty open}">
+										<c:param name="open" value="${open}" />
+									</c:if>
+									<c:if test="${not empty keyword}">
+										<c:param name="keyword" value="${keyword}" />
+									</c:if>
+								</c:url>
+							</c:when>
+							<c:otherwise>
+								<c:url var="nextPage" value="/team/list">
+									<c:param name="offset" value="${offset + limit}" />
+									<c:param name="limit" value="${limit}" />
+									<c:param name="district" value="${district}" />
+									<c:param name="open" value="${open}" />
+									<c:param name="search" value="${search}" />
+									<c:param name="keyword" value="${keyword}" />
+								</c:url>
+							</c:otherwise>
+						</c:choose> <a class="page-link text-success" href="${nextPage}"
+						aria-label="Next"> <span aria-hidden="true">Next
+								&raquo;</span>
+					</a></li>
+				</c:if>
+
+				<!-- 맨 마지막 페이지 버튼 -->
+				<li class="page-item"><c:choose>
+						<c:when test="${type == '/running/team/search'}">
+							<c:url var="lastPage" value="/team/search">
+								<c:param name="offset" value="${(totalPages - 1) * limit}" />
+								<c:param name="limit" value="${limit}" />
+								<c:if test="${not empty district}">
+									<c:param name="district" value="${district}" />
+								</c:if>
+								<c:if test="${not empty search}">
+									<c:param name="search" value="${search}" />
+								</c:if>
+								<c:if test="${not empty keyword}">
+									<c:param name="keyword" value="${keyword}" />
+								</c:if>
+								<c:if test="${not empty open}">
+									<c:param name="open" value="${open}" />
+								</c:if>
+							</c:url>
+						</c:when>
+						<c:otherwise>
+							<c:url var="lastPage" value="/team/list">
+								<c:param name="offset" value="${(totalPages - 1) * limit}" />
+								<c:param name="limit" value="${limit}" />
+								<c:param name="district" value="${district}" />
+								<c:param name="open" value="${open}" />
+								<c:param name="search" value="${search}" />
+								<c:param name="keyword" value="${keyword}" />
+							</c:url>
+						</c:otherwise>
+					</c:choose> <a class="page-link text-success" href="${lastPage}"
+					aria-label="Last"> <span aria-hidden="true">Last
+							&raquo;&raquo;</span>
+				</a></li>
+			</ul>
+		</nav>
+	</div>
+
+	<%@ include file="../fragments/footer.jspf"%>
 	<!-- Bootstrap Javascript  -->
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

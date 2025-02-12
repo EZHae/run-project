@@ -63,7 +63,7 @@
                 integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
                 crossorigin="anonymous">
         </script>
-        
+     	<%@ include file="../fragments/footer.jspf"%>   
         <!-- Axios Http Js-->
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 

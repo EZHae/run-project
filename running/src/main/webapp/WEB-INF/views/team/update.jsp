@@ -116,14 +116,15 @@
 						</div>
 
 						<!-- 제출 버튼 -->
-						<button type="submit" class="btn btn-success w-100">수정</button>
+						<c:if test="${signedInUserId==teamItemDto.userId}">
+						<button type="submit" class="btn btn-success w-100">수정</button></c:if>
 					</form>
 				</div>
 			</div>
 		</div>
 	</div>
 
-
+	<%@ include file="../fragments/footer.jspf"%>
 	<!-- Bootstrap Javascript  -->
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

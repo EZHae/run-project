@@ -135,7 +135,6 @@
 
 	</c:if>
 
-
 	<!-- comment section js-->
 	<section class="gradient-custom" id="commentSection"></section>
 
@@ -156,7 +155,9 @@
 
 	<c:url value="/js/gpost_details.js" var="gPostDetailsJS" />
 	<script src="${gPostDetailsJS}"></script>
-	</div>
+
+	
+	<%@ include file="../fragments/footer.jspf"%>
 	<!-- Bootstrap JS 링크 -->
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

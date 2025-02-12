@@ -173,7 +173,7 @@
 					}
 				});
 	</script>
-
+	<%@ include file="../fragments/footer.jspf"%>
 	<!-- Axios Http Js-->
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 

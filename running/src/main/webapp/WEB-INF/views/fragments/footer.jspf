@@ -1,0 +1,22 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+
+<footer class="py-3 my-4">
+	<ul class="nav justify-content-center border-bottom pb-3 mb-3">
+		<li class="nav-item"><c:url value="/" var="homePage" /><a href="${homePage }"
+			class="nav-link px-2 text-body-secondary">Home</a></li>
+		<li class="nav-item"><c:url value="/gpost/list"
+							var="gPostListPage" /><a href="${gPostListPage}"
+			class="nav-link px-2 text-body-secondary">FAQs</a></li>
+		<li class="nav-item"><c:url value="/team/list"
+							var="courseRecruitPage" /><a href="${ courseRecruitPage}"
+			class="nav-link px-2 text-body-secondary">Recruiting Team</a></li>
+		<li class="nav-item"><c:url value="/course/list"
+							var="courseListPage" /><a href="${courseListPage}"
+			class="nav-link px-2 text-body-secondary">Course</a></li>
+		<li class="nav-item"><c:url value="/user/signup"
+							var="signUpPage" /><a href="${signUpPage }"
+			class="nav-link px-2 text-body-secondary">Sign Up</a></li>
+	</ul>
+	<p class="text-center text-body-secondary">© 2025 Itwill Java157 Runners</p>
+</footer>
