@@ -17,119 +17,131 @@
 	crossorigin="anonymous">
 </head>
 <body class="container mt-5">
-        <%@ include file="../fragments/header.jspf"%>
-		<div class="container-fluid">
-            <c:set var="pageTitle" value="팀 생성" />
-        </div>
-        
+	<%@ include file="../fragments/header.jspf"%>
+	<div class="container-fluid">
+		<c:set var="pageTitle" value="팀 생성" />
+	</div>
+
 	<c:url var="courseRecruitPage" value="/team/list" />
-	<a href="${courseRecruitPage}">팀 목록</a>
-	
-	<h2 class="mb-4">팀 생성</h2>
-	<c:url value="/team/create" var="teamCreatePage" />
-	<form action="${teamCreatePage}" method="post" id="teamForm"
-		enctype="multipart/form-data">
-		<!-- 팀 이름 -->
-		<div class="mb-3">
-			<label for="teamName" class="form-label">팀 이름</label> <input
-				type="text" id="teamName" name="teamName" class="form-control"
-				required>
-		</div>
+	<a href="${courseRecruitPage}"> </a>
 
-		<!-- 배너 업로드(이미지만 1개 업로드 가능) -->
-		<div class="mb-3">
-			<label for="imageUpload" class="form-label">팀 대표 이미지 업로드</label> <input
-				type="file" class="form-control" id="imageUpload" name="file"
-				accept="image/*" required>
-		</div>
+	<div class="container my-3">
+		<div class="row d-flex justify-content-center">
+			<div class="col-md-12 col-lg-10 col-xl-8">
+				<div class="card p-4 shadow">
+					<h2 class="mb-4 text-center">팀 생성</h2>
+					<c:url value="/team/create" var="teamCreatePage" />
+					<form action="${teamCreatePage}" method="post" id="teamForm"
+						enctype="multipart/form-data">
 
-		<!-- 배너 미리보기 -->
-		<div class="mb-3">
-			<img id="imagePreview" src="#" alt="미리보기"
-				style="max-width: 200px; display: none;">
-		</div>
+						<!-- 팀 이름 -->
+						<div class="mb-3">
+							<label for="teamName" class="form-label">팀 이름</label> <input
+								type="text" id="teamName" name="teamName" class="form-control"
+								required>
+						</div>
 
-		<!-- 제목 -->
-		<div class="mb-3">
-			<label for="title" class="form-label">제목</label> <input type="text"
-				id="title" name="title" class="form-control" required>
-		</div>
+						<!-- 배너 업로드 -->
+						<div class="mb-3">
+							<label for="imageUpload" class="form-label">팀 대표 이미지 업로드</label>
+							<input type="file" class="form-control" id="imageUpload"
+								name="file" accept="image/*" required>
+						</div>
 
-		<!-- 내용 -->
-		<div class="mb-3">
-			<label for="content" class="form-label">내용</label>
-			<textarea id="content" name="content" class="form-control" rows="4"
-				required placeholder="공백포함 최대 300자"></textarea>
-		</div>
+						<!-- 배너 미리보기 -->
+						<div class="mb-3 text-center">
+							<img id="imagePreview" src="#" alt="미리보기"
+								style="max-width: 200px; display: none;">
+						</div>
 
-		<!-- 구 선택 -->
-		<div class="mb-3">
-			<label for="districtSelect" class="form-label">구 선택</label> <select
-				id="districtSelect" class="form-select" required>
-				<option value="" selected disabled>구 선택</option>
-				<option value="강남구">강남구</option>
-				<option value="강동구">강동구</option>
-				<option value="강북구">강북구</option>
-				<option value="강서구">강서구</option>
-				<option value="관악구">관악구</option>
-				<option value="광진구">광진구</option>
-				<option value="구로구">구로구</option>
-				<option value="금천구">금천구</option>
-				<option value="노원구">노원구</option>
-				<option value="도봉구">도봉구</option>
-				<option value="동대문구">동대문구</option>
-				<option value="동작구">동작구</option>
-				<option value="마포구">마포구</option>
-				<option value="서대문구">서대문구</option>
-				<option value="서초구">서초구</option>
-				<option value="성동구">성동구</option>
-				<option value="성북구">성북구</option>
-				<option value="송파구">송파구</option>
-				<option value="양천구">양천구</option>
-				<option value="영등포구">영등포구</option>
-				<option value="용산구">용산구</option>
-				<option value="은평구">은평구</option>
-				<option value="종로구">종로구</option>
-				<option value="중구">중구</option>
-				<option value="중랑구">중랑구</option>
+						<!-- 제목 -->
+						<div class="mb-3">
+							<label for="title" class="form-label">제목</label> <input
+								type="text" id="title" name="title" class="form-control"
+								required>
+						</div>
 
-			</select>
-		</div>
+						<!-- 내용 -->
+						<div class="mb-3">
+							<label for="content" class="form-label">내용</label>
+							<textarea id="content" name="content" class="form-control"
+								rows="4" required placeholder="공백 포함 최대 300자"></textarea>
+						</div>
 
-		<!-- 공원 선택 -->
-		<div class="mb-3">
-			<label for="parkId" class="form-label">공원 선택</label> <select
-				id="selectPark" name="parkId" class="form-select" required>
-				<option value="" selected disabled>먼저 구를 선택하세요</option>
-			</select>
-		</div>
-		<!-- 최대 인원 -->
-		<div class="mb-3">
-			<label for="maxNum" class="form-label">본인을 포함한 최대 인원</label> <input
-				type="number" id="maxNum" name="maxNum" class="form-control" min="2"
-				max="30" required>
-		</div>
+						<!-- 구 선택 -->
+						<div class="mb-3">
+							<label for="districtSelect" class="form-label">구 선택</label> <select
+								id="districtSelect" class="form-select" required>
+								<option value="" selected disabled>구 선택</option>
+								<option value="강남구">강남구</option>
+								<option value="강동구">강동구</option>
+								<option value="강북구">강북구</option>
+								<option value="강서구">강서구</option>
+								<option value="관악구">관악구</option>
+								<option value="광진구">광진구</option>
+								<option value="구로구">구로구</option>
+								<option value="금천구">금천구</option>
+								<option value="노원구">노원구</option>
+								<option value="도봉구">도봉구</option>
+								<option value="동대문구">동대문구</option>
+								<option value="동작구">동작구</option>
+								<option value="마포구">마포구</option>
+								<option value="서대문구">서대문구</option>
+								<option value="서초구">서초구</option>
+								<option value="성동구">성동구</option>
+								<option value="성북구">성북구</option>
+								<option value="송파구">송파구</option>
+								<option value="양천구">양천구</option>
+								<option value="영등포구">영등포구</option>
+								<option value="용산구">용산구</option>
+								<option value="은평구">은평구</option>
+								<option value="종로구">종로구</option>
+								<option value="중구">중구</option>
+								<option value="중랑구">중랑구</option>
+							</select>
+						</div>
 
-		<!-- 연령 제한 -->
-		<div class="mb-3">
-			<label for="ageLimit" class="form-label">연령 제한</label> <input
-				type="number" id="ageLimit" name="ageLimit" class="form-control"
-				min="0" placeholder="예: 20 (20세 이상)" required>
-		</div>
+						<!-- 공원 선택 -->
+						<div class="mb-3">
+							<label for="selectPark" class="form-label">공원 선택</label> <select
+								id="selectPark" name="parkId" class="form-select" required>
+								<option value="" selected disabled>먼저 구를 선택하세요</option>
+							</select>
+						</div>
 
-		<!-- 성별 제한 -->
-		<div class="mb-3">
-			<label for="genderLimit" class="form-label">성별 제한</label> <select
-				id="genderLimit" name="genderLimit" class="form-select" required>
-				<option value="0">성별 무관</option>
-				<option value="1">남성만</option>
-				<option value="2">여성만</option>
-			</select>
-		</div>
+						<!-- 최대 인원 -->
+						<div class="mb-3">
+							<label for="maxNum" class="form-label">본인을 포함한 최대 인원</label> <input
+								type="number" id="maxNum" name="maxNum" class="form-control"
+								min="2" max="30" required>
+						</div>
 
-		<!-- 제출 버튼 -->
-		<button type="submit" class="btn btn-primary w-100">팀 생성</button>
-	</form>
+						<!-- 연령 제한 -->
+						<div class="mb-3">
+							<label for="ageLimit" class="form-label">연령 제한</label> <input
+								type="number" id="ageLimit" name="ageLimit" class="form-control"
+								min="0" placeholder="예: 20 (20세 이상)" required>
+						</div>
+
+						<!-- 성별 제한 -->
+						<div class="mb-3">
+							<label for="genderLimit" class="form-label">성별 제한</label> <select
+								id="genderLimit" name="genderLimit" class="form-select" required>
+								<option value="0">성별 무관</option>
+								<option value="1">남성만</option>
+								<option value="2">여성만</option>
+							</select>
+						</div>
+
+						<!-- 제출 버튼 -->
+						<button type="submit" class="btn w-100"
+							style="background-color: #28a745; color: white;">팀 생성</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
 
 	<!-- Bootstrap Javascript  -->
 	<script
@@ -141,7 +153,7 @@
 		//세션에 저장된 로그인 사용자 아이디를 자바스크립트 변수에 저장.
 		const signedInUserId = '${signedInUserId}';//문자열 포맷으로 변수를 저장.
 		const signedInUserNickname = '${signedInUserNickname}';
-		const teams='${teams}';
+		const teams = '${teams}';
 
 		// 이미지 미리보기 기능
 		document.getElementById("imageUpload").addEventListener("change",
@@ -160,7 +172,6 @@
 						preview.style.display = "none"; //화면에 아무것도 보여주지 않는다
 					}
 				});
-
 	</script>
 
 	<!-- Axios Http Js-->

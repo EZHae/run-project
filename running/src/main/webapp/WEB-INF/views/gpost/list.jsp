@@ -43,80 +43,84 @@
 		<c:set var="pageTitle" value="글 목록" />
 	</div>
 
-	<div class="container-fluid">
-		<main class="mt-3">
-			<c:url value="/gpost/list" var="gPostGategoryPage" />
-			<form action="${gPostGategoryPage}" method="get" id="searchForm">
-				<input type="hidden" name="category" id="categoryInput"
-					value="${param.category != null ? param.category : 0}">
+	<div class="container my-3">
+		<div class="row d-flex justify-content-center">
+			<div class="col-md-12 col-lg-10 col-xl-8">
+				<main class="mt-3">
+					<c:url value="/gpost/list" var="gPostGategoryPage" />
+					<form action="${gPostGategoryPage}" method="get" id="searchForm">
+						<input type="hidden" name="category" id="categoryInput"
+							value="${param.category != null ? param.category : 0}">
 
-				<div class="d-flex align-items-center mb-3">
-					<!-- 검색 타입 선택 (폭을 좁게 설정) -->
-					<select id="searchType" class="form-select me-3" name="search"
-						style="width: 120px;">
-						<option value="t" ${param.search eq 't' ? 'selected' : ''}>제목</option>
-						<option value="c" ${param.search eq 'c' ? 'selected' : ''}>내용</option>
-						<option value="tc" ${param.search eq 'tc' ? 'selected' : ''}>제목+내용</option>
-						<option value="n" ${param.search eq 'n' ? 'selected' : ''}>작성자</option>
-					</select>
+						<div class="d-flex align-items-center mb-3">
+							<!-- 검색 타입 선택 (폭을 좁게 설정) -->
+							<select id="searchType" class="form-select me-3" name="search"
+								style="width: 120px;">
+								<option value="t" ${param.search eq 't' ? 'selected' : ''}>제목</option>
+								<option value="c" ${param.search eq 'c' ? 'selected' : ''}>내용</option>
+								<option value="tc" ${param.search eq 'tc' ? 'selected' : ''}>제목+내용</option>
+								<option value="n" ${param.search eq 'n' ? 'selected' : ''}>작성자</option>
+							</select>
 
-					<!-- 검색어 입력 -->
-					<input type="text" name="keyword" class="form-control me-3"
-						placeholder="검색, 공백 가능" aria-label="검색어">
+							<!-- 검색어 입력 -->
+							<input type="text" name="keyword" class="form-control me-3"
+								placeholder="검색, 공백 가능" aria-label="검색어">
 
-					<!-- 검색 버튼 (돋보기 아이콘 추가) -->
-					<button id="searchButton" class="btn btn-success text-white">
-						<i class="bi bi-search"></i>
-						<!-- 돋보기 아이콘 -->
-					</button>
-				</div>
-			</form>
+							<!-- 검색 버튼 (돋보기 아이콘 추가) -->
+							<button id="searchButton" class="btn btn-success text-white">
+								<i class="bi bi-search"></i>
+								<!-- 돋보기 아이콘 -->
+							</button>
+						</div>
+					</form>
 
-			<!-- 버튼: 자유, 질문 -->
-			<div class="mb-3">
-				<button type="button" onclick="setCategory(0)"
-					class="btn btn-outline-success me-2">자유</button>
-				<button type="button" onclick="setCategory(1)"
-					class="btn btn-outline-success">질문</button>
+					<!-- 버튼: 자유, 질문 -->
+					<div class="mb-3">
+						<button type="button" onclick="setCategory(0)"
+							class="btn btn-outline-success me-2">자유</button>
+						<button type="button" onclick="setCategory(1)"
+							class="btn btn-outline-success">질문</button>
+					</div>
+
+					<!-- 카드 -->
+					<div class="card mt-3">
+						<div class="card-body">
+							<table class="table table-striped table-hover">
+								<thead class="table-success">
+									<tr>
+										<th>제목</th>
+										<th>작성자</th>
+										<th>조회수</th>
+										<th>작성시간</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach items="${gPosts}" var="p">
+										<tr>
+											<td><c:url var="gPostDetailsPage" value="/gpost/details">
+													<c:param name="id" value="${p.id}" />
+												</c:url> <a href="${gPostDetailsPage}" class="text-success">${p.title}</a></td>
+											<td>${p.nickname}</td>
+											<td>${p.viewCount}</td>
+											<td>${p.formattedModifiedTime}</td>
+										</tr>
+									</c:forEach>
+									<c:if test="${empty gPosts}">
+										<tr>
+											<td colspan="4">검색 결과가 없습니다.</td>
+										</tr>
+									</c:if>
+								</tbody>
+							</table>
+						</div>
+						<div class="card-footer d-flex justify-content-end">
+							<c:url var="gPostCreatePage" value="/gpost/create" />
+							<a href="${gPostCreatePage}" class="me-2 btn btn-outline-success">글쓰기</a>
+						</div>
+					</div>
+				</main>
 			</div>
-
-			<!-- 카드 -->
-			<div class="card mt-3">
-				<div class="card-body">
-					<table class="table table-striped table-hover">
-						<thead class="table-success">
-							<tr>
-								<th>제목</th>
-								<th>작성자</th>
-								<th>조회수</th>
-								<th>작성시간</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach items="${gPosts}" var="p">
-								<tr>
-									<td><c:url var="gPostDetailsPage" value="/gpost/details">
-											<c:param name="id" value="${p.id}" />
-										</c:url> <a href="${gPostDetailsPage}" class="text-success">${p.title}</a></td>
-									<td>${p.nickname}</td>
-									<td>${p.viewCount}</td>
-									<td>${p.formattedModifiedTime}</td>
-								</tr>
-							</c:forEach>
-							<c:if test="${empty gPosts}">
-								<tr>
-									<td colspan="4">검색 결과가 없습니다.</td>
-								</tr>
-							</c:if>
-						</tbody>
-					</table>
-				</div>
-				<div class="card-footer d-flex justify-content-end">
-					<c:url var="gPostCreatePage" value="/gpost/create" />
-					<a href="${gPostCreatePage}" class="me-2 btn btn-outline-success">글쓰기</a>
-				</div>
-			</div>
-		</main>
+		</div>
 	</div>
 
 	<!-- 페이징 처리 -->
