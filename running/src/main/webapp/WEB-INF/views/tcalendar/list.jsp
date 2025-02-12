@@ -19,22 +19,23 @@
 	/* 내팀으로, 팀게시판, 팀앨범, 팀일정게시판 버튼 */
 	.custom-btn {
 	    background-color: transparent;
-	    border: 2px solid #28a745;
-	    color: #28a745;
+	    border: 2px solid #008C2C;
+	    color: #008C2C;
 	    transition: background-color 0.3s, color 0.3s;
 	}
 	
 	.custom-btn:hover, .custom-btn:focus, .custom-btn.active {
-	    background-color: #28a745;
+	    background-color: #008C2C;
 	    color: white;
-	    border-color: #28a745;
+	    border-color: #008C2C;
 	}
+	
 	
 	/* 새글 작성 버튼 */
 	.btn-create {
-		background-color: #28a745;
+		background-color: #008C2C;
 		color: white;
-		border: 1px solid #28a745;
+		border: 1px solid #008C2C;
 	}
 	
 	.btn-create:hover {
@@ -45,6 +46,7 @@
 	.float-right {
 		float: right; /* 오른쪽에 위치 */
 	}
+	
 	
 	/* 게시글 카드 */
 	.card-container {
@@ -70,6 +72,7 @@
 	    justify-content: space-between;
 	    align-items: center;
 	}
+
 
 	/* 페이징 버튼 */
 	/* 클릭된 페이지 번호 버튼에 대해 색상과 배경 색상 변경 */
@@ -181,7 +184,7 @@
 														<c:param name="calendarId" value="${calendar.id}" />
 													</c:url>
 													<a href="${calendarDetailPage}" class="btn"
-														style="background-color: #28a745; color: white;">자세히 보기</a>
+														style="background-color: #008C2C; color: white;">자세히 보기</a>
 												</div>
 											</div>
 										</div>

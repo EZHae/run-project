@@ -52,7 +52,8 @@
 							<c:otherwise>
 								<ul class="list-group list-group-flush">
 									<c:forEach var="images" items="${gImages}">
-										<li class="list-group-item d-flex align-items-center"><img
+										<li class="list-group-item d-flex align-items-center">
+										<img
 											alt="${images.originName}" class="rounded me-2"
 											src="/running/gpost/uploads/${images.uniqName}"
 											style="width: 50px; height: 50px;"> <span
@@ -67,7 +68,7 @@
 					</div>
 
 					<!-- 수정하기 버튼 (작성자 본인만 보이게) -->
-					<c:if test="${signedInUserId eq gPost.userId}">
+					<c:if test="${signedInUserNickname eq gPost.userId}">
 						<div class="d-flex justify-content-center mt-4">
 							<c:url var="gPostModifyPage" value="/gpost/modify">
 								<c:param name="id" value="${gPost.id}" />
