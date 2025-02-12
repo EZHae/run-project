@@ -35,6 +35,9 @@
 		<c:url var="imageListPage" value="/teampage/${teamId}/image/list" />
 		<a href="${imageListPage}">팀 앨범</a>
 		
+		<c:url var="calendarListPage" value="/teampage/${teamId}/tcalendar/list" />
+		<a href="${calendarListPage}">팀 일정 게시판</a>
+		
 		<h1>팀 게시판</h1>
 		
 		<c:url var="postSearchPage" value="/teampage/${teamId}/post/list" />
@@ -67,63 +70,70 @@
 		
 		<hr>
 		
-		<c:forEach var="post" items="${posts}" >
-			<c:url var="postDetailsPage" value="/teampage/${post.teamId}/post/${post.id}/details" />
-			<a href="${postDetailsPage}">${post.title}</a>
-			<hr>
-		</c:forEach>
-
-		<div class="d-flex justify-content-center mt-3">
-			<nav aria-label="Page navigation">
-				<ul class="pagination">
-					<c:if test="${currentPage > pageBlockSize}">
-						<li class="page-item">
-							<a class="page-link" href="
-								<c:choose>
-	                        		<c:when test="${empty type and empty keyword}">
-	                            		?page=${startPage - 1}
-	                        		</c:when>
-	                        		<c:otherwise>
-	                            		?page=${startPage - 1}&type=${type}&keyword=${keyword}
-	                        		</c:otherwise>
-	                    		</c:choose>">
-	                    		이전
-	                    	</a>
-						</li>
-					</c:if>
-					<c:forEach begin="${startPage}" end="${endPage}" var="page">
-						<li class="page-item ${page == currentPage ? 'active' : ''}">
-							<a class="page-link" href="
-								<c:choose>
-	                        		<c:when test="${empty type and empty keyword}">
-	                            		?page=${page}
-	                        		</c:when>
-	                        		<c:otherwise>
-	                            		?page=${page}&type=${type}&keyword=${keyword}
-	                        		</c:otherwise>
-	                    		</c:choose>">
-	                    		${page}
-	                    	</a>
-						</li>
-					</c:forEach>
-					<c:if test="${endPage < totalPage}">
-						<li class="page-item">
-							<a class="page-link" href="
-								<c:choose>
-			                        <c:when test="${empty type and empty keyword}">
-			                            ?page=${endPage + 1}
-			                        </c:when>
-			                        <c:otherwise>
-			                            ?page=${endPage + 1}&type=${type}&keyword=${keyword}
-			                        </c:otherwise>
-		                    	</c:choose>">
-	                    		다음
-	                    	</a>
-						</li>
-					</c:if>
-				</ul>
-			</nav>
-		</div>
+		
+		<c:choose>
+			<c:when test="${empty posts}">
+				<span>등록된 게시글이 없습니다.</span>
+			</c:when>
+			
+			<c:otherwise>
+				<c:forEach var="post" items="${posts}">
+					<c:url var="postDetailsPage" value="/teampage/${post.teamId}/post/${post.id}/details" />
+					<a href="${postDetailsPage}">${post.title}</a>
+					<hr>
+				</c:forEach>
+	
+				<div class="d-flex justify-content-center mt-3">
+					<nav aria-label="Page navigation">
+						<ul class="pagination">
+							<c:if test="${currentPage > pageBlockSize}">
+								<li class="page-item"><a class="page-link"
+									href="
+									<c:choose>
+		                        		<c:when test="${empty type and empty keyword}">
+		                            		?page=${startPage - 1}
+		                        		</c:when>
+		                        		<c:otherwise>
+		                            		?page=${startPage - 1}&type=${type}&keyword=${keyword}
+		                        		</c:otherwise>
+		                    		</c:choose>">
+										이전 </a></li>
+							</c:if>
+							<c:forEach begin="${startPage}" end="${endPage}" var="page">
+								<li class="page-item ${page == currentPage ? 'active' : ''}">
+									<a class="page-link"
+									href="
+									<c:choose>
+		                        		<c:when test="${empty type and empty keyword}">
+		                            		?page=${page}
+		                        		</c:when>
+		                        		<c:otherwise>
+		                            		?page=${page}&type=${type}&keyword=${keyword}
+		                        		</c:otherwise>
+		                    		</c:choose>">
+										${page} </a>
+								</li>
+							</c:forEach>
+							<c:if test="${endPage < totalPage}">
+								<li class="page-item"><a class="page-link"
+									href="
+									<c:choose>
+				                        <c:when test="${empty type and empty keyword}">
+				                            ?page=${endPage + 1}
+				                        </c:when>
+				                        <c:otherwise>
+				                            ?page=${endPage + 1}&type=${type}&keyword=${keyword}
+				                        </c:otherwise>
+			                    	</c:choose>">
+										다음 </a>
+								</li>
+							</c:if>
+						</ul>
+					</nav>
+				</div>
+		</c:otherwise>
+		</c:choose>
+		
 
 		<!-- Bootstrap JS 링크 -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 

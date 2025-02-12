@@ -37,9 +37,16 @@ document.addEventListener('DOMContentLoaded', () => {
 			// 받아온 데이터
 			const images = response.data;
 			console.log('받아온 이미지 데이터:', images);
-
+			
 			// 기존 이미지 초기화
 			divImageList.innerHTML = '';
+			
+			if (images.length === 0) {
+				const spanNotImage = document.createElement('span');
+				spanNotImage.innerText = '등록된 사진이 없습니다.';
+				divImageList.appendChild(spanNotImage);
+				return;
+			}
 
 			// 이미지 리스트 동적 생성
 			images.forEach(image => {

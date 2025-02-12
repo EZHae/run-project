@@ -252,17 +252,14 @@ document.addEventListener('DOMContentLoaded', ()=> {
             alert("현재 비밀번호를 입력해주세요.");
             return;
         }
-
         if (!password.trim()) {
             alert("새 비밀번호를 입력해주세요.");
             return;
         }
-
         if (password !== newSecondPassword) {
             alert("새 비밀번호가 일치하지 않습니다.");
             return;
         }
-        
         if (!password || password.trim() === '') {
             alert("새 비밀번호를 입력해주세요.");
             return;
@@ -271,7 +268,6 @@ document.addEventListener('DOMContentLoaded', ()=> {
             alert("새 비밀번호가 일치하지 않습니다.");
             return;
         }
-        
         if (currentPassword === password) {
             alert("현재 비밀번호와 동일한 비밀번호를 사용할 수 없습니다.");
             return;
@@ -292,7 +288,30 @@ document.addEventListener('DOMContentLoaded', ()=> {
             passwordModal.hide();
             window.location.reload(true);
         })
-        .catch((error) => {});
+        .catch((error) => {
+            console.log("에러 발생:", error.response);
+            if (error.response && error.response.data) {
+                alert(error.response.data); // 서버에서 반환한 에러 메시지 출력
+            } else {
+                alert("비밀번호 변경 중 오류가 발생했습니다. 다시 시도해주세요.");
+            }
+        });
     }
+    
+    
+    const images = document.querySelectorAll(".selectable-img");
+
+    images.forEach(image => {
+        image.addEventListener("click", function () {
+            // 기존 선택 효과 제거
+            images.forEach(img => img.classList.remove("selected"));
+
+            // 선택한 이미지에 효과 적용
+            this.classList.add("selected");
+
+            // 미리보기 이미지 변경
+            document.getElementById("previewImage").src = this.src;
+        });
+    });
     
 });

@@ -23,4 +23,5 @@ public class GComment {
 	private Integer secret;
 	private Integer parentId;
 	private String parentNickname;
+
 }

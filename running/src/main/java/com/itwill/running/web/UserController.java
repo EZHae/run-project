@@ -29,7 +29,9 @@ import com.itwill.running.dto.UserItemDto;
 import com.itwill.running.dto.UserSignInDto;
 import com.itwill.running.dto.UserSignUpDto;
 import com.itwill.running.dto.UserUpdateDto;
+import com.itwill.running.service.GCommentService;
 import com.itwill.running.service.NotificationService;
+import com.itwill.running.service.TCommentService;
 import com.itwill.running.service.TeamService;
 import com.itwill.running.service.UImagesService;
 import com.itwill.running.service.UserService;
@@ -48,6 +50,8 @@ public class UserController {
 	private final UImagesService uimagesService;
 	private final TeamService teamService;
 	private final NotificationService notiService;
+	private final GCommentService gcommentService;
+	private final TCommentService tcommentService;
 	
 	//알림목록보기
 	@GetMapping("/notifications")
@@ -167,7 +171,11 @@ public class UserController {
 	        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("본인 계정만 삭제 가능");
 	    }
 
+	    // 이지해 추가 - 계정 삭제되기 전 해당 유저가 작성한 댓글들 처리
+	    gcommentService.toUnknownByUserId(userId);
+	    tcommentService.deleteByUserId(userId);
 		userService.deleteUser(userId);
+		
 		session.invalidate();
 		
 		return ResponseEntity.ok("계정 삭제 완료");
@@ -235,10 +243,6 @@ public class UserController {
 	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("현재 비밀번호가 올바르지 않습니다.");
 	    }
 		
-	    if (password == null || password.isBlank()) {
-	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("비밀번호가 비어 있습니다.");
-	    }
-	    
 	    // 현재 비밀번호와 새 비밀번호가 동일한 경우
 	    if (storedPassword.equals(password)) {
 	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("현재 비밀번호와 새 비밀번호가 동일합니다.");
@@ -262,25 +266,36 @@ public class UserController {
 		
 	}
 	
-	// 마이페이지 팀 조회 및 팀 탈퇴 API
+	// 마이페이지 팀원 조회 및 팀 탈퇴 API
 	@DeleteMapping("/leave/{teamId}")
 	@ResponseBody
 	public ResponseEntity<String> leaveTeam(@PathVariable Integer teamId, HttpSession session) {
 		String userId = (String) session.getAttribute("signedInUserId");
 		log.debug("팀 ID: {}, 유저 ID: {}", teamId, userId);
 		
-		// 팀장 체크
-		Integer teamLeaderCheck = teamService.selectTeamLeaderCheck(teamId, userId);
-		if(teamLeaderCheck == 1 && teamLeaderCheck != null) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("팀 탈퇴가 불가능합니다. 팀장이 아닌 팀원만 탈퇴할 수 있으며, "
-					+ "팀장은 팀 상세 페이지에서 팀원을 정리한 후 팀을 삭제할 수 있습니다.");
-		} 
 		// 팀 떠나기
 		teamService.deleteTeamMember(teamId, userId);
 		return ResponseEntity.ok("팀을 탈퇴하였습니다.");
 	}
+
+	// 마이페이지 팀장 조회 및 팀 삭제 API
+	@DeleteMapping("/delete/{teamId}")
+	@ResponseBody
+	public ResponseEntity<String> deleteTeam(@PathVariable Integer teamId, HttpSession session) {
+		String userId = (String) session.getAttribute("signedInUserId");
+		log.debug("팀 ID: {}, 유저 ID: {}", teamId, userId);
+
+		// 팀장 체크
+		Integer teamLeaderCheck = teamService.selectTeamLeaderCheck(teamId, userId);
+		if (teamLeaderCheck == null || teamLeaderCheck != 1) {
+		    return ResponseEntity.status(HttpStatus.FORBIDDEN)
+		            .body("팀 삭제가 불가능합니다. 팀장만 삭제할 수 있습니다.");
+		}
 		
-	
+		// 팀장이 삭제하기
+		teamService.deleteTeamLeader(teamId);
+		return ResponseEntity.ok("팀을 삭제하였습니다.");
+	}
 	
 	//  ---------------------------------- 중복체크 ---------------------------------------// 
 	

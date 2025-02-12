@@ -15,4 +15,7 @@ public interface GCommentDao {
 	Integer isCommentDeletable(Integer id);
 	Integer updateToUnknown(GComment comment);
 	Integer deleteUnknownComments();
+	
+	// 이지해 추가
+	Integer updateToUnknownByUserId(String userId);
 }

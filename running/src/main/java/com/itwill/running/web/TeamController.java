@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -176,9 +177,10 @@ public class TeamController {
 		return "redirect:/team/list";
 	}
 
-	@GetMapping("/delete")
-	public String deleteTeam(@RequestParam("teamid") Integer teamId, HttpSession session, Model model) {
+	@DeleteMapping("/delete")
+	public ResponseEntity<Integer> deleteTeam(@RequestParam("teamid") Integer teamId, HttpSession session, Model model) {
 		// 로그인아이디와 작성자아이디 체크
+		/*
 		String signedInUserId = session.getAttribute("signedInUserId").toString();
 		String userId = teamService.read(teamId).getUserId();
 		if (!signedInUserId.equals(userId)) {
@@ -186,13 +188,14 @@ public class TeamController {
 			model.addAttribute("errordetail", 3);
 			return "nopermission";
 		}
-		
+		*/
 		// 배너이미지 c드라이브에서 삭제
 		TeamItemDto ogTeam = teamService.readByTeamid(teamId);
 		FileController.deleteFileFromDirectory("C:\\uploadTeamImg\\" + ogTeam.getUniqName());
 		int result = teamService.deleteTeam(teamId);
-		
-		return "redirect:/team/list";
+		return ResponseEntity.ok(result);
+
+		//return "redirect:/team/list";
 	}
 
 }

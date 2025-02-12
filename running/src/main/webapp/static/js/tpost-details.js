@@ -292,7 +292,8 @@ document.addEventListener('DOMContentLoaded', () => {
 				
 			const imgProfile = document.createElement('img');
 				imgProfile.classList.add('rounded-circle', 'shadow-1-strong', 'me-3');
-				imgProfile.src = 'https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(10).webp';
+				const imgPath = `/running/image/view/user/${userId}`
+				imgProfile.src = imgPath;
 				imgProfile.alt = 'avatar';
 				imgProfile.width = '65';
 				imgProfile.height = '65';
@@ -310,8 +311,18 @@ document.addEventListener('DOMContentLoaded', () => {
 			 * (작성자 닉네임, 작성시간, 상위 댓/답글 닉네임 from 답글(@닉네임), 내용)
 			 */
 			const divComment = document.createElement('div');
-				divComment.classList.add('d-flex', 'justify-content-between', 'align-items-center');
+				divComment.classList.add('d-flex', 'justify-content-between', 'text-center');
 				divNull.appendChild(divComment);
+				
+			const divFirst = document.createElement('div');
+				divFirst.classList.add('flex-grow-1', 'text-start');
+				divComment.appendChild(divFirst)
+			
+			const divSecond = document.createElement('div');
+				divSecond.classList.add('text-end');
+				divComment.appendChild(divSecond);
+				
+			
 			
 			// 상위 댓/답글 닉네임 from 답글
 			const spanNickname = document.createElement('span');
@@ -354,7 +365,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			const pNickname = document.createElement('p');
 				pNickname.classList.add('mb-1');
 				pNickname.innerText = nickname;
-				divComment.appendChild(pNickname);
+				divFirst.appendChild(pNickname);
 			
 			// 작성 시간
 			const spanTime = document.createElement('span');
@@ -400,7 +411,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			 */
 			const btnUpdateComment = document.createElement('button');
 				btnUpdateComment.setAttribute('id', 'btnUpdateComment')
-				btnUpdateComment.classList.add('btn', 'btn-sm', 'btn-outline-success');
+				btnUpdateComment.classList.add('btn', 'btn-sm', 'btn-outline-success', 'me-1');
 				btnUpdateComment.setAttribute('data-id', id);
 				btnUpdateComment.innerText = '수정';
 				btnUpdateComment.addEventListener('click', openUpdateCommentForm);
@@ -412,7 +423,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			 */
 			const btnDeleteComment = document.createElement('button');
 				btnDeleteComment.setAttribute('id', 'btnDelete');
-				btnDeleteComment.classList.add('btn', 'btn-sm', 'btn-outline-danger');
+				btnDeleteComment.classList.add('btn', 'btn-sm', 'btn-outline-danger', 'me-1');
 				btnDeleteComment.setAttribute('data-id', id);
 				btnDeleteComment.innerText = '삭제';
 				btnDeleteComment.addEventListener('click', (event) => {
@@ -437,8 +448,8 @@ document.addEventListener('DOMContentLoaded', () => {
 				});
 				
 				if (deleted === 0 && signedInUserId == userId) {
-					divComment.appendChild(btnUpdateComment);
-					divComment.appendChild(btnDeleteComment);
+					divSecond.appendChild(btnUpdateComment);
+					divSecond.appendChild(btnDeleteComment);
 				}
 			
 			/**
@@ -451,7 +462,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			 */
 			const btnReplyComment = document.createElement('button');
 				btnReplyComment.setAttribute('id', 'btnReplyComment')
-				btnReplyComment.classList.add('btn', 'btn-sm');
+				btnReplyComment.classList.add('btn', 'btn-sm', 'btn-outline-dark');
 				btnReplyComment.setAttribute('data-id', id);
 				btnReplyComment.setAttribute('data-teamId', teamId);
 				btnReplyComment.setAttribute('data-postId', postId);
@@ -470,7 +481,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				});
 				
 				if (deleted === 0 && !signedInUserId == '' || !signedInUserId == null) {
-					divComment.appendChild(btnReplyComment);
+					divSecond.appendChild(btnReplyComment);
 				}
 
 			// 최종적으로 만들어진 html(댓/답글)을 divContainer에 상속한다.
@@ -594,7 +605,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		const imgProfile = document.createElement('img');
 			imgProfile.classList.add('rounded-circle', 'shadow-1-strong', 'me-3');
-			imgProfile.src = 'https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(10).webp';
+			const imgPath = `/running/image/view/user/${userId}`
+			imgProfile.src = imgPath;
 			imgProfile.alt = 'avatar';
 			imgProfile.width = '65';
 			imgProfile.height = '65';

@@ -18,6 +18,7 @@ public interface TeamDao {
 	List<Team> selectTeamsByUserId(String userId);
 	Integer deleteTeamMember(Integer teamId, String userId);
 	Integer selectTeamLeaderCheck(Integer teamId,String userId);
+	Integer deleteTeamLeader(Integer teamId);
 
 	// 이수빈
 	Integer insertNewTeam(Team team);

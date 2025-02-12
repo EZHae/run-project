@@ -84,6 +84,12 @@
 			where id = #{id}
 	</update>
 	
+	<update id="updateTCommentLikeDeleteByUserId">
+		update t_comments
+			set ctext = '탈퇴한 회원의 댓글입니다.', modified_time = systimestamp, deleted = 1
+			where user_Id = #{userId}
+	</update>
+	
 	<delete id="deleteTCommentById">
 		delete from t_comments 
 			where id = #{id}

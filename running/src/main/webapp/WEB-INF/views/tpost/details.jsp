@@ -34,6 +34,9 @@
 		
 		<c:url var="imageListPage" value="/teampage/${teamId}/image/list" />
 		<a href="${imageListPage}">팀 앨범</a>
+		
+		<c:url var="calendarListPage" value="/teampage/${teamId}/tcalendar/list" />
+		<a href="${calendarListPage}">팀 일정 게시판</a>
 	
 		<h1>팀 게시판 글 상세보기</h1>
 		<div>
