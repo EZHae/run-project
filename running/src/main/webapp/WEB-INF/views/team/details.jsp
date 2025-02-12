@@ -24,51 +24,60 @@
 		<div class="row d-flex justify-content-center">
 			<div class="col-md-12 col-lg-10 col-xl-8">
 				<div class="card p-4">
-					<div class="mt-2 text-center">
-						<div class="bg-success p-3 rounded text-white">
-							<h4>${teamItemDto.title}</h4>
+					<div class="container">
+						<!-- 팀 제목 -->
+						<div class="mt-2 text-center">
+							<div class="text-center mb-3 mt-3">
+							<h2><${teamItemDto.title}></h2>
 						</div>
-						<img src="${teamItemDto.imagePath}" class="img-fluid rounded mt-2"
-							alt="팀 배너" />
+
+						<!-- 팀 배너 이미지 -->
+						<div class="text-center mt-2">
+							<img src="${teamItemDto.imagePath}" class="img-fluid rounded"
+								alt="팀 배너" />
+						</div>
+
+						<!-- 팀 이름 -->
+						<div class="bg-success p-3 rounded text-white mt-3">
+								<h4>${teamItemDto.teamName}</h4>
+							</div>
+
+						<!-- 팀장 이름 -->
+						<div class="text-center mb-3 mt-3">
+							<h5>${teamItemDto.nickname}</h5>
+						</div>
+
+						<!-- 팀 설명 -->
+						<div class="text-center mb-3">
+							<p>${teamItemDto.content}</p>
+						</div>
+
+						<!-- 공원 이름 -->
+						<div class="text-center mb-3">
+							<p>${park.parkName}</p>
+						</div>
+
+						<!-- 성별 제한 -->
+						<div class="text-center mb-3">
+							<h5>성별대</h5>
+							<c:if test="${teamItemDto.genderLimit==0}">
+								<p>자유</p>
+							</c:if>
+							<c:if test="${teamItemDto.genderLimit==1}">
+								<p>남성만</p>
+							</c:if>
+							<c:if test="${teamItemDto.genderLimit==2}">
+								<p>여성만</p>
+							</c:if>
+						</div>
+
+						<!-- 연령대 -->
+						<div class="text-center mb-3">
+							<h5>연령대</h5>
+							<p>${teamItemDto.ageLimit}살이상</p>
+						</div>
 					</div>
 
-					<div class="mb-3">
-						<h5>팀이름</h5>
-						<p>${teamItemDto.teamName}</p>
-					</div>
-					
-					<div class="mb-3">
-						<h5>팀장</h5>
-						<p>${teamItemDto.nickname}</p>
-					</div>
-
-					<div class="mb-3">
-						<h5>내용</h5>
-						<p>${teamItemDto.content}</p>
-					</div>
-
-					<div class="mb-3">
-						<h5>공원</h5>
-						<p>${park.parkName}</p>
-					</div>
-
-					<div class="mb-3">
-						<h5>성별대</h5>
-						<c:if test="${teamItemDto.genderLimit==0}">
-							<p>자유</p>
-						</c:if>
-						<c:if test="${teamItemDto.genderLimit==1}">
-							<p>남성만</p>
-						</c:if>
-						<c:if test="${teamItemDto.genderLimit==2}">
-							<p>여성만</p>
-						</c:if>
-					</div>
-
-					<div class="mb-3">
-						<h5>연령대</h5>
-						<p>${teamItemDto.ageLimit}살이상</p>
-					</div>
 
 					<div class="mt-3 d-flex justify-content-center">
 						<div class="btn-group" role="group">

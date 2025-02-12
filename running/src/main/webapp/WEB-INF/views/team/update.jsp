@@ -19,101 +19,109 @@
 
 
 <body class="container mt-5">
-        <%@ include file="../fragments/header.jspf"%>
-		<div class="container-fluid">
-            <c:set var="pageTitle" value="팀 수정" />
-        </div>
+	<%@ include file="../fragments/header.jspf"%>
+	<div class="container-fluid">
+		<c:set var="pageTitle" value="팀 수정" />
+	</div>
 
-	<h2 class="mb-4">팀 수정(현재로그인)${signedInUserId}</h2>
-	<c:url value="/team/update" var="teamUpdate" />
-	<form action="${teamUpdate}" method="post" id="teamForm"
-		enctype="multipart/form-data">
-		<!-- 팀 아이디 -->
-		<div class="mb-3">
-			<input type="hidden" id="teamId" name="teamId"
-				value="${teamItemDto.teamId}" class="form-control">
+	<div class="container my-3">
+		<div class="row d-flex justify-content-center">
+			<div class="col-md-12 col-lg-10 col-xl-8">
+				<div class="card p-4 shadow">
+					<h2 class="mb-4 text-center">팀 수정</h2>
+					<c:url value="/team/update" var="teamUpdate" />
+					<form action="${teamUpdate}" method="post" id="teamForm"
+						enctype="multipart/form-data">
+						<!-- 팀 아이디 -->
+						<div class="mb-3">
+							<input type="hidden" id="teamId" name="teamId"
+								value="${teamItemDto.teamId}" class="form-control">
+						</div>
+
+
+						<!-- 팀 이름 -->
+						<div class="mb-3">
+							<label for="teamName" class="form-label">팀 이름</label> <input
+								type="text" id="teamName" name="teamName"
+								value="${teamItemDto.teamName}" class="form-control" required>
+						</div>
+
+						<!-- 배너 업로드(이미지만 1개 업로드 가능) -->
+						<div class="mb-3">
+							<label for="imageUpload" class="form-label">팀 대표 이미지 변경</label> <input
+								type="file" class="form-control" id="imageUpload" name="file"
+								accept="image/*">
+						</div>
+
+						<!-- 배너 미리보기 -->
+						<div class="mb-3" id="newImg">
+							<img id="imageNewPreview" src="#" alt="미리보기"
+								style="max-width: 200px; display: none;"> <label
+								for="imageOGPreview" class="form-label">기존 배너</label> <img
+								id="imageOGPreview" src="${teamItemDto.imagePath}" alt="미리보기"
+								style="max-width: 200px; display: block;">
+						</div>
+
+						<!-- 제목 -->
+						<div class="mb-3">
+							<label for="title" class="form-label">제목</label> <input
+								type="text" id="title" name="title" class="form-control"
+								value="${teamItemDto.title}" required>
+						</div>
+
+						<!-- 내용 -->
+						<div class="mb-3">
+							<label for="content" class="form-label">내용</label>
+							<textarea id="content" name="content" class="form-control"
+								rows="4" required placeholder="공백포함 최대 300자">${teamItemDto.content}</textarea>
+						</div>
+
+						<!-- 구 선택 -->
+						<div class="mb-3">
+							<label for="districtSelect" class="form-label">구 선택</label> <select
+								id="districtSelect" class="form-select">
+								<option value="" selected disabled>${park.parkLoc}</option>
+							</select>
+						</div>
+
+						<!-- 공원 선택 -->
+						<div class="mb-3">
+							<label for="parkId" class="form-label">공원 선택</label> <select
+								id="selectPark" class="form-select">
+								<option value="" selected disabled>${park.parkName}</option>
+							</select>
+						</div>
+						<!-- 최대 인원 -->
+						<div class="mb-3">
+							<label for="maxNum" class="form-label">본인을 포함한 최대 인원</label> <input
+								type="number" id="maxNum" name="maxNum" class="form-control"
+								min="${teamItemDto.currentNum}" max="30" required
+								value="${teamItemDto.maxNum}"
+								placeholder="현재 ${teamItemDto.currentNum+1}명 이상으로만 변경가능합니다">
+						</div>
+
+						<!-- 연령 제한 (현재 회원수 이상으로만 수정 가능) -->
+						<div class="mb-3">
+							<label for="ageLimit" class="form-label">연령 제한</label> <input
+								type="number" id="ageLimit" name="ageLimit" class="form-control"
+								max="${teamItemDto.ageLimit}" value="${teamItemDto.ageLimit}"
+								required>
+						</div>
+
+						<!-- 성별 제한 -->
+						<div class="mb-3">
+							<label for="genderLimit" class="form-label">성별 제한</label> <select
+								id="genderLimit" name="genderLimit" class="form-select" required>
+							</select>
+						</div>
+
+						<!-- 제출 버튼 -->
+						<button type="submit" class="btn btn-success w-100">수정</button>
+					</form>
+				</div>
+			</div>
 		</div>
-
-
-		<!-- 팀 이름 -->
-		<div class="mb-3">
-			<label for="teamName" class="form-label">팀 이름</label> <input
-				type="text" id="teamName" name="teamName"
-				value="${teamItemDto.teamName}" class="form-control" required>
-		</div>
-
-		<!-- 배너 업로드(이미지만 1개 업로드 가능) -->
-		<div class="mb-3">
-			<label for="imageUpload" class="form-label">팀 대표 이미지 변경</label> <input
-				type="file" class="form-control" id="imageUpload" name="file"
-				accept="image/*">
-		</div>
-
-		<!-- 배너 미리보기 -->
-		<div class="mb-3" id="newImg">
-			<img id="imageNewPreview" src="#" alt="미리보기"
-				style="max-width: 200px; display: none;"> <label
-				for="imageOGPreview" class="form-label">기존 배너</label> <img
-				id="imageOGPreview" src="${teamItemDto.imagePath}" alt="미리보기"
-				style="max-width: 200px; display: block;">
-		</div>
-
-		<!-- 제목 -->
-		<div class="mb-3">
-			<label for="title" class="form-label">제목</label> <input type="text"
-				id="title" name="title" class="form-control"
-				value="${teamItemDto.title}" required>
-		</div>
-
-		<!-- 내용 -->
-		<div class="mb-3">
-			<label for="content" class="form-label">내용</label>
-			<textarea id="content" name="content" class="form-control" rows="4"
-				required placeholder="공백포함 최대 300자">${teamItemDto.content}</textarea>
-		</div>
-
-		<!-- 구 선택 -->
-		<div class="mb-3">
-			<label for="districtSelect" class="form-label">구 선택</label> <select
-				id="districtSelect" class="form-select">
-				<option value="" selected disabled>${park.parkLoc}</option>
-			</select>
-		</div>
-
-		<!-- 공원 선택 -->
-		<div class="mb-3">
-			<label for="parkId" class="form-label">공원 선택</label> <select
-				id="selectPark" class="form-select">
-				<option value="" selected disabled>${park.parkName}</option>
-			</select>
-		</div>
-		<!-- 최대 인원 -->
-		<div class="mb-3">
-			<label for="maxNum" class="form-label">본인을 포함한 최대 인원</label> <input
-				type="number" id="maxNum" name="maxNum" class="form-control"
-				min="${teamItemDto.currentNum}" max="30" required
-				value="${teamItemDto.maxNum}"
-				placeholder="현재 ${teamItemDto.currentNum+1}명 이상으로만 변경가능합니다">
-		</div>
-
-		<!-- 연령 제한 (현재 회원수 이상으로만 수정 가능) -->
-		<div class="mb-3">
-			<label for="ageLimit" class="form-label">연령 제한</label> <input
-				type="number" id="ageLimit" name="ageLimit" class="form-control"
-				max="${teamItemDto.ageLimit}" value="${teamItemDto.ageLimit}"
-				required>
-		</div>
-
-		<!-- 성별 제한 -->
-		<div class="mb-3">
-			<label for="genderLimit" class="form-label">성별 제한</label> <select
-				id="genderLimit" name="genderLimit" class="form-select" required>
-			</select>
-		</div>
-
-		<!-- 제출 버튼 -->
-		<button type="submit" class="btn btn-primary w-100">수정</button>
-	</form>
+	</div>
 
 
 	<!-- Bootstrap Javascript  -->
