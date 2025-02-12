@@ -16,7 +16,85 @@
               rel="stylesheet" 
               integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
               crossorigin="anonymous">
-              
+        <style>
+        /* 프로필 카드 스타일 */
+        .profile-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .profile-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #28a745;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* 프로필 정보 섹션 */
+        .profile-details {
+            flex-grow: 1;
+        }
+        
+        .form-control[readonly] {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            cursor: default;
+        }
+        
+        /* 팀 관리 섹션 */
+        .team-container {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+        
+        .list-group-item {
+            border: none;
+            background: #fff;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .list-group-item a {
+            color: #28a745;
+            font-weight: 600;
+        }
+        
+        .btnDeleteTeam, .btnLeaveTeam {
+            font-size: 14px;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        
+        .btn-danger {
+            background-color: #dc3545;
+        }
+        
+        .btn-warning {
+            background-color: #ffc107;
+            color: #333;
+        }
+        
+        /* 프로필 수정 버튼 */
+        .btn-success {
+            background-color: #28a745;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+        }
+        
+        .btn-success:hover {
+            background-color: #218838;
+        }
+        
+        </style>
       
     </head>
     <body>
@@ -25,104 +103,91 @@
             <c:set var="pageTitle" value="유저 상세보기" />
         </div>
         
-        <div>
-            <div>
-                <form method="post">
-                   <div>
-                    <img src="<c:url value='/image/view/user/${signedInUserId}' />" alt="프로필 이미지" style="width:70px; height:70px; border-radius:50%;"/>
-                    </div> 
-                    <div>
-                        <input class="d-none" type="text" id="userId" name="userId" />
-                    </div>
-                    <div>
-                        <input class="d-none" type="password" id="password" name="password" placeholder="비밀번호" />
-                    </div>
-                    <div>
-                        <label> 닉네임 </label>
-                        <input type="text" id="nickname" name="nickname" value="${user.nickname}" readonly/>
-                    </div>
-                    <div>
-                        <label> 이름 </label>
-                        <input  type="text" id="username" name="username" value="${user.username}" readonly />
-                    </div>
-                    <div>
-                        <div>
-                            <label> 성별 </label>
-                            <input type="text" id="gender" name="gender" 
-                            value="<c:choose>
-                            <c:when test='${user.gender == 1}'>남자</c:when>
-                            <c:when test='${user.gender == 2}'>여자</c:when>
-                            </c:choose>
-                            " readonly />
+        <div class="container my-3">
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-12 col-lg-10 col-xl-8">
+                    <div class="card p-4 shadow-sm">
+                        <!-- 프로필 섹션 -->
+                        <div class="profile-container">
+                            <img src="<c:url value='/image/view/user/${signedInUserId}' />" 
+                                 alt="프로필 이미지" 
+                                 class="profile-image" />
+                            <div class="profile-details w-100">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">닉네임</label>
+                                        <input type="text" class="form-control" value="${user.nickname}" readonly>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">이름</label>
+                                        <input type="text" class="form-control" value="${user.username}" readonly>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">성별</label>
+                                        <input type="text" class="form-control" value="${user.gender == 1 ? '남자' : '여자'}" readonly>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">나이</label>
+                                        <input type="text" class="form-control" value="${user.age}" readonly>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">휴대전화번호</label>
+                                        <input type="text" class="form-control" value="${user.phonenumber}" readonly>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">주소</label>
+                                        <input type="text" class="form-control" value="${user.residence}" readonly>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label">이메일</label>
+                                        <input type="text" class="form-control" value="${user.email}" readonly>
+                                    </div>
+                                </div>  
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        <label> 나이 </label>
-                        <input type="text" id="age" name="age" value="${user.age}" readonly/>
-                    </div>
-                    <div>
-                        <label> 휴대전화번호 </label>
-                        <input type="text" id="phonenumber" name="phonenumber" value="${user.phonenumber}" readonly/>
-                    </div>
-                    <div>
-                        <label> 주소구 </label>
-                        <input type="text" id="residence" name="residence" value="${user.residence}" readonly/>
-                    </div>
-                    <div>
-                        <label> 이메일 </label>
-                        <input type="text" id="email" name="email" value="${user.email}" readonly/>
-                    </div>
-                    
-                    <div>
-                        <input type="hidden" name="authCheck" placeholder="승인" value="1" />
-                    </div>
-                    
-                </form>
-                
-                    <!-- 마이페이지 팀 관리 -->
-                     <div>
-                        <label> 팀 관리</label>    
-                           <ul>
-                            <c:choose>
-                                <c:when test="${not empty teams}">
-                                    <c:forEach items="${teams}" var="t">
-                                        <li>
-                                            <a href="${pageContext.request.contextPath}/team/details?teamid=${t.teamId}">
-                                                ${t.teamName}
-                                            </a>
-                                            <c:if test="${leaderCheck[t.teamId] == 1}">
-                                                &#x1F451;
-                                                <button class="btnDeleteTeam" data-team-id="${t.teamId}">팀 삭제</button>
-                                            </c:if>  <!-- 팀장일 경우 왕관 이모지 -->
-                                            <c:if test="${leaderCheck[t.teamId] == 0}">
-                                            &#x1F45F;
-                                            <button class="btnLeaveTeam" data-team-id="${t.teamId}">팀 탈퇴</button>
-                                            
-                                            </c:if>
-                                        </li>
-                                    </c:forEach>
-                                </c:when>
-                                <c:otherwise>
-                                    <p>소속된 팀이 없습니다.</p>
-                                </c:otherwise>
-                            </c:choose>
-                        </ul>
-                    </div>
-                    
-                    <!-- 로그인 아이디가 작성자 아이디와 같을 때 수정하기 버튼이 활성화 -->
-                    <div class="card-footer">
-                        <div class="d-flex justify-content-center">
+        
+                        <!-- 팀 관리 섹션 -->
+                        <div class="team-container mt-4">
+                            <label class="fw-bold">팀 관리</label>
+                            <ul class="list-group">
+                                <c:choose>
+                                    <c:when test="${not empty teams}">
+                                        <c:forEach items="${teams}" var="t">
+                                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                <a href="${pageContext.request.contextPath}/team/details?teamid=${t.teamId}" class="text-decoration-none">
+                                                    ${t.teamName}
+                                                </a>
+                                                <div>
+                                                    <c:if test="${leaderCheck[t.teamId] == 1}">
+                                                        <span class="me-2">👑</span>
+                                                        <button class="btn btn-danger btn-sm btnDeleteTeam" data-team-id="${t.teamId}">팀 삭제</button>
+                                                    </c:if>
+                                                    <c:if test="${leaderCheck[t.teamId] == 0}">
+                                                        <span class="me-2">👟</span>
+                                                        <button class="btn btn-warning btn-sm btnLeaveTeam" data-team-id="${t.teamId}">팀 탈퇴</button>
+                                                    </c:if>
+                                                </div>
+                                            </li>
+                                        </c:forEach>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <li class="list-group-item text-center">소속된 팀이 없습니다.</li>
+                                    </c:otherwise>
+                                </c:choose>
+                            </ul>
+                        </div>
+        
+                        <!-- 프로필 수정 버튼 -->
+                        <div class="d-flex justify-content-center mt-3">
                             <c:url var="userModifyPage" value="/user/modify">
-                                <c:param name="userId" value="${user.userId}"/>
+                                <c:param name="userId" value="${user.userId}" />
                             </c:url>
-                            <a class="btn btn-outline-success"
-                                href="${userModifyPage}">수정</a>
+                            <a href="${userModifyPage}" class="btn btn-success btn-lg px-4"> 프로필 수정 </a>
                         </div>
                     </div>
+                </div>
             </div>
-        </div>
-    
-
+        </div>         
         
         <!-- Bootstrap JS 링크 -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 

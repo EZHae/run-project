@@ -17,7 +17,45 @@
               rel="stylesheet" 
               integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
               crossorigin="anonymous">
-              
+
+    <!-- CSS -->
+    <style>
+    /* 모달 크기 조정 */
+    @media (min-width: 992px) { /* 화면 크기가 클 때만 적용 */
+        #imageModal .modal-dialog {
+            max-width: 700px; /* 모달 너비 확대 */
+        }
+    }
+    
+    /* 이미지 선택 그리드 */
+    .image-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* 5개씩 한 줄 */
+        gap: 10px;
+        justify-content: center;
+        padding: 10px;
+        max-width: 100%; /* 모달 너비에 맞춤 */
+    }
+    
+    /* 선택 가능한 이미지 스타일 */
+    .selectable-img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border: 2px solid #ccc;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+    }
+    
+    /* 선택된 이미지 효과 */
+    .image-label input[type="radio"]:checked + .selectable-img {
+        border: 3px solid #28a745;
+        opacity: 0.7;
+        transform: scale(1.1); /* 선택 시 확대 효과 */
+    }
+    </style>
+                  
       
 	</head>
 	<body>
@@ -31,54 +69,64 @@
                 <form method="post">
                     
                     <!-- 유저 프로필 이미지 -->
-                    <div>
-                        <img src="<c:url value='/image/view/user/${signedInUserId}' />" alt="프로필 이미지" style="width:70px; height:70px; border-radius:50%;"/>
-                            <button type="button" id="changeImageBtn" data-user-id="${sessionScope.signedInUserId}">변경</button>
+                    <div class="d-flex align-items-center gap-3">
+                        <img src="<c:url value='/image/view/user/${signedInUserId}' />" 
+                             alt="프로필 이미지" 
+                             class="rounded-circle border border-success shadow-sm" 
+                             style="width: 100px; height: 100px; object-fit: cover;"/>
+                        
+                        <button type="button" id="changeImageBtn" 
+                                class="btn btn-outline-success btn-sm fw-bold" 
+                                data-user-id="${sessionScope.signedInUserId}">
+                            프로필 변경
+                        </button>
                     </div>
-
-                    <div class="modal" tabindex="-1" id="imageModal" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="imageModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content"> 
-                                <div class="modal-header">
-                                    <h5 class="modal-title">프로필 이미지 변경</h5>
-                                    <button type="button" class="btn-close"
-                                        data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
+    
+                    <!-- 이미지 모달 -->
+                    <div class="modal fade" id="imageModal"  tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="imageModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-centered"> <!-- 모달 크기 키움 -->
+                            <div class="modal-content">
+                                <!-- 모달 헤더 -->
+                                <div class="modal-header bg-success text-white">
+                                    <h5 class="modal-title fw-bold">프로필 이미지 변경</h5>
+                                    <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
+                    
+                                <!-- 모달 바디 -->
                                 <div class="modal-body text-center">
-                                    <img id="previewImage"
-                                        src="<c:url value='/image/view/user/${signedInUserId}' />"
-                                        alt="프로필 이미지 미리보기"
-                                        style="width: 70px; height: 70px; border-radius: 50%;" />
-    
-                                    <c:set var="imageList"
-                                        value="${fn:split('profile01.jpeg,profile02.jpeg,profile03.jpeg,profile04.jpeg,profile05.jpeg', ',')}" />
-    
-                                    <div id="imageForm">
-                                        <c:forEach var="image"
-                                            items="${imageList}"
-                                            varStatus="status">
-                                            <label> <input
-                                                type="radio" name="imgId"
-                                                value="${status.index + 1}"
-                                                ${userImagePath.endsWith(image) ? 'checked' : ''}>
-                                                <img
-                                                src="../images/${image}"
-                                                alt="기본 이미지 ${status.index + 1}"
-                                                data-img-id="${status.index + 1}"
-                                                data-image-name="기본 이미지 ${status.index + 1}"
-                                                data-image-file="${image}"
-                                                style="width: 100px; height: auto; border: 2px solid black; border-radius: 50%;">
+                                    <!-- 현재 이미지 미리보기 -->
+                                    <div class="mb-3">
+                                        <img id="previewImage"
+                                             src="<c:url value='/image/view/user/${signedInUserId}' />"
+                                             alt="프로필 이미지 미리보기"
+                                             class="rounded-circle border border-success shadow-sm"
+                                             style="width: 120px; height: 120px; object-fit: cover;">
+                                    </div>
+                    
+                                    <!-- 이미지 선택 -->
+                                    <c:set var="imageList" value="${fn:split('profile01.jpeg,profile02.jpeg,profile03.jpeg,profile04.jpeg,profile05.jpeg', ',')}" />
+                    
+                                    <div id="imageForm" class="image-grid">
+                                        <c:forEach var="image" items="${imageList}" varStatus="status">
+                                            <label class="image-label">
+                                                <input type="radio" name="imgId" value="${status.index + 1}" class="d-none"
+                                                       ${userImagePath.endsWith(image) ? 'checked' : ''}>
+                                                <img src="../images/${image}" alt="기본 이미지 ${status.index + 1}"
+                                                     class="selectable-img"
+                                                     data-img-id="${status.index + 1}"
+                                                     data-image-name="기본 이미지 ${status.index + 1}"
+                                                     data-image-file="${image}">
                                             </label>
                                         </c:forEach>
                                     </div>
                                 </div>
+                    
+                                <!-- 모달 푸터 -->
                                 <div class="modal-footer">
-                                    <button type="button"
-                                        class="btn btn-secondary"
-                                        data-bs-dismiss="modal">취소</button>
-                                    <button id=btnUpload type="button"
-                                        class="btn btn-primary" data-user-id="${sessionScope.signedInUserId}">업로드</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                                    <button id="btnUpload" type="button" class="btn btn-success fw-bold" data-user-id="${sessionScope.signedInUserId}">
+                                        업로드
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -177,8 +225,6 @@
                         </c:forEach>
                     </select>
 
-                    <!-- 디버깅용: residence 값 확인 -->
-                        <p>현재 선택된 주소: ${user.residence}</p>
                     </div>
                     <div>
                         <label> 이메일 </label>
