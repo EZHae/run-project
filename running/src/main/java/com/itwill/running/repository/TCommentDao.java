@@ -25,5 +25,7 @@ public interface TCommentDao {
 	
 	int updateTCommentLikeDeleteById(Integer id);
 	
+	int updateTCommentLikeDeleteByUserId(String userId);
+	
 	int deleteTCommentById(Integer id);
 }

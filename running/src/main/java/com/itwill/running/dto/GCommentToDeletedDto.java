@@ -17,6 +17,7 @@ public class GCommentToDeletedDto {
 	private String userId;
 	private String nickname;
 	
+	// GComment
 	public GComment toEntity() {
 		return GComment.builder().ctext(ctext).userId(userId).nickname(nickname).id(id).build();
 	}

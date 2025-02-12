@@ -29,7 +29,9 @@ import com.itwill.running.dto.UserItemDto;
 import com.itwill.running.dto.UserSignInDto;
 import com.itwill.running.dto.UserSignUpDto;
 import com.itwill.running.dto.UserUpdateDto;
+import com.itwill.running.service.GCommentService;
 import com.itwill.running.service.NotificationService;
+import com.itwill.running.service.TCommentService;
 import com.itwill.running.service.TeamService;
 import com.itwill.running.service.UImagesService;
 import com.itwill.running.service.UserService;
@@ -48,6 +50,8 @@ public class UserController {
 	private final UImagesService uimagesService;
 	private final TeamService teamService;
 	private final NotificationService notiService;
+	private final GCommentService gcommentService;
+	private final TCommentService tcommentService;
 	
 	//알림목록보기
 	@GetMapping("/notifications")
@@ -167,7 +171,11 @@ public class UserController {
 	        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("본인 계정만 삭제 가능");
 	    }
 
+	    // 이지해 추가 - 계정 삭제되기 전 해당 유저가 작성한 댓글들 처리
+	    gcommentService.toUnknownByUserId(userId);
+	    tcommentService.deleteByUserId(userId);
 		userService.deleteUser(userId);
+		
 		session.invalidate();
 		
 		return ResponseEntity.ok("계정 삭제 완료");

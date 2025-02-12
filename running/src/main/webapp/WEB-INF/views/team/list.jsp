@@ -18,47 +18,21 @@
 	crossorigin="anonymous">
 </head>
 <body>
-        <%@ include file="../fragments/header.jspf"%>
-		<div class="container-fluid">
-            <c:set var="pageTitle" value="팀 목록" />
-        </div>
+	<%@ include file="../fragments/header.jspf"%>
+	<!-- 팀 검색 폼 -->
+	<div class="container mt-5">
+		<c:url value="/team/search" var="teamSearchPage" />
+		<form action="${teamSearchPage}" method="get" id="searchForm"
+			class="d-flex justify-content-between align-items-center">
 
-	<c:forEach items="${teamItemDtoList}" var="team">
-		<c:url var="teamDetailPage" value="/team/details">
-			<c:param name="teamid" value="${team.teamId}" />
-		</c:url>
-		<a href="${teamDetailPage}">${team.teamName}</a>
-	</c:forEach>
-
-	<div>
-		<c:url var="teamCreatePage" value="/team/create" />
-		<a href="${teamCreatePage}">새 팀 생성</a>
-	</div>
-
-	<div>
-		<c:url value="/team/list" var="teamListUrl">
-			<c:param name="status" value="open" />
-		</c:url>
-		<c:url value="/team/list" var="closedListUrl">
-			<c:param name="status" value="closed" />
-		</c:url>
-		<div>
-			<a href="${teamListUrl}">
-				<button style="${status eq 'open' }">모집중</button>
-			</a> <a href="${closedListUrl}">
-				<button style="${status eq 'closed'}">모집완료</button>
-			</a>
-		</div>
-
-		<div class="container mt-5">
-			<c:url value="/team/search" var="teamSearchPage" />
-			<form action="${teamSearchPage}" method="get" id="searchForm">
-				<select class="form-select mb-2" id="status"
+			<!-- select 박스 (작게 배치) -->
+			<div class="d-flex">
+				<select class="form-select form-select-sm me-2" id="status"
 					name="status">
 					<option value="open" selected>모집중</option>
 					<option value="closed">모집완료</option>
-				</select> <select class="form-select mb-2" id="seoul-districts"
-					name="district">
+				</select> <select class="form-select form-select-sm me-2"
+					id="seoul-districts" name="district">
 					<option value="all" selected>전체</option>
 					<option value="강남구">강남구</option>
 					<option value="강동구">강동구</option>
@@ -85,40 +59,73 @@
 					<option value="종로구">종로구</option>
 					<option value="중구">중구</option>
 					<option value="중랑구">중랑구</option>
-				</select> <input type="text" id="keyword" name="keyword"
-					class="form-control mb-2" placeholder="팀 이름으로 검색이 가능합니다">
-				<button id="searchButton" class="btn btn-secondary">검색</button>
-			</form>
-		</div>
+				</select>
+			</div>
 
-		<table>
-			<thead>
-				<tr>
-					<th>번호</th>
-					<th>팀이름</th>
-					<th>작성자</th>
-					<th>인원수</th>
-					<th>작성일</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach items="${teams}" var="team">
-					<tr>
-						<td>${team.teamId}</td>
-						<td><c:url var="teamDetailPage" value="/team/details">
-								<c:param name="teamid" value="${team.teamId}" />
-							</c:url> <a href="${teamDetailPage}">${team.teamName}</a></td>
-						<td>${team.userId}</td>
-						<td>${team.currentNum}/${team.maxNum}</td>
-						<td>${team.createdTime}</td>
-					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
+			<!-- 검색 입력 필드 -->
+			<input type="text" id="keyword" name="keyword"
+				class="form-control form-control-sm me-2" placeholder="팀 이름으로 검색">
+
+			<!-- 검색 버튼 (돋보기 아이콘 추가) -->
+			<button id="searchButton" class="btn btn-success btn-sm">
+				<i class="bi bi-search"></i> 검색
+			</button>
+		</form>
 	</div>
 
-	
 
+
+	<!-- 모집중/모집완료 필터 버튼과 새 팀 생성 버튼을 같은 행에 배치 -->
+	<div class="mt-3 d-flex justify-content-between">
+		<!-- 모집중/모집완료 필터 버튼 (왼쪽) -->
+		<div class="ms-3">
+			<c:url value="/team/list" var="teamListUrl">
+				<c:param name="status" value="open" />
+			</c:url>
+			<c:url value="/team/list" var="closedListUrl">
+				<c:param name="status" value="closed" />
+			</c:url>
+			<a href="${teamListUrl}">
+				<button class="btn btn-outline-success me-2">모집중</button>
+			</a> <a href="${closedListUrl}">
+				<button class="btn btn-outline-success">모집완료</button>
+			</a>
+		</div>
+
+		<!-- 새 팀 생성 버튼 (오른쪽) -->
+		<div class="me-3">
+			<c:url var="teamCreatePage" value="/team/create" />
+			<a href="${teamCreatePage}" class="btn btn-outline-success">새 팀
+				생성</a>
+		</div>
+	</div>
+
+
+	<div class="container mt-5">
+		<!-- 팀 목록 카드 형식 -->
+		<div class="row">
+			<c:forEach items="${teams}" var="team">
+				<div class="col-md-4 mb-4">
+					<!-- 팀 카드 -->
+					<div class="card">
+						<!-- 팀 이미지 추가 (옵션) -->
+						<img src="${team.imagePath}" class="card-img-top"
+							alt="${team.teamName}" style="height: 200px; object-fit: cover;">
+						<div class="card-body">
+							<h5 class="card-title text-success">${team.teamName}</h5>
+							<p class="card-text">작성자: ${team.userId}</p>
+							<p class="card-text">인원수: ${team.currentNum} / ${team.maxNum}</p>
+							<p class="card-text">작성일: ${team.createdTime}</p>
+							<c:url var="teamDetailPage" value="/team/details">
+								<c:param name="teamid" value="${team.teamId}" />
+							</c:url>
+							<a href="${teamDetailPage}" class="btn btn-success">상세보기</a>
+						</div>
+					</div>
+				</div>
+			</c:forEach>
+		</div>
+	</div>
 
 	<!-- Bootstrap Javascript  -->
 	<script

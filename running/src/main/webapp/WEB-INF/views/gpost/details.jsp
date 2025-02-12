@@ -67,7 +67,7 @@
 					</div>
 
 					<!-- 수정하기 버튼 (작성자 본인만 보이게) -->
-					<c:if test="${signedInUserNickname eq gPost.userId}">
+					<c:if test="${signedInUserId eq gPost.userId}">
 						<div class="d-flex justify-content-center mt-4">
 							<c:url var="gPostModifyPage" value="/gpost/modify">
 								<c:param name="id" value="${gPost.id}" />

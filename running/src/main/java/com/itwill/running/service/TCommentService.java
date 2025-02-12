@@ -71,6 +71,15 @@ public class TCommentService {
 		return result;
 	}
 	
+	// 25-02-12 추가: 회원 탈퇴 시 호출할 삭제(업데이트) mapper
+	public int deleteByUserId(String userId) {
+		log.debug("TCommentService::deleteByUserId(userId={})", userId);
+		
+		int result = commentDao.updateTCommentLikeDeleteByUserId(userId);
+		
+		return result;
+	}
+	
 	// TODO 페이징 처리
 	public List<TCommentItemDto> readPagedComments(Integer postId, int offset, int limit) {
 	    log.debug("TCommentService::readPagedComments(postId={}, offset={}, limit={})", postId, offset, limit);

@@ -56,4 +56,9 @@ public class GCommentService {
 	public Integer deleteUnknownComments() {
 		return commentDao.deleteUnknownComments();
 	}
+	
+	// 이지해 추가
+	public Integer toUnknownByUserId(String userId) {
+		return commentDao.updateToUnknownByUserId(userId);
+	}
 }

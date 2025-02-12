@@ -33,10 +33,7 @@
 		when exists (
 		select 1
 		from g_comments
-		where parent_id = #{id} ) and
-		(select parent_id
-		from g_comments
-		where id = #{id}) is null
+		where parent_id = #{id} )
 		then 0
 		else 1
 		end as is_valid
@@ -59,6 +56,13 @@
 	<update id="updateToUnknown">
 		update g_comments set ctext=#{ctext},
 		user_id=#{userId}, nickname=#{nickname} where id=#{id}
+	</update>
+	
+	<!-- 이지해 추가
+	유저가 작성한 댓글들을 모두 unknown으로 업데이트 -->
+	<update id="updateToUnknownByUserId">
+		update g_comments set ctext='탈퇴한 회원의 댓글입니다.',
+		user_id='unknown', nickname='unknown' where user_id=#{userId}
 	</update>
 
 	<delete id="deleteByPostId">

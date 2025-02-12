@@ -42,7 +42,26 @@ public class UImagesController {
 
 	    if (uImage == null) {
 	        log.warn("이미지 userId {}를 찾을 수 없음", userId);
-	        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+	        
+	        // 추가 이지해 - 회원 탈퇴와 같이 USERS, U_IMAGES 테이블에 userId로 검색한 결과가 없을 경우 기본 이미지 출력
+	        String path = "C:/upload_data/profile/default.jpg";
+	        Path imagePath = Paths.get(path);
+		    log.info("이미지 경로: {}", imagePath);
+
+		    Resource resource = new UrlResource(imagePath.toUri());
+
+		    String contentType = Files.probeContentType(imagePath);
+		    if (contentType == null) {
+		        contentType = "application/octet-stream";
+		    }
+
+		    // 원본명으로 URL을 인코딩(한글 및 특수문자 처리)2
+	        String encodedOriginName = URLEncoder.encode(path,"UTF-8");
+		    
+		    return ResponseEntity.ok()
+		            .contentType(MediaType.parseMediaType(contentType))
+		            .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + encodedOriginName + "\"")
+		            .body(resource);
 	    }
 
 	    // 이미지 경로 확인
