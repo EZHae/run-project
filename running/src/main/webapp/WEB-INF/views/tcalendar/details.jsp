@@ -194,7 +194,7 @@
 												value="/teampage/${teamId}/tcalendar/delete">
 												<c:param name="calendarId" value="${tCalendar.id}" />
 											</c:url>
-											<form action="${deleteUrl}" method="post"
+											<form action="${deleteUrl}" method="get"
 												style="display: inline;">
 												<button type="submit" class="btn btn-danger"
 													onclick="return confirm('정말 삭제하시겠습니까?');">삭제</button>
