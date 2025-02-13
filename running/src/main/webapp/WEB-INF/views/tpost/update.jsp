@@ -23,62 +23,114 @@
 		<div class="container-fluid">
             <c:set var="pageTitle" value="팀 게시글 수정" />
         </div>
+		<div class="container my-5">
+			<div class="row d-flex justify-content-center">
+				<div class="col-md-12 col-lg-8">
+					<div class="card shadow p-4">
+						<!-- 버튼 그룹
+		                <div class="btn-group mb-4 d-flex justify-content-center" role="group" aria-label="Navigation">
+		                    <c:url var="teamPage" value="/team/details">
+		                        <c:param name="teamid" value="${teamId}" />
+		                    </c:url>
+		                    <a href="${teamPage}" class="btn btn-outline-success">내 팀으로</a>
 		
-		<c:url var="teamPage" value="/team/details">
-			<c:param name="teamid" value="${teamId}" />
-		</c:url>
-		<a href="${teamPage}">내 팀으로</a>
+		                    <c:url var="postListPage" value="/teampage/${teamId}/post/list" />
+		                    <a href="${postListPage}" class="btn btn-outline-success">팀 게시판</a>
 		
-		<c:url var="postListPage" value="/teampage/${teamId}/post/list" />
-		<a href="${postListPage}">팀 게시판</a>
+		                    <c:url var="imageListPage" value="/teampage/${teamId}/image/list" />
+		                    <a href="${imageListPage}" class="btn btn-outline-success">팀 앨범</a>
 		
-		<c:url var="imageListPage" value="/teampage/${teamId}/image/list" />
-		<a href="${imageListPage}">팀 앨범</a>
+		                    <c:url var="calendarListPage" value="/teampage/${teamId}/tcalendar/list" />
+		                    <a href="${calendarListPage}" class="btn btn-outline-success">팀 일정</a>
+		                </div>
+		                -->
 		
-		<c:url var="calendarListPage" value="/teampage/${teamId}/tcalendar/list" />
-		<a href="${calendarListPage}">팀 일정 게시판</a>
-		
-		<h1>팀 게시판 글 수정</h1>
-		<form id="update" enctype="multipart/form-data">
-			<input id="teamId" name="teamId" value="${teamId}" readonly>
-			<input id="id" name="id" value="${post.id}" readonly>
-			<input id="userId" name="userId" value="${signedInUserId}" readonly> <br>
-			<input id="title" name="title" type="text" value="${post.title}" placeholder="제목" autofocus required> <br>
-			<textarea id="content" name=content rows="10" placeholder="내용" required>${post.content}</textarea> <br>
-			<input id ="nickname" name="nickname" type="text" value="${signedInUserNickname}" readonly/><br>
-			
-			<span>첨부파일</span> <br>
-			<div>
-				<c:choose>
-					<c:when test="${empty images}">
-						<span>파일이 없습니다.</span>
-					</c:when>
-					<c:otherwise>
-						<c:forEach var="image" items="${images}">
-							<li class="list-group-item" data-image-id="${image.id}">
-								<c:url var="imageViewPath" value="/teampage/${teamId}/image/view/${image.uniqName}"/>
-								<img src="${imageViewPath}" style="width:50px; height:50px;">
-								<span>${image.originName}</span>
-								<input type="button" name="btnDelete" class="rmbtn btn btn-outline-danger btn-sm" value="삭제">
-							</li>
-						</c:forEach>
-					</c:otherwise>
-				</c:choose>
+						<h2 class="text-center text-success fw-bold mb-4">팀 게시판 글 수정</h2>
+						
+						<!-- 글 수정 폼 -->
+						<form id="update" enctype="multipart/form-data">
+	
+					    <!-- 팀 ID -->
+					    <div class="mb-3">
+					        <label for="teamId" class="form-label text-success fw-bold">팀 ID</label>
+					        <input type="text" id="teamId" name="teamId" value="${teamId}" class="form-control" readonly>
+					    </div>
+					
+					    <!-- 게시글 ID -->
+					    <div class="mb-3">
+					        <input type="hidden" id="id" name="id" value="${post.id}">
+					    </div>
+					
+					    <!-- 사용자 ID -->
+					    <div class="mb-3">
+					        <label for="userId" class="form-label text-success fw-bold">사용자 ID</label>
+					        <input type="text" id="userId" name="userId" value="${signedInUserId}" class="form-control" readonly>
+					    </div>
+					
+					    <!-- 제목 -->
+					    <div class="mb-3">
+					        <label for="title" class="form-label text-success fw-bold">제목</label>
+					        <input type="text" id="title" name="title" class="form-control" value="${post.title}" placeholder="제목을 입력하세요" required autofocus>
+					    </div>
+					
+					    <!-- 내용 -->
+					    <div class="mb-3">
+					        <label for="content" class="form-label text-success fw-bold">내용</label>
+					        <textarea id="content" name="content" class="form-control" rows="10" placeholder="내용을 입력하세요" required>${post.content}</textarea>
+					    </div>
+					
+					    <!-- 닉네임 -->
+					    <div class="mb-3">
+					        <label for="nickname" class="form-label text-success fw-bold">닉네임</label>
+					        <input type="text" id="nickname" name="nickname" class="form-control" value="${signedInUserNickname}" readonly>
+					    </div>
+					
+					    <!-- 첨부파일 -->
+					    <div class="mb-3">
+					        <span class="form-label text-success fw-bold">첨부파일</span><br>
+					        <div>
+					            <c:choose>
+					                <c:when test="${empty images}">
+					                    <span>파일이 없습니다.</span>
+					                </c:when>
+					                <c:otherwise>
+					                    <c:forEach var="image" items="${images}">
+					                        <li class="list-group-item" data-image-id="${image.id}">
+					                            <c:url var="imageViewPath" value="/teampage/${teamId}/image/view/${image.uniqName}"/>
+					                            <img src="${imageViewPath}" style="width:50px; height:50px;">
+					                            <span>${image.originName}</span>
+					                            <input type="button" name="btnDelete" class="rmbtn btn btn-outline-danger btn-sm" value="삭제">
+					                        </li>
+					                    </c:forEach>
+					                </c:otherwise>
+					            </c:choose>
+					        </div>
+					    </div>
+					
+					    <!-- 기존 이미지 삭제를 위해 필요한 ID 보관 input -->
+					    <input type="hidden" id="deletedImages" name="deletedImages" value="" />
+					
+					    <!-- 파일 업로드 -->
+					    <div class="mb-3">
+					        <label for="file" class="form-label text-success fw-bold">이미지 업로드</label>
+					        <input type="file" id="file" name="file" class="form-control" accept="image/*" multiple>
+					    </div>
+					
+					    <!-- 새 이미지 목록 표시 -->
+					    <ul id="newImageList" class="list-group list-group-flush mt-2"></ul>
+					
+					    <!-- 제출 버튼 -->
+					    <div class="text-center mt-4">
+					        <button id="btnUpdate" type="submit" class="btn btn-success btn-lg px-5">수정 완료</button>
+					    </div>
+					
+					</form>
+						
+					</div>
+				</div>
 			</div>
-			
-			<!-- 기존 있던 이미지를 삭제하기 위해 필요한 id 보관 input 
-			첨부 파일 삭제 시, 해당 이미지에 해당 하는 id가 이 value에 추가됨 -->
-			<input type="hidden" id="deletedImages" name="deletedImages" value="" />
-
-			<div>
-				<label for="file">이미지 업로드</label>
-				<input type="file" id="file" name="file" accept="image/*" multiple>
-			</div>
-			
-			<ul id="newImageList" class="list-group list-group-flush mt-2"></ul>
-
-			<button id="btnUpdate">수정 완료</button>
-		</form>
+		</div>
+	
 		<%@ include file="../fragments/footer.jspf"%>
 		<!-- Bootstrap JS 링크 -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
@@ -86,6 +138,7 @@
                 crossorigin="anonymous">
         </script>
         
+        <!-- Axios Http Js-->
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         
         <c:url var="updateJS" value="/js/tpost-update.js" />

@@ -81,7 +81,7 @@
 		<div class="container my-3">
             <div class="row d-flex justify-content-center">
                 <div class="col-md-12 col-lg-10 col-xl-8">
-                    <div class="card p-4">
+                    <div class="card p-4 border-0">
                         <div class="btn-group" role="group" aria-label="Button group">
                     		<c:url var="teamPage" value="/team/details">
                                 <c:param name="teamid" value="${teamId}" />

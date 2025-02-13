@@ -33,16 +33,15 @@
 
 				<main class="mt-3">
 					<c:url value="/team/search" var="teamSearchPage" />
-					<form action="${teamSearchPage}" method="get" id="searchForm"
-						class="d-flex justify-content-between align-items-center bg-white shadow-sm p-3 rounded">
-						<div class="d-flex">
-							<select
-								class="form-select form-select-sm me-2 border-0 shadow-sm"
+					<form action="${teamSearchPage}" method="get" id="searchForm">
+						<div class="d-flex align-items-center mb-3">
+							<select class="form-select me-3"
 								id="status" name="status">
 								<option value="open" selected>모집중</option>
 								<option value="closed">모집완료</option>
-							</select> <select
-								class="form-select form-select-sm me-2 border-0 shadow-sm"
+							</select> 
+							<select
+								class="form-select me-3"
 								id="seoul-districts" name="district">
 								<option value="all" selected>전체</option>
 								<option value="강남구">강남구</option>
@@ -71,39 +70,33 @@
 								<option value="중구">중구</option>
 								<option value="중랑구">중랑구</option>
 							</select>
-						</div>
 
 						<input type="text" id="keyword" name="keyword"
-							class="form-control form-control-sm me-2 border-0 shadow-sm rounded-pill"
+							class="form-control me-3"
 							placeholder="팀 이름으로 검색">
 
 						<button id="searchButton"
-							class="btn btn-success btn-sm rounded-circle shadow-sm">
+							class="btn btn-success text-white">
 							<i class="bi bi-search"></i>
 						</button>
+					</div>
 					</form>
 
 					<div class="d-flex justify-content-between">
-						<div class="mb-3">
-							<c:url value="/team/list" var="teamListUrl">
-								<c:param name="status" value="open" />
-							</c:url>
-							<c:url value="/team/list" var="closedListUrl">
-								<c:param name="status" value="closed" />
-							</c:url>
-							<a href="${teamListUrl}">
-								<button
-									class="btn btn-outline-success me-2 mt-3 rounded-pill shadow-sm">모집중</button>
-							</a> <a href="${closedListUrl}">
-								<button
-									class="btn btn-outline-success mt-3 rounded-pill shadow-sm">모집완료</button>
-							</a>
-						</div>
-						<div>
-							<c:url var="teamCreatePage" value="/team/create" />
-							<a href="${teamCreatePage}"
-								class="btn btn-success mt-3 shadow-sm rounded-pill">새 팀 생성</a>
-						</div>
+					    <div class="mb-3">
+					        <c:url value="/team/list" var="teamListUrl">
+					            <c:param name="status" value="open" />
+					        </c:url>
+					        <c:url value="/team/list" var="closedListUrl">
+					            <c:param name="status" value="closed" />
+					        </c:url>
+					        <a href="${teamListUrl}"><button class="btn btn-outline-success me-2 mt-3 rounded-pill shadow-sm">모집중</button></a>
+					        <a href="${closedListUrl}"><button class="btn btn-outline-success mt-3 rounded-pill shadow-sm">모집완료</button></a>
+					    </div>
+					    <div>
+					        <c:url var="teamCreatePage" value="/team/create" />
+					        <a href="${teamCreatePage}" class="btn btn-success mt-3 shadow-sm rounded-pill">새 팀 생성</a>
+					    </div>
 					</div>
 
 					<div class="card mt-3 shadow-lg rounded">

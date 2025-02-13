@@ -22,7 +22,7 @@
         /* 전체 페이지 스타일 */
     html, body {
         height: 100%;
-        background-color: #f8f9fa;
+        background-color: transparent !important;
         margin: 0;
         padding: 0;
     }
@@ -275,6 +275,7 @@
             </div>
     
     <!-- CSS Script -->
+    	<%@ include file="../fragments/footer.jspf"%>
         <script>
         document.addEventListener("DOMContentLoaded", function () {
             const selectElement = document.getElementById("residence");
@@ -308,6 +309,7 @@
                 });
             });
         });
+        
         </script>    
         
           	
