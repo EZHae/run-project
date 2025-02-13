@@ -21,8 +21,6 @@
         <style>
        /* 전체 페이지 스타일 */
         html, body {
-            height: 100%;
-            background-color: transparent;
             margin: 0;
             padding: 0;
         }
@@ -91,18 +89,6 @@
             color: #333;
         }
         
-        /* 프로필 수정 버튼 */
-        .btn-success {
-            background-color: #28a745;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            border-radius: 8px;
-        }
-        
-        .btn-success:hover {
-            background-color: #218838;
-        }
         /* 읽기 전용 input 스타일 조정 */
         .form-control[readonly] {
             background-color: white !important; /* 밝은 회색 유지 */
@@ -208,12 +194,14 @@
                 </div>
             </div>
         </div>         
-        <%@ include file="../fragments/footer.jspf"%>
+        
+            <%@ include file="../fragments/footer.jspf"%>
         <!-- Bootstrap JS 링크 -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
                 integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
                 crossorigin="anonymous">
         </script>
+        
         
         <!-- Axios JS -->
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

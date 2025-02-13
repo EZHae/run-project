@@ -34,7 +34,7 @@
             justify-content: center;
             align-items: center;
             min-height: calc(100vh - 80px); /* 헤더 높이 고려한 중앙 정렬 */
-            padding-top: 10px; /* 헤더와 카드 간격 유지 */
+            padding-top: 20px; /* 헤더와 카드 간격 유지 */
         }
         
         /* 회원가입 카드 스타일 */
@@ -43,7 +43,7 @@
             width: 100%;
             padding: 2rem;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 140, 44, 0.2) !important;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2) !important;
             background: white;
         }
         

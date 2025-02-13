@@ -30,7 +30,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh; /* 전체 화면 높이 사용 */
+            height: 60vh; /* 전체 화면 높이 사용 */
             overflow: hidden; /* 내부 스크롤 방지 */
         }
 
@@ -39,7 +39,7 @@
             width: 100%;
             padding: 2rem;
             border-radius: 10px;
-            box-shadow: 0 0 5px rgba(40, 167, 69, 0.2) !important; /* 부드러운 그림자 효과 */
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2) !important; /* 부드러운 그림자 효과 */
         }
 
 
