@@ -40,5 +40,11 @@ public class NotificationService {
 	public Integer deleteNotification(Integer id) {
 		return notiDao.deleteNotification(id);
 	}
+	
+	public Integer countUnreadNotisByUserId(String userId) {
+		int count = notiDao.countUnreadNotisByUserId(userId);
+		log.debug("알람개수 : userId={}, useredCount={}",userId, count);
+		return count;
+	}
 
 }

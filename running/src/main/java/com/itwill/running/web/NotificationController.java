@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwill.running.dto.NotificationCreateDto;
 import com.itwill.running.dto.NotificationItemDto;
@@ -56,5 +58,12 @@ public class NotificationController {
 	public ResponseEntity<Integer> deleteNotification(@PathVariable("notificationid") Integer notiId){
 		int result=notiService.deleteNotification(notiId);
 		return ResponseEntity.ok(result);
+	}
+	
+	@GetMapping("/{userid}/unread/count")
+	@ResponseBody
+	public ResponseEntity<Integer> getUnreadNotificationCount(@PathVariable("userid") String userId) {
+		Integer count = notiService.countUnreadNotisByUserId(userId);
+	    return ResponseEntity.ok(count);
 	}
 }
