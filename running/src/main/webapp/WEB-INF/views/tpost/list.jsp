@@ -45,6 +45,29 @@
 			background-color: transparent; /* 클릭했을 때 배경색 */
 			border-color: #28a745; /* 클릭했을 때 테두리 색상 */
 		}
+		/* 리스트 테이블 열 고정 */
+		.fixed-table {
+			table-layout: fixed;
+			width: 100%;
+		}
+		
+		.fixed-table th:nth-child(1), .fixed-table td:nth-child(1) {
+			width: 45%;
+		} /* 제목 */
+		.fixed-table th:nth-child(2), .fixed-table td:nth-child(2) {
+			width: 16.67%;
+		} /* 작성자 */
+		.fixed-table th:nth-child(3), .fixed-table td:nth-child(3) {
+			width: 16.67%;
+		} /* 조회수 */
+		.fixed-table th:nth-child(4), .fixed-table td:nth-child(4) {
+			width: 38.33%;
+		} /* 작성시간 */
+		.fixed-table th, .fixed-table td {
+			white-space: nowrap; /* 줄바꿈 방지 */
+			text-overflow: ellipsis; /* 길면 생략 (...) */
+			overflow: hidden;
+		}
 		</style>
 		<link
 		href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
@@ -111,7 +134,7 @@
                     <!-- 게시글 테이블 -->
                     <div class="card mt-3">
                         <div class="card-body">
-                            <table class="table table-striped table-hover">
+                            <table class="table table-striped table-hover fixed-table">
                                 <thead class="table-success">
                                     <tr>
                                         <th>제목</th>

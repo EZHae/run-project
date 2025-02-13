@@ -57,6 +57,8 @@
 	
 	.col-md-6 {
 		flex: 1 1 calc(50% - 20px); /* 카드가 두 칼럼으로 배치됨 */
+		max-width: calc(60% - 20px); /* 카드의 최대 너비 설정 */
+   		box-sizing: border-box; /* 패딩과 보더를 포함한 크기 계산 */
 	}
 	
 	.filter-form {
@@ -99,7 +101,7 @@
 		<div class="container my-3">
 	  		<div class="row d-flex justify-content-center">
 				<div class="col-md-12 col-lg-10 col-xl-8">
-					<div class="card p-4">
+					<div class="card p-4 border-0">
 						<div class="btn-group" role="group" aria-label="Button group">
 						    <c:url var="teamPage" value="/team/details">
 						        <c:param name="teamid" value="${teamId}" />
@@ -116,7 +118,7 @@
 						    <a href="${calendarListPage}" class="btn custom-btn">팀 일정 게시판</a>
 						</div>
 	
-						<h2 class="text-center mb-4">팀 일정 게시판</h2>
+						<h2 class="text-center mt-5">팀 일정 게시판</h2>
 
                         <!-- 새글 생성 버튼 (팀장만 보이게) -->
                         <div class="text-end mt-3">

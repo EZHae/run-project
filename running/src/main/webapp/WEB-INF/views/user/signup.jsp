@@ -23,7 +23,7 @@
         /* 전체 페이지 스타일 */
         html, body {
             height: 100%;
-            background-color: #f8f9fa;
+            background-color: transparent;
             margin: 0;
             padding: 0;
         }
@@ -43,7 +43,6 @@
             width: 100%;
             padding: 2rem;
             border-radius: 10px;
-            border: 1px solid #008C2C !important;
             box-shadow: 0 0 10px rgba(0, 140, 44, 0.2) !important;
             background: white;
         }
@@ -236,6 +235,7 @@
         </div>
         
         <!-- CSS Script -->
+        <%@ include file="../fragments/footer.jspf"%>
 		 <script>
         document.addEventListener("DOMContentLoaded", function () {
             const selectElement = document.getElementById("residence");

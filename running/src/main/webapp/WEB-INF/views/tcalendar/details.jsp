@@ -46,7 +46,7 @@
 	<div class="container my-3">
 		<div class="row d-flex justify-content-center">
 			<div class="col-md-12 col-lg-10 col-xl-8">
-				<div class="card p-4">
+				<div class="card p-4 border-0">
 					<div class="btn-group" role="group" aria-label="Button group">
 						<c:url var="teamPage" value="/team/details">
 							<c:param name="teamid" value="${teamId}" />
@@ -187,6 +187,7 @@
 												<a href="${modifyUrl}" class="btn btn-primary">수정</a>
 											</div>
 										</c:if>
+										
 
 										<!-- 삭제 버튼 -->
 										<div class="mt-1" style="text-align: right;">
@@ -194,11 +195,14 @@
 												value="/teampage/${teamId}/tcalendar/delete">
 												<c:param name="calendarId" value="${tCalendar.id}" />
 											</c:url>
-											<form action="${deleteUrl}" method="post"
+											<a href="${deleteUrl}" class="btn btn-danger" 
+												onclick="return confirm('삭제하시겠습니까?');">삭제</a>
+											<!-- 
+											<form action="${deleteUrl}" method="get"
 												style="display: inline;">
 												<button type="submit" class="btn btn-danger"
 													onclick="return confirm('정말 삭제하시겠습니까?');">삭제</button>
-											</form>
+											</form>  -->
 										</div>
 									</c:if>
 

@@ -23,8 +23,7 @@
             height: 100%;
             margin: 0;
             padding: 0;
-            background-color: #f8f9fa;
-            overflow: hidden; /* 스크롤 제거 */
+            background-color: transparent;
         }
         /* 로그인 컨테이너를 화면 중앙 정렬 */
         .login-container {
@@ -40,7 +39,6 @@
             width: 100%;
             padding: 2rem;
             border-radius: 10px;
-            border: 1px solid #008C2C !important; /* 테두리 굵기 조정 */
             box-shadow: 0 0 5px rgba(40, 167, 69, 0.2) !important; /* 부드러운 그림자 효과 */
         }
 
@@ -92,6 +90,8 @@
             </form>
         </div>
     </div>
+    
+    	<%@ include file="../fragments/footer.jspf"%>
 		<!-- Bootstrap JS 링크 -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
                 integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
