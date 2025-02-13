@@ -91,9 +91,9 @@
 									<h5 class="mb-1 text-success">${course.title}</h5> <small
 									class="text-muted">작성자: ${course.nickname} | 조회수:
 										${course.viewCount} | 좋아요: ${course.likeCount}</small>
-									<p class="mb-1">코스 이름: ${course.courseName} | 소요 시간:
+									<p class="mb-1 mt-2">코스 이름: ${course.courseName} | 소요 시간:
 										${course.durationTime}</p> <small class="text-muted">작성
-										시간: ${course.createdTime}</small>
+										시간: ${course.formattedCreatedTime}</small>
 								</a>
 							</c:forEach>
 							<c:if test="${empty courses}">
