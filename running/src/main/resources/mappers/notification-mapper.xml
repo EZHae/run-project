@@ -23,4 +23,11 @@
 	<delete id="deleteNotification">
 		delete from notifications where id=#{id}
 	</delete>
+    
+   <!-- 읽지 않은 알림 개수 조회 -->
+    <select id="countUnreadNotisByUserId" resultType="int">
+        SELECT COUNT(*)
+        FROM notifications
+        WHERE user_id = #{userId} AND checked = 0
+    </select>
 </mapper>
