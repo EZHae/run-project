@@ -123,10 +123,12 @@ body {
                             <c:param name="userid" value="${signedInUserId}"></c:param>
                         </c:url>
                         <a class="text-decoration-none fw-semibold text-success position-relative d-flex align-items-center"
+                            id="notifications" data-user-id="${signedInUserId}"
                             href="${userNotificationPage}">
                             알림목록
                             <c:if test="${notificationCount > 0}">
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                <span id="notification-badge"  class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger
+                                    style="display: ${notificationCount > 0 ? 'inline-block' : 'none'};">
                                     ${notificationCount}
                                 </span>
                             </c:if>
@@ -142,4 +144,7 @@ body {
 <!-- Axios Http Js-->
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
+
 </script>
+<c:url var="headerJS" value="/js/header.js"/>
+<script src="${headerJS}"></script>

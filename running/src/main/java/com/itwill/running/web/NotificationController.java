@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwill.running.dto.NotificationCreateDto;
 import com.itwill.running.dto.NotificationItemDto;
@@ -60,6 +61,7 @@ public class NotificationController {
 	}
 	
 	@GetMapping("/{userid}/unread/count")
+	@ResponseBody
 	public ResponseEntity<Integer> getUnreadNotificationCount(@PathVariable("userid") String userId) {
 		Integer count = notiService.countUnreadNotisByUserId(userId);
 	    return ResponseEntity.ok(count);
