@@ -143,6 +143,7 @@ body {
 						id="notifications" data-user-id="${signedInUserId}"
 						href="${userNotificationPage}"> 알림목록 </a></li>
 				</c:if>
+					<li class="list-group-item" id="weatherInfo">현재 서울</li>
 			</ul>
 		</div>
 	</div>
