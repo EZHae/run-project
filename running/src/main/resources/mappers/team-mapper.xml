@@ -117,4 +117,11 @@
         from t_members
         where team_id = #{teamId} and user_id = #{userId}
     </select>
+    
+    <!-- 최근 팀 5개까지 가져오는 SQL 문장 -->
+    <select id="getNewTeamNameByTeamId" resultType="Team">
+        select * from teams
+        where current_num != max_num 
+        order by team_id desc fetch first 5 rows only
+    </select>
 </mapper>

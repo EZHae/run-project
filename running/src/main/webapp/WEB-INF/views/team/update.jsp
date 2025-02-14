@@ -18,7 +18,7 @@
 </head>
 
 
-<body class="container mt-5">
+<body>
 	<%@ include file="../fragments/header.jspf"%>
 	<div class="container-fluid">
 		<c:set var="pageTitle" value="팀 수정" />
@@ -27,7 +27,7 @@
 	<div class="container my-3">
 		<div class="row d-flex justify-content-center">
 			<div class="col-md-12 col-lg-10 col-xl-8">
-				<div class="card p-4 shadow">
+				<div class="card p-4">
 					<h2 class="mb-4 text-center">팀 수정</h2>
 					<c:url value="/team/update" var="teamUpdate" />
 					<form action="${teamUpdate}" method="post" id="teamForm"

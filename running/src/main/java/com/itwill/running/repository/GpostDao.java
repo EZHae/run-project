@@ -17,5 +17,5 @@ public interface GpostDao {
 	Integer updateViewCountPost(Integer id);	// 포스트 뷰 카운트
 	List<Gpost> readPageWithOffset(Map<String, Object> params);
 	Integer selectCountPostsBySearch(GpostCategoryDto dto);
-	
+	List<Gpost> getNewPostById();
 }

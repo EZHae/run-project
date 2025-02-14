@@ -14,11 +14,13 @@ public interface TeamDao {
 	// 최호철
 	List<Team> selectAll();
 	List<Team> selectOpenTeams();
+	List<Team> getNewTeamNameByTeamId();
 	Team selectByTeamId(Integer teamId);
 	List<Team> selectTeamsByUserId(String userId);
 	Integer deleteTeamMember(Integer teamId, String userId);
 	Integer selectTeamLeaderCheck(Integer teamId,String userId);
 	Integer deleteTeamLeader(Integer teamId);
+	
 
 	// 이수빈
 	Integer insertNewTeam(Team team);

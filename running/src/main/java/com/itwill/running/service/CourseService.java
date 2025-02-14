@@ -164,4 +164,9 @@ public class CourseService {
         return count;
     }
 	
+	// 최근 게시글을 가져오는 메서드
+	public List<Course> readRecentCourses(){
+		return courseDao.getNewPostById();
+	}
+	
 }

@@ -60,6 +60,9 @@ public class TeamService {
 	public Integer deleteTeamLeader(Integer teamId) {
 		return teamDao.deleteTeamLeader(teamId);
 	};
+	public List<Team> selectTeamNameByTeamId() {
+		return teamDao.getNewTeamNameByTeamId();
+	}
 	
 	
 	

@@ -56,7 +56,7 @@ body {
 						href="${courseRecruitPage}">팀 목록</a></li>
 					<li class="nav-item"><c:url value="/course/list"
 							var="courseListPage" /><a class="nav-link fw-semibold"
-						href="${courseListPage}">코스리스트</a></li>
+						href="${courseListPage}">코스게시판</a></li>
 				</ul>
                 <c:if test="${not empty signedInUserId}">
                     <button class="btn btn-success rounded-pill px-4 d-flex align-items-center" type="button"
