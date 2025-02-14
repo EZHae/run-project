@@ -104,7 +104,14 @@
         select * from course
         where (#{keyword} IS NULL OR course_name LIKE '%' || #{keyword} || '%')
         AND category = #{category}
-        order by id DESC
+        <choose>
+        	<when test='order == "l"'>
+        		order by like_count desc
+        	</when>
+        	<otherwise>
+        		order by view_count desc
+        	</otherwise>
+        </choose>
         offset #{offset} rows fetch next #{limit} rows only 
     </select>
     
