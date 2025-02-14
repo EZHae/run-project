@@ -184,7 +184,6 @@
                     </div>
                     <div class="card-text">원하는 러닝팀을 찾아 가입하세요.</div>
                 </div>
-                
             </div>
     
             

@@ -24,9 +24,24 @@ document.addEventListener("DOMContentLoaded", () => {
 		//댓글읽기
 		const url = `../api/comment/all/${postId}`;
 		axios.get(url).then((response) => {
-			if (!response == " ") {
+				if (response.data == 0) {
+					console.log('댓글없음');
+					const sectionComment = document.querySelector("section#commentSection");
+					const html =
+						`<div class="container my-1 py-1">
+										<div class="row d-flex justify-content-center">
+											<div class="col-md-12 col-lg-10 col-xl-8"> 
+												<div class="card p-4">
+													<p class="text-center">등록된 댓글이 없습니다.</p>
+												</div>
+											</div>
+										</div>
+									</div>`
+					sectionComment.innerHTML = html;
+					return;
+
+				}
 				makeCommentSection(response.data);
-			}
 		}).catch((error) => {
 			console.log(error)
 		});
