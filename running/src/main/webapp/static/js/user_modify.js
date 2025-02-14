@@ -79,7 +79,8 @@ document.addEventListener('DOMContentLoaded', ()=> {
         .put(uri,data)
         .then((response) => {
             console.log(response);
-            window.location.href = "/running/user/details";
+			alert('다시 로그인해주세요.')
+            window.location.href = "/running/user/signout";
         })
         .catch((error) => {
             alert("수정 실패: " + error.response.data);
