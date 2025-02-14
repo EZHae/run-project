@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				secret.checked = false;
 
 				//알림테이블 업데이트
-				const link = `http://localhost:8080/running/gpost/details?id=${postId}`;
+				const link = "/gpost/details?id=" + postId;
 				let newctext = ctext;
 				if (ctext.length > 10) {
 					newctext = ctext.substring(0, 10);
@@ -379,7 +379,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				document.querySelector('textarea#ctext').value = '';
 
 				//알림테이블 업데이트
-				const link = `http://localhost:8080/running/gpost/details?id=${postId}`;
+				const link = "/gpost/details?id=" + postId;
 				let newreplyText = replyText;
 				if (replyText.length > 10) {
 					newreplyText = replyText.substring(0, 10);

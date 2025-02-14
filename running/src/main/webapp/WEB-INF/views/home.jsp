@@ -133,6 +133,21 @@
         a {
             text-decoration: none;
         }
+        
+         /* 긴 텍스트 말줄임 (...) */
+        .table td {
+            white-space: nowrap; /* 줄바꿈 방지 */
+            overflow: hidden; /* 넘친 내용 숨김 */
+            text-overflow: ellipsis; /* 말줄임 (...) 적용 */
+            max-width: 150px; /* 최대 너비 제한 (원하는 크기로 조정) */
+        }
+        
+        /* 카드 높이를 늘릴 요소만 선택 */
+        .card-container:nth-of-type(2) .card {
+            min-height: 340px;
+            max-height: 400px;
+        }
+        
     </style>
     </head>
     <body>

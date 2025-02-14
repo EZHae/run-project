@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			});
 
 			//알림테이블 업데이트
-			const link = `http://localhost:8080/running/team/details?teamid=${teamId}`;
+			const link = "/team/details?teamid="+teamId;
 			let newTeamName=teamName;
 			if (teamName.length > 10) {
 				newTeamName = teamName.substring(0, 10);
@@ -153,7 +153,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				alert('신청성공!');
 
 				//알림테이블 업데이트
-				const link = `http://localhost:8080/running/team/details?teamid=${teamId}`;
+				const link = "/team/details?teamid="+teamId;
 				let content = teamName + '/' + introMsg;
 				if (content.length > 10) {
 					content = content.substring(0, 10);
