@@ -29,5 +29,7 @@ public interface TeamDao {
 	Integer updateTeam(Team team);
 	List<Team>searchPagedTeams(TeamSearchDto dto);
 	Integer countTeamsByFilter(TeamSearchDto dto);
+	Integer plusCurrentNum(Integer teamId);
+	Integer minusCurrentNum(Integer teamId);
 	
 }

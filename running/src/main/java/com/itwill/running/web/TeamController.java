@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -237,6 +238,18 @@ public class TeamController {
 		return ResponseEntity.ok(result);
 
 		// return "redirect:/team/list";
+	}
+	
+	@PutMapping("/api/plusCurrentNum")
+	public ResponseEntity<Integer> plusCurrentNum(@RequestParam("teamid") Integer teamId){
+		int result=teamService.plusCurrentNum(teamId);
+		return ResponseEntity.ok(result);
+	}
+	
+	@PutMapping("/api/minusCurrentNum")
+	public ResponseEntity<Integer> minusCurrentNum(@RequestParam("teamid") Integer teamId){
+		int result=teamService.minusCurrentNum(teamId);
+		return ResponseEntity.ok(result);
 	}
 
 }

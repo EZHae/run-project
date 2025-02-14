@@ -24,11 +24,11 @@ document.addEventListener("DOMContentLoaded", () => {
 		//댓글읽기
 		const url = `../api/comment/all/${postId}`;
 		axios.get(url).then((response) => {
-				if (response.data == 0) {
-					console.log('댓글없음');
-					const sectionComment = document.querySelector("section#commentSection");
-					const html =
-						`<div class="container my-1 py-1">
+			if (response.data == 0) {
+				console.log('댓글없음');
+				const sectionComment = document.querySelector("section#commentSection");
+				const html =
+					`<div class="container my-1 py-1">
 										<div class="row d-flex justify-content-center">
 											<div class="col-md-12 col-lg-10 col-xl-8"> 
 												<div class="card p-4">
@@ -37,11 +37,11 @@ document.addEventListener("DOMContentLoaded", () => {
 											</div>
 										</div>
 									</div>`
-					sectionComment.innerHTML = html;
-					return;
+				sectionComment.innerHTML = html;
+				return;
 
-				}
-				makeCommentSection(response.data);
+			}
+			makeCommentSection(response.data);
 		}).catch((error) => {
 			console.log(error)
 		});
@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				secret.checked = false;
 
 				//알림테이블 업데이트
-				const link = `http://localhost:8080/running/gpost/details?id=${postId}`;
+				const link = "/gpost/details?id=" + postId;
 				let newctext = ctext;
 				if (ctext.length > 10) {
 					newctext = ctext.substring(0, 10);
@@ -379,7 +379,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				document.querySelector('textarea#ctext').value = '';
 
 				//알림테이블 업데이트
-				const link = `http://localhost:8080/running/gpost/details?id=${postId}`;
+				const link = "/gpost/details?id=" + postId;
 				let newreplyText = replyText;
 				if (replyText.length > 10) {
 					newreplyText = replyText.substring(0, 10);

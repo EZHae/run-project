@@ -76,7 +76,15 @@ document.addEventListener("DOMContentLoaded", () => {
 		axios.delete(`../api/tmember/delete?teamid=${teamId}&userid=${userId}`).then((response) => {
 			if (response.data == 1) {
 				alert(`${nickname}님을 강제탈퇴하였습니다`);
-				window.location.href = `../team/details?teamid=${teamId}`;
+				//currentNum 업데이트
+				axios.put(`../team/api/minusCurrentNum?teamid=${teamId}`).then((response) => {
+					if (response.data == 1) {
+						console.log('currentNum 1 증가');
+						window.location.href = `../team/details?teamid=${teamId}`;
+					}
+				}).cancel((error) => {
+					console.log(error);
+				});
 
 			}
 		}).catch((error) => {
@@ -92,24 +100,32 @@ document.addEventListener("DOMContentLoaded", () => {
 		if (applyConfirm) {
 			//applications테이블에서 삭제
 			axios.delete(`../api/teamapplication/cancel?teamid=${teamId}&userid=${userId}`).then((response) => {
+				//members테이블에 추가
+				const data = { leaderCheck: 0, teamId: teamId, userId: userId };
+				axios.post(`../api/tmember/confirm`, data).then((response) => {
+					if (response.data == 1) {
+						alert(`${nickname}님의 신청을 수락하였습니다`);
+					}
+				}).catch((error) => {
+					console.log(error);
+				});
 
 			}).catch((error) => {
 				console.log(error);
 			});
 
-			//members테이블에 추가
-			const data = { leaderCheck: 0, teamId: teamId, userId: userId };
-			axios.post(`../api/tmember/confirm`, data).then((response) => {
+			//currentNum 업데이트
+			axios.put(`../team/api/plusCurrentNum?teamid=${teamId}`).then((response) => {
 				if (response.data == 1) {
-					alert(`${nickname}님의 신청을 수락하였습니다`);
+					console.log('currentNum 1 증가');
 				}
-			}).catch((error) => {
+			}).cancel((error) => {
 				console.log(error);
 			});
 
 			//알림테이블 업데이트
-			const link = `http://localhost:8080/running/team/details?teamid=${teamId}`;
-			let newTeamName=teamName;
+			const link = "/team/details?teamid=" + teamId;
+			let newTeamName = teamName;
 			if (teamName.length > 10) {
 				newTeamName = teamName.substring(0, 10);
 				newTeamName = newTeamName + '...';
@@ -153,7 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				alert('신청성공!');
 
 				//알림테이블 업데이트
-				const link = `http://localhost:8080/running/team/details?teamid=${teamId}`;
+				const link = "/team/details?teamid=" + teamId;
 				let content = teamName + '/' + introMsg;
 				if (content.length > 10) {
 					content = content.substring(0, 10);
