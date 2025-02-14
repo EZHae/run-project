@@ -37,8 +37,8 @@
         /* 배너 컨테이너 (좌우 여백 추가) */
         .banner-container {
             width: 100%;
-            max-width: 1450px; /* 최대 너비를 줄여서 여백 확보 */
-            height: 600px; /* 고정 높이 */
+            max-width: 1700px; /* 최대 너비를 줄여서 여백 확보 */
+            height: 800px; /* 고정 높이 */
             display: flex;
             justify-content: center; /* 내부 요소 중앙 정렬 */
             align-items: center;
@@ -145,8 +145,8 @@
         
 <!--     	메인 배너 -->
         <div class="banner-container mb-3">
-<!--             <img src="./images/main_banner3.jpg" alt="메인 배너"> -->
-            <img src="./images/main_banner2.jpg" alt="메인 배너">
+            <img src="./images/main_banner3.jpg" alt="메인 배너">
+<!--             <img src="./images/main_banner2.jpg" alt="메인 배너"> -->
         </div>
         
         
