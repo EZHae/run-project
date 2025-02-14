@@ -13,7 +13,7 @@ public interface TeamDao {
 	
 	// 최호철
 	List<Team> selectAll();
-	List<Team> selectOpenTeams();
+	List<Team> selectOpenTeams(); //삭제예정
 	Team selectByTeamId(Integer teamId);
 	List<Team> selectTeamsByUserId(String userId);
 	Integer deleteTeamMember(Integer teamId, String userId);
@@ -23,10 +23,13 @@ public interface TeamDao {
 	// 이수빈
 	Integer insertNewTeam(Team team);
 	Integer findTeamIdByTeamNameAndUserId(String teamName, String userId);
-	Integer selectCountByTeamName(String teamName);
-	Integer deleteTeam(Integer teamId);
+	Integer selectCountByTeamName(String teamName); //삭제예정
+	Integer deleteTeam(Integer teamId); 
 	Integer updateTeam(Team team);
-	List<Team> searchTeams(TeamSearchDto dto);
-	List<Team> selectClosedTeams();
+	List<Team> searchTeams(TeamSearchDto dto);//삭제예정
+	List<Team> selectClosedTeams(); //삭제예정
+	List<Team>selectPagedTeams(TeamSearchDto dto);//삭제예정
+	List<Team>searchPagedTeams(TeamSearchDto dto);
+	Integer countTeamsByFilter(TeamSearchDto dto);
 	
 }

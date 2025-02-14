@@ -88,10 +88,10 @@
 								</c:url>
 								<c:choose>
 									<c:when test="${course.category == 0}">
-										<c:set var="courseCategory" value="[코스추천]" />
+										<c:set var="courseCategory" value="&#128077" />
 									</c:when>
 									<c:otherwise>
-										<c:set var="courseCategory" value="[코스리뷰]" />
+										<c:set var="courseCategory" value="&#128221" />
 									</c:otherwise>
 								</c:choose>
 								
@@ -152,7 +152,7 @@
 						</c:otherwise>
 					</c:choose> <a class="page-link text-success" href="${firstPage}"
 					aria-label="First"> <span aria-hidden="true">&laquo;&laquo;
-							First</span>
+							</span>
 				</a></li>
 
 				<!-- 이전 페이지 버튼 -->

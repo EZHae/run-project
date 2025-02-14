@@ -118,7 +118,7 @@
     
         <hr class="mt-5"/>
         <!-- 카드 3개 배치 -->
-        <div class="card-container">
+        <div class="card-container bg-success bg-opacity-25">
             <div class="card">
                 <div class="card-title">🏃‍♂️ 러닝팀 생성</div>
                 <div class="card-text">같이 뛸 팀을 생성하세요.</div>
@@ -133,7 +133,7 @@
             </div>
         </div>
         
-        <div class="card-container">
+        <div class="card-container bg-success bg-opacity-25">
             <div class="card">
                 <div class="card-title">🏃‍♂️ 최근 코스</div>
                 <div class="card-text">같이 뛸 팀을 찾아보세요.</div>

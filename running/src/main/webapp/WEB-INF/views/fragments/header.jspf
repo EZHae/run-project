@@ -2,7 +2,8 @@
 	pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
 <style>
 body {
 	height: 100vh;
@@ -10,6 +11,7 @@ body {
 	align-items: center;
 	margin: 0;
 }
+
 .runners-text {
 	font-family: 'Roboto', sans-serif;
 	font-size: 5rem;
@@ -19,12 +21,11 @@ body {
 }
 /* 컨테이너가 너무 커지는 현상 방지 */
 .container {
-    max-width: 100%;
-    margin: auto;
-    padding-left: 1.5rem ;
-    padding-right: 1.5rem ;
+	max-width: 100%;
+	margin: auto;
+	padding-left: 1.5rem;
+	padding-right: 1.5rem;
 }
-
 </style>
 
 <header>
@@ -58,26 +59,32 @@ body {
 							var="courseListPage" /><a class="nav-link fw-semibold"
 						href="${courseListPage}">코스리스트</a></li>
 				</ul>
-                <c:if test="${not empty signedInUserId}">
-                    <button class="btn btn-success rounded-pill px-4 d-flex align-items-center" type="button"
-                        data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
-                        aria-controls="offcanvasRight">
-                        <i class="bi bi-person-circle me-1"></i>프로필
-                    </button>
-                </c:if>
-                <c:if test="${empty signedInUserId}">
-                    <button class="btn btn-success rounded-pill px-4 d-flex align-items-center" type="button"
-                        data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
-                        aria-controls="offcanvasRight">
-                        <i class="bi bi-box-arrow-in-right me-1"></i>로그인
-                    </button>
-                </c:if>
+				<c:if test="${not empty signedInUserId}">
+					<button
+						class="btn btn-success rounded-pill px-4 d-flex align-items-center"
+						type="button" data-bs-toggle="offcanvas"
+						data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+						<c:if test="${notificationCount > 0}">
+							<span>&#10071</span>
+						</c:if>
+						<i class="bi bi-person-circle me-1"></i>유저<span id="notiHome"
+							class="d-none"></span>
+					</button>
+				</c:if>
+				<c:if test="${empty signedInUserId}">
+					<button
+						class="btn btn-success rounded-pill px-4 d-flex align-items-center"
+						type="button" data-bs-toggle="offcanvas"
+						data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+						<i class="bi bi-box-arrow-in-right me-1"></i>로그인
+					</button>
+				</c:if>
 			</div>
 		</div>
 	</nav>
-    
-<!-- hr 구분선 추가 -->
-<hr class="my-0">
+
+	<!-- hr 구분선 추가 -->
+	<hr class="my-0">
 
 	<!-- 오프캔버스 -->
 	<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight"
@@ -87,16 +94,16 @@ body {
 			<button type="button" class="btn-close btn-close-white"
 				data-bs-dismiss="offcanvas" aria-label="Close"></button>
 		</div>
-		<div class="offcanvas-body" >
+		<div class="offcanvas-body">
 			<c:if test="${not empty signedInUserId}">
 				<div class="d-flex align-items-center mb-3">
 					<img src="<c:url value='/image/view/user/${signedInUserId}' />"
 						alt="프로필 이미지" class="rounded-circle border border-success me-2"
-						style="width: 70px; height: 70px;"> <span class="fw-bold text-success">반갑습니다,
-						${signedInUserId} 님</span>
+						style="width: 70px; height: 70px;"> <span
+						class="fw-bold text-success">반갑습니다, ${signedInUserId} 님</span>
 				</div>
 			</c:if>
-           
+
 			<ul class="list-group list-group-flush">
 				<c:if test="${empty signedInUserId}">
 					<li class="list-group-item"><c:url value="/user/signin"
@@ -105,11 +112,11 @@ body {
 						href="${userSignInPage}">로그인</a></li>
 					<li class="list-group-item"><c:url value="/user/signup"
 							var="userSignUpPage" /><a
-						class="text-decoration-none fw-semibold text-dark"  
+						class="text-decoration-none fw-semibold text-dark"
 						href="${userSignUpPage}">회원가입</a></li>
 				</c:if>
 				<c:if test="${not empty signedInUserId}">
-                    
+
 					<li class="list-group-item"><c:url value="/user/signout"
 							var="userSignOutPage" /> <a
 						class="text-decoration-none fw-semibold text-dark"
@@ -118,22 +125,13 @@ body {
 							var="userProfilePage" /> <a
 						class="text-decoration-none fw-semibold text-dark"
 						href="${userProfilePage}">마이페이지</a></li>
-					<li class="list-group-item">
-                        <c:url value="/user/notifications" var="userNotificationPage">
-                            <c:param name="userid" value="${signedInUserId}"></c:param>
-                        </c:url>
-                        <a class="text-decoration-none fw-semibold text-dark position-relative d-flex align-items-center"
-                            id="notifications" data-user-id="${signedInUserId}"
-                            href="${userNotificationPage}">
-                            알림목록
-                            <c:if test="${notificationCount > 0}">
-                                <span id="notification-badge"  class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger
-                                    style="display: ${notificationCount > 0 ? 'inline-block' : 'none'};">
-                                    ${notificationCount}
-                                </span>
-                            </c:if>
-                        </a>
-                    </li>
+					<li class="list-group-item"><c:url value="/user/notifications"
+							var="userNotificationPage">
+							<c:param name="userid" value="${signedInUserId}"></c:param>
+						</c:url> <a
+						class="text-decoration-none fw-semibold text-dark position-relative d-flex align-items-center"
+						id="notifications" data-user-id="${signedInUserId}"
+						href="${userNotificationPage}"> 알림목록 </a></li>
 				</c:if>
 			</ul>
 		</div>
@@ -144,7 +142,7 @@ body {
 <!-- Axios Http Js-->
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
-
+	
 </script>
-<c:url var="headerJS" value="/js/header.js"/>
+<c:url var="headerJS" value="/js/header.js" />
 <script src="${headerJS}"></script>

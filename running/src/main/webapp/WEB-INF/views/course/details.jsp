@@ -98,8 +98,8 @@
 
 						<!-- 좋아요 버튼을 js로 처리 -->
 						<button class="btn btn-outline-success ms-2" id="btnLike">
-							<i class="fas fa-thumbs-up"
-								style="color: #ffcc00; font-size: 18px;"></i> 좋아요
+							<!--<i class="fas fa-thumbs-up"
+								style="color: #ffcc00; font-size: 18px;"></i>--> &#10084 좋아요
 						</button>
 
 						<c:if test="${signedInUserId eq course.userId}">

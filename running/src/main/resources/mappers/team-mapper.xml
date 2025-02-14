@@ -4,17 +4,19 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 
-  
+
 <mapper namespace="com.itwill.running.repository.TeamDao">
 	<!-- 이지해 -->
 	<select id="selectTeamByAll" resultType="Team">
-		select * from teams order by team_id desc
+		select * from teams
+		order by team_id desc
 	</select>
-	
+
 	<select id="selectTeamByTeamId" resultType="Team">
-		select * from teams where team_id = #{teamId}
+		select * from teams
+		where team_id = #{teamId}
 	</select>
-	
+
 	<!-- TODO 팀삭제, 팀수정, 팀검색(이름,공원타입 등), 내게맞는공고찾기(성별,연령대에맞는) -->
 	<select id="selectAll" resultType="Team">
 		select t.*, u.nickname as
@@ -39,8 +41,8 @@
 		select * from teams
 		where current_num != max_num order by team_id desc
 	</select>
-	
-		<select id="findTeamIdByTeamNameAndUserId" resultType="Integer">
+
+	<select id="findTeamIdByTeamNameAndUserId" resultType="Integer">
 		select
 		team_id from teams where team_name=#{teamName} and user_id=#{userId}
 	</select>
@@ -50,23 +52,69 @@
 		from teams where team_name=#{teamName}
 	</select>
 
-	<select id="searchTeams" resultType="Team">
-		select t.*
-		from teams t
-		join parks p on t.park_id = p.id
+	<select id="selectPagedTeams" resultType="Team">
+		select *
+		from teams
+		where
+		<if test="status == 'open'">
+			max_num != current_num
+		</if>
+		<if test="status == 'closed'">
+			max_num = current_num
+		</if>
+		order by team_id desc
+		offset #{offset} rows fetch next #{limit} rows
+		only
+	</select>
+
+
+	<select id="searchPagedTeams" resultType="Team">
+		SELECT t.*
+		FROM teams t
+		<if test="district != 'all'">
+			JOIN parks p ON t.park_id = p.id
+		</if>
 		<where>
 			<if test="district != 'all'">
 				p.park_loc = #{district}
 			</if>
-			<bind name="searchKeyword" value="'%' + keyword + '%'" />
-			and upper(t.team_name) like upper(#{searchKeyword})
+			<if test="keyword != null and keyword != ''">
+				<bind name="searchKeyword" value="'%' + keyword + '%'" />
+				AND UPPER(t.team_name) LIKE UPPER(#{searchKeyword})
+			</if>
 			<choose>
-				<when test="status == 'closed'">and t.max_num = t.current_num</when>
-				<otherwise>and t.current_num != t.max_num</otherwise>
+				<when test="status == 'closed'">AND t.max_num = t.current_num</when>
+				<otherwise>AND t.current_num != t.max_num</otherwise>
 			</choose>
 		</where>
-		order by t.team_id desc
+		ORDER BY t.team_id DESC
+		OFFSET #{offset} ROWS FETCH NEXT #{limit} ROWS
+		ONLY
 	</select>
+
+
+	<select id="countTeamsByFilter" resultType="Integer">
+		
+			SELECT count(*)
+			FROM teams t
+			<if test="district != 'all'">
+				JOIN parks p ON t.park_id = p.id
+			</if>
+			<where>
+				<if test="district != 'all'">
+					p.park_loc = #{district}
+				</if>
+				<if test="keyword != null and keyword != ''">
+					<bind name="searchKeyword" value="'%' + keyword + '%'" />
+					AND UPPER(t.team_name) LIKE UPPER(#{searchKeyword})
+				</if>
+				<choose>
+					<when test="status == 'closed'">AND t.max_num = t.current_num</when>
+					<otherwise>AND t.current_num != t.max_num</otherwise>
+				</choose>
+			</where>
+	</select>
+
 
 
 	<insert id="insertNewTeam">
@@ -93,28 +141,32 @@
 	<delete id="deleteTeam">
 		delete from teams where team_id=#{teamId}
 	</delete>
-    
-    <!-- 마이페이지 팀 조회 및 탈퇴 SQL -->
-    <select id="selectTeamsByUserId" resultType="Team">
-        SELECT t.team_id, t.team_name
-        FROM teams t
-        JOIN t_members tm ON t.team_id = tm.team_id
-        WHERE tm.user_id = #{userId}
-    </select>
-    
-    <delete id="deleteTeamMember">
-        delete from t_members 
-        where team_id = #{teamId} and user_id = #{userId} 
-    </delete>
-    
-    <delete id="deleteTeamLeader">
-        delete from teams 
-        where team_id = #{teamId}
-    </delete>
-    
-    <select id="selectTeamLeaderCheck" resultType="Integer">
-        select leader_check 
-        from t_members
-        where team_id = #{teamId} and user_id = #{userId}
-    </select>
+
+	<!-- 마이페이지 팀 조회 및 탈퇴 SQL -->
+	<select id="selectTeamsByUserId" resultType="Team">
+		SELECT t.team_id,
+		t.team_name
+		FROM teams t
+		JOIN t_members tm ON t.team_id = tm.team_id
+		WHERE tm.user_id = #{userId}
+	</select>
+
+	<delete id="deleteTeamMember">
+		delete from t_members
+		where team_id = #{teamId} and
+		user_id = #{userId}
+	</delete>
+
+	<delete id="deleteTeamLeader">
+		delete from teams
+		where team_id = #{teamId}
+	</delete>
+
+	<select id="selectTeamLeaderCheck" resultType="Integer">
+		select
+		leader_check
+		from t_members
+		where team_id = #{teamId} and user_id =
+		#{userId}
+	</select>
 </mapper>

@@ -1,6 +1,5 @@
 package com.itwill.running.web;
 
-
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.List;
@@ -45,26 +44,68 @@ public class TeamController {
 	private final TMemberService tmemService;
 	private final TApplicationService tappService;
 	private final UserService userService;
-	private final ParkService parkService;	
+	private final ParkService parkService;
+	final int PAGE_SIZE = 6; // 한 페이지당 게시글 수
+	final int PAGE_BLOCK_SIZE = 5; // 페이지 블록 크기
 
 	@GetMapping("/list")
-	public void getAllTeams(Model model, @RequestParam(value= "status", defaultValue = "open")String status) {
-		List<TeamItemDto> teams = "closed".equals(status) ? teamService.readClosedTeams() : teamService.readOpenTeams();
-		log.debug("모집 상태 목록={}",teams);
-		
-		model.addAttribute("teams",teams);
+	public void getAllTeams(TeamSearchDto dto, Model model,
+			@RequestParam(value = "status", defaultValue = "open") String status,
+			@RequestParam(defaultValue = "1") Integer page) {
+
+		if (dto.getPage() == null) {
+			dto.setPage(1);
+		}
+		if (dto.getStatus() == null) {
+			dto.setStatus("open");
+		}
+		if (dto.getDistrict() == null) {
+			dto.setDistrict("all");
+		}
+
+		dto.setLimit(PAGE_SIZE); // 출력할 팀 수
+		dto.setOffset((page - 1) * PAGE_SIZE); // 건너뛸 팀 수
+
+		List<TeamItemDto> teams = teamService.readPagedPosts(dto);
+
+		model.addAttribute("teams", teams);
 		model.addAttribute("status", status);
+		Double total = (Double) teamService.countTeamsByFilter(dto).doubleValue();
+		model.addAttribute("totalPages", (int) (Math.ceil(total / 6)));
+
+		model.addAttribute("TeamSearchDto", dto);
+
 	}
-	
+
 	@GetMapping("/search")
 	public String searchTeams(TeamSearchDto dto, Model model) {
-		List<Team> teams=teamService.searchTeams(dto);
-		model.addAttribute("teams",teams);
+		if (dto.getPage() == null) {
+			dto.setPage(1);
+		}
+		if (dto.getStatus() == null) {
+			dto.setStatus("open");
+		}
+		if (dto.getDistrict() == null) {
+			dto.setDistrict("all");
+		}
+		dto.setLimit(PAGE_SIZE); // 출력할 팀 수
+		dto.setOffset((dto.getPage() - 1) * PAGE_SIZE); // 건너뛸 팀 수
+
+		List<TeamItemDto> teams = teamService.readPagedPosts(dto);
+		model.addAttribute("teams", teams);
+
+		model.addAttribute("status", dto.getStatus());
+		model.addAttribute("district", dto.getDistrict());
+		model.addAttribute("keyword", dto.getKeyword());
+		Double total = (Double) teamService.countTeamsByFilter(dto).doubleValue();
+		model.addAttribute("totalPages", (int) (Math.ceil(total / 6)));
+		model.addAttribute("TeamSearchDto", dto);
 		return "/team/list";
 	}
 
 	@GetMapping({ "/details", "/update" })
-	public String recruitTeam(@RequestParam("teamid") Integer teamId, Model model, HttpSession session, HttpServletRequest request) {
+	public String recruitTeam(@RequestParam("teamid") Integer teamId, Model model, HttpSession session,
+			HttpServletRequest request) {
 		// /modify만 필터링
 		String requestURI = request.getRequestURI();
 		log.debug("요청주소: {}", requestURI);
@@ -78,7 +119,7 @@ public class TeamController {
 				return "nopermission";
 			}
 		}
-		
+
 		TeamItemDto team = teamService.readByTeamid(teamId);
 		model.addAttribute(team);
 
@@ -103,8 +144,8 @@ public class TeamController {
 	}
 
 	@PostMapping("/update")
-	public String updateTeam(TeamUpdateDto dto, HttpServletRequest request, @RequestParam("file") MultipartFile file, HttpSession session, Model model)
-			throws IllegalStateException, IOException {
+	public String updateTeam(TeamUpdateDto dto, HttpServletRequest request, @RequestParam("file") MultipartFile file,
+			HttpSession session, Model model) throws IllegalStateException, IOException {
 		// 로그인아이디와 작성자아이디 체크
 		String signedInUserId = session.getAttribute("signedInUserId").toString();
 		String userId = teamService.read(dto.getTeamId()).getUserId();
@@ -113,7 +154,7 @@ public class TeamController {
 			model.addAttribute("errordetail", 3);
 			return "nopermission";
 		}
-		
+
 		String originalFilename = file.getOriginalFilename();
 		TeamItemDto ogTeam = teamService.readByTeamid(dto.getTeamId());
 		if (originalFilename != "") {
@@ -180,24 +221,22 @@ public class TeamController {
 	}
 
 	@DeleteMapping("/delete")
-	public ResponseEntity<Integer> deleteTeam(@RequestParam("teamid") Integer teamId, HttpSession session, Model model) {
+	public ResponseEntity<Integer> deleteTeam(@RequestParam("teamid") Integer teamId, HttpSession session,
+			Model model) {
 		// 로그인아이디와 작성자아이디 체크
 		/*
-		String signedInUserId = session.getAttribute("signedInUserId").toString();
-		String userId = teamService.read(teamId).getUserId();
-		if (!signedInUserId.equals(userId)) {
-			model.addAttribute("errorcode", "팀 삭제");
-			model.addAttribute("errordetail", 3);
-			return "nopermission";
-		}
-		*/
+		 * String signedInUserId = session.getAttribute("signedInUserId").toString();
+		 * String userId = teamService.read(teamId).getUserId(); if
+		 * (!signedInUserId.equals(userId)) { model.addAttribute("errorcode", "팀 삭제");
+		 * model.addAttribute("errordetail", 3); return "nopermission"; }
+		 */
 		// 배너이미지 c드라이브에서 삭제
 		TeamItemDto ogTeam = teamService.readByTeamid(teamId);
 		FileController.deleteFileFromDirectory("C:\\uploadTeamImg\\" + ogTeam.getUniqName());
 		int result = teamService.deleteTeam(teamId);
 		return ResponseEntity.ok(result);
 
-		//return "redirect:/team/list";
+		// return "redirect:/team/list";
 	}
 
 }
