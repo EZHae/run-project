@@ -128,4 +128,10 @@
     <select id="countPosts" resultType="int">
         select count(*) from course
     </select>
+    
+    <!-- 최근 게시글 5개까지 가져오는 SQL 문장 -->
+    <select id="getNewPostById" resultType="Course">
+        select * from course
+        order by id desc fetch first 5 rows only
+    </select>
   </mapper>

@@ -99,4 +99,8 @@ public class GpostService {
 	public int countPostsBySearch(GpostCategoryDto dto) {
 		return gPostDao.selectCountPostsBySearch(dto);
 	}
+	
+	public List<Gpost> readNewPostById(){
+		return gPostDao.getNewPostById();
+	}
 }
