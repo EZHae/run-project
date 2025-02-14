@@ -10,4 +10,5 @@ public interface NotificationDao {
 	Integer insertNewNotification(Notification noti);
 	Integer deleteNotification(Integer id);
 	Integer updateToChecked(Integer id);
+	Integer countUnreadNotisByUserId(String userId);
 }

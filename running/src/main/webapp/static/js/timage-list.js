@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 	
-	
+   
 	
 	/************** 콜 백 함수 **************/
 	// 카테고리가 변경될 때마다 실행할 함수 
@@ -71,5 +71,4 @@ document.addEventListener('DOMContentLoaded', () => {
 			console.log('이미지를 불러오는 중 오류 발생:', error);
 		});
 	};
-
 });

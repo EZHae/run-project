@@ -90,6 +90,8 @@ public class TeamController {
 
 		Park park = parkService.selectParkByParkId(team.getParkId());
 		model.addAttribute(park);
+		model.addAttribute("parkLat", park.getParklat());
+		model.addAttribute("parkLng", park.getParkLng());
 
 		String userId = (String) session.getAttribute("signedInUserId");
 		if (userId != null) {

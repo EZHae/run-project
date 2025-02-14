@@ -45,15 +45,18 @@
 						</p>
 					</div>
 
+					<div class="mb-3">
 					<!-- 팀 설명 -->
 					<div class="bg-white p-4 rounded-4 mt-3 shadow-sm">
 						<h5 class="fw-bold text-secondary">팀 소개</h5>
 						<p class="text-muted">${teamItemDto.content}</p>
+
 					</div>
 
 					<!-- 공원 이름 -->
 					<div class="text-center mt-3">
 						<span class="badge bg-primary fs-6">📍 ${park.parkName}</span>
+						<div id="map" style="width: 100%; height: 0; padding-bottom: 50%; min-height: 200px;"></div>
 					</div>
 
 					<!-- 성별 제한 -->
@@ -78,8 +81,6 @@
 						<p class="text-muted">🎂 ${teamItemDto.ageLimit}살 이상</p>
 					</div>
 				</div>
-
-
 
 				<div class="mt-3 d-flex justify-content-center">
 					<div class="btn-group" role="group">
@@ -253,6 +254,32 @@
 		const teamName = '${teamItemDto.teamName}';
 		const tmemNum = '${tmembers.size()}';
 		const teamLeaderId = '${teamItemDto.userId}'
+	</script>
+	
+	<!-- 카카오 맵 API -->
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d1d3b87ab7851c5ad6b2ab818eba8506"></script>
+	<script>
+		const parkLat = '${parkLat}';
+		const parkLng = '${parkLng}';
+		var container = document.getElementById('map');
+		
+		var options = {
+			center: new kakao.maps.LatLng(parkLat, parkLng),
+			level: 3
+		};
+
+		var map = new kakao.maps.Map(container, options);
+		
+		// 마커가 표시될 위치입니다 
+		var markerPosition  = new kakao.maps.LatLng(parkLat, parkLng); 
+
+		// 마커를 생성합니다
+		var marker = new kakao.maps.Marker({
+		    position: markerPosition
+		});
+
+		// 마커가 지도 위에 표시되도록 설정합니다
+		marker.setMap(map);
 	</script>
 
 	<%@ include file="../fragments/footer.jspf"%>

@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html>
@@ -33,17 +35,13 @@
 
 				<main class="mt-3">
 					<c:url value="/team/search" var="teamSearchPage" />
-					<form action="${teamSearchPage}" method="get" id="searchForm"
-						class="d-flex justify-content-between align-items-center bg-white shadow-sm p-3 rounded">
-						<div class="d-flex">
-							<select
-								class="form-select form-select-sm me-2 border-0 shadow-sm"
-								id="status" name="status">
+					<form action="${teamSearchPage}" method="get" id="searchForm">
+						<div class="d-flex align-items-center mb-3">
+							<select class="form-select me-3" id="status" name="status">
 								<option value="open" selected>모집중</option>
 								<option value="closed">모집완료</option>
-							</select> <select
-								class="form-select form-select-sm me-2 border-0 shadow-sm"
-								id="seoul-districts" name="district">
+							</select> <select class="form-select me-3" id="seoul-districts"
+								name="district">
 								<option value="all" selected>전체</option>
 								<option value="강남구">강남구</option>
 								<option value="강동구">강동구</option>
@@ -70,17 +68,13 @@
 								<option value="종로구">종로구</option>
 								<option value="중구">중구</option>
 								<option value="중랑구">중랑구</option>
-							</select>
+							</select> <input type="text" id="keyword" name="keyword"
+								class="form-control me-3" placeholder="팀 이름으로 검색">
+
+							<button id="searchButton" class="btn btn-success text-white">
+								<i class="bi bi-search"></i>
+							</button>
 						</div>
-
-						<input type="text" id="keyword" name="keyword"
-							class="form-control form-control-sm me-2 border-0 shadow-sm rounded-pill"
-							placeholder="팀 이름으로 검색">
-
-						<button id="searchButton"
-							class="btn btn-success btn-sm rounded-circle shadow-sm">
-							<i class="bi bi-search"></i>
-						</button>
 					</form>
 
 					<div class="d-flex justify-content-between">
@@ -91,13 +85,10 @@
 							<c:url value="/team/list" var="closedListUrl">
 								<c:param name="status" value="closed" />
 							</c:url>
-							<a href="${teamListUrl}">
-								<button
-									class="btn btn-outline-success me-2 mt-3 rounded-pill shadow-sm">모집중</button>
-							</a> <a href="${closedListUrl}">
-								<button
-									class="btn btn-outline-success mt-3 rounded-pill shadow-sm">모집완료</button>
-							</a>
+							<a href="${teamListUrl}"><button
+									class="btn btn-outline-success me-2 mt-3 rounded-pill shadow-sm">모집중</button></a>
+							<a href="${closedListUrl}"><button
+									class="btn btn-outline-success mt-3 rounded-pill shadow-sm">모집완료</button></a>
 						</div>
 						<div>
 							<c:url var="teamCreatePage" value="/team/create" />
@@ -122,9 +113,18 @@
 													</c:url>
 
 													<a href="${teamDetailPage}"
-														class="link-dark text-decoration-none fw-bold">${team.title}</a>
+														class="link-dark text-decoration-none fw-bold"> <c:choose>
+															<c:when test="${fn:length(team.title) > 17}">${fn:substring(team.title, 0, 17)}...</c:when>
+															<c:otherwise>${team.title}</c:otherwise>
+														</c:choose>
+													</a>
 												</h5>
-												<p class="card-text text-secondary mb-3">${team.content}</p>
+												<p class="card-text text-secondary mb-3">
+													<c:choose>
+														<c:when test="${fn:length(team.content) > 25}">${fn:substring(team.content, 0, 25)}...</c:when>
+														<c:otherwise>${team.content}</c:otherwise>
+													</c:choose>
+												</p>
 												<c:url var="teamDetailPage" value="/team/details">
 													<c:param name="teamid" value="${team.teamId}" />
 												</c:url>
@@ -135,7 +135,10 @@
 												<ul
 													class="entry-meta list-unstyled d-flex justify-content-between m-0">
 													<li><i class="fas fa-calendar-alt text-warning"></i> <span
-														class="ms-2 fs-7">${team.createdTime}</span></li>
+														class="ms-2 fs-7"><fmt:parseDate
+																value="${team.createdTime}" pattern="yyyy-MM-dd'T'HH:mm"
+																var="parsedDateTime" type="both" /> <fmt:formatDate
+																pattern="yyyy-MM-dd HH:mm" value="${parsedDateTime}" /> </span></li>
 													<li><i class="fas fa-user text-primary"></i> <span
 														class="ms-2 fs-7">${team.currentNum} /
 															${team.maxNum}</span></li>

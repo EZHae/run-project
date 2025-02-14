@@ -298,20 +298,4 @@ document.addEventListener('DOMContentLoaded', ()=> {
         });
     }
     
-    
-    const images = document.querySelectorAll(".selectable-img");
-
-    images.forEach(image => {
-        image.addEventListener("click", function () {
-            // 기존 선택 효과 제거
-            images.forEach(img => img.classList.remove("selected"));
-
-            // 선택한 이미지에 효과 적용
-            this.classList.add("selected");
-
-            // 미리보기 이미지 변경
-            document.getElementById("previewImage").src = this.src;
-        });
-    });
-    
 });

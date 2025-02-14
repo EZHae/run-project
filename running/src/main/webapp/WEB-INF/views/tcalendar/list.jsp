@@ -19,22 +19,23 @@
 	/* 내팀으로, 팀게시판, 팀앨범, 팀일정게시판 버튼 */
 	.custom-btn {
 	    background-color: transparent;
-	    border: 2px solid #28a745;
-	    color: #28a745;
+	    border: 2px solid #008C2C;
+	    color: #008C2C;
 	    transition: background-color 0.3s, color 0.3s;
 	}
 	
 	.custom-btn:hover, .custom-btn:focus, .custom-btn.active {
-	    background-color: #28a745;
+	    background-color: #008C2C;
 	    color: white;
-	    border-color: #28a745;
+	    border-color: #008C2C;
 	}
+	
 	
 	/* 새글 작성 버튼 */
 	.btn-create {
-		background-color: #28a745;
+		background-color: #008C2C;
 		color: white;
-		border: 1px solid #28a745;
+		border: 1px solid #008C2C;
 	}
 	
 	.btn-create:hover {
@@ -46,6 +47,7 @@
 		float: right; /* 오른쪽에 위치 */
 	}
 	
+	
 	/* 게시글 카드 */
 	.card-container {
 		display: flex;
@@ -55,6 +57,8 @@
 	
 	.col-md-6 {
 		flex: 1 1 calc(50% - 20px); /* 카드가 두 칼럼으로 배치됨 */
+		max-width: calc(60% - 20px); /* 카드의 최대 너비 설정 */
+   		box-sizing: border-box; /* 패딩과 보더를 포함한 크기 계산 */
 	}
 	
 	.filter-form {
@@ -70,6 +74,7 @@
 	    justify-content: space-between;
 	    align-items: center;
 	}
+
 
 	/* 페이징 버튼 */
 	/* 클릭된 페이지 번호 버튼에 대해 색상과 배경 색상 변경 */
@@ -94,9 +99,9 @@
 			<c:set var="pageTitle" value="팀 일정 게시글 목록" />
 		</div>
 		<div class="container my-3">
-			<div class="row d-flex justify-content-center">
+	  		<div class="row d-flex justify-content-center">
 				<div class="col-md-12 col-lg-10 col-xl-8">
-					<div class="card p-4">
+					<div class="card p-4 border-0">
 						<div class="btn-group" role="group" aria-label="Button group">
 						    <c:url var="teamPage" value="/team/details">
 						        <c:param name="teamid" value="${teamId}" />
@@ -114,16 +119,14 @@
 						</div>
 	
 						<h2 class="text-center mt-5">팀 일정 게시판</h2>
-	
-						<!-- 새글 생성 버튼 (팀장만 보이게) -->
-						<div style="margin-top: 20px;">
-							<c:url var="calendarCreatePage"
-								value="/teampage/${teamId}/tcalendar/create" />
-							<c:if test="${isTeamLeader}">
-								<a href="${calendarCreatePage}"
-									class="btn btn-create float-right"">새글 생성</a>
-							</c:if>
-						</div>
+
+                        <!-- 새글 생성 버튼 (팀장만 보이게) -->
+                        <div class="text-end mt-3">
+                            <c:url var="calendarCreatePage" value="/teampage/${teamId}/tcalendar/create" />
+                            <c:if test="${isTeamLeader}">
+                                <a href="${calendarCreatePage}" class="btn btn-success">새글 생성</a>
+                            </c:if>
+                        </div>
 	
 						<!-- 필터링 콤보박스 -->
 						<c:url value="/teampage/${teamId}/tcalendar/list" var="ListPage" />
@@ -153,7 +156,7 @@
 													<span class="font-weight-bold"> <c:choose>
 															<c:when
 																test="${calendar.currentNum < calendar.maxNum and !calendar.expired}">
-																<span style="color: red;">• 모집중</span>
+																<span style="color: #e60000;">• 모집중</span>
 															</c:when>
 															<c:otherwise>
 																<span style="color: gray;">모집종료</span>
@@ -181,7 +184,7 @@
 														<c:param name="calendarId" value="${calendar.id}" />
 													</c:url>
 													<a href="${calendarDetailPage}" class="btn"
-														style="background-color: #28a745; color: white;">자세히 보기</a>
+														style="background-color: #008C2C; color: white;">자세히 보기</a>
 												</div>
 											</div>
 										</div>

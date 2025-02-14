@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -37,5 +38,12 @@ public class ParkController {
 	public ResponseEntity<List<String>> getAllParkLocs(){
 		List<String> parkLocs=parkDao.selectDistinctParkLocs();
 		return ResponseEntity.ok(parkLocs);
+	}
+	
+	// 25-02-12 이지해 추가: 선택한 공원 지도에 미리보기 표시
+	@GetMapping("/search/{id}")
+	public ResponseEntity<Park> getParkByParkId(@PathVariable Integer id) {
+		Park park = parkDao.selectParkByParkId(id);
+		return ResponseEntity.ok(park);
 	}
 }

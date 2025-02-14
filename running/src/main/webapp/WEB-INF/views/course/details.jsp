@@ -86,12 +86,12 @@
 
 						<!-- 작성 시간 -->
 						<div class="mb-3">
-							<span class="fw-bold">작성 시간 </span> <span>${course.createdTime}</span>
+							<span class="fw-bold">작성 시간 </span> <span>${course.formattedCreatedTime}</span>
 						</div>
 
 						<!-- 최종 수정 시간 -->
 						<div class="mb-3">
-							<span class="fw-bold">최종 수정 시간 </span> <span>${course.modifiedTime}</span>
+							<span class="fw-bold">최종 수정 시간 </span> <span>${course.formattedModifiedTime}</span>
 						</div>
 
 
