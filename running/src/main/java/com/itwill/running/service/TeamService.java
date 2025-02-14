@@ -100,5 +100,13 @@ public class TeamService {
 	public Integer countTeamsByFilter(TeamSearchDto dto) {
 		return teamDao.countTeamsByFilter(dto);
 	}
+	
+	public Integer updateCurrentNum(Integer teamId) {
+		return teamDao.updateCurrentNum(teamId);
+	}
+	
+	public Integer minusCurentNum(Integer teamId) {
+		return teamDao.minusCurrentNum(teamId);
+	}
 
 }

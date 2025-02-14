@@ -77,7 +77,10 @@ document.addEventListener("DOMContentLoaded", () => {
 			if (response.data == 1) {
 				alert(`${nickname}님을 강제탈퇴하였습니다`);
 				window.location.href = `../team/details?teamid=${teamId}`;
-
+				//currentNum 업데이트
+							axios.put(`../team/minusCurrentNum?teamid=${teamId}`).then((response)=>{
+								
+							}).catch()
 			}
 		}).catch((error) => {
 			console.log(error);
@@ -106,6 +109,13 @@ document.addEventListener("DOMContentLoaded", () => {
 			}).catch((error) => {
 				console.log(error);
 			});
+			
+			//currentNum 업데이트
+			axios.put(`../team/updateCurrentNum?teamid=${teamId}`).then((response)=>{
+				if(response.data==1){
+					console.log("넘버업데이트완료");
+				}
+			}).catch()
 
 			//알림테이블 업데이트
 			const link = "/team/details?teamid="+teamId;

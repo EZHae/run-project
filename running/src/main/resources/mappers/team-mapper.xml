@@ -137,6 +137,18 @@
 		where
 		team_id=#{teamId}
 	</update>
+	
+	<update id="updateCurrentNum">
+		update teams set current_num=current_num+1
+		where
+		team_id=#{teamId}
+	</update>
+	
+	<update id="minusCurrentNum">
+		update teams set current_num=current_num-1
+		where
+		team_id=#{teamId}
+	</update>
 
 	<delete id="deleteTeam">
 		delete from teams where team_id=#{teamId}
