@@ -26,7 +26,7 @@
 		<div class="container my-5">
 			<div class="row d-flex justify-content-center">
 				<div class="col-md-12 col-lg-8">
-					<div class="card shadow p-4">
+					<div class="card p-4">
 						<!-- 버튼 그룹
 		                <div class="btn-group mb-4 d-flex justify-content-center" role="group" aria-label="Navigation">
 		                    <c:url var="teamPage" value="/team/details">
@@ -45,14 +45,14 @@
 		                </div>
 		                -->
 		
-						<h2 class="text-center text-success fw-bold mb-4">팀 게시판 글 수정</h2>
+						<h2 class="text-center fw-bold mb-4">팀 게시판 글 수정</h2>
 						
 						<!-- 글 수정 폼 -->
 						<form id="update" enctype="multipart/form-data">
 	
 					    <!-- 팀 ID -->
 					    <div class="mb-3">
-					        <label for="teamId" class="form-label text-success fw-bold">팀 ID</label>
+					        <label for="teamId" class="form-label fw-bold">팀 ID</label>
 					        <input type="text" id="teamId" name="teamId" value="${teamId}" class="form-control" readonly>
 					    </div>
 					
@@ -63,31 +63,31 @@
 					
 					    <!-- 사용자 ID -->
 					    <div class="mb-3">
-					        <label for="userId" class="form-label text-success fw-bold">사용자 ID</label>
+					        <label for="userId" class="form-label fw-bold">사용자 ID</label>
 					        <input type="text" id="userId" name="userId" value="${signedInUserId}" class="form-control" readonly>
 					    </div>
 					
 					    <!-- 제목 -->
 					    <div class="mb-3">
-					        <label for="title" class="form-label text-success fw-bold">제목</label>
+					        <label for="title" class="form-label fw-bold">제목</label>
 					        <input type="text" id="title" name="title" class="form-control" value="${post.title}" placeholder="제목을 입력하세요" required autofocus>
 					    </div>
 					
 					    <!-- 내용 -->
 					    <div class="mb-3">
-					        <label for="content" class="form-label text-success fw-bold">내용</label>
+					        <label for="content" class="form-label fw-bold">내용</label>
 					        <textarea id="content" name="content" class="form-control" rows="10" placeholder="내용을 입력하세요" required>${post.content}</textarea>
 					    </div>
 					
 					    <!-- 닉네임 -->
 					    <div class="mb-3">
-					        <label for="nickname" class="form-label text-success fw-bold">닉네임</label>
+					        <label for="nickname" class="form-label fw-bold">닉네임</label>
 					        <input type="text" id="nickname" name="nickname" class="form-control" value="${signedInUserNickname}" readonly>
 					    </div>
 					
 					    <!-- 첨부파일 -->
 					    <div class="mb-3">
-					        <span class="form-label text-success fw-bold">첨부파일</span><br>
+					        <span class="form-label fw-bold">첨부파일</span><br>
 					        <div>
 					            <c:choose>
 					                <c:when test="${empty images}">
@@ -112,7 +112,7 @@
 					
 					    <!-- 파일 업로드 -->
 					    <div class="mb-3">
-					        <label for="file" class="form-label text-success fw-bold">이미지 업로드</label>
+					        <label for="file" class="form-label fw-bold">이미지 업로드</label>
 					        <input type="file" id="file" name="file" class="form-control" accept="image/*" multiple>
 					    </div>
 					

@@ -28,7 +28,7 @@
 	<div class="container my-3">
 		<div class="row d-flex justify-content-center">
 			<div class="col-md-12 col-lg-10 col-xl-8">
-				<div class="card p-4 shadow">
+				<div class="card p-4">
 					<h2 class="mb-4 text-center">팀 생성</h2>
 					<c:url value="/team/create" var="teamCreatePage" />
 					<form action="${teamCreatePage}" method="post" id="teamForm"

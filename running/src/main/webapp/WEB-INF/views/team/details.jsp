@@ -24,10 +24,10 @@
 		<div class="row d-flex justify-content-center">
 			<div class="col-md-12 col-lg-10 col-xl-8">
 				<!-- 팀 제목 -->
-				<div class="card shadow-lg p-4 border-0 rounded-4">
+				<div class="card p-4 rounded-4" style="padding: 16px;">
 					<!-- 팀 제목 -->
 					<div class="text-center mb-4">
-						<h2 class="fw-bold text-success">${teamItemDto.title}</h2>
+						<h2 class="fw-bold">${teamItemDto.title}</h2>
 					</div>
 
 					<!-- 팀 배너 이미지 -->
@@ -37,18 +37,17 @@
 					</div>
 
 					<!-- 팀 정보 -->
-					<div class="bg-light p-4 rounded-4 mt-4 shadow-sm">
-						<h4 class="text-success fw-bold">Team:
+					<div class="bg-light mt-4 p-4 border rounded" style="border-color: #bbb;">
+						<h4 class="fw-bold">TEAM:
 							${teamItemDto.teamName}</h4>
 						<p class="text-muted">
 							팀장: <span class="fw-bold">${teamItemDto.nickname}</span>
 						</p>
 					</div>
 
-					<div class="mb-3">
 					<!-- 팀 설명 -->
-					<div class="bg-white p-4 rounded-4 mt-3 shadow-sm">
-						<h5 class="fw-bold text-secondary">팀 소개</h5>
+					<div class="mt-4 p-4 border rounded" style="border-color: #bbb;">
+						<h5 class="fw-bold">팀 소개</h5>
 						<p class="text-muted">${teamItemDto.content}</p>
 
 					</div>
@@ -60,8 +59,8 @@
 					</div>
 
 					<!-- 성별 제한 -->
-					<div class="bg-white p-4 rounded-4 mt-3 shadow-sm">
-						<h5 class="fw-bold text-secondary">성별 제한</h5>
+					<div class="mt-4 p-4 border rounded" style="border-color: #bbb;">
+						<h5 class="fw-bold">성별 제한</h5>
 						<c:choose>
 							<c:when test="${teamItemDto.genderLimit==0}">
 								<p class="text-muted">🚻 제한 없음</p>
@@ -76,8 +75,8 @@
 					</div>
 
 					<!-- 연령 제한 -->
-					<div class="bg-white p-4 rounded-4 mt-3 shadow-sm">
-						<h5 class="fw-bold text-secondary">연령 제한</h5>
+					<div class="mt-4 p-4 border rounded" style="border-color: #bbb;">
+						<h5 class="fw-bold">연령 제한</h5>
 						<p class="text-muted">🎂 ${teamItemDto.ageLimit}살 이상</p>
 					</div>
 				</div>
@@ -86,7 +85,7 @@
 					<div class="btn-group" role="group">
 						<c:url var="postListPage"
 							value="/teampage/${teamItemDto.teamId}/post/list" />
-						<a href="${postListPage}" class="btn btn-success mx-2">팀 게시판</a>
+						<a href="${postListPage}" class="btn btn-success mx-2">&nbsp;&nbsp;팀 게시판&nbsp;&nbsp;</a>
 
 						<c:url var="imageListPage"
 							value="/teampage/${teamItemDto.teamId}/image/list" />
@@ -102,9 +101,8 @@
 
 
 				<!-- 신청/수락/취소과 관련된 구간 -->
-				<section id="teamApplication"
-					class="mt-4 p-4 border border-dark rounded">
-					<h5>회원 신청/수락/취소 구간</h5>
+				<section id="teamApplication" class="mt-4 p-4 border rounded" style="border-color: #bbb;">
+					<h5><strong>회원 신청/수락/취소 구간</strong></h5>
 					<c:choose>
 						<c:when test="${not empty signedInUserId}">
 							<c:set var="canApply" value="true" />
@@ -127,7 +125,7 @@
                         && (user.gender == teamItemDto.genderLimit || teamItemDto.genderLimit == 0)}">
 									<button data-bs-toggle="modal"
 										data-bs-target="#applicationModal" class="btn"
-										style="background-color: #28a745; color: white;">가입신청</button>
+										style="background-color: #198754; color: white;">가입신청</button>
 								</c:when>
 								<c:when test="${alreadyApplied}">
 									<button id="applyCancelButton" class="btn btn-danger">가입신청취소</button>
@@ -177,9 +175,8 @@
 				</section>
 
 				<!-- 현재까지 팀 멤버수와 신청가능한 인원수-->
-				<section id="currentMembers"
-					class="mt-4 p-4 border border-dark rounded">
-					<h5>현재까지 회원수</h5>
+				<section id="teamApplication" class="mt-4 p-4 border rounded" style="border-color: #bbb;">
+					<h5><strong>현재 회원수</strong></h5>
 					<h6>${tmembers.size()}/${teamItemDto.maxNum}</h6>
 				</section>
 
@@ -215,7 +212,7 @@
 
 				<!-- 팀장만 보이는 구간 -->
 				<c:if test="${signedInUserId==teamItemDto.userId}">
-					<section class="mt-4 p-4 border border-dark rounded">
+					<section class="mt-4 p-4 border rounded">
 						<h5>팀장 구간</h5>
 						<section id="applicationControl" class="mt-4 p-2">
 							<h6>현재 신청 회원 목록</h6>

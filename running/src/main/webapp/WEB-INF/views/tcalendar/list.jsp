@@ -15,6 +15,8 @@
 		rel="stylesheet"
 		integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
 		crossorigin="anonymous">
+	<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 	<style>
 	/* 내팀으로, 팀게시판, 팀앨범, 팀일정게시판 버튼 */
 	.custom-btn {
@@ -177,7 +179,7 @@
 													            </c:otherwise>
 														</c:choose>
 													</p>
-													<p class="card-text">👥 ${calendar.currentNum}명 /
+													<p class="card-text"><i class="fas fa-user text-primary"></i> ${calendar.currentNum}명 /
 														${calendar.maxNum}명</p>
 													<c:url var="calendarDetailPage"
 														value="/teampage/${teamId}/tcalendar/details">

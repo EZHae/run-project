@@ -80,7 +80,7 @@
 					</div>
 
 					<!-- 코스 목록 -->
-					<div class="card p-4 shadow-sm">
+					<div class="card p-4">
 						<div class="list-group">
 							<c:forEach var="course" items="${courses}">
 								<c:url var="courseDetailsPage" value="/course/details">
@@ -101,12 +101,13 @@
 									    <span style="color: ${course.category == 0 ? 'blue' : 'red'};">
 									        ${courseCategory}
 									    </span> 
-									    <span class="text-success">${course.title}</span>
+									    <span style="color: black; font-weight: bold;">${course.title}</span>
+
 									</h5> <small
 									class="text-muted">작성자: ${course.nickname} | 조회수:
 										${course.viewCount} | 좋아요: ${course.likeCount}</small>
 									<p class="mb-1 mt-2">코스 이름: ${course.courseName} | 소요 시간:
-										${course.durationTime}</p> <small class="text-muted">작성
+										${course.durationTime}</p> <small class="text-muted d-none">작성
 										시간: ${course.formattedCreatedTime}</small>
 								</a>
 							</c:forEach>

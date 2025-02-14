@@ -99,12 +99,12 @@
 					    </div>
 					</div>
 
-					<div class="card mt-3 shadow-lg rounded">
+					<div class="card mt-3 rounded">
 						<div class="card-body">
 							<div class="row">
 								<c:forEach items="${teams}" var="team">
 									<div class="col-md-6 mb-4">
-										<div class="card border-0 shadow-sm rounded overflow-hidden">
+										<div class="card border-0 rounded overflow-hidden">
 											<img class="card-img-top img-fluid" src="${team.imagePath}"
 												alt="${team.teamName}"
 												style="height: 200px; object-fit: cover;">

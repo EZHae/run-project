@@ -28,7 +28,7 @@
 	<div class="container">
 		<div class="row d-flex justify-content-center">
 			<div class="col-md-12 col-lg-10 col-xl-8">
-				<div class="card p-4 shadow-sm">
+				<div class="card p-4 mt-4">
 					<div class="card-body">
 							<c:url value="/gpost/create" var="gPostCreatePage" />
 							<form method="post" action="${gPostCreatePage}"
