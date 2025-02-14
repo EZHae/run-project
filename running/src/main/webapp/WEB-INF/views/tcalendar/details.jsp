@@ -16,6 +16,8 @@
               rel="stylesheet"
               integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
               crossorigin="anonymous">
+        <link rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
               
         <!-- Axios CDN -->
 		<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -96,7 +98,7 @@
 								<!-- 신청 인원수 -->
 								<div>
 									<p>
-										<strong>👥</strong> <span id="currentNum">${tCalendar.currentNum}</span>명
+										<strong><i class="fas fa-user text-primary"></i></strong> <span id="currentNum">${tCalendar.currentNum}</span>명
 										/ <span id="maxNum">${tCalendar.maxNum}</span>명
 									</p>
 								</div>

@@ -30,9 +30,18 @@
 			<div class="col-md-12 col-lg-10 col-xl-8">
 				<div class="card p-4 shadow-sm">
 					<div class="card-body">
-						<h1 class="text-center text-success mb-4">코스 업데이트</h1>
+						<h1 class="text-center fw-bold mb-4">코스 게시판 수정</h1>
 
 						<form id="updateForm">
+							<!-- 카테고리 선택 -->
+							<div class="mb-3">
+								<input class="d-none" id="category" value="${course.category}">
+								<input id="categoryRec" name="category" type="radio" value="0">
+								<label for="categoryRec">코스 추천</label> <input id="categoryRev"
+									name="category" type="radio" value="1"> <label
+									for="categoryRev">코스 리뷰</label> <br>
+							</div>
+							
 							<!-- ID (숨김 필드) -->
 							<input class="d-none" id="id" name="id" type="text"
 								value="${course.id}">
@@ -63,15 +72,6 @@
 								<label for="content" class="form-label">내용</label> <input
 									id="content" name="content" type="text" class="form-control"
 									value="${course.content}" required>
-							</div>
-
-							<!-- 카테고리 선택 -->
-							<div class="mb-3">
-								<input class="d-none" id="category" value="${course.category}">
-								<input id="categoryRec" name="category" type="radio" value="0">
-								<label for="categoryRec">코스 추천</label> <input id="categoryRev"
-									name="category" type="radio" value="1"> <label
-									for="categoryRev">코스 리뷰</label> <br>
 							</div>
 						</form>
 						<c:if test="${signedInUserId eq course.userId}">

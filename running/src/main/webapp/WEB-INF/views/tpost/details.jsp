@@ -71,7 +71,7 @@
 						<img class="rounded-circle me-2"
 							src="/running/image/view/user/${post.userId}" alt="avatar"
 							width="35" height="35"> <span>${post.nickname} •
-							${post.createdTime}에 작성</span>
+							${post.formattedCreatedTime}에 작성</span>
 					</div>
 
 					<!-- 제목 -->

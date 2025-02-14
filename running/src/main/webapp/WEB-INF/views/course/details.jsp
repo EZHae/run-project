@@ -35,81 +35,88 @@
 				<div class="card p-4 shadow-sm mt-6">
 					<div class="card-body">
 						<!-- 제목 -->
-						<h1 class="text-center text-success mb-4">${course.title}</h1>
+						<h1 class="etext-center mb-4">${course.title}</h1>
 
 						<!-- 코스 아이디 -->
-						<div class="mb-3">
+						<div class="mb-3 d-none">
 							<span class="fw-bold">코스 아이디 <span id="id">${course.id}</span></span>
 							<br>
 						</div>
 
 						<!-- 코스 작성자 아이디 -->
-						<div class="mb-3">
+						<div class="mb-3 d-none">
 							<span class="fw-bold">코스 작성자 아이디 <span id="userId">${course.userId}</span></span>
 							<br>
 						</div>
 
-						<!-- 코스 작성자 닉네임 -->
-						<div class="mb-3">
-							<span class="fw-bold">코스 작성자 닉네임 </span> <span>${course.nickname}</span>
+						<!-- 코스 작성자 닉네임 + 작성시간 -->
+						<div class="d-flex align-items-center text-muted small mb-3">
+							<span>${course.nickname} • ${course.formattedCreatedTime}에 작성</span>
 						</div>
 
 						<!-- 코스 이름 -->
 						<div class="mb-3">
-							<span class="fw-bold">코스이름 </span> <span>${course.courseName}</span>
+							<span class="fw-bold">코스 이름: </span> <span>${course.courseName}</span>
 						</div>
 
 						<!-- 소요 시간 -->
 						<div class="mb-3">
-							<span class="fw-bold">소요 시간 </span> <span>${course.durationTime}</span>
+							<span class="fw-bold">소요 시간: </span> <span>${course.durationTime}</span>
 						</div>
 
 						<!-- 코스 내용 -->
-						<div class="mb-3">
-							<span class="fw-bold">코스 내용 </span> <span>${course.content}</span>
+						<div class="mb-4">
+							<span class="fw-bold"></span> <span>${course.content}</span>
 						</div>
 
 						<!-- 코스 분류 -->
-						<div class="mb-3">
+						<div class="mb-3 d-none">
 							<span class="fw-bold">코스 분류 0: 추천, 1: 리뷰 </span> <span>${course.category}</span>
 						</div>
 
 						<!-- 조회수 -->
-						<div class="mb-3">
-							<span class="fw-bold">조회수 </span> <span>${course.viewCount}</span>
+						<div class="row">
+						    <div class="col-md-6 text-muted d-flex align-items-center">
+						        <strong>조회수: </strong><span class="ms-2">${course.viewCount}</span>
+						    </div>
 						</div>
-
+						
 						<!-- 좋아요 수 -->
-						<div class="mb-3">
-							<span class="fw-bold">좋아요 수 </span> <span>${course.likeCount}</span>
+						<div class="row mt-3">
+						    <div class="col-md-6 text-muted d-flex align-items-center">
+						        <!-- 좋아요 버튼을 js로 처리 -->
+						        <button class="btn btn-outline-success" id="btnLike">
+						            <i></i> &#10084; 좋아요
+						        </button>
+						        <strong class="ms-2">
+								    <span style="color: green; font-weight: bold;">${course.likeCount}명이 </span>
+								    <span style="color: green; font-weight: bold;">좋아요를 눌렀어요!</span>
+								</strong>
+
+						        
+						    </div>
+						    <div class="col-md-6 d-flex justify-content-end">
+						        <c:if test="${signedInUserId eq course.userId}">
+						            <c:url var="courseUpdatePage" value="/course/update">
+						                <c:param name="id" value="${course.id}" />
+						            </c:url>
+						            <a class="btn btn-success me-2" href="${courseUpdatePage}">수정</a>
+						            <button class="btn btn-danger" id="btnDelete">삭제</button>
+						        </c:if>
+						    </div>
 						</div>
+						
+
 
 						<!-- 작성 시간 -->
-						<div class="mb-3">
+						<div class="mb-3 d-none">
 							<span class="fw-bold">작성 시간 </span> <span>${course.formattedCreatedTime}</span>
 						</div>
 
 						<!-- 최종 수정 시간 -->
-						<div class="mb-3">
+						<div class="mb-3 d-none">
 							<span class="fw-bold">최종 수정 시간 </span> <span>${course.formattedModifiedTime}</span>
 						</div>
-
-
-
-						<!-- 좋아요 버튼을 js로 처리 -->
-						<button class="btn btn-outline-success ms-2" id="btnLike">
-							<i class="fas fa-thumbs-up"
-								style="color: #ffcc00; font-size: 18px;"></i> 좋아요
-						</button>
-
-						<c:if test="${signedInUserId eq course.userId}">
-							<c:url var="courseUpdatePage" value="/course/update">
-								<c:param name="id" value="${course.id}" />
-							</c:url>
-							<a class="btn btn-success" href="${courseUpdatePage}">수정</a>
-
-							<button class="btn btn-danger" id="btnDelete">삭제</button>
-						</c:if>
 					</div>
 				</div>
 			</div>
