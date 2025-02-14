@@ -24,12 +24,12 @@ public class Gpost {
 	private LocalDateTime modifiedTime;
 	
 	public String getFormattedCreatedTime() {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분 ss초");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분");
 		return this.createdTime.format(formatter);
 	}
 	
 	public String getFormattedModifiedTime() {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분 ss초");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분");
 		return this.modifiedTime.format(formatter);
 	}
 }

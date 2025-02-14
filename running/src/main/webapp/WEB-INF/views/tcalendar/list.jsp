@@ -156,7 +156,7 @@
 													<span class="font-weight-bold"> <c:choose>
 															<c:when
 																test="${calendar.currentNum < calendar.maxNum and !calendar.expired}">
-																<span style="color: red;">• 모집중</span>
+																<span style="color: #e60000;">• 모집중</span>
 															</c:when>
 															<c:otherwise>
 																<span style="color: gray;">모집종료</span>

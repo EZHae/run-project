@@ -4,6 +4,7 @@
 
 <!DOCTYPE html>
 <html>
+<<<<<<< HEAD
     <head>
         <meta charset="UTF-8">
         

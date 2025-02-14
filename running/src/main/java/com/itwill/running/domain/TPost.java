@@ -1,6 +1,7 @@
 package com.itwill.running.domain;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,4 +22,14 @@ public class TPost {
 	private Integer viewCount;
 	private LocalDateTime createdTime;
 	private LocalDateTime modifiedTime;
+	
+	public String getFormattedCreatedTime() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분");
+		return this.createdTime.format(formatter);
+	}
+	
+	public String getFormattedModifiedTime() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분");
+		return this.modifiedTime.format(formatter);
+	}
 }

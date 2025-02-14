@@ -159,7 +159,7 @@
                                                     </td>
                                                     <td>${post.nickname}</td>
                                                     <td>${post.viewCount}</td>
-                                                    <td>${post.modifiedTime}</td>
+                                                    <td>${post.formattedModifiedTime}</td>
                                                 </tr>
                                             </c:forEach>
                                         </c:otherwise>
