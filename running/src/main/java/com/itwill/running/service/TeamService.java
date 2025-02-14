@@ -85,20 +85,7 @@ public class TeamService {
 	public Integer deleteTeam(Integer teamId) {
 		return teamDao.deleteTeam(teamId);
 	}
-
-	public List<Team> searchTeams(TeamSearchDto dto) {
-		return teamDao.searchTeams(dto);
-	}
-
-	public List<TeamItemDto> readOpenTeams() {
-		List<Team> teams = teamDao.selectOpenTeams();
-		return teams.stream().map(TeamItemDto::fromEntity).toList();
-	}
-
-	public List<TeamItemDto> readClosedTeams() {
-		List<Team> teams = teamDao.selectClosedTeams();
-		return teams.stream().map(TeamItemDto::fromEntity).toList();
-	}
+	
 
 	public List<TeamItemDto> readPagedPosts(TeamSearchDto dto) {
 		List<Team> teamList = teamDao.searchPagedTeams(dto);

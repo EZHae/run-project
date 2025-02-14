@@ -26,9 +26,19 @@ body {
 	padding-left: 1.5rem;
 	padding-right: 1.5rem;
 }
+
+.sticky-header {
+	position: sticky;
+	top: 0;
+	z-index: 1000; /* 다른 요소들보다 위에 표시되도록 설정 */
+	background-color: #fff; /* 배경색을 설정하여 다른 콘텐츠와 구분 */
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 살짝 그림자 추가 */
+}
+
+
 </style>
 
-<header>
+<header class="sticky-header">
 	<c:url value="/" var="homePage" />
 	<a class="navbar-brand fw-bold" href="${homePage}">
 		<div class="container mt-2">
@@ -137,6 +147,7 @@ body {
 		</div>
 	</div>
 </header>
+
 
 
 <!-- Axios Http Js-->

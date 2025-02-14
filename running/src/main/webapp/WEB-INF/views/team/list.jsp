@@ -159,7 +159,7 @@ button:focus, button:focus-visible {
 												</h5>
 												<p class="card-text text-secondary mb-3">
 													<c:choose>
-														<c:when test="${fn:length(team.content) > 25}">${fn:substring(team.content, 0, 25)}...</c:when>
+														<c:when test="${fn:length(team.content) > 22}">${fn:substring(team.content, 0, 22)}...</c:when>
 														<c:otherwise>${team.content}</c:otherwise>
 													</c:choose>
 												</p>
