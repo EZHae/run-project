@@ -110,7 +110,7 @@ body {
 					<img src="<c:url value='/image/view/user/${signedInUserId}' />"
 						alt="프로필 이미지" class="rounded-circle border border-success me-2"
 						style="width: 70px; height: 70px;"> <span
-						class="fw-bold text-success">반갑습니다, ${signedInUserId} 님</span>
+						class="fw-bold text-success">반갑습니다, ${signedInUserNickname} 님</span>
 				</div>
 			</c:if>
 
@@ -130,7 +130,7 @@ body {
 					<li class="list-group-item"><c:url value="/user/signout"
 							var="userSignOutPage" /> <a
 						class="text-decoration-none fw-semibold text-dark"
-						href="${userSignOutPage}"> ${signedInUserId} 로그아웃 </a></li>
+						href="${userSignOutPage}"> ${signedInUserNickname} 로그아웃 </a></li>
 					<li class="list-group-item"><c:url value="/user/details"
 							var="userProfilePage" /> <a
 						class="text-decoration-none fw-semibold text-dark"

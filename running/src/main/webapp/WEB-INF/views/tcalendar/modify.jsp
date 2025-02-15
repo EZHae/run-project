@@ -77,7 +77,7 @@
                         <input type="hidden" name="calendarId" value="${tCalendar.id}" />
                         <div class="form-group">
                             <label for="title">제목</label>
-                            <input type="text" class="form-control" id="title" name="title" value="${tCalendar.title}" readonly>
+                            <input type="text" class="form-control" id="title" name="title" value="${tCalendar.title}">
                         </div>
                         <div class="form-group">
                             <label for="date">날짜/시간</label>
@@ -85,7 +85,7 @@
                         </div>
                         <div class="form-group">
                             <label for="content">내용</label>
-                            <textarea class="form-control" id="content" name="content" rows="5" readonly>${tCalendar.content}</textarea>
+                            <textarea class="form-control" id="content" name="content" rows="5" >${tCalendar.content}</textarea>
                         </div>
                         <div class="form-group">
                             <label for="max_num">최대 인원수</label>

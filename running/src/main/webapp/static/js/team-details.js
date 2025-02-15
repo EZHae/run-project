@@ -119,13 +119,14 @@ document.addEventListener("DOMContentLoaded", () => {
 				if (response.data == 1) {
 					console.log('currentNum 1 증가');
 				}
-			}).cancel((error) => {
+			}).catch((error) => {
 				console.log(error);
 			});
 
 			//알림테이블 업데이트
 			const link = "/team/details?teamid=" + teamId;
 			let newTeamName = teamName;
+
 			if (teamName.length > 10) {
 				newTeamName = teamName.substring(0, 10);
 				newTeamName = newTeamName + '...';
@@ -134,6 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 			axios.post(`../api/notification`, noti).then((response) => {
 				if (response.data == 1) {
+					console.log("알림업데이트");
 					window.location.href = `../team/details?teamid=${teamId}`;
 				}
 			}).catch((error) => {
@@ -170,6 +172,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 				//알림테이블 업데이트
 				const link = "/team/details?teamid=" + teamId;
+
 				let content = teamName + '/' + introMsg;
 				if (content.length > 10) {
 					content = content.substring(0, 10);
