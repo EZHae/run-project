@@ -132,7 +132,7 @@
 									<c:when test="${signedInUserId==teamItemDto.userId}" />
 									<c:when
 										test="${!alreadyApplied && canApply 
-                        && user.age >= teamItemDto.ageLimit
+                        && user.age >= teamItemDto.ageLimit && teamItemDto.currentNum != teamItemDto.maxNum
                         && (user.gender == teamItemDto.genderLimit || teamItemDto.genderLimit == 0)}">
 										<button data-bs-toggle="modal"
 											data-bs-target="#applicationModal" class="btn"
@@ -142,7 +142,7 @@
 										<button id="applyCancelButton" class="btn btn-danger">가입신청취소</button>
 									</c:when>
 									<c:otherwise>
-										<p class="text-danger">가입 신청 대상이 아닙니다</p>
+										<p class="text-danger">가입 신청 대상이 아닙니다.</p>
 									</c:otherwise>
 								</c:choose>
 							</c:when>

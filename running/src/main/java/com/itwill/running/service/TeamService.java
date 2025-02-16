@@ -101,11 +101,12 @@ public class TeamService {
 		return teamDao.countTeamsByFilter(dto);
 	}
 	
-	public Integer updateCurrentNum(Integer teamId) {
-		return teamDao.updateCurrentNum(teamId);
+
+	public Integer plusCurrentNum(Integer teamId) {
+		return teamDao.plusCurrentNum(teamId);
 	}
 	
-	public Integer minusCurentNum(Integer teamId) {
+	public Integer minusCurrentNum(Integer teamId) {
 		return teamDao.minusCurrentNum(teamId);
 	}
 

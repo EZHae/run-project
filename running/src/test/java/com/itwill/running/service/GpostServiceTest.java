@@ -2,6 +2,8 @@ package com.itwill.running.service;
 
 import java.util.List;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -13,20 +15,36 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/application-context.xml"})
+@ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/application-context.xml" })
 public class GpostServiceTest {
-	
+
 	// 애너테이션 의존성 주입.
-	@Autowired private GpostService gPostService; 
-	
+	@Autowired
+	private GpostService gPostService;
+	@Autowired
+	private TeamService teamService;
+
 	// 목록보기 서비스 테스트
 //	@Test
-	public void testRead() {
-		
-		List<Gpost> list = gPostService.read();
-		list.forEach(x -> log.debug("{}",x));
-	}
+//	public void testRead() {
+//		
+//		List<Gpost> list = gPostService.read();
+//		list.forEach(x -> log.debug("{}",x));
+//	}
+
+//	@Test
+//	public void testCurrentNum() {
+//		teamService.plusCurrentNum(1);
+//		Assertions.assertEquals(1,teamService.plusCurrentNum(1));
+//
+//	}
 	
+//	@Test
+//	public void testCurrentNum() {
+//		Assertions.assertEquals(1,teamService.minusCurrentNum(1));
+//
+//	}
+
 	// 상세보기 서비스 테스트
 //	@Test
 //	public void testReadById() {
@@ -42,7 +60,5 @@ public class GpostServiceTest {
 //		int result = gPostService.deletePost(43);
 //		Assertions.assertNotNull(result);
 //	}
-	
-	
 
 }

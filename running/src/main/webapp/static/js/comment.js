@@ -24,11 +24,11 @@ document.addEventListener("DOMContentLoaded", () => {
 		//댓글읽기
 		const url = `../api/comment/all/${postId}`;
 		axios.get(url).then((response) => {
-				if (response.data == 0) {
-					console.log('댓글없음');
-					const sectionComment = document.querySelector("section#commentSection");
-					const html =
-						`<div class="container my-1 py-1">
+			if (response.data == 0) {
+				console.log('댓글없음');
+				const sectionComment = document.querySelector("section#commentSection");
+				const html =
+					`<div class="container my-1 py-1">
 										<div class="row d-flex justify-content-center">
 											<div class="col-md-12 col-lg-10 col-xl-8"> 
 												<div class="card p-4">
@@ -37,11 +37,11 @@ document.addEventListener("DOMContentLoaded", () => {
 											</div>
 										</div>
 									</div>`
-					sectionComment.innerHTML = html;
-					return;
+				sectionComment.innerHTML = html;
+				return;
 
-				}
-				makeCommentSection(response.data);
+			}
+			makeCommentSection(response.data);
 		}).catch((error) => {
 			console.log(error)
 		});

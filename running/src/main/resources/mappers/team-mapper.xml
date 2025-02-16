@@ -52,7 +52,7 @@
 		from teams where team_name=#{teamName}
 	</select>
 
-	<select id="selectPagedTeams" resultType="Team">
+	<!--<select id="selectPagedTeams" resultType="Team">
 		select *
 		from teams
 		where
@@ -65,7 +65,7 @@
 		order by team_id desc
 		offset #{offset} rows fetch next #{limit} rows
 		only
-	</select>
+	</select> -->
 
 
 	<select id="searchPagedTeams" resultType="Team">
@@ -94,7 +94,6 @@
 
 
 	<select id="countTeamsByFilter" resultType="Integer">
-		
 			SELECT count(*)
 			FROM teams t
 			<if test="district != 'all'">
@@ -138,16 +137,12 @@
 		team_id=#{teamId}
 	</update>
 	
-	<update id="updateCurrentNum">
-		update teams set current_num=current_num+1
-		where
-		team_id=#{teamId}
+	<update id="plusCurrentNum">
+		UPDATE TEAMS SET current_num = current_num + 1 WHERE team_id = #{teamId}
 	</update>
 	
 	<update id="minusCurrentNum">
-		update teams set current_num=current_num-1
-		where
-		team_id=#{teamId}
+		update teams set current_num=current_num-1 where team_id=#{teamId}
 	</update>
 
 	<delete id="deleteTeam">

@@ -240,17 +240,16 @@ public class TeamController {
 		// return "redirect:/team/list";
 	}
 	
-	@PutMapping("/updateCurrentNum")
-	public ResponseEntity<Integer> updateCurrentNum(@RequestParam("teamid") Integer teamId){
-		int result=teamService.updateCurrentNum(teamId);
+	@PutMapping("/api/plusCurrentNum")
+	public ResponseEntity<Integer> plusCurrentNum(@RequestParam("teamid") Integer teamId){
+		int result=teamService.plusCurrentNum(teamId);
 		return ResponseEntity.ok(result);
 	}
 	
-	@PutMapping("/minusCurrentNum")
+	@PutMapping("/api/minusCurrentNum")
 	public ResponseEntity<Integer> minusCurrentNum(@RequestParam("teamid") Integer teamId){
-		int result=teamService.minusCurentNum(teamId);
+		int result=teamService.minusCurrentNum(teamId);
 		return ResponseEntity.ok(result);
 	}
-	
 
 }

@@ -16,7 +16,7 @@
 	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
 	crossorigin="anonymous">
 </head>
-<body class="container mt-5">
+<body>
 	<%@ include file="../fragments/header.jspf"%>
 	<div class="container-fluid">
 		<c:set var="pageTitle" value="팀 생성" />

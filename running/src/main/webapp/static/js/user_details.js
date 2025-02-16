@@ -15,28 +15,35 @@ document.addEventListener('DOMContentLoaded', ()=> {
         btn.addEventListener('click', deleteTeam);
     }
     
-    function leaveTeam(event) {
-        console.log(event.target);
-        
-        const teamId = event.target.getAttribute('data-team-id');
-        
-        const result = confirm('정말로 이 팀에서 탈퇴하시겠습니까?');
-        if (!result) { // 사용자가 [취소]를 클릭했을 때
-            return; // 함수 종료
-        }
-        
-        const uri = `../user/leave/${teamId}`;
-        
-        axios
-        .delete(uri)
-        .then(response => {
-            alert(response.data);
-            window.location.reload();
-        })
-        .catch(error => {
-            alert("탈퇴 실패: " + error.response.data);
-        });
-    }
+	function leaveTeam(event) {
+		console.log(event.target);
+
+		const teamId = event.target.getAttribute('data-team-id');
+
+		const result = confirm('정말로 이 팀에서 탈퇴하시겠습니까?');
+		if (!result) { // 사용자가 [취소]를 클릭했을 때
+			return; // 함수 종료
+		}
+
+		const uri = `../user/leave/${teamId}`;
+
+		axios
+			.delete(uri)
+			.then(response => {
+				alert(response.data);
+				axios.put(`../team/api/minusCurrentNum?teamid=${teamId}`).then((response) => {
+					if (response.data == 1) {
+						console.log('currentNum 1 감소');
+						window.location.reload();
+					}
+				}).cancel((error) => {
+					console.log(error);
+				});
+			})
+			.catch(error => {
+				alert("탈퇴 실패: " + error.response.data);
+			});
+	}
     
     function deleteTeam(event) {
         console.log(event.target);
@@ -78,4 +85,5 @@ document.addEventListener('DOMContentLoaded', ()=> {
     inputEmail.addEventListener('change', checkEmail);
     // inpustPhoneNumber 요소에 'change' 이벤트 리스너를 설정.
     inputPhoneNumber.addEventListener('change',checkPhoneNumber);
+
 })
