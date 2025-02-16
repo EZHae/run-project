@@ -93,6 +93,7 @@
                                     <!-- 닉네임 입력 + 중복 체크 결과 -->
                                     <div class="col-md-6">
                                         <label class="form-label fw-bold">닉네임</label>
+                                        <span class="ms-2 text-danger "> 필수변경 </span>
                                         <input type="text" id="nickname" name="nickname" value="${user.nickname}"
                                                class="form-control border-success shadow-sm">
                                         <div id="checkNicknameResult" class="mt-1 text-danger"></div>
@@ -117,6 +118,7 @@
                                     <!-- 휴대전화번호 입력 + 중복 체크 결과 -->
                                     <div class="col-md-6">
                                         <label class="form-label fw-bold">휴대전화번호</label>
+                                        <span class="ms-2 text-danger "> 필수변경 </span>
                                         <input type="text" id="phonenumber" name="phonenumber" value="${user.phonenumber}"
                                                class="form-control border-success shadow-sm">
                                         <div id="checkPhoneNumberResult" class="mt-1 text-danger"></div>
@@ -124,9 +126,10 @@
         
                                     <!-- 이메일 입력 + 중복 체크 결과 -->
                                     <div class="col-md-12">
-                                        <label class="form-label fw-bold">이메일</label>
+                                        <label class="form-label fw-bold" >이메일</label>
+                                         <span class="ms-2 text-success fw-bold"> 인증완료(변경불가) </span>
                                         <input type="text" id="email" name="email" value="${user.email}"
-                                               class="form-control border-success shadow-sm">
+                                               class="form-control border-success shadow-sm" readonly>
                                         <div id="checkEmailResult" class="mt-1 text-danger"></div>
                                     </div>
         
@@ -160,7 +163,7 @@
                            <!-- 버튼 섹션 -->
                             <div class="d-flex flex-column align-items-center gap-3">
                                 <button class="btn fw-bold btn-lg w-100" id="btnUpdate" data-user-id="${sessionScope.signedInUserId}"
-                                        style="background-color: #28a745; border-color: #008C2C ; color: white;">
+                                        style="background-color: #28a745; border-color: #008C2C ; color: white;" disabled>
                                     작성 완료
                                 </button>
                             </div>

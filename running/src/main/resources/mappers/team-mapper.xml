@@ -57,7 +57,7 @@
 		from teams
 		where
 		<if test="status == 'open'">
-			max_num != current_num
+			and max_num > current_num
 		</if>
 		<if test="status == 'closed'">
 			max_num = current_num

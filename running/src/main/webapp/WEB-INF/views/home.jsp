@@ -129,12 +129,10 @@
             font-size: 14px;
             text-align: center;
         }
-        
         a {
             text-decoration: none;
         }
         
-         /* 긴 텍스트 말줄임 (...) */
         .table td {
             white-space: nowrap; /* 줄바꿈 방지 */
             overflow: hidden; /* 넘친 내용 숨김 */
