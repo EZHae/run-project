@@ -61,4 +61,21 @@ document.addEventListener('DOMContentLoaded', ()=> {
         });
     }
     
+    
+    // 유효성 검사
+    
+    const checkNicknameResult = document.querySelector('div#checkNicknameResult');
+    const checkPhoneNumberResult = document.querySelector('div#checkPhoneNumberResult');
+    const checkEmailResult = document.querySelector('div#checkEmailResult');
+    
+    const inputNickname = document.querySelector('input#nickname');
+    const inputEmail = document.querySelector('input#email');
+    const inputPhoneNumber = document.querySelector('input#phonenumber');
+    
+    // inputNickname 요소에 'change' 이벤트 리스너를 설정
+    inputNickname.addEventListener('change', checkNickname);
+    // inputEmail 요소에 'change' 이벤트 리스너를 설정.
+    inputEmail.addEventListener('change', checkEmail);
+    // inpustPhoneNumber 요소에 'change' 이벤트 리스너를 설정.
+    inputPhoneNumber.addEventListener('change',checkPhoneNumber);
 })

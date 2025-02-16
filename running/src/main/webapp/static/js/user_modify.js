@@ -299,4 +299,159 @@ document.addEventListener('DOMContentLoaded', ()=> {
         });
     }
     
+    
+    
+    // 유효성 검사
+    let isNicknameChecked = false;
+    let isPhoneNumberChecked = false;
+    
+    const originalNickname = document.querySelector('input#nickname').value;
+    const originalPhone = document.querySelector('input#phonenumber').value;
+    console.log("닉네임",originalNickname);
+    console.log("핸펀",originalPhone)
+    const checkNicknameResult = document.querySelector('div#checkNicknameResult');
+    const checkPhoneNumberResult = document.querySelector('div#checkPhoneNumberResult');
+
+    const inputNickname = document.querySelector('input#nickname');
+    const inputPhoneNumber = document.querySelector('input#phonenumber');
+
+    // inputNickname 요소에 'change' 이벤트 리스너를 설정
+    inputNickname.addEventListener('change', checkNickname);
+    // inpustPhoneNumber 요소에 'change' 이벤트 리스너를 설정.
+    inputPhoneNumber.addEventListener('change',checkPhoneNumber);
+    
+    /* ----------------------- 함수 선언 ----------------------- */
+
+    // 버튼 클릭 시 전체 유효성 검사
+    btnUpdate.addEventListener('click', function (event) {
+        event.preventDefault(); // 폼 제출 방지 (유효성 검사 후 진행)
+
+        if (!validateForm()) {
+            return;
+        }
+        // 유효성 검사를 통과하면 폼 제출
+        document.querySelector("form").submit();
+    });
+
+    // 버튼 활성화 상태 변경
+    function changeButtonState() {
+        
+        // 하나라도 만족 못할 경우 버튼을 활성화 시킬 수 없음. 
+        if (isNicknameChecked && isPhoneNumberChecked) { 
+            // 버튼 활성화 - class 속성들 중에서 'disabled'를 제거.
+            btnUpdate.classList.remove('disabled'); // 모든 html에는 classList 속성이 있음
+            // 클래스값에는 한개의 값이 아닌 여러개의 값을 설정을 할 수 있으며, 모든 엘리먼트에는 classList라는 속성이 있음.
+        } else {
+            // 버튼 비활성화 - class 속성에 'disabled'를 추가.
+            btnUpdate.classList.add('disabled');
+            btnUpdate.removeAttribute('disabled');  // disabled 속성 제거
+            // 삭제는 remove, 추가는 add
+        }
+    }
+
+    // 닉네임 중복 검사
+    function checkNickname(){
+        const nickname = inputNickname.value;
+                
+        if (nickname === originalNickname) {
+            checkNicknameResult.textContent = '기존 닉네임입니다.';
+            checkNicknameResult.className = 'text-success';
+            isNicknameChecked = true;
+            changeButtonState();
+            return;
+        }
+        if(nickname === '') {
+            checkNicknameResult.innerHTML = '사용자 아이디는 필수 입력 항목입니다.';
+            
+            // userid 중복체크 부분의 클래스 속성을 추가하고 삭제.
+            checkNicknameResult.classList.add('text-danger'); 
+            checkNicknameResult.classList.remove('text-success');
+            
+            isNicknameChecked = false; //사용할 수 없는 경우 
+            changeButtonState()
+            return;
+        }
+        
+        // 아이디 중복 체크 REST API(요청 URI) 요청주소도 대소문자를 구분하기 때문에 controller의 요청 주소와 일치해야함.
+        
+        const uri = `./checknickname?nickname=${nickname}`;
+
+        axios
+            .get(uri)
+            .then(handleCheckNicknameResp)
+            .catch((error) => console.log(error));
+    }
+
+    function handleCheckNicknameResp({data}) {
+        if (data === 'Y') {
+            checkNicknameResult.innerHTML = '사용 가능한 닉네임입니다.'
+            checkNicknameResult.classList.add('text-success');
+            checkNicknameResult.classList.remove('text-danger');
+            isNicknameChecked = true; // 사용 가능한 아이디는 버튼을 활성화
+        } else {
+            checkNicknameResult.innerHTML = '사용할 수 없는 닉네임입니다.'
+            checkNicknameResult.classList.add('text-danger');
+            checkNicknameResult.classList.remove('text-success');
+            isNicknameChecked = false; // 사용 불가능한 아이디는 버튼을 비활성화
+        }
+        changeButtonState(); // 위의 상태에 따라 버튼의 상태를 바꿔야함.
+    }
+
+    // 휴대전화번호 유효성 및 중복 검사
+    function checkPhoneNumber(){
+        const phonenumber = inputPhoneNumber.value.trim();
+        const phonePattern = /^[0-9]{10,11}$/;
+                        
+        
+        if (phonenumber === originalPhone) {
+            checkPhoneNumberResult.textContent = '기존 전화번호입니다.';
+            checkPhoneNumberResult.className = 'text-success';
+            isPhoneNumberChecked = true;
+            changeButtonState();
+            return;
+          }
+        if (phonenumber === '') {
+            checkPhoneNumberResult.innerHTML = '휴대전화번호는 필수 입력 항목입니다.';
+
+            checkPhoneNumberResult.classList.add('text-danger');
+            checkPhoneNumberResult.classList.remove('text-success');
+
+            isPhoneNumberChecked = false; //사용할 수 없는 경우 
+            changeButtonState()
+            return;
+        }
+        
+        if (!phonePattern.test(phonenumber)){
+            checkPhoneNumberResult.innerHTML = '휴대전화번호는 숫자로 10~11자리 입력해야 합니다.'
+            checkPhoneNumberResult.classList.add('text-danger');
+            checkPhoneNumberResult.classList.remove('text-success');
+            
+            isPhoneNumberChecked = false; //사용할 수 없는 경우 
+            changeButtonState()
+            return;
+        }   
+        // 아이디 중복 체크 REST API(요청 URI) 요청주소도 대소문자를 구분하기 때문에 controller의 요청 주소와 일치해야함.
+
+        const uri = `./checkphonenumber?phonenumber=${phonenumber}`;
+
+        axios
+            .get(uri)
+            .then(handleCheckPhoneNumberResp)
+            .catch((error) => console.log(error));
+    }
+    function handleCheckPhoneNumberResp({ data }) {
+        console.log(data);
+        if (data === 'Y') { // 회원 가입 가능한 이메일
+            checkPhoneNumberResult.innerHTML = '사용가능한 휴대전화 번호입니다.'
+            checkPhoneNumberResult.classList.add('text-success');
+            checkPhoneNumberResult.classList.remove('text-danger');
+            isPhoneNumberChecked = true; // 사용 가능한 이메일는 버튼을 활성화
+        } else { // 중복된 이메일
+            checkPhoneNumberResult.innerHTML = '사용할 수 없는 휴대전화 번호입니다.'
+            checkPhoneNumberResult.classList.add('text-danger');
+            checkPhoneNumberResult.classList.remove('text-success');
+            isPhoneNumberChecked = false; // 사용 불가능한 이메일는 버튼을 비활성화
+        }
+        changeButtonState(); // 위의 상태에 따라 버튼의 상태를 바꿔야함.
+    }
 });
