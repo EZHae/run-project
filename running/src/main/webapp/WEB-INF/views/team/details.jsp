@@ -279,7 +279,7 @@
 
 	<!-- 카카오 맵 API -->
 	<script type="text/javascript"
-		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d1d3b87ab7851c5ad6b2ab818eba8506"></script>
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a968ac66f9f47a5a20d82c0fa106e0f0"></script>
 	<script>
 		const parkLat = '${parkLat}';
 		const parkLng = '${parkLng}';
