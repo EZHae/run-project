@@ -2,6 +2,7 @@ package com.itwill.running.web;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,7 @@ import com.itwill.running.service.TeamService;
 import com.itwill.running.service.UImagesService;
 import com.itwill.running.service.UserService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -120,8 +122,8 @@ public class UserController {
 	}
 	// 회원가입 처리
 	@PostMapping("/signup")
-	public String signUp(UserSignUpDto dto) {
-		userService.createUser(dto);
+	public String signUp(HttpServletRequest request, UserSignUpDto dto) throws UnknownHostException {
+		userService.createUser(dto, request);
 		
 		return "redirect:/user/signin";
 	}

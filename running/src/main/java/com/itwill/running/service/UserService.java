@@ -1,5 +1,6 @@
 package com.itwill.running.service;
 
+import java.net.UnknownHostException;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import com.itwill.running.dto.UserUpdateDto;
 import com.itwill.running.dto.UserVerificationUpdateDto;
 import com.itwill.running.repository.UserDao;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -137,7 +139,7 @@ public class UserService {
 	
 
 	// 회원가입 서비스
-	public User createUser(UserSignUpDto dto) {
+	public User createUser(UserSignUpDto dto, HttpServletRequest request) throws UnknownHostException {
 		// 랜덤 인증 토큰 생성
 		String token = UUID.randomUUID().toString();
 		// 인증 전에는 비활성화
@@ -147,7 +149,7 @@ public class UserService {
 		userDao.insertUser(dto.toEntity());
 
 		// 이메일발송
-		emailAuthService.sendVerificationEmail(dto.getEmail(), token);
+		emailAuthService.sendVerificationEmail(dto.getEmail(), token, request);
 		//todo: 토큰업데이트
 
 		// 등록한 사용자의 userId 조회

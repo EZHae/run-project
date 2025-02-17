@@ -1,5 +1,8 @@
 package com.itwill.running.service;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
@@ -8,6 +11,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
@@ -16,9 +20,14 @@ public class EmailAuthService {
     private JavaMailSender mailSender;
     
     //토큰 이메일 전송 서비스
-    public void sendVerificationEmail(String toEmail, String verificationToken) {
+    public void sendVerificationEmail(String toEmail, String verificationToken, HttpServletRequest request) throws UnknownHostException {
         String subject = "회원가입 이메일 인증";
-        String verificationLink = "http://localhost:8080/running/verify?token=" + verificationToken;
+        
+        String serverIp = InetAddress.getLocalHost().getHostAddress(); // 서버의 IP 주소
+        int serverPort = request.getLocalPort(); // 서버의 포트 번호
+        String scheme = request.getScheme(); // http 또는 https
+
+        String verificationLink = scheme + "://" + serverIp + ":" + serverPort+request.getContextPath()+"/verify?token=" + verificationToken;
         String content = "아래 링크를 클릭하면 이메일 인증이 완료됩니다. 다시 로그인해주세요.:<br><a href='" + verificationLink + "'>이메일 인증</a>";
 
         try {
