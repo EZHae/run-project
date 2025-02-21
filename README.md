@@ -4,4 +4,8 @@
 
 # 시연 영상
 
+
+https://github.com/user-attachments/assets/094d3cbf-40c0-4c18-a68e-86abd0804d1b
+
+
 # 서버 설정
