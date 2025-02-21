@@ -1,0 +1,807 @@
+--------------------------------------------------------
+--  파일이 생성됨 - 금요일-2월-21-2025   
+--------------------------------------------------------
+--------------------------------------------------------
+--  DDL for Table COURSE
+--------------------------------------------------------
+
+  CREATE TABLE "COURSE" 
+   (	"ID" NUMBER(10,0) GENERATED ALWAYS AS IDENTITY MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE , 
+	"TITLE" VARCHAR2(100 BYTE), 
+	"USER_ID" VARCHAR2(50 BYTE), 
+	"NICKNAME" VARCHAR2(20 BYTE), 
+	"COURSE_NAME" VARCHAR2(50 BYTE), 
+	"DURATION_TIME" VARCHAR2(20 BYTE), 
+	"CONTENT" VARCHAR2(1000 BYTE), 
+	"CATEGORY" NUMBER(1,0), 
+	"VIEW_COUNT" NUMBER(10,0), 
+	"LIKE_COUNT" NUMBER(10,0), 
+	"CREATED_TIME" TIMESTAMP (6), 
+	"MODIFIED_TIME" TIMESTAMP (6)
+   ) ;
+--------------------------------------------------------
+--  DDL for Table COURSE_LIKE
+--------------------------------------------------------
+
+  CREATE TABLE "COURSE_LIKE" 
+   (	"ID" NUMBER(10,0) GENERATED ALWAYS AS IDENTITY MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE , 
+	"COURSE_ID" NUMBER(10,0), 
+	"LIKE_USER_ID" VARCHAR2(50 BYTE), 
+	"CREATED_TIME" TIMESTAMP (6), 
+	"MODIFIED_TIME" TIMESTAMP (6)
+   ) ;
+--------------------------------------------------------
+--  DDL for Table G_COMMENTS
+--------------------------------------------------------
+
+  CREATE TABLE "G_COMMENTS" 
+   (	"ID" NUMBER(10,0) GENERATED ALWAYS AS IDENTITY MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE , 
+	"POST_ID" NUMBER(10,0), 
+	"CTEXT" VARCHAR2(1000 CHAR), 
+	"USER_ID" VARCHAR2(50 CHAR), 
+	"NICKNAME" VARCHAR2(20 CHAR), 
+	"CREATED_TIME" TIMESTAMP (6), 
+	"MODIFIED_TIME" TIMESTAMP (6), 
+	"PARENT_ID" NUMBER(10,0), 
+	"COMMENT_TYPE" NUMBER(1,0) DEFAULT 0, 
+	"SECRET" NUMBER(1,0) DEFAULT 1
+   ) ;
+--------------------------------------------------------
+--  DDL for Table G_IMAGES
+--------------------------------------------------------
+
+  CREATE TABLE "G_IMAGES" 
+   (	"ID" NUMBER(10,0) GENERATED ALWAYS AS IDENTITY MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE , 
+	"POST_ID" NUMBER(10,0), 
+	"ORIGIN_NAME" VARCHAR2(100 CHAR), 
+	"UNIQ_NAME" VARCHAR2(100 CHAR), 
+	"IMAGE_PATH" VARCHAR2(1000 CHAR)
+   ) ;
+--------------------------------------------------------
+--  DDL for Table G_POSTS
+--------------------------------------------------------
+
+  CREATE TABLE "G_POSTS" 
+   (	"ID" NUMBER(10,0) GENERATED ALWAYS AS IDENTITY MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE , 
+	"TITLE" VARCHAR2(100 CHAR), 
+	"USER_ID" VARCHAR2(50 CHAR), 
+	"NICKNAME" VARCHAR2(20 CHAR), 
+	"CONTENT" VARCHAR2(1000 CHAR), 
+	"CATEGORY" NUMBER(1,0), 
+	"VIEW_COUNT" NUMBER(10,0), 
+	"CREATED_TIME" TIMESTAMP (6), 
+	"MODIFIED_TIME" TIMESTAMP (6)
+   ) ;
+--------------------------------------------------------
+--  DDL for Table NOTIFICATIONS
+--------------------------------------------------------
+
+  CREATE TABLE "NOTIFICATIONS" 
+   (	"ID" NUMBER(10,0) GENERATED ALWAYS AS IDENTITY MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE , 
+	"USER_ID" VARCHAR2(50 BYTE), 
+	"TYPE" NUMBER(1,0), 
+	"LINK" VARCHAR2(1000 BYTE), 
+	"CHECKED" NUMBER(1,0) DEFAULT 0, 
+	"CONTENT" VARCHAR2(50 BYTE), 
+	"CREATED_TIME" TIMESTAMP (6)
+   ) ;
+--------------------------------------------------------
+--  DDL for Table PARKS
+--------------------------------------------------------
+
+  CREATE TABLE "PARKS" 
+   (	"ID" NUMBER(3,0), 
+	"PARK_NAME" VARCHAR2(50 BYTE), 
+	"PARK_LOC" VARCHAR2(20 BYTE), 
+	"PARK_LNG" NUMBER(*,7), 
+	"PARK_LAT" NUMBER(*,7)
+   ) ;
+--------------------------------------------------------
+--  DDL for Table T_APPLICATIONS
+--------------------------------------------------------
+
+  CREATE TABLE "T_APPLICATIONS" 
+   (	"ID" NUMBER(10,0) GENERATED ALWAYS AS IDENTITY MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE , 
+	"TEAM_ID" NUMBER(10,0), 
+	"USER_ID" VARCHAR2(50 BYTE), 
+	"INTRO_MSG" VARCHAR2(300 BYTE), 
+	"CREATED_TIME" TIMESTAMP (6)
+   ) ;
+--------------------------------------------------------
+--  DDL for Table T_CALENDARS
+--------------------------------------------------------
+
+  CREATE TABLE "T_CALENDARS" 
+   (	"ID" NUMBER(10,0) GENERATED ALWAYS AS IDENTITY MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE , 
+	"TEAM_ID" NUMBER(10,0), 
+	"TITLE" VARCHAR2(100 BYTE), 
+	"USER_ID" VARCHAR2(50 BYTE), 
+	"NICKNAME" VARCHAR2(20 BYTE), 
+	"DATE_TIME" TIMESTAMP (6), 
+	"CONTENT" VARCHAR2(1000 BYTE), 
+	"CURRENT_NUM" NUMBER(2,0), 
+	"MAX_NUM" NUMBER(2,0), 
+	"CREATED_TIME" TIMESTAMP (6), 
+	"MODIFIED_TIME" TIMESTAMP (6)
+   ) ;
+--------------------------------------------------------
+--  DDL for Table T_CALENDARS_MEMBERS
+--------------------------------------------------------
+
+  CREATE TABLE "T_CALENDARS_MEMBERS" 
+   (	"ID" NUMBER(10,0) GENERATED ALWAYS AS IDENTITY MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE , 
+	"TEAM_ID" NUMBER(10,0), 
+	"CALENDAR_ID" NUMBER(10,0), 
+	"USER_ID" VARCHAR2(50 BYTE), 
+	"NICKNAME" VARCHAR2(20 BYTE), 
+	"CREATED_TIME" TIMESTAMP (6)
+   ) ;
+--------------------------------------------------------
+--  DDL for Table T_COMMENTS
+--------------------------------------------------------
+
+  CREATE TABLE "T_COMMENTS" 
+   (	"ID" NUMBER(10,0) GENERATED ALWAYS AS IDENTITY MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE , 
+	"TEAM_ID" NUMBER(10,0), 
+	"POST_ID" NUMBER(10,0), 
+	"CTEXT" VARCHAR2(1000 CHAR), 
+	"USER_ID" VARCHAR2(50 CHAR), 
+	"NICKNAME" VARCHAR2(20 CHAR), 
+	"CREATED_TIME" TIMESTAMP (6), 
+	"MODIFIED_TIME" TIMESTAMP (6), 
+	"PARENT_ID" NUMBER(10,0), 
+	"COMMENT_TYPE" NUMBER(1,0) DEFAULT 0, 
+	"DELETED" NUMBER(1,0) DEFAULT 0
+   ) ;
+--------------------------------------------------------
+--  DDL for Table T_IMAGES
+--------------------------------------------------------
+
+  CREATE TABLE "T_IMAGES" 
+   (	"ID" NUMBER(10,0) GENERATED ALWAYS AS IDENTITY MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE , 
+	"TEAM_ID" NUMBER(10,0), 
+	"POST_ID" NUMBER(10,0), 
+	"USER_ID" VARCHAR2(50 CHAR), 
+	"NICKNAME" VARCHAR2(20 CHAR), 
+	"ORIGIN_NAME" VARCHAR2(100 CHAR), 
+	"UNIQ_NAME" VARCHAR2(100 CHAR), 
+	"IMAGE_PATH" VARCHAR2(1000 CHAR)
+   ) ;
+--------------------------------------------------------
+--  DDL for Table T_MEMBERS
+--------------------------------------------------------
+
+  CREATE TABLE "T_MEMBERS" 
+   (	"ID" NUMBER(10,0) GENERATED ALWAYS AS IDENTITY MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE , 
+	"LEADER_CHECK" NUMBER(1,0), 
+	"TEAM_ID" NUMBER(10,0), 
+	"USER_ID" VARCHAR2(50 BYTE), 
+	"CREATED_TIME" TIMESTAMP (6)
+   ) ;
+--------------------------------------------------------
+--  DDL for Table T_POSTS
+--------------------------------------------------------
+
+  CREATE TABLE "T_POSTS" 
+   (	"ID" NUMBER(10,0) GENERATED ALWAYS AS IDENTITY MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE , 
+	"TEAM_ID" NUMBER(10,0), 
+	"USER_ID" VARCHAR2(50 CHAR), 
+	"TITLE" VARCHAR2(100 CHAR), 
+	"NICKNAME" VARCHAR2(20 CHAR), 
+	"CONTENT" VARCHAR2(1000 CHAR), 
+	"VIEW_COUNT" NUMBER(10,0) DEFAULT 0, 
+	"CREATED_TIME" TIMESTAMP (6), 
+	"MODIFIED_TIME" TIMESTAMP (6)
+   ) ;
+--------------------------------------------------------
+--  DDL for Table TEAMS
+--------------------------------------------------------
+
+  CREATE TABLE "TEAMS" 
+   (	"TEAM_ID" NUMBER(10,0) GENERATED ALWAYS AS IDENTITY MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE , 
+	"TEAM_NAME" VARCHAR2(50 BYTE), 
+	"USER_ID" VARCHAR2(50 BYTE), 
+	"UNIQ_NAME" VARCHAR2(100 BYTE), 
+	"IMAGE_PATH" VARCHAR2(1000 BYTE), 
+	"TITLE" VARCHAR2(100 BYTE), 
+	"CONTENT" VARCHAR2(1000 BYTE), 
+	"PARK_ID" NUMBER(10,0), 
+	"CURRENT_NUM" NUMBER(2,0) DEFAULT 1, 
+	"MAX_NUM" NUMBER(2,0), 
+	"AGE_LIMIT" NUMBER(2,0), 
+	"GENDER_LIMIT" NUMBER(1,0), 
+	"CREATED_TIME" TIMESTAMP (6), 
+	"MODIFIED_TIME" TIMESTAMP (6)
+   ) ;
+--------------------------------------------------------
+--  DDL for Table U_IMAGES
+--------------------------------------------------------
+
+  CREATE TABLE "U_IMAGES" 
+   (	"ID" NUMBER(10,0) GENERATED ALWAYS AS IDENTITY MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE , 
+	"USER_ID" VARCHAR2(50 CHAR), 
+	"IMAGE_NAME" VARCHAR2(100 CHAR), 
+	"IMAGE_PATH" VARCHAR2(1000 CHAR)
+   ) ;
+--------------------------------------------------------
+--  DDL for Table USERS
+--------------------------------------------------------
+
+  CREATE TABLE "USERS" 
+   (	"USER_ID" VARCHAR2(50 CHAR), 
+	"PASSWORD" VARCHAR2(50 CHAR), 
+	"NICKNAME" VARCHAR2(20 CHAR), 
+	"USERNAME" VARCHAR2(20 CHAR), 
+	"GENDER" NUMBER(1,0) DEFAULT 1, 
+	"AGE" NUMBER(3,0), 
+	"PHONENUMBER" VARCHAR2(20 CHAR), 
+	"RESIDENCE" VARCHAR2(10 CHAR), 
+	"EMAIL" VARCHAR2(100 CHAR), 
+	"AUTH_CHECK" NUMBER(1,0), 
+	"IMG_ID" NUMBER(10,0), 
+	"USER_CREATED_TIME" TIMESTAMP (6), 
+	"USER_ACCESS_TIME" TIMESTAMP (6), 
+	"TOKEN" VARCHAR2(1000 BYTE)
+   ) ;
+REM INSERTING into PARKS
+SET DEFINE OFF;
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (130,'개화산호국공원','강서구',126.8041997,37.5810526);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (131,'관악산으뜸공원','관악구',126.944988,37.4684665);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (132,'공릉동근린공원','노원구',127.08637,37.6207121);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (133,'평화의공원','마포구',126.894954,37.5624365);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (134,'하늘공원','마포구',126.8868521,37.5685018);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (136,'난지한강공원','마포구',126.875592,37.5669768);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (135,'조각공원','마포구',126.8794648,37.5658996);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (137,'난지천공원','마포구',126.8873929,37.5720792);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (138,'서리풀공원','서초구',127.0006106,37.4910924);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (139,'잠원한강공원','강남구',127.019054,37.5272572);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (140,'이촌한강공원','용산구',126.9705249,37.5170827);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (141,'뚝섬한강공원','광진구',127.0689124,37.5291397);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (142,'잠실한강공원','송파구',127.0823628,37.5177154);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (143,'여의도한강공원','영등포구',126.9351571,37.5262588);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (144,'한강공원광나루지구','송파구',127.1045799,37.5265817);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (145,'한강드론공원(광나루지구)','강동구',127.1194439,37.5471194);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (146,'서울색공원(여의도한강공원)','영등포구',126.9307441,37.5303333);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (147,'양화한강공원','영등포구',126.9029484,37.5377831);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (148,'망원한강공원','마포구',126.9000389,37.5517011);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (149,'강서한강공원','강서구',126.8131196,37.5883426);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (150,'청담동근린공원','강남구',127.05182,37.5279501);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (1,'남산공원','중구',126.9893395,37.5523736);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (2,'길동생태공원','강동구',127.1547791,37.5403935);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (3,'서울대공원','과천시',127.0198465,37.4264494);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (4,'서울숲','성동구',127.0376188,37.5443087);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (5,'월드컵공원','마포구',126.8894831,37.5652066);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (6,'광화문시민열린마당','종로구',126.9780227,37.5750449);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (7,'진관근린공원(구파발폭포)','은평구',126.9192155,37.6370244);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (8,'중마루공원','영등포구',126.9112668,37.519832);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (9,'응봉공원(대현산배수지공원)','성동구',127.0217653,37.5572281);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (10,'매화근린공원','강서구',126.86115,37.5575833);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (11,'성수구두테마공원','성동구',127.0524023,37.5448144);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (12,'샛마을근린공원','강동구',127.1471618,37.5504807);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (13,'여의도공원','영등포구',126.922377,37.526129);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (14,'간데메근린공원','동대문구',127.0488644,37.5732438);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (15,'훈련원공원','중구',127.0038188,37.5675245);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (16,'영등포공원','영등포구',126.910662,37.515423);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (17,'보라매근린공원','동작구',126.918289,37.492333);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (18,'어린이대공원','광진구',127.0809212,37.5498987);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (19,'천호근린공원','강동구',127.1263451,37.5444741);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (20,'용산가족공원','용산구',126.983335,37.522226);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (21,'서대문독립공원','서대문구',126.956771,37.5738289);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (22,'낙산공원','종로구',127.007587,37.580477);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (23,'매헌시민의숲','서초구',127.035042,37.471225);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (24,'관악산공원','관악구',126.9481294,37.4619604);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (25,'효창공원','용산구',126.95993,37.545234);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (26,'감로천생태공원(관악산)','금천구',126.9079509,37.469625);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (27,'개운산공원','성북구',127.0251555,37.5974527);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (28,'개웅산근린공원','구로구',126.8485734,37.4888943);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (29,'경희궁공원','종로구',126.9685341,37.570773);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (30,'현충근린공원','동작구',126.9776318,37.4968657);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (31,'계남근린공원','양천구',126.8479643,37.5138358);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (32,'고척근린공원','구로구',126.8521495,37.5042944);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (33,'파리공원','양천구',126.8763932,37.5349739);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (34,'허준근린공원','강서구',126.8526745,37.5679874);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (35,'궁동공원','서대문구',126.9229851,37.5690506);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (36,'궁산근린공원','강서구',126.838952,37.5735645);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (37,'까치산근린공원','동작구',126.9640735,37.4845836);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (38,'꿩고개근린공원','강서구',126.8157075,37.5801585);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (39,'대방공원','동작구',126.928607,37.510234);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (40,'답십리공원','동대문구',127.0626512,37.5750896);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (41,'대모산도시자연공원','강남구',127.0809639,37.4796489);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (42,'탑골공원','종로구',126.9882853,37.5710052);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (43,'갈산공원','양천구',126.8689146,37.5082119);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (44,'천마근린공원','송파구',127.1586644,37.5005173);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (45,'도곡근린공원','강남구',127.0450338,37.4903127);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (46,'도산근린공원','강남구',127.0350296,37.5246752);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (47,'청량근린공원','성북구',127.0559595,37.6021408);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (48,'초안산생태공원','도봉구',127.0455446,37.648316);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (49,'동명근린공원','강동구',127.1676703,37.5598341);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (50,'마로니에공원','종로구',127.0027886,37.5802295);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (51,'자매근린공원','영등포구',126.9302895,37.5177329);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (52,'장지근린공원','송파구',127.1387,37.4957083);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (53,'명일근린공원','강동구',127.1613641,37.5537143);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (54,'방화근린공원','강서구',126.8132285,37.5819812);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (55,'아시아공원','송파구',127.0762885,37.5102779);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (56,'배봉산근린공원','동대문구',127.0650815,37.582794);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (57,'안산도시자연공원','서대문구',126.9311673,37.5745185);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (58,'염창근린공원','강서구',126.8689817,37.5579702);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (59,'백련산근린공원','서대문구',126.9313873,37.5845873);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (60,'오금공원','송파구',127.1323957,37.5038715);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (61,'오동근린공원','강북구',127.033009,37.630389);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (62,'봉산도시자연공원','은평구',126.9020153,37.604071);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (63,'잣절공원','구로구',126.8390755,37.5016845);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (64,'봉은역사공원','강남구',127.0554961,37.5139026);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (65,'올림픽공원','송파구',127.122959,37.520934);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (66,'와룡공원','종로구',126.9901672,37.5907944);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (67,'분수대공원(봉화산)','중랑구',127.0920115,37.6073259);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (68,'흥인지문공원','종로구',127.0092313,37.5718871);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (69,'북한산국립공원','강북구',126.9908641,37.6703402);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (70,'영화진역사공원','마포구',126.9112102,37.5455427);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (71,'불광근린공원','은평구',126.9298962,37.6188016);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (72,'불암산공원','노원구',127.0796008,37.6621126);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (73,'용마폭포공원','중랑구',127.0905888,37.5731968);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (74,'사육신역사공원','동작구',126.948636,37.5137049);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (75,'용왕산근린공원','양천구',126.8783125,37.5429593);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (76,'사직근린공원','종로구',126.9674018,37.5759864);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (77,'우장산근린공원','강서구',126.844932,37.5541932);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (78,'삼일공원','동작구',126.9743686,37.4860183);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (79,'삼청공원','종로구',126.9842875,37.5895821);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (80,'인왕산공원','종로구',126.9600408,37.5827467);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (81,'상도근린공원','동작구',126.9385469,37.492299);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (82,'일자산자연공원','강동구',127.150875,37.532115);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (83,'쌍문근린공원','도봉구',127.0271316,37.6531456);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (84,'수락산도시자연공원','노원구',127.0809755,37.6755678);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (85,'송파나루공원(석촌호수)','송파구',127.1029182,37.5090249);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (86,'선유도공원','영등포구',126.90014,37.543418);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (87,'손기정체육공원','중구',126.9652702,37.5560189);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (88,'성북공원','성북구',127.0078625,37.5948509);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (89,'봉제산공원','강서구',126.8517836,37.5421979);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (90,'서울창포원(다락원체육공원)','도봉구',127.047938,37.689585);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (91,'북서울꿈의숲','강북구',127.0407344,37.6233355);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (92,'서서울호수공원','양천구',126.8304789,37.5278392);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (93,'중랑캠핑숲','중랑구',127.1093075,37.6049896);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (94,'솔밭근린공원','강북구',127.0116241,37.652331);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (95,'금천체육공원(관악산)','금천구',126.908681,37.468164);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (96,'금천폭포근린공원','금천구',126.9040127,37.4468663);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (97,'만수천공원(관악산)','금천구',126.9090028,37.4734274);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (98,'발바닥공원','도봉구',127.031982,37.6597135);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (99,'월천근린공원','도봉구',127.0509895,37.6473889);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (100,'용두근린공원','동대문구',127.0390042,37.5732791);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (101,'상암근린공원','마포구',126.8854606,37.5772671);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (102,'와우공원','마포구',126.9289936,37.5517298);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (103,'금호근린공원','성동구',127.0189457,37.5494726);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (104,'달맞이근린공원','성동구',127.0212054,37.543564);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (105,'문정근린공원','송파구',127.1275819,37.4862156);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (106,'문화예술공원','서초구',127.030517,37.467654);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (107,'세종로공원','종로구',126.9758875,37.5735);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (108,'샘말공원(관악산근린공원 샘말지구)','관악구',126.938511,37.4642128);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (109,'초안산근린공원','도봉구',127.0405382,37.6479483);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (110,'푸른수목원(오색정원)','구로구',126.82407,37.483029);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (111,'서오능도시자연공원','은평구',126.9134338,37.6374823);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (112,'청계산도시자연공원','서초구',127.0434053,37.4538772);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (113,'개화산해맞이공원','강서구',126.8050511,37.5845228);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (114,'아차산공원','광진구',127.1010031,37.5517142);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (115,'반포한강공원','서초구',126.992818,37.5077022);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (116,'몽마르뜨공원','서초구',127.0038448,37.4953541);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (117,'우면산도시자연공원','서초구',127.0091324,37.470484);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (118,'향림근린공원','은평구',126.9240693,37.6293824);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (119,'신사근린공원','은평구',126.9102948,37.5920771);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (120,'광평근린공원','강남구',127.092184,37.4880445);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (121,'청담근린공원','강남구',127.052453,37.5213259);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (122,'허브천문공원(일자산)','강동구',127.1533951,37.5372715);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (123,'연신내물빛공원','은평구',126.9207354,37.619052);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (124,'숭인근린공원','종로구',127.0178267,37.5764419);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (125,'서일대뒷산공원','중랑구',127.0987817,37.5877155);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (126,'용마도시자연공원(사가정공원)','중랑구',127.095997,37.5797622);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (127,'문화비축기지','마포구',126.8932455,37.5717185);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (128,'경춘선숲길','노원구',127.076482,37.627077);
+Insert into PARKS (ID,PARK_NAME,PARK_LOC,PARK_LNG,PARK_LAT) values (129,'율현공원','강남구',127.115594,37.472332);
+
+--------------------------------------------------------
+--  DDL for Index PK_COURSE_ID
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "PK_COURSE_ID" ON "COURSE" ("ID") 
+  ;
+--------------------------------------------------------
+--  DDL for Index PK_COURSE_LIKE_ID
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "PK_COURSE_LIKE_ID" ON "COURSE_LIKE" ("ID") 
+  ;
+--------------------------------------------------------
+--  DDL for Index PK_G_COMMENTS_ID
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "PK_G_COMMENTS_ID" ON "G_COMMENTS" ("ID") 
+  ;
+--------------------------------------------------------
+--  DDL for Index PK_G_IMAGES_ID
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "PK_G_IMAGES_ID" ON "G_IMAGES" ("ID") 
+  ;
+--------------------------------------------------------
+--  DDL for Index PK_G_POSTS_ID
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "PK_G_POSTS_ID" ON "G_POSTS" ("ID") 
+  ;
+--------------------------------------------------------
+--  DDL for Index SYS_C008558
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "SYS_C008558" ON "NOTIFICATIONS" ("ID") 
+  ;
+--------------------------------------------------------
+--  DDL for Index SYS_C008549
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "SYS_C008549" ON "PARKS" ("ID") 
+  ;
+--------------------------------------------------------
+--  DDL for Index PK_T_CALENDARS_ID
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "PK_T_CALENDARS_ID" ON "T_CALENDARS" ("ID") 
+  ;
+--------------------------------------------------------
+--  DDL for Index PK_T_CALENDARS_MEMBERS_ID
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "PK_T_CALENDARS_MEMBERS_ID" ON "T_CALENDARS_MEMBERS" ("ID") 
+  ;
+--------------------------------------------------------
+--  DDL for Index PK_T_COMMENTS_ID
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "PK_T_COMMENTS_ID" ON "T_COMMENTS" ("ID") 
+  ;
+--------------------------------------------------------
+--  DDL for Index PK_T_IMAGES_ID
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "PK_T_IMAGES_ID" ON "T_IMAGES" ("ID") 
+  ;
+--------------------------------------------------------
+--  DDL for Index PK_T_POSTS_ID
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "PK_T_POSTS_ID" ON "T_POSTS" ("ID") 
+  ;
+--------------------------------------------------------
+--  DDL for Index PK_TEAMS_TEAM_ID
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "PK_TEAMS_TEAM_ID" ON "TEAMS" ("TEAM_ID") 
+  ;
+--------------------------------------------------------
+--  DDL for Index PK_U_IMAGES_ID
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "PK_U_IMAGES_ID" ON "U_IMAGES" ("ID") 
+  ;
+--------------------------------------------------------
+--  DDL for Index PK_USERS_USER_ID
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "PK_USERS_USER_ID" ON "USERS" ("USER_ID") 
+  ;
+--------------------------------------------------------
+--  DDL for Index UQ_USERS_NICKNAME
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "UQ_USERS_NICKNAME" ON "USERS" ("NICKNAME") 
+  ;
+--------------------------------------------------------
+--  DDL for Index UQ_USERS_PHONENUMBER
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "UQ_USERS_PHONENUMBER" ON "USERS" ("PHONENUMBER") 
+  ;
+--------------------------------------------------------
+--  DDL for Index UQ_USERS_EMAIL
+--------------------------------------------------------
+
+  CREATE UNIQUE INDEX "UQ_USERS_EMAIL" ON "USERS" ("EMAIL") 
+  ;
+--------------------------------------------------------
+--  Constraints for Table COURSE
+--------------------------------------------------------
+
+  ALTER TABLE "COURSE" MODIFY ("ID" NOT NULL ENABLE);
+  ALTER TABLE "COURSE" MODIFY ("TITLE" NOT NULL ENABLE);
+  ALTER TABLE "COURSE" MODIFY ("COURSE_NAME" NOT NULL ENABLE);
+  ALTER TABLE "COURSE" MODIFY ("DURATION_TIME" NOT NULL ENABLE);
+  ALTER TABLE "COURSE" MODIFY ("CONTENT" NOT NULL ENABLE);
+  ALTER TABLE "COURSE" MODIFY ("CATEGORY" NOT NULL ENABLE);
+  ALTER TABLE "COURSE" MODIFY ("VIEW_COUNT" NOT NULL ENABLE);
+  ALTER TABLE "COURSE" MODIFY ("LIKE_COUNT" NOT NULL ENABLE);
+  ALTER TABLE "COURSE" MODIFY ("CREATED_TIME" NOT NULL ENABLE);
+  ALTER TABLE "COURSE" MODIFY ("MODIFIED_TIME" NOT NULL ENABLE);
+  ALTER TABLE "COURSE" ADD CONSTRAINT "PK_COURSE_ID" PRIMARY KEY ("ID")
+  USING INDEX "PK_COURSE_ID"  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table COURSE_LIKE
+--------------------------------------------------------
+
+  ALTER TABLE "COURSE_LIKE" MODIFY ("ID" NOT NULL ENABLE);
+  ALTER TABLE "COURSE_LIKE" MODIFY ("COURSE_ID" NOT NULL ENABLE);
+  ALTER TABLE "COURSE_LIKE" MODIFY ("LIKE_USER_ID" NOT NULL ENABLE);
+  ALTER TABLE "COURSE_LIKE" ADD CONSTRAINT "PK_COURSE_LIKE_ID" PRIMARY KEY ("ID")
+  USING INDEX "PK_COURSE_LIKE_ID"  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table G_COMMENTS
+--------------------------------------------------------
+
+  ALTER TABLE "G_COMMENTS" MODIFY ("ID" NOT NULL ENABLE);
+  ALTER TABLE "G_COMMENTS" MODIFY ("CTEXT" NOT NULL ENABLE);
+  ALTER TABLE "G_COMMENTS" MODIFY ("COMMENT_TYPE" NOT NULL ENABLE);
+  ALTER TABLE "G_COMMENTS" MODIFY ("SECRET" NOT NULL ENABLE);
+  ALTER TABLE "G_COMMENTS" ADD CONSTRAINT "PK_G_COMMENTS_ID" PRIMARY KEY ("ID")
+  USING INDEX "PK_G_COMMENTS_ID"  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table G_IMAGES
+--------------------------------------------------------
+
+  ALTER TABLE "G_IMAGES" MODIFY ("ID" NOT NULL ENABLE);
+  ALTER TABLE "G_IMAGES" MODIFY ("ORIGIN_NAME" NOT NULL ENABLE);
+  ALTER TABLE "G_IMAGES" MODIFY ("UNIQ_NAME" NOT NULL ENABLE);
+  ALTER TABLE "G_IMAGES" MODIFY ("IMAGE_PATH" NOT NULL ENABLE);
+  ALTER TABLE "G_IMAGES" ADD CONSTRAINT "PK_G_IMAGES_ID" PRIMARY KEY ("ID")
+  USING INDEX "PK_G_IMAGES_ID"  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table G_POSTS
+--------------------------------------------------------
+
+  ALTER TABLE "G_POSTS" MODIFY ("ID" NOT NULL ENABLE);
+  ALTER TABLE "G_POSTS" MODIFY ("TITLE" NOT NULL ENABLE);
+  ALTER TABLE "G_POSTS" MODIFY ("CONTENT" NOT NULL ENABLE);
+  ALTER TABLE "G_POSTS" MODIFY ("CATEGORY" NOT NULL ENABLE);
+  ALTER TABLE "G_POSTS" MODIFY ("VIEW_COUNT" NOT NULL ENABLE);
+  ALTER TABLE "G_POSTS" ADD CONSTRAINT "PK_G_POSTS_ID" PRIMARY KEY ("ID")
+  USING INDEX "PK_G_POSTS_ID"  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table NOTIFICATIONS
+--------------------------------------------------------
+
+  ALTER TABLE "NOTIFICATIONS" MODIFY ("ID" NOT NULL ENABLE);
+  ALTER TABLE "NOTIFICATIONS" MODIFY ("TYPE" NOT NULL ENABLE);
+  ALTER TABLE "NOTIFICATIONS" ADD PRIMARY KEY ("ID")
+  USING INDEX  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table PARKS
+--------------------------------------------------------
+
+  ALTER TABLE "PARKS" ADD PRIMARY KEY ("ID")
+  USING INDEX  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table T_APPLICATIONS
+--------------------------------------------------------
+
+  ALTER TABLE "T_APPLICATIONS" MODIFY ("ID" NOT NULL ENABLE);
+--------------------------------------------------------
+--  Constraints for Table T_CALENDARS
+--------------------------------------------------------
+
+  ALTER TABLE "T_CALENDARS" MODIFY ("ID" NOT NULL ENABLE);
+  ALTER TABLE "T_CALENDARS" MODIFY ("TEAM_ID" NOT NULL ENABLE);
+  ALTER TABLE "T_CALENDARS" MODIFY ("TITLE" NOT NULL ENABLE);
+  ALTER TABLE "T_CALENDARS" MODIFY ("USER_ID" NOT NULL ENABLE);
+  ALTER TABLE "T_CALENDARS" MODIFY ("NICKNAME" NOT NULL ENABLE);
+  ALTER TABLE "T_CALENDARS" MODIFY ("CONTENT" NOT NULL ENABLE);
+  ALTER TABLE "T_CALENDARS" MODIFY ("CURRENT_NUM" NOT NULL ENABLE);
+  ALTER TABLE "T_CALENDARS" MODIFY ("MAX_NUM" NOT NULL ENABLE);
+  ALTER TABLE "T_CALENDARS" ADD CONSTRAINT "PK_T_CALENDARS_ID" PRIMARY KEY ("ID")
+  USING INDEX  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table T_CALENDARS_MEMBERS
+--------------------------------------------------------
+
+  ALTER TABLE "T_CALENDARS_MEMBERS" MODIFY ("ID" NOT NULL ENABLE);
+  ALTER TABLE "T_CALENDARS_MEMBERS" MODIFY ("TEAM_ID" NOT NULL ENABLE);
+  ALTER TABLE "T_CALENDARS_MEMBERS" MODIFY ("CALENDAR_ID" NOT NULL ENABLE);
+  ALTER TABLE "T_CALENDARS_MEMBERS" MODIFY ("USER_ID" NOT NULL ENABLE);
+  ALTER TABLE "T_CALENDARS_MEMBERS" MODIFY ("NICKNAME" NOT NULL ENABLE);
+  ALTER TABLE "T_CALENDARS_MEMBERS" ADD CONSTRAINT "PK_T_CALENDARS_MEMBERS_ID" PRIMARY KEY ("ID")
+  USING INDEX  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table T_COMMENTS
+--------------------------------------------------------
+
+  ALTER TABLE "T_COMMENTS" MODIFY ("ID" NOT NULL ENABLE);
+  ALTER TABLE "T_COMMENTS" MODIFY ("TEAM_ID" NOT NULL ENABLE);
+  ALTER TABLE "T_COMMENTS" MODIFY ("POST_ID" NOT NULL ENABLE);
+  ALTER TABLE "T_COMMENTS" MODIFY ("CTEXT" NOT NULL ENABLE);
+  ALTER TABLE "T_COMMENTS" MODIFY ("USER_ID" NOT NULL ENABLE);
+  ALTER TABLE "T_COMMENTS" MODIFY ("NICKNAME" NOT NULL ENABLE);
+  ALTER TABLE "T_COMMENTS" MODIFY ("CREATED_TIME" NOT NULL ENABLE);
+  ALTER TABLE "T_COMMENTS" MODIFY ("MODIFIED_TIME" NOT NULL ENABLE);
+  ALTER TABLE "T_COMMENTS" ADD CONSTRAINT "PK_T_COMMENTS_ID" PRIMARY KEY ("ID")
+  USING INDEX  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table T_IMAGES
+--------------------------------------------------------
+
+  ALTER TABLE "T_IMAGES" MODIFY ("ID" NOT NULL ENABLE);
+  ALTER TABLE "T_IMAGES" MODIFY ("TEAM_ID" NOT NULL ENABLE);
+  ALTER TABLE "T_IMAGES" MODIFY ("ORIGIN_NAME" NOT NULL ENABLE);
+  ALTER TABLE "T_IMAGES" MODIFY ("UNIQ_NAME" NOT NULL ENABLE);
+  ALTER TABLE "T_IMAGES" MODIFY ("IMAGE_PATH" NOT NULL ENABLE);
+  ALTER TABLE "T_IMAGES" ADD CONSTRAINT "PK_T_IMAGES_ID" PRIMARY KEY ("ID")
+  USING INDEX  ENABLE;
+  ALTER TABLE "T_IMAGES" MODIFY ("USER_ID" NOT NULL ENABLE);
+  ALTER TABLE "T_IMAGES" MODIFY ("NICKNAME" NOT NULL ENABLE);
+--------------------------------------------------------
+--  Constraints for Table T_MEMBERS
+--------------------------------------------------------
+
+  ALTER TABLE "T_MEMBERS" MODIFY ("ID" NOT NULL ENABLE);
+--------------------------------------------------------
+--  Constraints for Table T_POSTS
+--------------------------------------------------------
+
+  ALTER TABLE "T_POSTS" MODIFY ("ID" NOT NULL ENABLE);
+  ALTER TABLE "T_POSTS" MODIFY ("TEAM_ID" NOT NULL ENABLE);
+  ALTER TABLE "T_POSTS" MODIFY ("USER_ID" NOT NULL ENABLE);
+  ALTER TABLE "T_POSTS" MODIFY ("TITLE" NOT NULL ENABLE);
+  ALTER TABLE "T_POSTS" MODIFY ("NICKNAME" NOT NULL ENABLE);
+  ALTER TABLE "T_POSTS" MODIFY ("CONTENT" NOT NULL ENABLE);
+  ALTER TABLE "T_POSTS" MODIFY ("CREATED_TIME" NOT NULL ENABLE);
+  ALTER TABLE "T_POSTS" MODIFY ("MODIFIED_TIME" NOT NULL ENABLE);
+  ALTER TABLE "T_POSTS" ADD CONSTRAINT "PK_T_POSTS_ID" PRIMARY KEY ("ID")
+  USING INDEX  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table TEAMS
+--------------------------------------------------------
+
+  ALTER TABLE "TEAMS" MODIFY ("TEAM_ID" NOT NULL ENABLE);
+  ALTER TABLE "TEAMS" MODIFY ("TEAM_NAME" NOT NULL ENABLE);
+  ALTER TABLE "TEAMS" MODIFY ("UNIQ_NAME" NOT NULL ENABLE);
+  ALTER TABLE "TEAMS" MODIFY ("IMAGE_PATH" NOT NULL ENABLE);
+  ALTER TABLE "TEAMS" MODIFY ("TITLE" NOT NULL ENABLE);
+  ALTER TABLE "TEAMS" MODIFY ("CONTENT" NOT NULL ENABLE);
+  ALTER TABLE "TEAMS" MODIFY ("MAX_NUM" NOT NULL ENABLE);
+  ALTER TABLE "TEAMS" MODIFY ("AGE_LIMIT" NOT NULL ENABLE);
+  ALTER TABLE "TEAMS" MODIFY ("GENDER_LIMIT" NOT NULL ENABLE);
+  ALTER TABLE "TEAMS" MODIFY ("CREATED_TIME" NOT NULL ENABLE);
+  ALTER TABLE "TEAMS" MODIFY ("MODIFIED_TIME" NOT NULL ENABLE);
+  ALTER TABLE "TEAMS" ADD CONSTRAINT "PK_TEAMS_TEAM_ID" PRIMARY KEY ("TEAM_ID")
+  USING INDEX  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table U_IMAGES
+--------------------------------------------------------
+
+  ALTER TABLE "U_IMAGES" MODIFY ("ID" NOT NULL ENABLE);
+  ALTER TABLE "U_IMAGES" MODIFY ("USER_ID" NOT NULL ENABLE);
+  ALTER TABLE "U_IMAGES" MODIFY ("IMAGE_NAME" NOT NULL ENABLE);
+  ALTER TABLE "U_IMAGES" MODIFY ("IMAGE_PATH" NOT NULL ENABLE);
+  ALTER TABLE "U_IMAGES" ADD CONSTRAINT "PK_U_IMAGES_ID" PRIMARY KEY ("ID")
+  USING INDEX  ENABLE;
+--------------------------------------------------------
+--  Constraints for Table USERS
+--------------------------------------------------------
+
+  ALTER TABLE "USERS" MODIFY ("PASSWORD" NOT NULL ENABLE);
+  ALTER TABLE "USERS" MODIFY ("NICKNAME" NOT NULL ENABLE);
+  ALTER TABLE "USERS" MODIFY ("USERNAME" NOT NULL ENABLE);
+  ALTER TABLE "USERS" MODIFY ("GENDER" NOT NULL ENABLE);
+  ALTER TABLE "USERS" MODIFY ("AGE" NOT NULL ENABLE);
+  ALTER TABLE "USERS" MODIFY ("PHONENUMBER" NOT NULL ENABLE);
+  ALTER TABLE "USERS" MODIFY ("RESIDENCE" NOT NULL ENABLE);
+  ALTER TABLE "USERS" MODIFY ("EMAIL" NOT NULL ENABLE);
+  ALTER TABLE "USERS" MODIFY ("AUTH_CHECK" NOT NULL ENABLE);
+  ALTER TABLE "USERS" MODIFY ("IMG_ID" NOT NULL ENABLE);
+  ALTER TABLE "USERS" ADD CONSTRAINT "PK_USERS_USER_ID" PRIMARY KEY ("USER_ID")
+  USING INDEX "PK_USERS_USER_ID"  ENABLE;
+  ALTER TABLE "USERS" ADD CONSTRAINT "UQ_USERS_NICKNAME" UNIQUE ("NICKNAME")
+  USING INDEX "UQ_USERS_NICKNAME"  ENABLE;
+  ALTER TABLE "USERS" ADD CONSTRAINT "UQ_USERS_PHONENUMBER" UNIQUE ("PHONENUMBER")
+  USING INDEX "UQ_USERS_PHONENUMBER"  ENABLE;
+  ALTER TABLE "USERS" ADD CONSTRAINT "UQ_USERS_EMAIL" UNIQUE ("EMAIL")
+  USING INDEX "UQ_USERS_EMAIL"  ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table COURSE
+--------------------------------------------------------
+
+  ALTER TABLE "COURSE" ADD CONSTRAINT "FK_COURSE_USER_ID" FOREIGN KEY ("USER_ID")
+	  REFERENCES "USERS" ("USER_ID") ON DELETE CASCADE ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table COURSE_LIKE
+--------------------------------------------------------
+
+  ALTER TABLE "COURSE_LIKE" ADD CONSTRAINT "FK_COURSE_LIKE_COURSE_ID" FOREIGN KEY ("COURSE_ID")
+	  REFERENCES "COURSE" ("ID") ON DELETE CASCADE ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table G_COMMENTS
+--------------------------------------------------------
+
+  ALTER TABLE "G_COMMENTS" ADD CONSTRAINT "FK_G_COMMENTS_POST_ID" FOREIGN KEY ("POST_ID")
+	  REFERENCES "G_POSTS" ("ID") ON DELETE CASCADE ENABLE;
+  ALTER TABLE "G_COMMENTS" ADD CONSTRAINT "FK_G_COMMENTS_USER_ID" FOREIGN KEY ("USER_ID")
+	  REFERENCES "USERS" ("USER_ID") ON DELETE CASCADE ENABLE;
+  ALTER TABLE "G_COMMENTS" ADD CONSTRAINT "FK_G_COMMENTS_PARENT_ID" FOREIGN KEY ("PARENT_ID")
+	  REFERENCES "G_COMMENTS" ("ID") ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table G_IMAGES
+--------------------------------------------------------
+
+  ALTER TABLE "G_IMAGES" ADD CONSTRAINT "FK_G_IMAGES_POST_ID" FOREIGN KEY ("POST_ID")
+	  REFERENCES "G_POSTS" ("ID") ON DELETE CASCADE ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table G_POSTS
+--------------------------------------------------------
+
+  ALTER TABLE "G_POSTS" ADD CONSTRAINT "FK_G_POSTS_USER_ID" FOREIGN KEY ("USER_ID")
+	  REFERENCES "USERS" ("USER_ID") ON DELETE CASCADE ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table T_APPLICATIONS
+--------------------------------------------------------
+
+  ALTER TABLE "T_APPLICATIONS" ADD CONSTRAINT "FK_T_APPLICATIONS_USER_ID" FOREIGN KEY ("USER_ID")
+	  REFERENCES "USERS" ("USER_ID") ON DELETE CASCADE ENABLE;
+  ALTER TABLE "T_APPLICATIONS" ADD CONSTRAINT "FK_T_APPLICATIONS_TEAM_ID" FOREIGN KEY ("TEAM_ID")
+	  REFERENCES "TEAMS" ("TEAM_ID") ON DELETE CASCADE ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table T_CALENDARS
+--------------------------------------------------------
+
+  ALTER TABLE "T_CALENDARS" ADD CONSTRAINT "FK_T_CALENDARS_TEAM_ID" FOREIGN KEY ("TEAM_ID")
+	  REFERENCES "TEAMS" ("TEAM_ID") ON DELETE CASCADE ENABLE;
+  ALTER TABLE "T_CALENDARS" ADD CONSTRAINT "FK_T_CALENDARS_USER_ID" FOREIGN KEY ("USER_ID")
+	  REFERENCES "USERS" ("USER_ID") ON DELETE CASCADE ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table T_CALENDARS_MEMBERS
+--------------------------------------------------------
+
+  ALTER TABLE "T_CALENDARS_MEMBERS" ADD CONSTRAINT "FK_T_CALENDARS_MEMBERS_TEAM_ID" FOREIGN KEY ("TEAM_ID")
+	  REFERENCES "TEAMS" ("TEAM_ID") ON DELETE CASCADE ENABLE;
+  ALTER TABLE "T_CALENDARS_MEMBERS" ADD CONSTRAINT "FK_T_CALENDARS_MEMBERS_CALENDAR_ID" FOREIGN KEY ("CALENDAR_ID")
+	  REFERENCES "T_CALENDARS" ("ID") ON DELETE CASCADE ENABLE;
+  ALTER TABLE "T_CALENDARS_MEMBERS" ADD CONSTRAINT "FK_T_CALENDARS_MEMBERS_TAKE_USER_ID" FOREIGN KEY ("USER_ID")
+	  REFERENCES "USERS" ("USER_ID") ON DELETE CASCADE ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table T_COMMENTS
+--------------------------------------------------------
+
+  ALTER TABLE "T_COMMENTS" ADD CONSTRAINT "FK_T_COMMENTS_TEAM_ID" FOREIGN KEY ("TEAM_ID")
+	  REFERENCES "TEAMS" ("TEAM_ID") ON DELETE CASCADE ENABLE;
+  ALTER TABLE "T_COMMENTS" ADD CONSTRAINT "FK_T_COMMENTS_POST_ID" FOREIGN KEY ("POST_ID")
+	  REFERENCES "T_POSTS" ("ID") ON DELETE CASCADE ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table T_IMAGES
+--------------------------------------------------------
+
+  ALTER TABLE "T_IMAGES" ADD CONSTRAINT "FK_T_IMAGES_TEAM_ID" FOREIGN KEY ("TEAM_ID")
+	  REFERENCES "TEAMS" ("TEAM_ID") ON DELETE CASCADE ENABLE;
+  ALTER TABLE "T_IMAGES" ADD CONSTRAINT "FK_T_IMAGES_POST_ID" FOREIGN KEY ("POST_ID")
+	  REFERENCES "T_POSTS" ("ID") ENABLE;
+  ALTER TABLE "T_IMAGES" ADD CONSTRAINT "FK_T_IMAGES_USER_ID" FOREIGN KEY ("USER_ID")
+	  REFERENCES "USERS" ("USER_ID") ON DELETE CASCADE ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table T_MEMBERS
+--------------------------------------------------------
+
+  ALTER TABLE "T_MEMBERS" ADD CONSTRAINT "FK_T_MEMBERS_TEAM_ID" FOREIGN KEY ("TEAM_ID")
+	  REFERENCES "TEAMS" ("TEAM_ID") ON DELETE CASCADE ENABLE;
+  ALTER TABLE "T_MEMBERS" ADD CONSTRAINT "FK_T_T_MEMBERS_USER_ID" FOREIGN KEY ("USER_ID")
+	  REFERENCES "USERS" ("USER_ID") ON DELETE CASCADE ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table T_POSTS
+--------------------------------------------------------
+
+  ALTER TABLE "T_POSTS" ADD CONSTRAINT "FK_T_POSTS_TEAM_ID" FOREIGN KEY ("TEAM_ID")
+	  REFERENCES "TEAMS" ("TEAM_ID") ON DELETE CASCADE ENABLE;
+  ALTER TABLE "T_POSTS" ADD CONSTRAINT "FK_T_POSTS_USER_ID" FOREIGN KEY ("USER_ID")
+	  REFERENCES "USERS" ("USER_ID") ON DELETE CASCADE ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table TEAMS
+--------------------------------------------------------
+
+  ALTER TABLE "TEAMS" ADD CONSTRAINT "FK_TEMAS_USER_ID" FOREIGN KEY ("USER_ID")
+	  REFERENCES "USERS" ("USER_ID") ON DELETE CASCADE ENABLE;
+--------------------------------------------------------
+--  Ref Constraints for Table U_IMAGES
+--------------------------------------------------------
+
+  ALTER TABLE "U_IMAGES" ADD CONSTRAINT "FK_U_IMAGES_USERS" FOREIGN KEY ("USER_ID")
+	  REFERENCES "USERS" ("USER_ID") ON DELETE CASCADE ENABLE;
